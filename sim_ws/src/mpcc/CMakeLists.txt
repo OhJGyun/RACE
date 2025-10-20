@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(nonlinear_mpc_casadi)
+project(mpcc)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -17,41 +17,24 @@ find_package(ackermann_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
 # Install Python modules
-ament_python_install_package(${PROJECT_NAME})
+ament_python_install_package(mpcc)
 
 # Install Python scripts
 install(PROGRAMS
-  scripts/Nonlinear_MPC_node.py
-  scripts/Nonlinear_MPC.py
+  scripts/mpcc_node.py
+  scripts/mpcc.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
 # Install waypoint directories
 install(DIRECTORY
-  scripts/porto/
-  DESTINATION lib/${PROJECT_NAME}/
-)
-
-install(DIRECTORY
   scripts/f1tenth/
   DESTINATION lib/${PROJECT_NAME}/f1tenth
-)
-
-# Install launch files
-install(DIRECTORY
-  launch
-  DESTINATION share/${PROJECT_NAME}/
 )
 
 # Install params
 install(DIRECTORY
   params
-  DESTINATION share/${PROJECT_NAME}/
-)
-
-# Install maps
-install(DIRECTORY
-  maps
   DESTINATION share/${PROJECT_NAME}/
 )
 

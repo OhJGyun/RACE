@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>nonlinear_mpc_casadi</name>
+  <name>mpcc</name>
   <version>0.0.0</version>
-  <description>Nonlinear MPCC for autonomous racing using CasADi and Ipopt</description>
+  <description>Model Predictive Contouring Control for autonomous racing</description>
 
   <maintainer email="houssam@todo.todo">houssam</maintainer>
   <license>TODO</license>

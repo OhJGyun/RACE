@@ -42,8 +42,7 @@ bridge:
     scan_beams: 1080
 
     # map parameters
-    # map_path: '/sim_ws/src/f1tenth_gym_ros/maps/levine'
-    map_path: '/home/ojg/sim_ws/src/Nonlinear_MPCC_for_autonomous_racing/nonlinear_mpc_casadi/maps/f1tenth'
+    map_path: '/home/ojg/RACE/map/f1tenth'
     map_img_ext: '.pgm'
 
     # opponent parameters

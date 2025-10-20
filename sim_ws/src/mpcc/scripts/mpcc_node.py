@@ -16,7 +16,7 @@ from nav_msgs.msg import Path, Odometry
 from std_msgs.msg import Header
 from scipy.spatial.transform import Rotation as R
 from visualization_msgs.msg import Marker, MarkerArray
-from Nonlinear_MPC import MPC
+from mpcc import MPC
 # from osuf1_common.msg import MPC_metadata, MPC_trajectory, MPC_prediction  # TODO: Add custom messages
 
 class MPCKinematicNode(Node):
