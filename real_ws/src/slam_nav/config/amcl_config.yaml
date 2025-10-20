@@ -1,0 +1,75 @@
+amcl:
+  ros__parameters:
+    # Basic parameters
+    use_sim_time: false
+    alpha1: 0.2    # rotation noise from rotation (for F1TENTH)
+    alpha2: 0.2    # rotation noise from translation
+    alpha3: 0.8    # translation noise from translation  
+    alpha4: 0.2    # translation noise from rotation
+    alpha5: 0.2    # translation noise from translation (strafe)
+    
+    # Frame names
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    global_frame_id: "map"
+    
+    # Particle filter parameters (optimized for F1TENTH racing)
+    max_particles: 500      # Maximum number of particles
+    min_particles: 100       # Minimum number of particles  
+    kld_err: 0.05           # Maximum error between the true distribution and the KLD approximation
+    kld_z: 0.99             # Upper standard normal quantile
+    update_min_d: 0.0001      # Minimum translational movement to trigger filter update
+    update_min_a: 0.0005       # Minimum rotational movement to trigger filter update
+    resample_interval: 2    # Number of filter updates required before resampling
+    
+    # Transform and timing
+    transform_tolerance: 0.1
+    recovery_alpha_slow: 0.0
+    recovery_alpha_fast: 0.0
+    
+    # Initial pose parameters
+    initial_pose_x: 0.0
+    initial_pose_y: 0.0
+    initial_pose_z: 0.0
+    initial_pose_yaw: 0.0
+    initial_cov_xx: 0.25
+    initial_cov_yy: 0.25
+    initial_cov_aa: 0.06853891945200942
+    
+    # Laser sensor model parameters (for F1TENTH LiDAR)
+    z_hit: 0.5              # Mixture weight for the z_hit part of the model
+    z_short: 0.05           # Mixture weight for the z_short part of the model
+    z_max: 0.05             # Mixture weight for the z_max part of the model  
+    z_rand: 0.5             # Mixture weight for the z_rand part of the model
+    sigma_hit: 0.2          # Standard deviation for Gaussian model used in z_hit part
+    lambda_short: 0.1       # Exponential decay parameter for z_short part
+    laser_likelihood_max_dist: 2.0  # Maximum distance to do obstacle inflation on map
+    laser_max_range: 100.0  # Maximum scan range to be considered (set to LiDAR max range)
+    laser_min_range: -1.0   # Minimum scan range (-1.0 will cause the laser's reported minimum range to be used)
+    laser_max_beams: 40     # How many evenly-spaced beams in each scan to be used when updating the filter
+    
+    # Performance tuning for F1TENTH
+    do_beamskip: false      # Ignore beams for which a majority of particles have a low weight
+    beam_skip_distance: 0.5
+    beam_skip_threshold: 0.3
+    beam_skip_error_threshold: 0.9
+    
+    # Map parameters
+    laser_model_type: "likelihood_field"  # Which model to use: beam, likelihood_field, likelihood_field_prob
+    odom_model_type: "diff"              # Which model to use: diff, omni, diff-corrected, omni-corrected
+    set_initial_pose: false              # Manually set the initial particle cloud
+    always_reset_initial_pose: false     # Requires that AMCL is provided an initial pose either
+    
+    # Publishing and visualization
+    tf_broadcast: true
+    
+    # Robot-specific motion model parameters for F1TENTH
+    # These values are tuned for Ackermann steering F1TENTH cars
+    save_pose_rate: 0.5
+    gui_publish_rate: 100.0
+    laser_lambda_short: 0.1
+    laser_sigma_hit: 0.2
+    
+    # Map server parameters (if using)
+    map_topic: "map"
+    first_map_only: false

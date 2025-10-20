@@ -1,0 +1,11 @@
+ackermann_mux:
+  ros__parameters:
+    topics:
+      navigation:
+        topic   : drive
+        timeout : 0.2
+        priority: 10
+      joystick:
+        topic   : teleop
+        timeout : 0.2
+        priority: 100 # 원래 5였음 자율주행 이걸로 트리거 하려고 100으로 잠시 바꿈

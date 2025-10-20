@@ -1,0 +1,24 @@
+obs_detect_node:
+  ros__parameters:
+    # LiDAR / 차량 토픽
+    scan_topic: "/scan"
+    odom_topic: "/ego_racecar/odom"
+
+    # 경계 CSV
+    outer_csv: "/home/joon/joon_foxy2humble/map_global_path_bound/bounds/1017_wo_obs_outer_bound_world.csv"
+    inner_csvs: "/home/joon/joon_foxy2humble/map_global_path_bound/bounds/1017_wo_obs_inner_bound_world.csv"
+
+    include_boundary: false
+    roi_deg: 90.0
+    range_max: 12.0
+    laser_yaw_offset_deg: 0.0
+
+    # 장애물 필터링 / 클러스터링
+    boundary_margin: 0.30
+    cluster_epsilon: 0.35
+    cluster_min_points: 4
+    cluster_confirm_points: 6
+
+    # 시각화
+    marker_frame_id: "map"
+    marker_scale: 0.35
