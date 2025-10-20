@@ -51,7 +51,7 @@
     spline_poly_order: 3
     goal_threshold: 2.0 # unit: m
     controller_freq: 15.0
-    path_folder_name: f1tenth
+    path_folder_name: f1tenth_for_mpcc
     inflation_factor: 0.8
     lag_time: 0.05
     arc_length_min_dist_tol: 0.05

@@ -19,17 +19,19 @@ find_package(visualization_msgs REQUIRED)
 # Install Python modules
 ament_python_install_package(mpcc)
 
-# Install Python scripts
+# Install Python executable scripts
 install(PROGRAMS
   scripts/mpcc_node.py
   scripts/mpcc.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Install waypoint directories
+# Install waypoint data directories
 install(DIRECTORY
-  scripts/f1tenth/
-  DESTINATION lib/${PROJECT_NAME}/f1tenth
+  scripts/f1tenth
+  scripts/f1tenth_for_mpcc
+  DESTINATION lib/${PROJECT_NAME}
+  OPTIONAL
 )
 
 # Install params

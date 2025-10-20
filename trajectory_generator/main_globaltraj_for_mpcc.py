@@ -19,12 +19,12 @@ Documentation:
 This script has to be executed to generate an optimal trajectory based on a given reference track.
 """
 
-# Read map name from config file
+# Read map name from config file (MPCC version)
 module = os.path.dirname(os.path.abspath(__file__))
-config_file = module + "/config/params.yaml"
+config_file = module + "/config/params_for_mpcc.yaml"
 with open(config_file, 'r') as stream:
     parsed_yaml = yaml.safe_load(stream)
-input_map = parsed_yaml["map_name"]
+input_map = parsed_yaml["map_name"] + "_for_mpcc"
 num_lanes = parsed_yaml["num_lanes"]
 
 
@@ -32,8 +32,8 @@ num_lanes = parsed_yaml["num_lanes"]
 # USER INPUT -----------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 
-# choose vehicle parameter file ----------------------------------------------------------------------------------------
-file_paths = {"veh_params_file": "racecar.ini"}
+# choose vehicle parameter file (MPCC version) ------------------------------------------------------------------------
+file_paths = {"veh_params_file": "racecar_for_mpcc.ini"}
 
 # debug and plot options -----------------------------------------------------------------------------------------------
 debug = True                                    # print console messages
