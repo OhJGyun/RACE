@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
     ## Parameter for MPC solver
-    dT: 0.05 # time step duration (unit: s)
+    dT: 0.07 # time step duration (unit: s)
     mpc_steps_N: 20 # number of steps in the Prediction horizon (N*dT = prediction horizon)
     vehicle_L: 0.33020 # wheelbase (unit: m) (lf + lr = 0.15875 + 0.17145)
 
