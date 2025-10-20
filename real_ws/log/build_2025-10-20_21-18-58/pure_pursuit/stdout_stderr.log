@@ -1,0 +1,22 @@
+[35m[1mConsolidate compiler generated dependencies of target pure_pursuit_node[0m
+[100%] Built target pure_pursuit_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/lib/pure_pursuit/pure_pursuit_node
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/config//pure_pursuit_config.yaml
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/launch//pure_pursuit_launch.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/package_run_dependencies/pure_pursuit
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/parent_prefix_path/pure_pursuit
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/path.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/path.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.bash
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.zsh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/packages/pure_pursuit
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/cmake/pure_pursuitConfig.cmake
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/cmake/pure_pursuitConfig-version.cmake
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.xml

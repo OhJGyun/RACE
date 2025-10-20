@@ -1,0 +1,36 @@
+[0.076s] Invoking command in '/home/ircv7/RACE/real_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/ackermann_mux -- -j6 -l6
+[1.567s] [35m[1mConsolidate compiler generated dependencies of target ackermann_mux[0m
+[1.567s] [100%] Built target ackermann_mux
+[2.136s] Invoked command in '/home/ircv7/RACE/real_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/ackermann_mux -- -j6 -l6
+[2.160s] Invoking command in '/home/ircv7/RACE/real_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/ackermann_mux
+[2.188s] -- Install configuration: "Release"
+[2.188s] -- Execute custom install script
+[2.188s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/lib/ackermann_mux/ackermann_mux
+[2.189s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/launch/ackermann_mux_launch.py
+[2.189s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_locks.yaml
+[2.189s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_topics.yaml
+[2.202s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/joystick.yaml
+[2.203s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux.hpp
+[2.203s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics.hpp
+[2.203s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics_status.hpp
+[2.204s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/params_helpers.hpp
+[2.204s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/topic_handle.hpp
+[2.204s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/utils.hpp
+[2.206s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/package_run_dependencies/ackermann_mux
+[2.206s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/parent_prefix_path/ackermann_mux
+[2.207s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.sh
+[2.214s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.dsv
+[2.220s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/path.sh
+[2.224s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/path.dsv
+[2.224s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.bash
+[2.224s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.sh
+[2.224s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.zsh
+[2.224s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.dsv
+[2.224s] -- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.dsv
+[2.251s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/packages/ackermann_mux
+[2.251s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.251s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.251s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig.cmake
+[2.252s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig-version.cmake
+[2.252s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.xml
+[2.279s] Invoked command in '/home/ircv7/RACE/real_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/ackermann_mux

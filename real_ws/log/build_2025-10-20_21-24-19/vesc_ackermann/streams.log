@@ -1,0 +1,37 @@
+[1.220s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_ackermann -- -j6 -l6
+[1.433s] [ 28%] Built target vesc_to_odom_node
+[1.463s] [ 71%] Built target vesc_ackermann
+[1.486s] [100%] Built target ackermann_to_vesc_node
+[1.529s] Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_ackermann -- -j6 -l6
+[1.531s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_ackermann
+[1.546s] -- Install configuration: "Release"
+[1.548s] -- Execute custom install script
+[1.548s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/vesc_ackermann/ackermann_to_vesc_node
+[1.549s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/vesc_ackermann/vesc_to_odom_node
+[1.550s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/include/vesc_ackermann/ackermann_to_vesc.hpp
+[1.550s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/include/vesc_ackermann/vesc_to_odom.hpp
+[1.550s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/environment/library_path.sh
+[1.551s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/environment/library_path.dsv
+[1.551s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/libvesc_ackermann.so
+[1.551s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/launch/ackermann_to_vesc_node.launch.xml
+[1.554s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/launch/vesc_to_odom_node.launch.xml
+[1.554s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/ament_index/resource_index/package_run_dependencies/vesc_ackermann
+[1.554s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/ament_index/resource_index/parent_prefix_path/vesc_ackermann
+[1.555s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/environment/ament_prefix_path.sh
+[1.555s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/environment/ament_prefix_path.dsv
+[1.555s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/environment/path.sh
+[1.555s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/environment/path.dsv
+[1.555s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/local_setup.bash
+[1.556s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/local_setup.sh
+[1.556s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/local_setup.zsh
+[1.556s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/local_setup.dsv
+[1.556s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.dsv
+[1.581s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/ament_index/resource_index/packages/vesc_ackermann
+[1.582s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/ament_index/resource_index/rclcpp_components/vesc_ackermann
+[1.582s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.582s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.582s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/cmake/ament_cmake_export_libraries-extras.cmake
+[1.583s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/cmake/vesc_ackermannConfig.cmake
+[1.583s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/cmake/vesc_ackermannConfig-version.cmake
+[1.583s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.xml
+[1.595s] Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_ackermann

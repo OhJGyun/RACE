@@ -1,0 +1,1 @@
+/home/ircv7/RACE/real_ws/build/slam_nav/ament_cmake_environment_hooks/local_setup.bash

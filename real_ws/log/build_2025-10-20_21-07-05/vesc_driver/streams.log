@@ -1,0 +1,65 @@
+[0.075s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/obs_detect:/home/ircv7/RACE/real_ws/install/mouse_teleop:/home/ircv7/RACE/real_ws/install/map_humble:/home/ircv7/RACE/real_ws/install/lane_selector:/home/ircv7/RACE/real_ws/install/key_teleop:/opt/ros/humble /usr/bin/cmake /home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/vesc_driver
+[0.531s] -- The C compiler identification is GNU 11.4.0
+[0.769s] -- The CXX compiler identification is GNU 11.4.0
+[0.782s] -- Detecting C compiler ABI info
+[0.920s] -- Detecting C compiler ABI info - done
+[0.933s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.933s] -- Detecting C compile features
+[0.934s] -- Detecting C compile features - done
+[0.939s] -- Detecting CXX compiler ABI info
+[1.422s] -- Detecting CXX compiler ABI info - done
+[1.441s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.442s] -- Detecting CXX compile features
+[1.443s] -- Detecting CXX compile features - done
+[1.457s] -- Found ament_cmake_auto: 1.3.12 (/opt/ros/humble/share/ament_cmake_auto/cmake)
+[2.469s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[2.879s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[3.434s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[3.440s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[3.466s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[3.531s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.609s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.853s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[3.870s] -- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[4.427s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[4.536s] -- Found FastRTPS: /opt/ros/humble/include  
+[4.715s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[4.764s] -- Looking for pthread.h
+[5.187s] -- Looking for pthread.h - found
+[5.187s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[5.602s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[5.602s] -- Found Threads: TRUE  
+[6.318s] -- Found asio_cmake_module: 1.2.0 (/opt/ros/humble/share/asio_cmake_module/cmake)
+[6.333s] -- Found ASIO: /usr/include  
+[6.693s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[6.811s] [0mIn this package, headers install destination is set to `include` by ament_auto_package. It is recommended to install `include/vesc_driver` instead and will be the default behavior of ament_auto_package from ROS 2 Kilted Kaiju. On distributions before Kilted, ament_auto_package behaves the same way when you use USE_SCOPED_HEADER_INSTALL_DIR option.[0m
+[6.825s] -- Added test 'copyright' to check source files copyright and LICENSE
+[6.831s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[6.832s] -- Configured cppcheck include dirs: /home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver/include
+[6.832s] -- Configured cppcheck exclude dirs and/or files: 
+[6.837s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[6.837s] -- Configured cpplint exclude dirs and/or files: 
+[6.840s] -- Added test 'flake8' to check Python code syntax and style conventions
+[6.842s] -- Added test 'lint_cmake' to check CMake code style
+[6.845s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[6.849s] -- Added test 'uncrustify' to check C / C++ code style
+[6.849s] -- Configured uncrustify additional arguments: 
+[6.851s] -- Added test 'xmllint' to check XML markup files
+[6.862s] -- Configuring done
+[6.981s] -- Generating done
+[7.039s] -- Build files have been written to: /home/ircv7/RACE/real_ws/build/vesc_driver
+[7.092s] Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/obs_detect:/home/ircv7/RACE/real_ws/install/mouse_teleop:/home/ircv7/RACE/real_ws/install/map_humble:/home/ircv7/RACE/real_ws/install/lane_selector:/home/ircv7/RACE/real_ws/install/key_teleop:/opt/ros/humble /usr/bin/cmake /home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/vesc_driver
+[7.093s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/obs_detect:/home/ircv7/RACE/real_ws/install/mouse_teleop:/home/ircv7/RACE/real_ws/install/map_humble:/home/ircv7/RACE/real_ws/install/lane_selector:/home/ircv7/RACE/real_ws/install/key_teleop:/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_driver -- -j6 -l6
+[7.335s] [ 10%] [32mBuilding CXX object CMakeFiles/vesc_driver.dir/src/vesc_driver.cpp.o[0m
+[7.349s] [ 20%] [32mBuilding CXX object CMakeFiles/vesc_driver.dir/src/vesc_interface.cpp.o[0m
+[7.356s] [ 40%] [32mBuilding CXX object CMakeFiles/vesc_driver.dir/src/vesc_packet.cpp.o[0m
+[7.357s] [ 40%] [32mBuilding CXX object CMakeFiles/vesc_driver.dir/src/vesc_packet_factory.cpp.o[0m
+[7.386s] [ 50%] [32mBuilding CXX object CMakeFiles/vesc_driver_node.dir/rclcpp_components/node_main_vesc_driver_node.cpp.o[0m
+[18.995s] [ 60%] [32m[1mLinking CXX executable vesc_driver_node[0m
+[19.302s] [ 60%] Built target vesc_driver_node
+[33.039s] [ 70%] [32m[1mLinking CXX shared library libvesc_driver.so[0m
+[34.705s] [ 70%] Built target vesc_driver
+[34.759s] [ 80%] [32mBuilding CXX object CMakeFiles/vesc_device_namer.dir/src/vesc_device_namer.cpp.o[0m
+[36.128s] [ 90%] [32mBuilding CXX object CMakeFiles/vesc_device_namer.dir/src/vesc_device_uuid_lookup.cpp.o[0m
+[37.896s] [100%] [32m[1mLinking CXX executable vesc_device_namer[0m
+[38.694s] [100%] Built target vesc_device_namer

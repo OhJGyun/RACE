@@ -1,0 +1,22 @@
+[35m[1mConsolidate compiler generated dependencies of target pure_pursuit_node[0m
+[100%] Built target pure_pursuit_node
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/lib/pure_pursuit/pure_pursuit_node
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/config//pure_pursuit_config.yaml
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/launch//pure_pursuit_launch.py
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/package_run_dependencies/pure_pursuit
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/parent_prefix_path/pure_pursuit
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/ament_prefix_path.sh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/ament_prefix_path.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/path.sh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/path.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.bash
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.sh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.zsh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/packages/pure_pursuit
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/cmake/pure_pursuitConfig.cmake
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/cmake/pure_pursuitConfig-version.cmake
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.xml

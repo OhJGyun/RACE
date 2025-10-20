@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/ircv7/RACE/real_ws/build/vesc_ackermann/libvesc_ackermann.so" "TARGETS" "vesc_ackermann" "ARCHIVE_DESTINATION" "lib" "LIBRARY_DESTINATION" "lib" "RUNTIME_DESTINATION" "bin")

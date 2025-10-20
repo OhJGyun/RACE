@@ -1,0 +1,32 @@
+[35m[1mConsolidate compiler generated dependencies of target ackermann_mux[0m
+[100%] Built target ackermann_mux
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/lib/ackermann_mux/ackermann_mux
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/launch/ackermann_mux_launch.py
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_locks.yaml
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_topics.yaml
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/joystick.yaml
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux.hpp
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics.hpp
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics_status.hpp
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/params_helpers.hpp
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/topic_handle.hpp
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/utils.hpp
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/package_run_dependencies/ackermann_mux
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/parent_prefix_path/ackermann_mux
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.sh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/path.sh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/path.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.bash
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.sh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.zsh
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/packages/ackermann_mux
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig.cmake
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig-version.cmake
+-- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.xml

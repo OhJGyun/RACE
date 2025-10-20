@@ -1,0 +1,32 @@
+[3.050s] Invoking command in '/home/ircv7/RACE/real_ws/build/mouse_teleop': PYTHONPATH=/home/ircv7/RACE/real_ws/build/mouse_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/mouse_teleop/build --no-deps symlink_data
+[3.616s] /home/ircv7/.local/lib/python3.10/site-packages/setuptools/dist.py:476: SetuptoolsDeprecationWarning: Invalid dash-separated options
+[3.617s] !!
+[3.617s] 
+[3.617s]         ********************************************************************************
+[3.618s]         Usage of dash-separated 'script-dir' will not be supported in future
+[3.618s]         versions. Please use the underscore name 'script_dir' instead.
+[3.618s] 
+[3.618s]         This deprecation is overdue, please update your project and remove deprecated
+[3.618s]         calls to avoid build errors in the future.
+[3.618s] 
+[3.618s]         See https://setuptools.pypa.io/en/latest/userguide/declarative_config.html for details.
+[3.618s]         ********************************************************************************
+[3.618s] 
+[3.619s] !!
+[3.619s]   opt = self.warn_dash_deprecation(opt, section)
+[4.190s] running develop
+[4.884s] running egg_info
+[4.920s] writing mouse_teleop.egg-info/PKG-INFO
+[4.921s] writing dependency_links to mouse_teleop.egg-info/dependency_links.txt
+[4.922s] writing entry points to mouse_teleop.egg-info/entry_points.txt
+[4.922s] writing requirements to mouse_teleop.egg-info/requires.txt
+[4.922s] writing top-level names to mouse_teleop.egg-info/top_level.txt
+[5.002s] reading manifest file 'mouse_teleop.egg-info/SOURCES.txt'
+[5.003s] writing manifest file 'mouse_teleop.egg-info/SOURCES.txt'
+[5.148s] running build_ext
+[5.148s] Creating /home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages/mouse-teleop.egg-link (link to .)
+[5.150s] Installing mouse_teleop script to /home/ircv7/RACE/real_ws/install/mouse_teleop/lib/mouse_teleop
+[5.151s] 
+[5.151s] Installed /home/ircv7/RACE/real_ws/build/mouse_teleop
+[5.151s] running symlink_data
+[5.277s] Invoked command in '/home/ircv7/RACE/real_ws/build/mouse_teleop' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/mouse_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/mouse_teleop/build --no-deps symlink_data

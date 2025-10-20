@@ -1,0 +1,37 @@
+[35m[1mConsolidate compiler generated dependencies of target slam_nav_manager[0m
+[35m[1mConsolidate compiler generated dependencies of target high_frequency_localizer_node[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/high_frequency_localizer_node.dir/src/high_frequency_localizer.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/slam_nav_manager.dir/src/slam_nav_manager.cpp.o[0m
+[ 75%] [32m[1mLinking CXX executable slam_nav_manager[0m
+[ 75%] Built target slam_nav_manager
+[100%] [32m[1mLinking CXX executable high_frequency_localizer_node[0m
+[100%] Built target high_frequency_localizer_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/launch//__pycache__/localization_launch.cpython-38.pyc
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/launch//localization_launch.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/launch//slam_nav_launch.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/launch//slam_nav_manager_launch.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/config//amcl_config.yaml
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/config//cartographer_config.lua
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/config//slam_toolbox_async_config.yaml
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/config//slam_toolbox_config.yaml
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/lib/slam_nav/slam_nav_manager
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/lib/slam_nav/high_frequency_localizer_node
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/lib/slam_nav/localization_performance_test.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/lib/slam_nav/high_frequency_localization.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/ament_index/resource_index/package_run_dependencies/slam_nav
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/ament_index/resource_index/parent_prefix_path/slam_nav
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/environment/path.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/environment/path.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/local_setup.bash
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/local_setup.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/local_setup.zsh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/local_setup.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/ament_index/resource_index/packages/slam_nav
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/cmake/slam_navConfig.cmake
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/cmake/slam_navConfig-version.cmake
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.xml

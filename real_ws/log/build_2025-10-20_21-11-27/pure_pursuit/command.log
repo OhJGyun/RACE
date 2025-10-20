@@ -1,0 +1,6 @@
+Invoking command in '/home/ircv7/RACE/real_ws/build/pure_pursuit': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/ircv7/RACE/real_ws/src/app -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/pure_pursuit
+Invoked command in '/home/ircv7/RACE/real_ws/build/pure_pursuit' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/ircv7/RACE/real_ws/src/app -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/pure_pursuit
+Invoking command in '/home/ircv7/RACE/real_ws/build/pure_pursuit': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/pure_pursuit -- -j6 -l6
+Invoked command in '/home/ircv7/RACE/real_ws/build/pure_pursuit' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/pure_pursuit -- -j6 -l6
+Invoking command in '/home/ircv7/RACE/real_ws/build/pure_pursuit': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/pure_pursuit
+Invoked command in '/home/ircv7/RACE/real_ws/build/pure_pursuit' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/pure_pursuit

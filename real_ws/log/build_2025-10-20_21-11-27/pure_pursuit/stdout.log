@@ -1,0 +1,59 @@
+-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found ackermann_msgs: 2.0.2 (/opt/ros/humble/share/ackermann_msgs/cmake)
+-- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)
+-- Found tf2_ros: 0.25.16 (/opt/ros/humble/share/tf2_ros/cmake)
+-- Found tf2_geometry_msgs: 0.25.16 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: /home/ircv7/RACE/real_ws/src/app/include
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/ircv7/RACE/real_ws/build/pure_pursuit
+[35m[1mConsolidate compiler generated dependencies of target pure_pursuit_node[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/pure_pursuit_node.dir/src/pure_pursuit_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable pure_pursuit_node[0m
+[100%] Built target pure_pursuit_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/lib/pure_pursuit/pure_pursuit_node
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/config//pure_pursuit_config.yaml
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/launch//pure_pursuit_launch.py
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/package_run_dependencies/pure_pursuit
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/parent_prefix_path/pure_pursuit
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/path.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/environment/path.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.bash
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.sh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.zsh
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/local_setup.dsv
+-- Symlinking: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.dsv
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/ament_index/resource_index/packages/pure_pursuit
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/cmake/pure_pursuitConfig.cmake
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/cmake/pure_pursuitConfig-version.cmake
+-- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.xml

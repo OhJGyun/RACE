@@ -1,0 +1,17 @@
+[3.705s] Invoking command in '/home/ircv7/RACE/real_ws/build/obs_detect': PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build --no-deps symlink_data
+[5.169s] running develop
+[6.090s] running egg_info
+[6.093s] writing obs_detect.egg-info/PKG-INFO
+[6.095s] writing dependency_links to obs_detect.egg-info/dependency_links.txt
+[6.096s] writing entry points to obs_detect.egg-info/entry_points.txt
+[6.097s] writing requirements to obs_detect.egg-info/requires.txt
+[6.098s] writing top-level names to obs_detect.egg-info/top_level.txt
+[6.106s] reading manifest file 'obs_detect.egg-info/SOURCES.txt'
+[6.108s] writing manifest file 'obs_detect.egg-info/SOURCES.txt'
+[6.396s] running build_ext
+[6.397s] Creating /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs-detect.egg-link (link to .)
+[6.407s] Installing obs_detect_node script to /home/ircv7/RACE/real_ws/install/obs_detect/lib/obs_detect
+[6.410s] 
+[6.412s] Installed /home/ircv7/RACE/real_ws/build/obs_detect
+[6.413s] running symlink_data
+[6.931s] Invoked command in '/home/ircv7/RACE/real_ws/build/obs_detect' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build --no-deps symlink_data

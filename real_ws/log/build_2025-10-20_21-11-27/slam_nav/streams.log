@@ -1,0 +1,387 @@
+[0.056s] Invoking command in '/home/ircv7/RACE/real_ws/build/slam_nav': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/ircv7/RACE/real_ws/src/slam_nav -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/slam_nav
+[0.176s] -- The C compiler identification is GNU 11.4.0
+[0.297s] -- The CXX compiler identification is GNU 11.4.0
+[0.326s] -- Detecting C compiler ABI info
+[0.490s] -- Detecting C compiler ABI info - done
+[0.509s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.510s] -- Detecting C compile features
+[0.511s] -- Detecting C compile features - done
+[0.519s] -- Detecting CXX compiler ABI info
+[0.686s] -- Detecting CXX compiler ABI info - done
+[0.704s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.705s] -- Detecting CXX compile features
+[0.707s] -- Detecting CXX compile features - done
+[0.714s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.076s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.231s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.308s] -- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+[1.410s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.421s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.441s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.469s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.504s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.604s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.611s] -- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.790s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.853s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.928s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.949s] -- Looking for pthread.h
+[2.094s] -- Looking for pthread.h - found
+[2.095s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.262s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[2.265s] -- Found Threads: TRUE  
+[2.391s] -- Found std_srvs: 4.9.0 (/opt/ros/humble/share/std_srvs/cmake)
+[2.414s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[2.442s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[2.479s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[2.523s] -- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)
+[2.547s] -- Found tf2_geometry_msgs: 0.25.16 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[2.581s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[2.585s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[2.585s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[2.801s] -- Found lifecycle_msgs: 1.2.2 (/opt/ros/humble/share/lifecycle_msgs/cmake)
+[2.832s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[3.043s] -- Added test 'copyright' to check source files copyright and LICENSE
+[3.053s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.054s] -- Configured cppcheck include dirs: /home/ircv7/RACE/real_ws/src/slam_nav/include
+[3.054s] -- Configured cppcheck exclude dirs and/or files: 
+[3.059s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[3.059s] -- Configured cpplint exclude dirs and/or files: 
+[3.061s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.063s] -- Added test 'lint_cmake' to check CMake code style
+[3.065s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[3.071s] -- Added test 'uncrustify' to check C / C++ code style
+[3.072s] -- Configured uncrustify additional arguments: 
+[3.072s] -- Added test 'xmllint' to check XML markup files
+[3.076s] -- Configuring done
+[3.109s] -- Generating done
+[3.120s] -- Build files have been written to: /home/ircv7/RACE/real_ws/build/slam_nav
+[3.151s] Invoked command in '/home/ircv7/RACE/real_ws/build/slam_nav' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/ircv7/RACE/real_ws/src/slam_nav -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/slam_nav
+[3.156s] Invoking command in '/home/ircv7/RACE/real_ws/build/slam_nav': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/slam_nav -- -j6 -l6
+[3.273s] [ 25%] [32mBuilding CXX object CMakeFiles/slam_nav_manager.dir/src/slam_nav_manager.cpp.o[0m
+[10.855s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:[m[K In member function ‘[01m[Kvoid SlamNavManager::stopCurrentProcesses()[m[K’:
+[10.856s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:175:28:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint system(const char*)[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+[10.857s]   175 |                 [01;35m[Kstd::system(kill_cmd.c_str())[m[K;
+[10.857s]       |                 [01;35m[K~~~~~~~~~~~^~~~~~~~~~~~~~~~~~[m[K
+[10.956s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:[m[K In member function ‘[01m[Kvoid SlamNavManager::saveMapCallback(std::shared_ptr<std_srvs::srv::Empty_Request_<std::allocator<void> > >, std::shared_ptr<std_srvs::srv::Empty_Response_<std::allocator<void> > >)[m[K’:
+[10.956s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:133:24:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint system(const char*)[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+[10.957s]   133 |             [01;35m[Kstd::system(mkdir_cmd.c_str())[m[K;
+[10.957s]       |             [01;35m[K~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~[m[K
+[18.289s] [ 50%] [32m[1mLinking CXX executable slam_nav_manager[0m
+[18.615s] [ 50%] Built target slam_nav_manager
+[18.663s] [ 75%] [32mBuilding CXX object CMakeFiles/high_frequency_localizer_node.dir/src/high_frequency_localizer.cpp.o[0m
+[19.157s] In file included from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:10[m[K,
+[19.157s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[19.158s] [01m[K/opt/ros/humble/include/tf2_geometry_msgs/tf2_geometry_msgs/tf2_geometry_msgs.h:35:2:[m[K [01;35m[Kwarning: [m[K#warning This header is obsolete, please include tf2_geometry_msgs/tf2_geometry_msgs.hpp instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp-Wcpp]8;;[m[K]
+[19.158s]    35 | #[01;35m[Kwarning[m[K This header is obsolete, please include tf2_geometry_msgs/tf2_geometry_msgs.hpp instead
+[19.158s]       |  [01;35m[K^~~~~~~[m[K
+[24.396s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:9:1:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ does not name a type
+[24.396s]     9 | [01;31m[KHighFrequencyLocalizer[m[K::HighFrequencyLocalizer(const rclcpp::NodeOptions & options)
+[24.396s]       | [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.396s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:59:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.396s]    59 | void [01;31m[KHighFrequencyLocalizer[m[K::amclPoseCallback(
+[24.396s]       |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.414s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::amclPoseCallback(geometry_msgs::msg::PoseWithCovarianceStamped_<std::allocator<void> >::SharedPtr)[m[K’:
+[24.414s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:63:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kodom_received_[m[K’ was not declared in this scope
+[24.414s]    63 |   if ([01;31m[Kodom_received_[m[K) {
+[24.414s]       |       [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.426s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:66:23:[m[K [01;31m[Kerror: [m[K‘[01m[KquaternionToYaw[m[K’ was not declared in this scope
+[24.426s]    66 |     double amcl_yaw = [01;31m[KquaternionToYaw[m[K(msg->pose.pose.orientation);
+[24.427s]       |                       [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.437s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:68:21:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_pose_[m[K’ was not declared in this scope
+[24.438s]    68 |     double odom_x = [01;31m[Klast_odom_pose_[m[K.position.x;
+[24.438s]       |                     [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.446s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:73:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_x_[m[K’ was not declared in this scope
+[24.447s]    73 |     [01;31m[Kdrift_x_[m[K = amcl_x - odom_x;
+[24.447s]       |     [01;31m[K^~~~~~~~[m[K
+[24.455s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:74:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_y_[m[K’ was not declared in this scope
+[24.455s]    74 |     [01;31m[Kdrift_y_[m[K = amcl_y - odom_y;
+[24.455s]       |     [01;31m[K^~~~~~~~[m[K
+[24.463s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:75:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_yaw_[m[K’ was not declared in this scope
+[24.463s]    75 |     [01;31m[Kdrift_yaw_[m[K = normalizeAngle(amcl_yaw - odom_yaw);
+[24.464s]       |     [01;31m[K^~~~~~~~~~[m[K
+[24.472s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:75:18:[m[K [01;31m[Kerror: [m[K‘[01m[KnormalizeAngle[m[K’ was not declared in this scope; did you mean ‘[01m[Ktf2NormalizeAngle[m[K’?
+[24.472s]    75 |     drift_yaw_ = [01;31m[KnormalizeAngle[m[K(amcl_yaw - odom_yaw);
+[24.473s]       |                  [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.473s]       |                  [32m[Ktf2NormalizeAngle[m[K
+[24.473s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.474s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.474s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.474s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.474s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.474s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.475s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.475s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.475s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.475s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.475s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.475s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.475s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.475s]    77 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.476s]       |                 [01;31m[K^~~~[m[K
+[24.476s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.476s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[24.476s]    77 |     [01;31m[KRCLCPP_INFO[m[K(this->get_logger(),
+[24.476s]       |     [01;31m[K^~~~~~~~~~~[m[K
+[24.476s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[24.476s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.476s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.476s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.476s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.477s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.477s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.477s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.477s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.477s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.477s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.477s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.477s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.477s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.477s]    77 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.478s]       |                 [01;31m[K^~~~[m[K
+[24.478s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.478s]    77 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.478s]       |                 [01;31m[K^~~~[m[K
+[24.485s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:82:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_amcl_pose_[m[K’ was not declared in this scope
+[24.485s]    82 |   [01;31m[Klast_amcl_pose_[m[K = msg->pose.pose;
+[24.486s]       |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.495s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:83:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_amcl_time_[m[K’ was not declared in this scope
+[24.495s]    83 |   [01;31m[Klast_amcl_time_[m[K = this->get_clock()->now();
+[24.495s]       |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.496s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:83:21:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.496s]    83 |   last_amcl_time_ = [01;31m[Kthis[m[K->get_clock()->now();
+[24.496s]       |                     [01;31m[K^~~~[m[K
+[24.506s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:84:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kamcl_received_[m[K’ was not declared in this scope
+[24.506s]    84 |   [01;31m[Kamcl_received_[m[K = true;
+[24.506s]       |   [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.506s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[24.507s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:87:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.507s]    87 | void [01;31m[KHighFrequencyLocalizer[m[K::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
+[24.507s]       |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.524s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::odomCallback(nav_msgs::msg::Odometry_<std::allocator<void> >::SharedPtr)[m[K’:
+[24.524s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:89:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_pose_[m[K’ was not declared in this scope
+[24.525s]    89 |   [01;31m[Klast_odom_pose_[m[K = msg->pose.pose;
+[24.525s]       |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.535s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:90:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_time_[m[K’ was not declared in this scope
+[24.535s]    90 |   [01;31m[Klast_odom_time_[m[K = this->get_clock()->now();
+[24.536s]       |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.536s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:90:21:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.536s]    90 |   last_odom_time_ = [01;31m[Kthis[m[K->get_clock()->now();
+[24.536s]       |                     [01;31m[K^~~~[m[K
+[24.546s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:91:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kodom_received_[m[K’ was not declared in this scope
+[24.546s]    91 |   [01;31m[Kodom_received_[m[K = true;
+[24.546s]       |   [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.546s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[24.547s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:94:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.547s]    94 | void [01;31m[KHighFrequencyLocalizer[m[K::imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg)
+[24.547s]       |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.563s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::imuCallback(sensor_msgs::msg::Imu_<std::allocator<void> >::SharedPtr)[m[K’:
+[24.564s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:96:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_imu_data_[m[K’ was not declared in this scope
+[24.564s]    96 |   [01;31m[Klast_imu_data_[m[K = *msg;
+[24.564s]       |   [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.565s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[24.565s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:99:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.565s]    99 | void [01;31m[KHighFrequencyLocalizer[m[K::publishHighFreqPose()
+[24.565s]       |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.574s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::publishHighFreqPose()[m[K’:
+[24.575s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:101:8:[m[K [01;31m[Kerror: [m[K‘[01m[Kodom_received_[m[K’ was not declared in this scope
+[24.575s]   101 |   if (![01;31m[Kodom_received_[m[K) {
+[24.576s]       |        [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.576s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:105:23:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.576s]   105 |   auto current_time = [01;31m[Kthis[m[K->get_clock()->now();
+[24.576s]       |                       [01;31m[K^~~~[m[K
+[24.585s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:108:24:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_pose_[m[K’ was not declared in this scope
+[24.585s]   108 |   double corrected_x = [01;31m[Klast_odom_pose_[m[K.position.x + drift_x_;
+[24.586s]       |                        [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.593s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:108:53:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_x_[m[K’ was not declared in this scope
+[24.593s]   108 |   double corrected_x = last_odom_pose_.position.x + [01;31m[Kdrift_x_[m[K;
+[24.594s]       |                                                     [01;31m[K^~~~~~~~[m[K
+[24.601s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:109:53:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_y_[m[K’ was not declared in this scope
+[24.602s]   109 |   double corrected_y = last_odom_pose_.position.y + [01;31m[Kdrift_y_[m[K;
+[24.602s]       |                                                     [01;31m[K^~~~~~~~[m[K
+[24.612s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:111:21:[m[K [01;31m[Kerror: [m[K‘[01m[KquaternionToYaw[m[K’ was not declared in this scope
+[24.612s]   111 |   double odom_yaw = [01;31m[KquaternionToYaw[m[K(last_odom_pose_.orientation);
+[24.612s]       |                     [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.620s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:112:52:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_yaw_[m[K’ was not declared in this scope
+[24.620s]   112 |   double corrected_yaw = normalizeAngle(odom_yaw + [01;31m[Kdrift_yaw_[m[K);
+[24.620s]       |                                                    [01;31m[K^~~~~~~~~~[m[K
+[24.628s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:112:26:[m[K [01;31m[Kerror: [m[K‘[01m[KnormalizeAngle[m[K’ was not declared in this scope; did you mean ‘[01m[Ktf2NormalizeAngle[m[K’?
+[24.628s]   112 |   double corrected_yaw = [01;31m[KnormalizeAngle[m[K(odom_yaw + drift_yaw_);
+[24.629s]       |                          [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.629s]       |                          [32m[Ktf2NormalizeAngle[m[K
+[24.656s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:123:34:[m[K [01;31m[Kerror: [m[K‘[01m[KyawToQuaternion[m[K’ was not declared in this scope
+[24.656s]   123 |   fused_pose->pose.orientation = [01;31m[KyawToQuaternion[m[K(corrected_yaw);
+[24.657s]       |                                  [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.666s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:126:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kfused_pose_pub_[m[K’ was not declared in this scope; did you mean ‘[01m[Kfused_pose[m[K’?
+[24.666s]   126 |   [01;31m[Kfused_pose_pub_[m[K->publish(std::move(fused_pose));
+[24.666s]       |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.667s]       |   [32m[Kfused_pose[m[K
+[24.695s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:142:3:[m[K [01;31m[Kerror: [m[K‘[01m[Khigh_freq_odom_pub_[m[K’ was not declared in this scope; did you mean ‘[01m[Khigh_freq_odom[m[K’?
+[24.696s]   142 |   [01;31m[Khigh_freq_odom_pub_[m[K->publish(std::move(high_freq_odom));
+[24.696s]       |   [01;31m[K^~~~~~~~~~~~~~~~~~~[m[K
+[24.696s]       |   [32m[Khigh_freq_odom[m[K
+[24.706s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:145:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_timestamps_[m[K’ was not declared in this scope
+[24.706s]   145 |   [01;31m[Kpose_timestamps_[m[K.push_back(current_time);
+[24.707s]       |   [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[24.716s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:146:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_timestamps_[m[K’ was not declared in this scope
+[24.717s]   146 |   if (pose_timestamps_.size() > [01;31m[Kmax_timestamps_[m[K) {
+[24.717s]       |                                 [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.717s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[24.717s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:151:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.717s]   151 | void [01;31m[KHighFrequencyLocalizer[m[K::printPerformanceStats()
+[24.718s]       |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.728s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::printPerformanceStats()[m[K’:
+[24.729s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:153:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_timestamps_[m[K’ was not declared in this scope
+[24.729s]   153 |   if ([01;31m[Kpose_timestamps_[m[K.size() < 10) {
+[24.729s]       |       [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[24.729s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:158:23:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.730s]   158 |   auto current_time = [01;31m[Kthis[m[K->get_clock()->now();
+[24.730s]       |                       [01;31m[K^~~~[m[K
+[24.740s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:162:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_timestamps_[m[K’ was not declared in this scope
+[24.740s]   162 |   for (const auto & timestamp : [01;31m[Kpose_timestamps_[m[K) {
+[24.741s]       |                                 [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[24.741s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.741s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.741s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.742s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.742s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.742s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.743s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.743s]   168 |   RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.743s]       |               [01;31m[K^~~~[m[K
+[24.743s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.743s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:3:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[24.743s]   168 |   [01;31m[KRCLCPP_INFO[m[K(this->get_logger(),
+[24.743s]       |   [01;31m[K^~~~~~~~~~~[m[K
+[24.743s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[24.743s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.744s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.745s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.745s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.745s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.745s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.746s]   168 |   RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.746s]       |               [01;31m[K^~~~[m[K
+[24.746s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.746s]   168 |   RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.746s]       |               [01;31m[K^~~~[m[K
+[24.751s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:170:19:[m[K [01;31m[Kerror: [m[K‘[01m[Khigh_freq_rate_[m[K’ was not declared in this scope
+[24.751s]   170 |     recent_count, [01;31m[Khigh_freq_rate_[m[K);
+[24.751s]       |                   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[24.762s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:173:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kamcl_received_[m[K’ was not declared in this scope
+[24.762s]   173 |   if ([01;31m[Kamcl_received_[m[K) {
+[24.762s]       |       [01;31m[K^~~~~~~~~~~~~~[m[K
+[24.763s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.763s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.763s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.764s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.764s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.764s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.764s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.765s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.765s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.765s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.765s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.765s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.766s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.766s]   174 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.766s]       |                 [01;31m[K^~~~[m[K
+[24.766s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.766s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[24.766s]   174 |     [01;31m[KRCLCPP_INFO[m[K(this->get_logger(),
+[24.766s]       |     [01;31m[K^~~~~~~~~~~[m[K
+[24.766s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[24.766s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.767s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.768s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.768s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.768s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.768s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.768s]   174 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.768s]       |                 [01;31m[K^~~~[m[K
+[24.769s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[24.769s]   174 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+[24.769s]       |                 [01;31m[K^~~~[m[K
+[24.770s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:176:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_x_[m[K’ was not declared in this scope
+[24.770s]   176 |       [01;31m[Kdrift_x_[m[K, drift_y_, drift_yaw_ * 180.0 / M_PI);
+[24.771s]       |       [01;31m[K^~~~~~~~[m[K
+[24.778s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:176:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_y_[m[K’ was not declared in this scope
+[24.779s]   176 |       drift_x_, [01;31m[Kdrift_y_[m[K, drift_yaw_ * 180.0 / M_PI);
+[24.779s]       |                 [01;31m[K^~~~~~~~[m[K
+[24.787s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:176:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_yaw_[m[K’ was not declared in this scope
+[24.787s]   176 |       drift_x_, drift_y_, [01;31m[Kdrift_yaw_[m[K * 180.0 / M_PI);
+[24.787s]       |                           [01;31m[K^~~~~~~~~~[m[K
+[24.787s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[24.787s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:180:8:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.787s]   180 | double [01;31m[KHighFrequencyLocalizer[m[K::quaternionToYaw(const geometry_msgs::msg::Quaternion & quaternion)
+[24.788s]       |        [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.788s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:192:32:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.788s]   192 | geometry_msgs::msg::Quaternion [01;31m[KHighFrequencyLocalizer[m[K::yawToQuaternion(double yaw)
+[24.788s]       |                                [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.788s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:203:8:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+[24.789s]   203 | double [01;31m[KHighFrequencyLocalizer[m[K::normalizeAngle(double angle)
+[24.789s]       |        [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.789s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[24.790s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:221:42:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ is not a member of ‘[01m[Kslam_nav[m[K’; did you mean ‘[01m[Kf1tenth_slam_nav::HighFrequencyLocalizer[m[K’?
+[24.790s]   221 |   auto node = std::make_shared<slam_nav::[01;31m[KHighFrequencyLocalizer[m[K>();
+[24.790s]       |                                          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.790s] In file included from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.790s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:26:7:[m[K [01;36m[Knote: [m[K‘[01m[Kf1tenth_slam_nav::HighFrequencyLocalizer[m[K’ declared here
+[24.791s]    26 | class [01;36m[KHighFrequencyLocalizer[m[K : public rclcpp::Node
+[24.791s]       |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[24.791s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:221:65:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kmake_shared<<expression error> >()[m[K’
+[24.791s]   221 |   auto node = [01;31m[Kstd::make_shared<slam_nav::HighFrequencyLocalizer>()[m[K;
+[24.791s]       |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~[m[K
+[24.791s] In file included from [01m[K/usr/include/c++/11/memory:77[m[K,
+[24.791s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153[m[K,
+[24.791s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.791s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.792s] [01m[K/usr/include/c++/11/bits/shared_ptr.h:875:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class _Tp, class ... _Args> std::shared_ptr<_Tp> std::make_shared(_Args&& ...)[m[K’
+[24.792s]   875 |     [01;36m[Kmake_shared[m[K(_Args&&... __args)
+[24.792s]       |     [01;36m[K^~~~~~~~~~~[m[K
+[24.792s] [01m[K/usr/include/c++/11/bits/shared_ptr.h:875:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[24.792s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:221:65:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[24.792s]   221 |   auto node = [01;31m[Kstd::make_shared<slam_nav::HighFrequencyLocalizer>()[m[K;
+[24.792s]       |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~[m[K
+[24.792s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[24.792s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[24.792s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[24.793s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[24.793s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+[24.793s]                  from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[24.794s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:223:3:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[24.794s]   223 |   [01;31m[KRCLCPP_INFO[m[K(node->get_logger(), "고주파 로컬라이제이션 C++ 노드 시작");
+[24.794s]       |   [01;31m[K^~~~~~~~~~~[m[K
+[24.794s] [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:228:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[24.794s]   228 |     [01;31m[KRCLCPP_ERROR[m[K(node->get_logger(), "노드 실행 중 오류: %s", e.what());
+[24.794s]       |     [01;31m[K^~~~~~~~~~~~[m[K
+[25.854s] gmake[2]: *** [CMakeFiles/high_frequency_localizer_node.dir/build.make:76: CMakeFiles/high_frequency_localizer_node.dir/src/high_frequency_localizer.cpp.o] Error 1
+[25.857s] gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/high_frequency_localizer_node.dir/all] Error 2
+[25.861s] gmake: *** [Makefile:146: all] Error 2
+[25.869s] Invoked command in '/home/ircv7/RACE/real_ws/build/slam_nav' returned '2': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/slam_nav -- -j6 -l6

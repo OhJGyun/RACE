@@ -1,0 +1,19 @@
+[4.520s] Invoking command in '/home/ircv7/RACE/real_ws/build/mouse_teleop': PYTHONPATH=/home/ircv7/RACE/real_ws/build/mouse_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/mouse_teleop/build --no-deps symlink_data
+[5.824s] /usr/lib/python3/dist-packages/setuptools/dist.py:723: UserWarning: Usage of dash-separated 'script-dir' will not be supported in future versions. Please use the underscore name 'script_dir' instead
+[5.838s]   warnings.warn(
+[6.060s] running develop
+[7.383s] running egg_info
+[7.385s] writing mouse_teleop.egg-info/PKG-INFO
+[7.387s] writing dependency_links to mouse_teleop.egg-info/dependency_links.txt
+[7.388s] writing entry points to mouse_teleop.egg-info/entry_points.txt
+[7.390s] writing requirements to mouse_teleop.egg-info/requires.txt
+[7.391s] writing top-level names to mouse_teleop.egg-info/top_level.txt
+[7.397s] reading manifest file 'mouse_teleop.egg-info/SOURCES.txt'
+[7.405s] writing manifest file 'mouse_teleop.egg-info/SOURCES.txt'
+[7.742s] running build_ext
+[7.750s] Creating /home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages/mouse-teleop.egg-link (link to .)
+[7.754s] Installing mouse_teleop script to /home/ircv7/RACE/real_ws/install/mouse_teleop/lib/mouse_teleop
+[7.765s] 
+[7.765s] Installed /home/ircv7/RACE/real_ws/build/mouse_teleop
+[7.767s] running symlink_data
+[8.230s] Invoked command in '/home/ircv7/RACE/real_ws/build/mouse_teleop' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/mouse_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/mouse_teleop/build --no-deps symlink_data

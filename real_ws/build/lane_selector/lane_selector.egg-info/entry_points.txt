@@ -1,0 +1,2 @@
+[console_scripts]
+lane_selector_node = lane_selector.lane_selector_node:main

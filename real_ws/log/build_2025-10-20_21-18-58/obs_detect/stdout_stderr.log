@@ -1,0 +1,15 @@
+running develop
+running egg_info
+writing obs_detect.egg-info/PKG-INFO
+writing dependency_links to obs_detect.egg-info/dependency_links.txt
+writing entry points to obs_detect.egg-info/entry_points.txt
+writing requirements to obs_detect.egg-info/requires.txt
+writing top-level names to obs_detect.egg-info/top_level.txt
+reading manifest file 'obs_detect.egg-info/SOURCES.txt'
+writing manifest file 'obs_detect.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs-detect.egg-link (link to .)
+Installing obs_detect_node script to /home/ircv7/RACE/real_ws/install/obs_detect/lib/obs_detect
+
+Installed /home/ircv7/RACE/real_ws/build/obs_detect
+running symlink_data

@@ -1,0 +1,9 @@
+{
+  "package_name": "vesc_msgs",
+  "non_idl_tuples": [
+    "/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs:msg/VescState.msg",
+    "/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs:msg/VescStateStamped.msg",
+    "/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs:msg/VescImu.msg",
+    "/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs:msg/VescImuStamped.msg"
+  ]
+}

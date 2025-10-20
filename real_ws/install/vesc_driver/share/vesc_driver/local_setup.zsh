@@ -1,0 +1,1 @@
+/home/ircv7/RACE/real_ws/build/vesc_driver/ament_cmake_environment_hooks/local_setup.zsh

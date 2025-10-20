@@ -1,0 +1,1 @@
+/home/ircv7/RACE/real_ws/src/slam_nav/launch/slam_nav_manager_launch.py

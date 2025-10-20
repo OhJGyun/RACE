@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "teleop_tools_msgs__py",
+		"source" : "/home/ircv7/RACE/real_ws/build/teleop_tools_msgs/teleop_tools_msgs__py"
+	}
+}

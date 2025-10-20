@@ -1,0 +1,30 @@
+/home/ircv7/.local/lib/python3.10/site-packages/setuptools/dist.py:476: SetuptoolsDeprecationWarning: Invalid dash-separated options
+!!
+
+        ********************************************************************************
+        Usage of dash-separated 'script-dir' will not be supported in future
+        versions. Please use the underscore name 'script_dir' instead.
+
+        This deprecation is overdue, please update your project and remove deprecated
+        calls to avoid build errors in the future.
+
+        See https://setuptools.pypa.io/en/latest/userguide/declarative_config.html for details.
+        ********************************************************************************
+
+!!
+  opt = self.warn_dash_deprecation(opt, section)
+running develop
+running egg_info
+writing mouse_teleop.egg-info/PKG-INFO
+writing dependency_links to mouse_teleop.egg-info/dependency_links.txt
+writing entry points to mouse_teleop.egg-info/entry_points.txt
+writing requirements to mouse_teleop.egg-info/requires.txt
+writing top-level names to mouse_teleop.egg-info/top_level.txt
+reading manifest file 'mouse_teleop.egg-info/SOURCES.txt'
+writing manifest file 'mouse_teleop.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages/mouse-teleop.egg-link (link to .)
+Installing mouse_teleop script to /home/ircv7/RACE/real_ws/install/mouse_teleop/lib/mouse_teleop
+
+Installed /home/ircv7/RACE/real_ws/build/mouse_teleop
+running symlink_data

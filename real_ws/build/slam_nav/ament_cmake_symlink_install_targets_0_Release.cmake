@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/ircv7/RACE/real_ws/build/slam_nav/slam_nav_manager" "/home/ircv7/RACE/real_ws/build/slam_nav/high_frequency_localizer_node" "TARGETS" "slam_nav_manager" "high_frequency_localizer_node" "DESTINATION" "lib/slam_nav")

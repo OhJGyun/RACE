@@ -1,0 +1,1198 @@
+[0.215s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install', '--cmake-args', '-DCMAKE_BUILD_TYPE=Release']
+[0.215s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=6, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=['-DCMAKE_BUILD_TYPE=Release'], cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffffa7701150>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffffa78b6920>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffffa78b6920>>, mixin_verb=('build',))
+[0.289s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.290s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.290s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.290s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.290s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.290s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.290s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/ircv7/RACE/real_ws'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.291s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.292s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.320s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.320s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.320s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.321s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.321s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.321s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.321s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.321s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.322s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.322s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.322s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.322s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.322s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.322s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extensions ['ignore', 'ignore_ament_install']
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'ignore'
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'ignore_ament_install'
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extensions ['colcon_pkg']
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'colcon_pkg'
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extensions ['colcon_meta']
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'colcon_meta'
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extensions ['ros']
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'ros'
+[0.323s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extensions ['cmake', 'python']
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'cmake'
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'python'
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extensions ['python_setup_py']
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound) by extension 'python_setup_py'
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extensions ['ignore', 'ignore_ament_install']
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'ignore'
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'ignore_ament_install'
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extensions ['colcon_pkg']
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'colcon_pkg'
+[0.324s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extensions ['colcon_meta']
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'colcon_meta'
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extensions ['ros']
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'ros'
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extensions ['cmake', 'python']
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'cmake'
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'python'
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extensions ['python_setup_py']
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/bounds) by extension 'python_setup_py'
+[0.325s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extensions ['ignore', 'ignore_ament_install']
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'ignore'
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'ignore_ament_install'
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extensions ['colcon_pkg']
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'colcon_pkg'
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extensions ['colcon_meta']
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'colcon_meta'
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extensions ['ros']
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'ros'
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extensions ['cmake', 'python']
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'cmake'
+[0.326s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'python'
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extensions ['python_setup_py']
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/global_paths) by extension 'python_setup_py'
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extensions ['ignore', 'ignore_ament_install']
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'ignore'
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'ignore_ament_install'
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extensions ['colcon_pkg']
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'colcon_pkg'
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extensions ['colcon_meta']
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'colcon_meta'
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extensions ['ros']
+[0.327s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'ros'
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extensions ['cmake', 'python']
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'cmake'
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'python'
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extensions ['python_setup_py']
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps) by extension 'python_setup_py'
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extensions ['ignore', 'ignore_ament_install']
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'ignore'
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'ignore_ament_install'
+[0.328s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extensions ['colcon_pkg']
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'colcon_pkg'
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extensions ['colcon_meta']
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'colcon_meta'
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extensions ['ros']
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'ros'
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extensions ['cmake', 'python']
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'cmake'
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'python'
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extensions ['python_setup_py']
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(map_global_path_bound/maps/bounds_out) by extension 'python_setup_py'
+[0.329s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extensions ['ignore', 'ignore_ament_install']
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'ignore'
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'ignore_ament_install'
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extensions ['colcon_pkg']
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'colcon_pkg'
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extensions ['colcon_meta']
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'colcon_meta'
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extensions ['ros']
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'ros'
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extensions ['cmake', 'python']
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'cmake'
+[0.330s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'python'
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extensions ['python_setup_py']
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(rviz2_config) by extension 'python_setup_py'
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.331s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extensions ['ignore', 'ignore_ament_install']
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extension 'ignore'
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extension 'ignore_ament_install'
+[0.332s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extensions ['colcon_pkg']
+[0.333s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extension 'colcon_pkg'
+[0.333s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extensions ['colcon_meta']
+[0.333s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extension 'colcon_meta'
+[0.333s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extensions ['ros']
+[0.333s] Level 1:colcon.colcon_core.package_identification:_identify(src/app) by extension 'ros'
+[0.338s] DEBUG:colcon.colcon_core.package_identification:Package 'src/app' with type 'ros.ament_cmake' and name 'pure_pursuit'
+[0.338s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extensions ['ignore', 'ignore_ament_install']
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'ignore'
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'ignore_ament_install'
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extensions ['colcon_pkg']
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'colcon_pkg'
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extensions ['colcon_meta']
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'colcon_meta'
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extensions ['ros']
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'ros'
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extensions ['cmake', 'python']
+[0.339s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'cmake'
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'python'
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extensions ['python_setup_py']
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system) by extension 'python_setup_py'
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extensions ['ignore', 'ignore_ament_install']
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extension 'ignore'
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extension 'ignore_ament_install'
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extensions ['colcon_pkg']
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extension 'colcon_pkg'
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extensions ['colcon_meta']
+[0.340s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extension 'colcon_meta'
+[0.341s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extensions ['ros']
+[0.341s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/ackermann_mux) by extension 'ros'
+[0.342s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/ackermann_mux' with type 'ros.ament_cmake' and name 'ackermann_mux'
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extensions ['ignore', 'ignore_ament_install']
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extension 'ignore'
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extension 'ignore_ament_install'
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extensions ['colcon_pkg']
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extension 'colcon_pkg'
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extensions ['colcon_meta']
+[0.343s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extension 'colcon_meta'
+[0.344s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extensions ['ros']
+[0.344s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/f1tenth_stack) by extension 'ros'
+[0.345s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/f1tenth_stack' with type 'ros.ament_python' and name 'f1tenth_stack'
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extensions ['ignore', 'ignore_ament_install']
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'ignore'
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'ignore_ament_install'
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extensions ['colcon_pkg']
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'colcon_pkg'
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extensions ['colcon_meta']
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'colcon_meta'
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extensions ['ros']
+[0.346s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'ros'
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extensions ['cmake', 'python']
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'cmake'
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'python'
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extensions ['python_setup_py']
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/scripts) by extension 'python_setup_py'
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extensions ['ignore', 'ignore_ament_install']
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'ignore'
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'ignore_ament_install'
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extensions ['colcon_pkg']
+[0.347s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'colcon_pkg'
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extensions ['colcon_meta']
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'colcon_meta'
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extensions ['ros']
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'ros'
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extensions ['cmake', 'python']
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'cmake'
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'python'
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extensions ['python_setup_py']
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools) by extension 'python_setup_py'
+[0.348s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extensions ['ignore', 'ignore_ament_install']
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extension 'ignore'
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extension 'ignore_ament_install'
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extensions ['colcon_pkg']
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extension 'colcon_pkg'
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extensions ['colcon_meta']
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extension 'colcon_meta'
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extensions ['ros']
+[0.349s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/joy_teleop) by extension 'ros'
+[0.350s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/teleop_tools/joy_teleop' with type 'ros.ament_python' and name 'joy_teleop'
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extensions ['ignore', 'ignore_ament_install']
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extension 'ignore'
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extension 'ignore_ament_install'
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extensions ['colcon_pkg']
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extension 'colcon_pkg'
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extensions ['colcon_meta']
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extension 'colcon_meta'
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extensions ['ros']
+[0.351s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/key_teleop) by extension 'ros'
+[0.352s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/teleop_tools/key_teleop' with type 'ros.ament_python' and name 'key_teleop'
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extensions ['ignore', 'ignore_ament_install']
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extension 'ignore'
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extension 'ignore_ament_install'
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extensions ['colcon_pkg']
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extension 'colcon_pkg'
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extensions ['colcon_meta']
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extension 'colcon_meta'
+[0.353s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extensions ['ros']
+[0.354s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/mouse_teleop) by extension 'ros'
+[0.355s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/teleop_tools/mouse_teleop' with type 'ros.ament_python' and name 'mouse_teleop'
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extensions ['ignore', 'ignore_ament_install']
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extension 'ignore'
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extension 'ignore_ament_install'
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extensions ['colcon_pkg']
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extension 'colcon_pkg'
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extensions ['colcon_meta']
+[0.355s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extension 'colcon_meta'
+[0.356s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extensions ['ros']
+[0.356s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools) by extension 'ros'
+[0.357s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/teleop_tools/teleop_tools' with type 'ros.ament_cmake' and name 'teleop_tools'
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extension 'ignore'
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extension 'ignore_ament_install'
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extensions ['colcon_pkg']
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extension 'colcon_pkg'
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extensions ['colcon_meta']
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extension 'colcon_meta'
+[0.357s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extensions ['ros']
+[0.358s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/teleop_tools/teleop_tools_msgs) by extension 'ros'
+[0.359s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/teleop_tools/teleop_tools_msgs' with type 'ros.ament_cmake' and name 'teleop_tools_msgs'
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extensions ['ignore', 'ignore_ament_install']
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'ignore'
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'ignore_ament_install'
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extensions ['colcon_pkg']
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'colcon_pkg'
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extensions ['colcon_meta']
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'colcon_meta'
+[0.359s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extensions ['ros']
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'ros'
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extensions ['cmake', 'python']
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'cmake'
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'python'
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extensions ['python_setup_py']
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc) by extension 'python_setup_py'
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extensions ['ignore', 'ignore_ament_install']
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extension 'ignore'
+[0.360s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extension 'ignore_ament_install'
+[0.361s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extensions ['colcon_pkg']
+[0.361s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extension 'colcon_pkg'
+[0.361s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extensions ['colcon_meta']
+[0.361s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extension 'colcon_meta'
+[0.361s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extensions ['ros']
+[0.361s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc) by extension 'ros'
+[0.362s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/vesc/vesc' with type 'ros.ament_cmake' and name 'vesc'
+[0.362s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extensions ['ignore', 'ignore_ament_install']
+[0.362s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extension 'ignore'
+[0.362s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extension 'ignore_ament_install'
+[0.363s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extensions ['colcon_pkg']
+[0.363s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extension 'colcon_pkg'
+[0.363s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extensions ['colcon_meta']
+[0.363s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extension 'colcon_meta'
+[0.363s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extensions ['ros']
+[0.363s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_ackermann) by extension 'ros'
+[0.365s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/vesc/vesc_ackermann' with type 'ros.ament_cmake' and name 'vesc_ackermann'
+[0.365s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extensions ['ignore', 'ignore_ament_install']
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extension 'ignore'
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extension 'ignore_ament_install'
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extensions ['colcon_pkg']
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extension 'colcon_pkg'
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extensions ['colcon_meta']
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extension 'colcon_meta'
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extensions ['ros']
+[0.366s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_driver) by extension 'ros'
+[0.368s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/vesc/vesc_driver' with type 'ros.ament_cmake' and name 'vesc_driver'
+[0.368s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.368s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extension 'ignore'
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extension 'ignore_ament_install'
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extensions ['colcon_pkg']
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extension 'colcon_pkg'
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extensions ['colcon_meta']
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extension 'colcon_meta'
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extensions ['ros']
+[0.369s] Level 1:colcon.colcon_core.package_identification:_identify(src/f1tenth_system/vesc/vesc_msgs) by extension 'ros'
+[0.370s] DEBUG:colcon.colcon_core.package_identification:Package 'src/f1tenth_system/vesc/vesc_msgs' with type 'ros.ament_cmake' and name 'vesc_msgs'
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extensions ['ignore', 'ignore_ament_install']
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extension 'ignore'
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extension 'ignore_ament_install'
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extensions ['colcon_pkg']
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extension 'colcon_pkg'
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extensions ['colcon_meta']
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extension 'colcon_meta'
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extensions ['ros']
+[0.371s] Level 1:colcon.colcon_core.package_identification:_identify(src/lane_selector) by extension 'ros'
+[0.373s] DEBUG:colcon.colcon_core.package_identification:Package 'src/lane_selector' with type 'ros.ament_python' and name 'lane_selector'
+[0.373s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extensions ['ignore', 'ignore_ament_install']
+[0.373s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extension 'ignore'
+[0.373s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extension 'ignore_ament_install'
+[0.373s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extensions ['colcon_pkg']
+[0.374s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extension 'colcon_pkg'
+[0.374s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extensions ['colcon_meta']
+[0.374s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extension 'colcon_meta'
+[0.374s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extensions ['ros']
+[0.374s] Level 1:colcon.colcon_core.package_identification:_identify(src/map) by extension 'ros'
+[0.376s] DEBUG:colcon.colcon_core.package_identification:Package 'src/map' with type 'ros.ament_python' and name 'map_humble'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extensions ['ignore', 'ignore_ament_install']
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extension 'ignore'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extension 'ignore_ament_install'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extensions ['colcon_pkg']
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extension 'colcon_pkg'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extensions ['colcon_meta']
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extension 'colcon_meta'
+[0.377s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extensions ['ros']
+[0.377s] Level 1:colcon.colcon_core.package_identification:_identify(src/obs_detect) by extension 'ros'
+[0.380s] DEBUG:colcon.colcon_core.package_identification:Package 'src/obs_detect' with type 'ros.ament_python' and name 'obs_detect'
+[0.380s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extensions ['ignore', 'ignore_ament_install']
+[0.380s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extension 'ignore'
+[0.380s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extension 'ignore_ament_install'
+[0.380s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extensions ['colcon_pkg']
+[0.381s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extension 'colcon_pkg'
+[0.381s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extensions ['colcon_meta']
+[0.381s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extension 'colcon_meta'
+[0.381s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extensions ['ros']
+[0.381s] Level 1:colcon.colcon_core.package_identification:_identify(src/slam_nav) by extension 'ros'
+[0.384s] DEBUG:colcon.colcon_core.package_identification:Package 'src/slam_nav' with type 'ros.ament_cmake' and name 'slam_nav'
+[0.384s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.385s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.385s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.385s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.385s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.427s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.427s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.432s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 288 installed packages in /opt/ros/humble
+[0.434s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.504s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.504s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'cmake_target' from command line to 'None'
+[0.504s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.504s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'cmake_clean_cache' from command line to 'False'
+[0.504s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'cmake_clean_first' from command line to 'False'
+[0.505s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'cmake_force_configure' from command line to 'False'
+[0.505s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'ament_cmake_args' from command line to 'None'
+[0.505s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'catkin_cmake_args' from command line to 'None'
+[0.505s] Level 5:colcon.colcon_core.verb:set package 'ackermann_mux' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.505s] DEBUG:colcon.colcon_core.verb:Building package 'ackermann_mux' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/ackermann_mux', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/ackermann_mux', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/ackermann_mux', 'symlink_install': True, 'test_result_base': None}
+[0.505s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'cmake_target' from command line to 'None'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'cmake_clean_cache' from command line to 'False'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'cmake_clean_first' from command line to 'False'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'cmake_force_configure' from command line to 'False'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'ament_cmake_args' from command line to 'None'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'catkin_cmake_args' from command line to 'None'
+[0.506s] Level 5:colcon.colcon_core.verb:set package 'key_teleop' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.506s] DEBUG:colcon.colcon_core.verb:Building package 'key_teleop' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/key_teleop', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/key_teleop', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/key_teleop', 'symlink_install': True, 'test_result_base': None}
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'cmake_target' from command line to 'None'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'cmake_clean_cache' from command line to 'False'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'cmake_clean_first' from command line to 'False'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'cmake_force_configure' from command line to 'False'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'ament_cmake_args' from command line to 'None'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'catkin_cmake_args' from command line to 'None'
+[0.507s] Level 5:colcon.colcon_core.verb:set package 'lane_selector' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.507s] DEBUG:colcon.colcon_core.verb:Building package 'lane_selector' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/lane_selector', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/lane_selector', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/lane_selector', 'symlink_install': True, 'test_result_base': None}
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'cmake_target' from command line to 'None'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'cmake_clean_cache' from command line to 'False'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'cmake_clean_first' from command line to 'False'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'cmake_force_configure' from command line to 'False'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'ament_cmake_args' from command line to 'None'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'catkin_cmake_args' from command line to 'None'
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'map_humble' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.508s] DEBUG:colcon.colcon_core.verb:Building package 'map_humble' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/map_humble', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/map_humble', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/map', 'symlink_install': True, 'test_result_base': None}
+[0.508s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'cmake_target' from command line to 'None'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'cmake_clean_cache' from command line to 'False'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'cmake_clean_first' from command line to 'False'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'cmake_force_configure' from command line to 'False'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'ament_cmake_args' from command line to 'None'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'catkin_cmake_args' from command line to 'None'
+[0.509s] Level 5:colcon.colcon_core.verb:set package 'mouse_teleop' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.509s] DEBUG:colcon.colcon_core.verb:Building package 'mouse_teleop' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/mouse_teleop', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/mouse_teleop', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/mouse_teleop', 'symlink_install': True, 'test_result_base': None}
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'cmake_target' from command line to 'None'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'cmake_clean_cache' from command line to 'False'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'cmake_clean_first' from command line to 'False'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'cmake_force_configure' from command line to 'False'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'ament_cmake_args' from command line to 'None'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'catkin_cmake_args' from command line to 'None'
+[0.510s] Level 5:colcon.colcon_core.verb:set package 'obs_detect' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.510s] DEBUG:colcon.colcon_core.verb:Building package 'obs_detect' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/obs_detect', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/obs_detect', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/obs_detect', 'symlink_install': True, 'test_result_base': None}
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'cmake_target' from command line to 'None'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'cmake_clean_cache' from command line to 'False'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'cmake_clean_first' from command line to 'False'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'cmake_force_configure' from command line to 'False'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'ament_cmake_args' from command line to 'None'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'catkin_cmake_args' from command line to 'None'
+[0.511s] Level 5:colcon.colcon_core.verb:set package 'pure_pursuit' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.511s] DEBUG:colcon.colcon_core.verb:Building package 'pure_pursuit' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/pure_pursuit', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/pure_pursuit', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/app', 'symlink_install': True, 'test_result_base': None}
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'cmake_target' from command line to 'None'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'cmake_clean_cache' from command line to 'False'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'cmake_clean_first' from command line to 'False'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'cmake_force_configure' from command line to 'False'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'ament_cmake_args' from command line to 'None'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'catkin_cmake_args' from command line to 'None'
+[0.512s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools_msgs' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.512s] DEBUG:colcon.colcon_core.verb:Building package 'teleop_tools_msgs' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/teleop_tools_msgs', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/teleop_tools_msgs', 'symlink_install': True, 'test_result_base': None}
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'cmake_target' from command line to 'None'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'cmake_clean_cache' from command line to 'False'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'cmake_clean_first' from command line to 'False'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'cmake_force_configure' from command line to 'False'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'ament_cmake_args' from command line to 'None'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'catkin_cmake_args' from command line to 'None'
+[0.513s] Level 5:colcon.colcon_core.verb:set package 'vesc_msgs' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.513s] DEBUG:colcon.colcon_core.verb:Building package 'vesc_msgs' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/vesc_msgs', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/vesc_msgs', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs', 'symlink_install': True, 'test_result_base': None}
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'cmake_target' from command line to 'None'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'cmake_clean_cache' from command line to 'False'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'cmake_clean_first' from command line to 'False'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'cmake_force_configure' from command line to 'False'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'ament_cmake_args' from command line to 'None'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'catkin_cmake_args' from command line to 'None'
+[0.514s] Level 5:colcon.colcon_core.verb:set package 'joy_teleop' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.514s] DEBUG:colcon.colcon_core.verb:Building package 'joy_teleop' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/joy_teleop', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/joy_teleop', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/joy_teleop', 'symlink_install': True, 'test_result_base': None}
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'cmake_target' from command line to 'None'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'cmake_clean_cache' from command line to 'False'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'cmake_clean_first' from command line to 'False'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'cmake_force_configure' from command line to 'False'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'ament_cmake_args' from command line to 'None'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'catkin_cmake_args' from command line to 'None'
+[0.515s] Level 5:colcon.colcon_core.verb:set package 'vesc_ackermann' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.515s] DEBUG:colcon.colcon_core.verb:Building package 'vesc_ackermann' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/vesc_ackermann', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/vesc_ackermann', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_ackermann', 'symlink_install': True, 'test_result_base': None}
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'cmake_target' from command line to 'None'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'cmake_clean_cache' from command line to 'False'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'cmake_clean_first' from command line to 'False'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'cmake_force_configure' from command line to 'False'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'ament_cmake_args' from command line to 'None'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'catkin_cmake_args' from command line to 'None'
+[0.516s] Level 5:colcon.colcon_core.verb:set package 'vesc_driver' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.516s] DEBUG:colcon.colcon_core.verb:Building package 'vesc_driver' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/vesc_driver', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/vesc_driver', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver', 'symlink_install': True, 'test_result_base': None}
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'cmake_target' from command line to 'None'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'cmake_clean_cache' from command line to 'False'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'cmake_clean_first' from command line to 'False'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'cmake_force_configure' from command line to 'False'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'ament_cmake_args' from command line to 'None'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'catkin_cmake_args' from command line to 'None'
+[0.517s] Level 5:colcon.colcon_core.verb:set package 'teleop_tools' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.517s] DEBUG:colcon.colcon_core.verb:Building package 'teleop_tools' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/teleop_tools', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/teleop_tools', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/teleop_tools', 'symlink_install': True, 'test_result_base': None}
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'cmake_target' from command line to 'None'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'cmake_clean_cache' from command line to 'False'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'cmake_clean_first' from command line to 'False'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'cmake_force_configure' from command line to 'False'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'ament_cmake_args' from command line to 'None'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'catkin_cmake_args' from command line to 'None'
+[0.518s] Level 5:colcon.colcon_core.verb:set package 'vesc' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.518s] DEBUG:colcon.colcon_core.verb:Building package 'vesc' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/vesc', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/vesc', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc', 'symlink_install': True, 'test_result_base': None}
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'cmake_target' from command line to 'None'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'cmake_clean_cache' from command line to 'False'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'cmake_clean_first' from command line to 'False'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'cmake_force_configure' from command line to 'False'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'ament_cmake_args' from command line to 'None'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'catkin_cmake_args' from command line to 'None'
+[0.519s] Level 5:colcon.colcon_core.verb:set package 'f1tenth_stack' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.519s] DEBUG:colcon.colcon_core.verb:Building package 'f1tenth_stack' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/f1tenth_stack', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/f1tenth_stack', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/f1tenth_system/f1tenth_stack', 'symlink_install': True, 'test_result_base': None}
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'cmake_target' from command line to 'None'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'cmake_clean_cache' from command line to 'False'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'cmake_clean_first' from command line to 'False'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'cmake_force_configure' from command line to 'False'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'ament_cmake_args' from command line to 'None'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'catkin_cmake_args' from command line to 'None'
+[0.520s] Level 5:colcon.colcon_core.verb:set package 'slam_nav' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.520s] DEBUG:colcon.colcon_core.verb:Building package 'slam_nav' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ircv7/RACE/real_ws/build/slam_nav', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ircv7/RACE/real_ws/install/slam_nav', 'merge_install': False, 'path': '/home/ircv7/RACE/real_ws/src/slam_nav', 'symlink_install': True, 'test_result_base': None}
+[0.520s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.522s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.523s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs' with build type 'ament_cmake'
+[0.523s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_msgs'
+[0.528s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.528s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.528s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.534s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/teleop_tools_msgs' with build type 'ament_cmake'
+[0.534s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/teleop_tools_msgs'
+[0.535s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.535s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.540s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/ackermann_mux' with build type 'ament_cmake'
+[0.541s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/ackermann_mux'
+[0.542s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.542s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.548s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/key_teleop' with build type 'ament_python'
+[0.549s] Level 1:colcon.colcon_core.shell:create_environment_hook('key_teleop', 'ament_prefix_path')
+[0.549s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/hook/ament_prefix_path.ps1'
+[0.551s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/hook/ament_prefix_path.dsv'
+[0.552s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/hook/ament_prefix_path.sh'
+[0.554s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.554s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.558s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/lane_selector' with build type 'ament_python'
+[0.558s] Level 1:colcon.colcon_core.shell:create_environment_hook('lane_selector', 'ament_prefix_path')
+[0.559s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/hook/ament_prefix_path.ps1'
+[0.560s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/hook/ament_prefix_path.dsv'
+[0.561s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/hook/ament_prefix_path.sh'
+[0.563s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.563s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.569s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/map' with build type 'ament_python'
+[0.570s] Level 1:colcon.colcon_core.shell:create_environment_hook('map_humble', 'ament_prefix_path')
+[0.570s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/hook/ament_prefix_path.ps1'
+[0.572s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/hook/ament_prefix_path.dsv'
+[0.573s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/hook/ament_prefix_path.sh'
+[0.576s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.576s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.591s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_msgs -- -j6 -l6
+[0.602s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/teleop_tools_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/teleop_tools_msgs -- -j6 -l6
+[0.620s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/ackermann_mux -- -j6 -l6
+[1.379s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/key_teleop'
+[1.380s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.380s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.855s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/lane_selector'
+[1.856s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.856s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.351s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/map'
+[2.352s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.352s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.381s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/ackermann_mux -- -j6 -l6
+[2.403s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/ackermann_mux
+[2.404s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/teleop_tools_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/teleop_tools_msgs -- -j6 -l6
+[2.408s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/teleop_tools_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/teleop_tools_msgs
+[2.411s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_msgs -- -j6 -l6
+[2.413s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_msgs
+[2.497s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ackermann_mux)
+[2.503s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux' for CMake module files
+[2.504s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux' for CMake config files
+[2.505s] Level 1:colcon.colcon_core.shell:create_environment_hook('ackermann_mux', 'cmake_prefix_path')
+[2.506s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/hook/cmake_prefix_path.ps1'
+[2.509s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/hook/cmake_prefix_path.dsv'
+[2.528s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/hook/cmake_prefix_path.sh'
+[2.530s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/lib'
+[2.530s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/bin'
+[2.530s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/lib/pkgconfig/ackermann_mux.pc'
+[2.531s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/lib/python3.10/site-packages'
+[2.531s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/bin'
+[2.532s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.ps1'
+[2.539s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.dsv'
+[2.540s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.sh'
+[2.542s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.bash'
+[2.550s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.zsh'
+[2.547s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/ackermann_mux
+[2.553s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/ackermann_mux/share/colcon-core/packages/ackermann_mux)
+[2.555s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ackermann_mux)
+[2.555s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux' for CMake module files
+[2.558s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux' for CMake config files
+[2.559s] Level 1:colcon.colcon_core.shell:create_environment_hook('ackermann_mux', 'cmake_prefix_path')
+[2.560s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/hook/cmake_prefix_path.ps1'
+[2.561s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/hook/cmake_prefix_path.dsv'
+[2.562s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/hook/cmake_prefix_path.sh'
+[2.575s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/lib'
+[2.575s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/bin'
+[2.575s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/lib/pkgconfig/ackermann_mux.pc'
+[2.576s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/lib/python3.10/site-packages'
+[2.577s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/ackermann_mux/bin'
+[2.580s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.ps1'
+[2.585s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.dsv'
+[2.587s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.sh'
+[2.588s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.bash'
+[2.589s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.zsh'
+[2.589s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/ackermann_mux/share/colcon-core/packages/ackermann_mux)
+[2.591s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/mouse_teleop' with build type 'ament_python'
+[2.592s] Level 1:colcon.colcon_core.shell:create_environment_hook('mouse_teleop', 'ament_prefix_path')
+[2.593s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/hook/ament_prefix_path.ps1'
+[2.594s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/hook/ament_prefix_path.dsv'
+[2.596s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/hook/ament_prefix_path.sh'
+[2.608s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.609s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.624s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc_msgs)
+[2.626s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_msgs
+[2.632s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs' for CMake module files
+[2.637s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs' for CMake config files
+[2.639s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_msgs', 'cmake_prefix_path')
+[2.640s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/cmake_prefix_path.ps1'
+[2.642s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/cmake_prefix_path.dsv'
+[2.643s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/cmake_prefix_path.sh'
+[2.646s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib'
+[2.646s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_msgs', 'ld_library_path_lib')
+[2.647s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/ld_library_path_lib.ps1'
+[2.649s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/ld_library_path_lib.dsv'
+[2.650s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/ld_library_path_lib.sh'
+[2.651s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/bin'
+[2.651s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib/pkgconfig/vesc_msgs.pc'
+[2.652s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib/python3.10/site-packages'
+[2.652s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/bin'
+[2.653s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.ps1'
+[2.655s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.dsv'
+[2.656s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.sh'
+[2.658s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.bash'
+[2.659s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.zsh'
+[2.660s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc_msgs/share/colcon-core/packages/vesc_msgs)
+[2.663s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc_msgs)
+[2.664s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs' for CMake module files
+[2.666s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs' for CMake config files
+[2.668s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_msgs', 'cmake_prefix_path')
+[2.669s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/cmake_prefix_path.ps1'
+[2.670s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/cmake_prefix_path.dsv'
+[2.671s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/cmake_prefix_path.sh'
+[2.673s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib'
+[2.674s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_msgs', 'ld_library_path_lib')
+[2.675s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/ld_library_path_lib.ps1'
+[2.676s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/ld_library_path_lib.dsv'
+[2.678s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/hook/ld_library_path_lib.sh'
+[2.680s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/bin'
+[2.680s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib/pkgconfig/vesc_msgs.pc'
+[2.681s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib/python3.10/site-packages'
+[2.682s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_msgs/bin'
+[2.683s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.ps1'
+[2.684s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.dsv'
+[2.686s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.sh'
+[2.687s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.bash'
+[2.688s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_msgs/share/vesc_msgs/package.zsh'
+[2.690s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc_msgs/share/colcon-core/packages/vesc_msgs)
+[2.691s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(teleop_tools_msgs)
+[2.692s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs' for CMake module files
+[2.694s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/teleop_tools_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/teleop_tools_msgs
+[2.698s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs' for CMake config files
+[2.700s] Level 1:colcon.colcon_core.shell:create_environment_hook('teleop_tools_msgs', 'cmake_prefix_path')
+[2.701s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/cmake_prefix_path.ps1'
+[2.703s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/cmake_prefix_path.dsv'
+[2.704s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/cmake_prefix_path.sh'
+[2.706s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib'
+[2.706s] Level 1:colcon.colcon_core.shell:create_environment_hook('teleop_tools_msgs', 'ld_library_path_lib')
+[2.707s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/ld_library_path_lib.ps1'
+[2.708s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/ld_library_path_lib.dsv'
+[2.709s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/ld_library_path_lib.sh'
+[2.710s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/bin'
+[2.710s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib/pkgconfig/teleop_tools_msgs.pc'
+[2.711s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib/python3.10/site-packages'
+[2.712s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/bin'
+[2.713s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.ps1'
+[2.715s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.dsv'
+[2.716s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.sh'
+[2.717s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.bash'
+[2.718s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.zsh'
+[2.719s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/colcon-core/packages/teleop_tools_msgs)
+[2.721s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(teleop_tools_msgs)
+[2.722s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs' for CMake module files
+[2.723s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs' for CMake config files
+[2.725s] Level 1:colcon.colcon_core.shell:create_environment_hook('teleop_tools_msgs', 'cmake_prefix_path')
+[2.726s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/cmake_prefix_path.ps1'
+[2.727s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/cmake_prefix_path.dsv'
+[2.728s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/cmake_prefix_path.sh'
+[2.731s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib'
+[2.731s] Level 1:colcon.colcon_core.shell:create_environment_hook('teleop_tools_msgs', 'ld_library_path_lib')
+[2.732s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/ld_library_path_lib.ps1'
+[2.734s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/ld_library_path_lib.dsv'
+[2.735s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/hook/ld_library_path_lib.sh'
+[2.736s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/bin'
+[2.737s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib/pkgconfig/teleop_tools_msgs.pc'
+[2.737s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib/python3.10/site-packages'
+[2.738s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/bin'
+[2.740s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.ps1'
+[2.741s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.dsv'
+[2.743s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.sh'
+[2.744s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.bash'
+[2.745s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/teleop_tools_msgs/package.zsh'
+[2.746s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/share/colcon-core/packages/teleop_tools_msgs)
+[2.750s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/joy_teleop' with build type 'ament_python'
+[2.751s] Level 1:colcon.colcon_core.shell:create_environment_hook('joy_teleop', 'ament_prefix_path')
+[2.752s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/hook/ament_prefix_path.ps1'
+[2.755s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/hook/ament_prefix_path.dsv'
+[2.756s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/hook/ament_prefix_path.sh'
+[2.759s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.760s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.784s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_ackermann' with build type 'ament_cmake'
+[2.786s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_ackermann'
+[2.787s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.787s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.435s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/mouse_teleop'
+[3.436s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.436s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.985s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/joy_teleop'
+[3.986s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.986s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.005s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_ackermann -- -j6 -l6
+[4.181s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/map_humble': PYTHONPATH=/home/ircv7/RACE/real_ws/build/map_humble/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/map_humble/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/map_humble/build --no-deps symlink_data
+[4.211s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/lane_selector': PYTHONPATH=/home/ircv7/RACE/real_ws/build/lane_selector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/lane_selector/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/lane_selector/build --no-deps symlink_data
+[4.315s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_ackermann -- -j6 -l6
+[4.316s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_ackermann
+[4.371s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc_ackermann)
+[4.372s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann' for CMake module files
+[4.374s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann' for CMake config files
+[4.375s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_ackermann', 'cmake_prefix_path')
+[4.376s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/cmake_prefix_path.ps1'
+[4.377s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/cmake_prefix_path.dsv'
+[4.378s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/cmake_prefix_path.sh'
+[4.380s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_ackermann' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_ackermann
+[4.382s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib'
+[4.382s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_ackermann', 'ld_library_path_lib')
+[4.383s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/ld_library_path_lib.ps1'
+[4.384s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/ld_library_path_lib.dsv'
+[4.385s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/ld_library_path_lib.sh'
+[4.387s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/bin'
+[4.387s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/pkgconfig/vesc_ackermann.pc'
+[4.388s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/python3.10/site-packages'
+[4.389s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/bin'
+[4.390s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.ps1'
+[4.392s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.dsv'
+[4.393s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.sh'
+[4.395s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.bash'
+[4.396s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.zsh'
+[4.397s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/colcon-core/packages/vesc_ackermann)
+[4.398s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc_ackermann)
+[4.399s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann' for CMake module files
+[4.400s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann' for CMake config files
+[4.407s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_ackermann', 'cmake_prefix_path')
+[4.407s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/cmake_prefix_path.ps1'
+[4.409s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/cmake_prefix_path.dsv'
+[4.410s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/cmake_prefix_path.sh'
+[4.412s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib'
+[4.413s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_ackermann', 'ld_library_path_lib')
+[4.414s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/ld_library_path_lib.ps1'
+[4.415s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/ld_library_path_lib.dsv'
+[4.417s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/hook/ld_library_path_lib.sh'
+[4.422s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/bin'
+[4.423s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/pkgconfig/vesc_ackermann.pc'
+[4.423s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib/python3.10/site-packages'
+[4.424s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_ackermann/bin'
+[4.425s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.ps1'
+[4.427s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.dsv'
+[4.429s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.sh'
+[4.431s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.bash'
+[4.434s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/vesc_ackermann/package.zsh'
+[4.435s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc_ackermann/share/colcon-core/packages/vesc_ackermann)
+[4.438s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver' with build type 'ament_cmake'
+[4.439s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver'
+[4.439s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.440s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.455s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/key_teleop': PYTHONPATH=/home/ircv7/RACE/real_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/key_teleop/build --no-deps symlink_data
+[4.488s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_driver': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_driver -- -j6 -l6
+[4.733s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_driver' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc_driver -- -j6 -l6
+[4.734s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc_driver': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_driver
+[4.794s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc_driver)
+[4.795s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver' for CMake module files
+[4.796s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver' for CMake config files
+[4.797s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_driver', 'cmake_prefix_path')
+[4.797s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/cmake_prefix_path.ps1'
+[4.799s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/cmake_prefix_path.dsv'
+[4.800s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc_driver' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc_driver
+[4.800s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/cmake_prefix_path.sh'
+[4.802s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/lib'
+[4.803s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_driver', 'ld_library_path_lib')
+[4.803s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/ld_library_path_lib.ps1'
+[4.804s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/ld_library_path_lib.dsv'
+[4.805s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/ld_library_path_lib.sh'
+[4.806s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/bin'
+[4.806s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/lib/pkgconfig/vesc_driver.pc'
+[4.806s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/lib/python3.10/site-packages'
+[4.807s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/bin'
+[4.807s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.ps1'
+[4.808s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.dsv'
+[4.809s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.sh'
+[4.810s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.bash'
+[4.811s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.zsh'
+[4.812s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc_driver/share/colcon-core/packages/vesc_driver)
+[4.813s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc_driver)
+[4.823s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver' for CMake module files
+[4.834s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver' for CMake config files
+[4.835s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_driver', 'cmake_prefix_path')
+[4.836s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/cmake_prefix_path.ps1'
+[4.839s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/cmake_prefix_path.dsv'
+[4.840s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/cmake_prefix_path.sh'
+[4.841s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/lib'
+[4.841s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc_driver', 'ld_library_path_lib')
+[4.842s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/ld_library_path_lib.ps1'
+[4.843s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/ld_library_path_lib.dsv'
+[4.844s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/hook/ld_library_path_lib.sh'
+[4.845s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/bin'
+[4.846s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/lib/pkgconfig/vesc_driver.pc'
+[4.846s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/lib/python3.10/site-packages'
+[4.847s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc_driver/bin'
+[4.848s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.ps1'
+[4.850s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.dsv'
+[4.851s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.sh'
+[4.852s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.bash'
+[4.854s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc_driver/share/vesc_driver/package.zsh'
+[4.855s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc_driver/share/colcon-core/packages/vesc_driver)
+[4.857s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc' with build type 'ament_cmake'
+[4.857s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc'
+[4.858s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.858s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.992s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc -- -j6 -l6
+[5.150s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc -- -j6 -l6
+[5.151s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/vesc': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc
+[5.194s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc)
+[5.195s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc' for CMake module files
+[5.196s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc' for CMake config files
+[5.197s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc', 'cmake_prefix_path')
+[5.197s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/hook/cmake_prefix_path.ps1'
+[5.198s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/hook/cmake_prefix_path.dsv'
+[5.199s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/hook/cmake_prefix_path.sh'
+[5.200s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/bin'
+[5.201s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/lib/pkgconfig/vesc.pc'
+[5.201s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/lib/python3.10/site-packages'
+[5.202s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/bin'
+[5.202s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.ps1'
+[5.203s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.dsv'
+[5.204s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.sh'
+[5.206s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/vesc' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc
+[5.206s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.bash'
+[5.207s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.zsh'
+[5.208s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc/share/colcon-core/packages/vesc)
+[5.209s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(vesc)
+[5.210s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc' for CMake module files
+[5.210s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc' for CMake config files
+[5.211s] Level 1:colcon.colcon_core.shell:create_environment_hook('vesc', 'cmake_prefix_path')
+[5.212s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/hook/cmake_prefix_path.ps1'
+[5.213s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/hook/cmake_prefix_path.dsv'
+[5.213s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/hook/cmake_prefix_path.sh'
+[5.215s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/bin'
+[5.215s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/lib/pkgconfig/vesc.pc'
+[5.216s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/lib/python3.10/site-packages'
+[5.216s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/vesc/bin'
+[5.217s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.ps1'
+[5.218s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.dsv'
+[5.219s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.sh'
+[5.220s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.bash'
+[5.221s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.zsh'
+[5.222s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/vesc/share/colcon-core/packages/vesc)
+[5.224s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/obs_detect' with build type 'ament_python'
+[5.225s] Level 1:colcon.colcon_core.shell:create_environment_hook('obs_detect', 'ament_prefix_path')
+[5.226s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/hook/ament_prefix_path.ps1'
+[5.227s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/hook/ament_prefix_path.dsv'
+[5.228s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/hook/ament_prefix_path.sh'
+[5.230s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[5.230s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[5.809s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/obs_detect'
+[5.810s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[5.810s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[5.949s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/joy_teleop': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/joy_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/joy_teleop/build --no-deps symlink_data
+[6.261s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/mouse_teleop': PYTHONPATH=/home/ircv7/RACE/real_ws/build/mouse_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/mouse_teleop/build --no-deps symlink_data
+[6.546s] Level 1:colcon.colcon_core.shell:create_environment_hook('lane_selector', 'pythonpath_develop')
+[6.547s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/lane_selector/share/lane_selector/hook/pythonpath_develop.ps1'
+[6.550s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/lane_selector' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/lane_selector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/lane_selector/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/lane_selector/build --no-deps symlink_data
+[6.551s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/lane_selector/share/lane_selector/hook/pythonpath_develop.dsv'
+[6.553s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/lane_selector/share/lane_selector/hook/pythonpath_develop.sh'
+[6.557s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector' for CMake module files
+[6.559s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector' for CMake config files
+[6.561s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector/lib'
+[6.561s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector/bin'
+[6.562s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector/lib/pkgconfig/lane_selector.pc'
+[6.564s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector/lib/python3.10/site-packages'
+[6.564s] Level 1:colcon.colcon_core.shell:create_environment_hook('lane_selector', 'pythonpath')
+[6.565s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/hook/pythonpath.ps1'
+[6.567s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/hook/pythonpath.dsv'
+[6.570s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/hook/pythonpath.sh'
+[6.572s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/lane_selector/bin'
+[6.573s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(lane_selector)
+[6.574s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/package.ps1'
+[6.576s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/package.dsv'
+[6.578s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/package.sh'
+[6.579s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/package.bash'
+[6.580s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/lane_selector/share/lane_selector/package.zsh'
+[6.581s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/lane_selector/share/colcon-core/packages/lane_selector)
+[6.585s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/app' with build type 'ament_cmake'
+[6.586s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/app'
+[6.588s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[6.588s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[6.597s] Level 1:colcon.colcon_core.shell:create_environment_hook('map_humble', 'pythonpath_develop')
+[6.598s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/map_humble/share/map_humble/hook/pythonpath_develop.ps1'
+[6.599s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/map_humble/share/map_humble/hook/pythonpath_develop.dsv'
+[6.600s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/map_humble/share/map_humble/hook/pythonpath_develop.sh'
+[6.601s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/map_humble' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/map_humble/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/map_humble/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/map_humble/build --no-deps symlink_data
+[6.603s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble' for CMake module files
+[6.604s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble' for CMake config files
+[6.606s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble/lib'
+[6.606s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble/bin'
+[6.606s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble/lib/pkgconfig/map_humble.pc'
+[6.607s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble/lib/python3.10/site-packages'
+[6.607s] Level 1:colcon.colcon_core.shell:create_environment_hook('map_humble', 'pythonpath')
+[6.608s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/hook/pythonpath.ps1'
+[6.610s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/hook/pythonpath.dsv'
+[6.611s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/hook/pythonpath.sh'
+[6.613s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/map_humble/bin'
+[6.613s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(map_humble)
+[6.614s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/package.ps1'
+[6.616s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/package.dsv'
+[6.618s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/package.sh'
+[6.619s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/package.bash'
+[6.621s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/map_humble/share/map_humble/package.zsh'
+[6.622s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/map_humble/share/colcon-core/packages/map_humble)
+[6.630s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/pure_pursuit': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/pure_pursuit -- -j6 -l6
+[6.871s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/pure_pursuit' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/pure_pursuit -- -j6 -l6
+[6.871s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/pure_pursuit': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/pure_pursuit
+[6.932s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(pure_pursuit)
+[6.932s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit' for CMake module files
+[6.933s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit' for CMake config files
+[6.934s] Level 1:colcon.colcon_core.shell:create_environment_hook('pure_pursuit', 'cmake_prefix_path')
+[6.935s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/hook/cmake_prefix_path.ps1'
+[6.936s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/hook/cmake_prefix_path.dsv'
+[6.936s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/hook/cmake_prefix_path.sh'
+[6.939s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/pure_pursuit' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/pure_pursuit
+[6.941s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/lib'
+[6.941s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/bin'
+[6.942s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/lib/pkgconfig/pure_pursuit.pc'
+[6.942s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/lib/python3.10/site-packages'
+[6.944s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/bin'
+[6.945s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.ps1'
+[6.951s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.dsv'
+[6.953s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.sh'
+[6.954s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.bash'
+[6.955s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.zsh'
+[6.956s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/pure_pursuit/share/colcon-core/packages/pure_pursuit)
+[6.958s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(pure_pursuit)
+[6.959s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit' for CMake module files
+[6.960s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit' for CMake config files
+[6.961s] Level 1:colcon.colcon_core.shell:create_environment_hook('pure_pursuit', 'cmake_prefix_path')
+[6.962s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/hook/cmake_prefix_path.ps1'
+[6.963s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/hook/cmake_prefix_path.dsv'
+[6.964s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/hook/cmake_prefix_path.sh'
+[6.966s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/lib'
+[6.966s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/bin'
+[6.966s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/lib/pkgconfig/pure_pursuit.pc'
+[6.967s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/lib/python3.10/site-packages'
+[6.968s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/pure_pursuit/bin'
+[6.969s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.ps1'
+[6.970s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.dsv'
+[6.972s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.sh'
+[6.974s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.bash'
+[6.975s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/pure_pursuit/share/pure_pursuit/package.zsh'
+[6.976s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/pure_pursuit/share/colcon-core/packages/pure_pursuit)
+[7.126s] Level 1:colcon.colcon_core.shell:create_environment_hook('key_teleop', 'pythonpath_develop')
+[7.127s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/key_teleop/share/key_teleop/hook/pythonpath_develop.ps1'
+[7.129s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/key_teleop/share/key_teleop/hook/pythonpath_develop.dsv'
+[7.128s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/key_teleop' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/key_teleop/build --no-deps symlink_data
+[7.130s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/key_teleop/share/key_teleop/hook/pythonpath_develop.sh'
+[7.131s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop' for CMake module files
+[7.132s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop' for CMake config files
+[7.134s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop/lib'
+[7.134s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop/bin'
+[7.134s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop/lib/pkgconfig/key_teleop.pc'
+[7.134s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages'
+[7.135s] Level 1:colcon.colcon_core.shell:create_environment_hook('key_teleop', 'pythonpath')
+[7.135s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/hook/pythonpath.ps1'
+[7.136s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/hook/pythonpath.dsv'
+[7.137s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/hook/pythonpath.sh'
+[7.138s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/key_teleop/bin'
+[7.139s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(key_teleop)
+[7.139s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/package.ps1'
+[7.141s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/package.dsv'
+[7.142s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/package.sh'
+[7.143s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/package.bash'
+[7.144s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/key_teleop/share/key_teleop/package.zsh'
+[7.145s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/key_teleop/share/colcon-core/packages/key_teleop)
+[7.676s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/obs_detect': PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build --no-deps symlink_data
+[8.015s] Level 1:colcon.colcon_core.shell:create_environment_hook('joy_teleop', 'pythonpath_develop')
+[8.016s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/joy_teleop/share/joy_teleop/hook/pythonpath_develop.ps1'
+[8.017s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/joy_teleop/share/joy_teleop/hook/pythonpath_develop.dsv'
+[8.018s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/joy_teleop' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/joy_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/joy_teleop/build --no-deps symlink_data
+[8.022s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/joy_teleop/share/joy_teleop/hook/pythonpath_develop.sh'
+[8.026s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop' for CMake module files
+[8.028s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop' for CMake config files
+[8.030s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop/lib'
+[8.031s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop/bin'
+[8.031s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop/lib/pkgconfig/joy_teleop.pc'
+[8.033s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages'
+[8.033s] Level 1:colcon.colcon_core.shell:create_environment_hook('joy_teleop', 'pythonpath')
+[8.034s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/hook/pythonpath.ps1'
+[8.037s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/hook/pythonpath.dsv'
+[8.039s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/hook/pythonpath.sh'
+[8.043s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/joy_teleop/bin'
+[8.043s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(joy_teleop)
+[8.046s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/package.ps1'
+[8.049s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/package.dsv'
+[8.052s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/package.sh'
+[8.054s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/package.bash'
+[8.056s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/joy_teleop/share/joy_teleop/package.zsh'
+[8.058s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/joy_teleop/share/colcon-core/packages/joy_teleop)
+[8.061s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/f1tenth_stack' with build type 'ament_python'
+[8.062s] Level 1:colcon.colcon_core.shell:create_environment_hook('f1tenth_stack', 'ament_prefix_path')
+[8.063s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/hook/ament_prefix_path.ps1'
+[8.065s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/hook/ament_prefix_path.dsv'
+[8.066s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/hook/ament_prefix_path.sh'
+[8.068s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[8.069s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[8.080s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/teleop_tools' with build type 'ament_cmake'
+[8.081s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/teleop_tools/teleop_tools'
+[8.081s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[8.081s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[8.113s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/teleop_tools': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/key_teleop:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/build/key_teleop:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/teleop_tools -- -j6 -l6
+[8.124s] Level 1:colcon.colcon_core.shell:create_environment_hook('mouse_teleop', 'pythonpath_develop')
+[8.124s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/mouse_teleop/share/mouse_teleop/hook/pythonpath_develop.ps1'
+[8.126s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/mouse_teleop/share/mouse_teleop/hook/pythonpath_develop.dsv'
+[8.127s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/mouse_teleop/share/mouse_teleop/hook/pythonpath_develop.sh'
+[8.128s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop' for CMake module files
+[8.130s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/mouse_teleop' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/mouse_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/mouse_teleop/build --no-deps symlink_data
+[8.131s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop' for CMake config files
+[8.132s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop/lib'
+[8.133s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop/bin'
+[8.133s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/pkgconfig/mouse_teleop.pc'
+[8.134s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop/lib/python3.10/site-packages'
+[8.135s] Level 1:colcon.colcon_core.shell:create_environment_hook('mouse_teleop', 'pythonpath')
+[8.135s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/hook/pythonpath.ps1'
+[8.138s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/hook/pythonpath.dsv'
+[8.142s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/hook/pythonpath.sh'
+[8.144s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/mouse_teleop/bin'
+[8.145s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(mouse_teleop)
+[8.150s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/package.ps1'
+[8.153s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/package.dsv'
+[8.155s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/package.sh'
+[8.157s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/package.bash'
+[8.158s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/mouse_teleop/share/mouse_teleop/package.zsh'
+[8.159s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/mouse_teleop/share/colcon-core/packages/mouse_teleop)
+[8.691s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ircv7/RACE/real_ws/src/f1tenth_system/f1tenth_stack'
+[8.692s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[8.692s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[8.706s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/teleop_tools' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/key_teleop:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/build/key_teleop:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/teleop_tools -- -j6 -l6
+[8.709s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/teleop_tools': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/key_teleop:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/build/key_teleop:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/teleop_tools
+[8.768s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(teleop_tools)
+[8.770s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/teleop_tools' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/key_teleop:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/build/key_teleop:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/teleop_tools
+[8.771s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools' for CMake module files
+[8.772s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools' for CMake config files
+[8.773s] Level 1:colcon.colcon_core.shell:create_environment_hook('teleop_tools', 'cmake_prefix_path')
+[8.773s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/hook/cmake_prefix_path.ps1'
+[8.775s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/hook/cmake_prefix_path.dsv'
+[8.779s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/hook/cmake_prefix_path.sh'
+[8.782s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/bin'
+[8.782s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/lib/pkgconfig/teleop_tools.pc'
+[8.783s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/lib/python3.10/site-packages'
+[8.784s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/bin'
+[8.786s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.ps1'
+[8.787s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.dsv'
+[8.788s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.sh'
+[8.789s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.bash'
+[8.790s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.zsh'
+[8.791s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/teleop_tools/share/colcon-core/packages/teleop_tools)
+[8.793s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(teleop_tools)
+[8.793s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools' for CMake module files
+[8.794s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools' for CMake config files
+[8.795s] Level 1:colcon.colcon_core.shell:create_environment_hook('teleop_tools', 'cmake_prefix_path')
+[8.795s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/hook/cmake_prefix_path.ps1'
+[8.797s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/hook/cmake_prefix_path.dsv'
+[8.798s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/hook/cmake_prefix_path.sh'
+[8.800s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/bin'
+[8.801s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/lib/pkgconfig/teleop_tools.pc'
+[8.801s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/lib/python3.10/site-packages'
+[8.802s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/teleop_tools/bin'
+[8.803s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.ps1'
+[8.805s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.dsv'
+[8.806s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.sh'
+[8.807s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.bash'
+[8.808s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/teleop_tools/share/teleop_tools/package.zsh'
+[8.809s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/teleop_tools/share/colcon-core/packages/teleop_tools)
+[9.665s] Level 1:colcon.colcon_core.shell:create_environment_hook('obs_detect', 'pythonpath_develop')
+[9.666s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/obs_detect/share/obs_detect/hook/pythonpath_develop.ps1'
+[9.667s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/obs_detect' returned '0': PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build --no-deps symlink_data
+[9.668s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/obs_detect/share/obs_detect/hook/pythonpath_develop.dsv'
+[9.669s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/obs_detect/share/obs_detect/hook/pythonpath_develop.sh'
+[9.672s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect' for CMake module files
+[9.674s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect' for CMake config files
+[9.675s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect/lib'
+[9.676s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect/bin'
+[9.676s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect/lib/pkgconfig/obs_detect.pc'
+[9.676s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages'
+[9.677s] Level 1:colcon.colcon_core.shell:create_environment_hook('obs_detect', 'pythonpath')
+[9.677s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/hook/pythonpath.ps1'
+[9.679s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/hook/pythonpath.dsv'
+[9.680s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/hook/pythonpath.sh'
+[9.682s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/obs_detect/bin'
+[9.682s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(obs_detect)
+[9.683s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/package.ps1'
+[9.685s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/package.dsv'
+[9.686s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/package.sh'
+[9.688s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/package.bash'
+[9.689s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/package.zsh'
+[9.690s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/obs_detect/share/colcon-core/packages/obs_detect)
+[10.218s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/f1tenth_stack': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/f1tenth_stack/build --no-deps symlink_data
+[12.028s] Level 1:colcon.colcon_core.shell:create_environment_hook('f1tenth_stack', 'pythonpath_develop')
+[12.029s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/f1tenth_stack/share/f1tenth_stack/hook/pythonpath_develop.ps1'
+[12.032s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/f1tenth_stack' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/f1tenth_stack/build --no-deps symlink_data
+[12.034s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/build/f1tenth_stack/share/f1tenth_stack/hook/pythonpath_develop.dsv'
+[12.036s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/build/f1tenth_stack/share/f1tenth_stack/hook/pythonpath_develop.sh'
+[12.038s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack' for CMake module files
+[12.040s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack' for CMake config files
+[12.042s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib'
+[12.042s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack/bin'
+[12.042s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/pkgconfig/f1tenth_stack.pc'
+[12.043s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages'
+[12.044s] Level 1:colcon.colcon_core.shell:create_environment_hook('f1tenth_stack', 'pythonpath')
+[12.044s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/hook/pythonpath.ps1'
+[12.046s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/hook/pythonpath.dsv'
+[12.048s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/hook/pythonpath.sh'
+[12.054s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/f1tenth_stack/bin'
+[12.054s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(f1tenth_stack)
+[12.056s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/package.ps1'
+[12.058s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/package.dsv'
+[12.060s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/package.sh'
+[12.062s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/package.bash'
+[12.063s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/f1tenth_stack/package.zsh'
+[12.064s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/f1tenth_stack/share/colcon-core/packages/f1tenth_stack)
+[12.066s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ircv7/RACE/real_ws/src/slam_nav' with build type 'ament_cmake'
+[12.066s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ircv7/RACE/real_ws/src/slam_nav'
+[12.069s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[12.069s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[12.116s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/slam_nav': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/slam_nav -- -j6 -l6
+[59.333s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/slam_nav' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/slam_nav -- -j6 -l6
+[59.337s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ircv7/RACE/real_ws/build/slam_nav': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/slam_nav
+[59.387s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(slam_nav)
+[59.388s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav' for CMake module files
+[59.389s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ircv7/RACE/real_ws/build/slam_nav' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/f1tenth_stack:/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/joy_teleop:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc:/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs:/home/ircv7/RACE/real_ws/install/ackermann_mux:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/build/f1tenth_stack:/home/ircv7/RACE/real_ws/install/f1tenth_stack/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/build/joy_teleop:/home/ircv7/RACE/real_ws/install/joy_teleop/lib/python3.10/site-packages:/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:/home/ircv7/RACE/real_ws/install/teleop_tools_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/slam_nav
+[59.390s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav' for CMake config files
+[59.391s] Level 1:colcon.colcon_core.shell:create_environment_hook('slam_nav', 'cmake_prefix_path')
+[59.391s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/hook/cmake_prefix_path.ps1'
+[59.392s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/hook/cmake_prefix_path.dsv'
+[59.393s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/hook/cmake_prefix_path.sh'
+[59.394s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/lib'
+[59.394s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/bin'
+[59.395s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/lib/pkgconfig/slam_nav.pc'
+[59.395s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/lib/python3.10/site-packages'
+[59.396s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/bin'
+[59.396s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.ps1'
+[59.398s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.dsv'
+[59.398s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.sh'
+[59.399s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.bash'
+[59.400s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.zsh'
+[59.401s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/slam_nav/share/colcon-core/packages/slam_nav)
+[59.402s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(slam_nav)
+[59.402s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav' for CMake module files
+[59.403s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav' for CMake config files
+[59.404s] Level 1:colcon.colcon_core.shell:create_environment_hook('slam_nav', 'cmake_prefix_path')
+[59.404s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/hook/cmake_prefix_path.ps1'
+[59.405s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/hook/cmake_prefix_path.dsv'
+[59.406s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/hook/cmake_prefix_path.sh'
+[59.407s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/lib'
+[59.408s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/bin'
+[59.408s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/lib/pkgconfig/slam_nav.pc'
+[59.408s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/lib/python3.10/site-packages'
+[59.409s] Level 1:colcon.colcon_core.environment:checking '/home/ircv7/RACE/real_ws/install/slam_nav/bin'
+[59.409s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.ps1'
+[59.410s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.dsv'
+[59.411s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.sh'
+[59.412s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.bash'
+[59.414s] INFO:colcon.colcon_core.shell:Creating package script '/home/ircv7/RACE/real_ws/install/slam_nav/share/slam_nav/package.zsh'
+[59.415s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ircv7/RACE/real_ws/install/slam_nav/share/colcon-core/packages/slam_nav)
+[59.415s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[59.416s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[59.416s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[59.417s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[59.429s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[59.429s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[59.430s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[59.463s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[59.464s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ircv7/RACE/real_ws/install/local_setup.ps1'
+[59.466s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/ircv7/RACE/real_ws/install/_local_setup_util_ps1.py'
+[59.469s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ircv7/RACE/real_ws/install/setup.ps1'
+[59.471s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ircv7/RACE/real_ws/install/local_setup.sh'
+[59.472s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/ircv7/RACE/real_ws/install/_local_setup_util_sh.py'
+[59.473s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ircv7/RACE/real_ws/install/setup.sh'
+[59.475s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ircv7/RACE/real_ws/install/local_setup.bash'
+[59.476s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ircv7/RACE/real_ws/install/setup.bash'
+[59.478s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ircv7/RACE/real_ws/install/local_setup.zsh'
+[59.479s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ircv7/RACE/real_ws/install/setup.zsh'

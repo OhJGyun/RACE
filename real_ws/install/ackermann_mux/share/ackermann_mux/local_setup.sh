@@ -1,0 +1,1 @@
+/home/ircv7/RACE/real_ws/build/ackermann_mux/ament_cmake_environment_hooks/local_setup.sh

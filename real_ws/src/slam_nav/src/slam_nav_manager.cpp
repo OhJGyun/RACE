@@ -130,7 +130,7 @@ private:
             
             // Create maps directory if it doesn't exist
             std::string mkdir_cmd = "mkdir -p " + map_dir;
-            std::system(mkdir_cmd.c_str());
+            [[maybe_unused]] int ret = std::system(mkdir_cmd.c_str());
             
             // Save map using map_saver
             std::string save_cmd = "ros2 run nav2_map_server map_saver_cli -f " + 
@@ -172,7 +172,7 @@ private:
             
             for (const auto& process : processes_to_kill) {
                 std::string kill_cmd = "pkill -f " + process + " > /dev/null 2>&1";
-                std::system(kill_cmd.c_str());
+                [[maybe_unused]] int ret = std::system(kill_cmd.c_str());
             }
             
             // Give processes time to terminate

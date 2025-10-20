@@ -1,0 +1,1 @@
+/home/ircv7/RACE/real_ws/build/vesc_ackermann/ament_cmake_core/vesc_ackermannConfig-version.cmake

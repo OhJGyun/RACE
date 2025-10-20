@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "vesc_msgs__py",
+		"source" : "/home/ircv7/RACE/real_ws/build/vesc_msgs/vesc_msgs__py"
+	}
+}

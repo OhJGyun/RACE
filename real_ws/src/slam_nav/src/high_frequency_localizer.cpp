@@ -3,7 +3,7 @@
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <cmath>
 
-namespace slam_nav
+namespace f1tenth_slam_nav
 {
 
 HighFrequencyLocalizer::HighFrequencyLocalizer(const rclcpp::NodeOptions & options)
@@ -211,14 +211,14 @@ double HighFrequencyLocalizer::normalizeAngle(double angle)
   return angle;
 }
 
-} // namespace slam_nav
+} // namespace f1tenth_slam_nav
 
 // main 함수
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
-  auto node = std::make_shared<slam_nav::HighFrequencyLocalizer>();
+  auto node = std::make_shared<f1tenth_slam_nav::HighFrequencyLocalizer>();
 
   RCLCPP_INFO(node->get_logger(), "고주파 로컬라이제이션 C++ 노드 시작");
 

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypelist="schematron"?>
+<package format="3">
+  <name>slam_nav</name>
+  <version>1.0.0</version>
+  <description>Integrated SLAM and localization package for F1TENTH</description>
+  
+  <maintainer email="f1tenth@example.com">F1TENTH Team</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Core ROS 2 dependencies -->
+  <depend>rclcpp</depend>
+  <depend>std_srvs</depend>
+  <depend>lifecycle_msgs</depend>
+  
+  <!-- Launch dependencies -->
+  <depend>launch</depend>
+  <depend>launch_ros</depend>
+  
+  <!-- SLAM packages -->
+  <depend>slam_toolbox</depend>
+  <depend>cartographer_ros</depend>
+  
+  <!-- Localization packages -->
+  <depend>nav2_amcl</depend>
+  <depend>nav2_map_server</depend>
+  <depend>nav2_lifecycle_manager</depend>
+  
+  <!-- Transform and state publishers -->
+  <depend>robot_state_publisher</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>tf2_ros</depend>
+  
+  <!-- Message and service types -->
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <!-- TF2 dependencies -->
+  <depend>tf2</depend>
+  <depend>tf2_geometry_msgs</depend>
+  
+  <!-- F1TENTH specific -->
+  <depend>f1tenth_stack</depend>
+  
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

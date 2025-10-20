@@ -1,0 +1,41 @@
+[0.047s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/vesc
+[0.314s] -- The C compiler identification is GNU 11.4.0
+[0.432s] -- The CXX compiler identification is GNU 11.4.0
+[0.458s] -- Detecting C compiler ABI info
+[0.661s] -- Detecting C compiler ABI info - done
+[0.676s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.676s] -- Detecting C compile features
+[0.677s] -- Detecting C compile features - done
+[0.685s] -- Detecting CXX compiler ABI info
+[0.867s] -- Detecting CXX compiler ABI info - done
+[0.880s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.880s] -- Detecting CXX compile features
+[0.881s] -- Detecting CXX compile features - done
+[0.888s] -- Found ament_cmake_auto: 1.3.12 (/opt/ros/humble/share/ament_cmake_auto/cmake)
+[1.291s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.448s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.680s] -- Configuring done
+[1.688s] -- Generating done
+[1.692s] -- Build files have been written to: /home/ircv7/RACE/real_ws/build/vesc
+[1.706s] Invoked command in '/home/ircv7/RACE/real_ws/build/vesc' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/vesc
+[1.710s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc -- -j6 -l6
+[1.797s] Invoked command in '/home/ircv7/RACE/real_ws/build/vesc' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/vesc -- -j6 -l6
+[1.801s] Invoking command in '/home/ircv7/RACE/real_ws/build/vesc': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc
+[1.817s] -- Install configuration: "Release"
+[1.818s] -- Execute custom install script
+[1.819s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/ament_index/resource_index/package_run_dependencies/vesc
+[1.838s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/ament_index/resource_index/parent_prefix_path/vesc
+[1.857s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/environment/ament_prefix_path.sh
+[1.877s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/environment/ament_prefix_path.dsv
+[1.899s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/environment/path.sh
+[1.917s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/environment/path.dsv
+[1.936s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/local_setup.bash
+[1.957s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/local_setup.sh
+[1.981s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/local_setup.zsh
+[2.006s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/local_setup.dsv
+[2.025s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.dsv
+[2.046s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/ament_index/resource_index/packages/vesc
+[2.068s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/cmake/vescConfig.cmake
+[2.093s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/cmake/vescConfig-version.cmake
+[2.125s] -- Symlinking: /home/ircv7/RACE/real_ws/install/vesc/share/vesc/package.xml
+[2.156s] Invoked command in '/home/ircv7/RACE/real_ws/build/vesc' returned '0': AMENT_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver:/home/ircv7/RACE/real_ws/install/vesc_ackermann:/home/ircv7/RACE/real_ws/install/vesc_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/ircv7/RACE/real_ws/install/vesc_driver/lib:/home/ircv7/RACE/real_ws/install/vesc_ackermann/lib:/home/ircv7/RACE/real_ws/install/vesc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/vesc

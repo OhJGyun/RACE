@@ -1,0 +1,87 @@
+[0.000000] (-) TimerEvent: {}
+[0.001004] (-) JobUnselected: {'identifier': 'ackermann_mux'}
+[0.001197] (-) JobUnselected: {'identifier': 'f1tenth_stack'}
+[0.001414] (-) JobUnselected: {'identifier': 'joy_teleop'}
+[0.001733] (-) JobUnselected: {'identifier': 'key_teleop'}
+[0.002680] (-) JobUnselected: {'identifier': 'lane_selector'}
+[0.002955] (-) JobUnselected: {'identifier': 'map_humble'}
+[0.003195] (-) JobUnselected: {'identifier': 'mouse_teleop'}
+[0.003280] (-) JobUnselected: {'identifier': 'obs_detect'}
+[0.003422] (-) JobUnselected: {'identifier': 'pure_pursuit'}
+[0.003490] (-) JobUnselected: {'identifier': 'slam_nav'}
+[0.003524] (-) JobUnselected: {'identifier': 'teleop_tools'}
+[0.003555] (-) JobUnselected: {'identifier': 'teleop_tools_msgs'}
+[0.003608] (-) JobUnselected: {'identifier': 'vesc'}
+[0.003642] (-) JobUnselected: {'identifier': 'vesc_msgs'}
+[0.003678] (vesc_ackermann) JobQueued: {'identifier': 'vesc_ackermann', 'dependencies': OrderedDict([('vesc_msgs', '/home/ircv7/RACE/real_ws/install/vesc_msgs')])}
+[0.003724] (vesc_driver) JobQueued: {'identifier': 'vesc_driver', 'dependencies': OrderedDict([('vesc_msgs', '/home/ircv7/RACE/real_ws/install/vesc_msgs')])}
+[0.003763] (vesc_ackermann) JobStarted: {'identifier': 'vesc_ackermann'}
+[0.011809] (vesc_driver) JobStarted: {'identifier': 'vesc_driver'}
+[0.026621] (vesc_ackermann) JobProgress: {'identifier': 'vesc_ackermann', 'progress': 'cmake'}
+[0.028108] (vesc_ackermann) Command: {'cmd': ['/usr/bin/cmake', '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_ackermann', '-DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/vesc_ackermann'], 'cwd': '/home/ircv7/RACE/real_ws/build/vesc_ackermann', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('VSCODE_CWD', '/home/ircv7'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'ircv7'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/code/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('CLAUDE_CODE_ENTRYPOINT', 'claude-vscode'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', '1'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib'), ('CHROME_DESKTOP', 'code.desktop'), ('CONDA_SHLVL', '1'), ('HOME', '/home/ircv7'), ('LESS', '-R'), ('OLDPWD', '/home/ircv7/RACE'), ('DESKTOP_SESSION', 'ubuntu'), ('NVM_BIN', '/home/ircv7/.nvm/versions/node/v22.20.0/bin'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('JETSON_L4T', '36.4.7'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('NVM_INC', '/home/ircv7/.nvm/versions/node/v22.20.0/include/node'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-a5beae6d-1.10-main.sock'), ('ZSH', '/home/ircv7/.oh-my-zsh'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('PAGER', 'less'), ('MANAGERPID', '2539'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('SYSTEMD_EXEC_PID', '2743'), ('VISUAL', 'nvim'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '12093'), ('_CONDA_ROOT', '/home/ircv7/miniconda3'), ('NVM_DIR', '/home/ircv7/.nvm'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('APPLICATION_INSIGHTS_NO_STATSBEAT', 'true'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'ircv7'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1422623008383'), ('JOURNAL_STREAM', '8:47705'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('USERNAME', 'ircv7'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ircv7/miniconda3/bin:/home/ircv7/miniconda3/condabin:/home/ircv7/.nvm/versions/node/v22.20.0/bin:/home/ircv7/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ircv7/.fzf/bin'), ('INVOCATION_ID', '83c3c37ddcc24ebdb8afd110fba10940'), ('SESSION_MANAGER', 'local/ubuntu:@/tmp/.ICE-unix/2709,unix/ubuntu:/tmp/.ICE-unix/2709'), ('GDK_BACKEND', 'x11'), ('XDG_MENU_PREFIX', 'gnome-'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('JETSON_SOC', 'tegra234'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XMODIFIERS', '@im=fcitx'), ('CONDA_PYTHON_EXE', '/home/ircv7/miniconda3/bin/python'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs'), ('SHELL', '/usr/bin/zsh'), ('GDMSESSION', 'ubuntu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('CONDA_DEFAULT_ENV', 'base'), ('CLAUDECODE', '1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('_CONDA_EXE', '/home/ircv7/miniconda3/bin/conda'), ('QT_IM_MODULE', 'fcitx'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('LC_ALL', 'en_US.UTF-8'), ('PWD', '/home/ircv7/RACE/real_ws/build/vesc_ackermann'), ('CLUTTER_IM_MODULE', 'fcitx'), ('CONDA_EXE', '/home/ircv7/miniconda3/bin/conda'), ('NVM_CD_FLAGS', '-q'), ('VSCODE_CODE_CACHE_PATH', '/home/ircv7/.config/Code/CachedData/7d842fb85a0275a4a8e4d7e040d2625abbf7f084'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages'), ('CONDA_PREFIX', '/home/ircv7/miniconda3'), ('COLCON', '1'), ('EDITOR', 'nvim'), ('JETSON_P_NUMBER', 'p3767-0005'), ('VSCODE_PID', '12093'), ('CMAKE_PREFIX_PATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs')]), 'shell': False}
+[0.034488] (vesc_driver) JobProgress: {'identifier': 'vesc_driver', 'progress': 'cmake'}
+[0.040574] (vesc_driver) Command: {'cmd': ['/usr/bin/cmake', '/home/ircv7/RACE/real_ws/src/f1tenth_system/vesc/vesc_driver', '-DCMAKE_INSTALL_PREFIX=/home/ircv7/RACE/real_ws/install/vesc_driver'], 'cwd': '/home/ircv7/RACE/real_ws/build/vesc_driver', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('VSCODE_CWD', '/home/ircv7'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('USER', 'ircv7'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/code/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}'), ('CLAUDE_CODE_ENTRYPOINT', 'claude-vscode'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', '1'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs/lib'), ('CHROME_DESKTOP', 'code.desktop'), ('CONDA_SHLVL', '1'), ('HOME', '/home/ircv7'), ('LESS', '-R'), ('OLDPWD', '/home/ircv7/RACE'), ('DESKTOP_SESSION', 'ubuntu'), ('NVM_BIN', '/home/ircv7/.nvm/versions/node/v22.20.0/bin'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('JETSON_L4T', '36.4.7'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('NVM_INC', '/home/ircv7/.nvm/versions/node/v22.20.0/include/node'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-a5beae6d-1.10-main.sock'), ('ZSH', '/home/ircv7/.oh-my-zsh'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super'), ('PAGER', 'less'), ('MANAGERPID', '2539'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('SYSTEMD_EXEC_PID', '2743'), ('VISUAL', 'nvim'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '12093'), ('_CONDA_ROOT', '/home/ircv7/miniconda3'), ('NVM_DIR', '/home/ircv7/.nvm'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('APPLICATION_INSIGHTS_NO_STATSBEAT', 'true'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'ircv7'), ('JETSON_MODULE', 'NVIDIA Jetson Orin Nano (Developer kit)'), ('JETSON_SERIAL_NUMBER', '1422623008383'), ('JOURNAL_STREAM', '8:47705'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('USERNAME', 'ircv7'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ircv7/miniconda3/bin:/home/ircv7/miniconda3/condabin:/home/ircv7/.nvm/versions/node/v22.20.0/bin:/home/ircv7/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ircv7/.fzf/bin'), ('INVOCATION_ID', '83c3c37ddcc24ebdb8afd110fba10940'), ('SESSION_MANAGER', 'local/ubuntu:@/tmp/.ICE-unix/2709,unix/ubuntu:/tmp/.ICE-unix/2709'), ('GDK_BACKEND', 'x11'), ('XDG_MENU_PREFIX', 'gnome-'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('DISPLAY', ':1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('JETSON_SOC', 'tegra234'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XMODIFIERS', '@im=fcitx'), ('CONDA_PYTHON_EXE', '/home/ircv7/miniconda3/bin/python'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs'), ('SHELL', '/usr/bin/zsh'), ('GDMSESSION', 'ubuntu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('CONDA_DEFAULT_ENV', 'base'), ('CLAUDECODE', '1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('_CONDA_EXE', '/home/ircv7/miniconda3/bin/conda'), ('QT_IM_MODULE', 'fcitx'), ('JETSON_CUDA_ARCH_BIN', '8.7'), ('LC_ALL', 'en_US.UTF-8'), ('PWD', '/home/ircv7/RACE/real_ws/build/vesc_driver'), ('CLUTTER_IM_MODULE', 'fcitx'), ('CONDA_EXE', '/home/ircv7/miniconda3/bin/conda'), ('NVM_CD_FLAGS', '-q'), ('VSCODE_CODE_CACHE_PATH', '/home/ircv7/.config/Code/CachedData/7d842fb85a0275a4a8e4d7e040d2625abbf7f084'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs/local/lib/python3.10/dist-packages'), ('CONDA_PREFIX', '/home/ircv7/miniconda3'), ('COLCON', '1'), ('EDITOR', 'nvim'), ('JETSON_P_NUMBER', 'p3767-0005'), ('VSCODE_PID', '12093'), ('CMAKE_PREFIX_PATH', '/home/ircv7/RACE/real_ws/install/vesc_msgs')]), 'shell': False}
+[0.077592] (vesc_driver) StdoutLine: {'line': b'-- Found ament_cmake_auto: 1.3.12 (/opt/ros/humble/share/ament_cmake_auto/cmake)\n'}
+[0.099828] (-) TimerEvent: {}
+[0.198640] (vesc_ackermann) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.199975] (-) TimerEvent: {}
+[0.300256] (-) TimerEvent: {}
+[0.337644] (vesc_ackermann) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.359360] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.400404] (-) TimerEvent: {}
+[0.449564] (vesc_driver) StderrLine: {'line': b'Traceback (most recent call last):\n'}
+[0.450102] (vesc_driver) StderrLine: {'line': b'  File "/opt/ros/humble/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py", line 21, in <module>\n'}
+[0.450262] (vesc_driver) StderrLine: {'line': b'    from ament_package.templates import get_environment_hook_template_path\n'}
+[0.450389] (vesc_driver) StderrLine: {'line': b"ModuleNotFoundError: No module named 'ament_package'\n"}
+[0.500591] (-) TimerEvent: {}
+[0.509702] (vesc_driver) StderrLine: {'line': b'CMake Error at /opt/ros/humble/share/ament_cmake_core/cmake/ament_cmake_package_templates-extras.cmake:41 (message):\n'}
+[0.510148] (vesc_driver) StderrLine: {'line': b'  execute_process(/usr/bin/python3\n'}
+[0.510307] (vesc_driver) StderrLine: {'line': b'  /opt/ros/humble/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py\n'}
+[0.510456] (vesc_driver) StderrLine: {'line': b'  /home/ircv7/RACE/real_ws/build/vesc_driver/ament_cmake_package_templates/templates.cmake)\n'}
+[0.510624] (vesc_driver) StderrLine: {'line': b'  returned error code 1\n'}
+[0.510882] (vesc_driver) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.511041] (vesc_driver) StderrLine: {'line': b'  /opt/ros/humble/share/ament_cmake_core/cmake/ament_cmake_coreConfig.cmake:41 (include)\n'}
+[0.511161] (vesc_driver) StderrLine: {'line': b'  /opt/ros/humble/share/ament_cmake/cmake/ament_cmake_export_dependencies-extras.cmake:15 (find_package)\n'}
+[0.511277] (vesc_driver) StderrLine: {'line': b'  /opt/ros/humble/share/ament_cmake/cmake/ament_cmakeConfig.cmake:41 (include)\n'}
+[0.511391] (vesc_driver) StderrLine: {'line': b'  /opt/ros/humble/share/ament_cmake_auto/cmake/ament_cmake_auto-extras.cmake:17 (find_package)\n'}
+[0.511500] (vesc_driver) StderrLine: {'line': b'  /opt/ros/humble/share/ament_cmake_auto/cmake/ament_cmake_autoConfig.cmake:41 (include)\n'}
+[0.511604] (vesc_driver) StderrLine: {'line': b'  CMakeLists.txt:13 (find_package)\n'}
+[0.511709] (vesc_driver) StderrLine: {'line': b'\n'}
+[0.511814] (vesc_driver) StderrLine: {'line': b'\n'}
+[0.511916] (vesc_driver) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.512030] (vesc_driver) StdoutLine: {'line': b'See also "/home/ircv7/RACE/real_ws/build/vesc_driver/CMakeFiles/CMakeOutput.log".\n'}
+[0.512407] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.518191] (vesc_driver) CommandEnded: {'returncode': 1}
+[0.567544] (vesc_driver) JobEnded: {'identifier': 'vesc_driver', 'rc': 1}
+[0.569149] (vesc_ackermann) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.569461] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.569640] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.570283] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.600958] (-) TimerEvent: {}
+[0.701379] (-) TimerEvent: {}
+[0.748612] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.762055] (vesc_ackermann) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.762745] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.764600] (vesc_ackermann) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.791815] (vesc_ackermann) StderrLine: {'line': b'CMake Error at CMakeLists.txt:13 (find_package):\n'}
+[0.792528] (vesc_ackermann) StderrLine: {'line': b'  By not providing "Findament_cmake_auto.cmake" in CMAKE_MODULE_PATH this\n'}
+[0.792761] (vesc_ackermann) StderrLine: {'line': b'  project has asked CMake to find a package configuration file provided by\n'}
+[0.793334] (vesc_ackermann) StderrLine: {'line': b'  "ament_cmake_auto", but CMake did not find one.\n'}
+[0.793701] (vesc_ackermann) StderrLine: {'line': b'\n'}
+[0.793832] (vesc_ackermann) StderrLine: {'line': b'  Could not find a package configuration file provided by "ament_cmake_auto"\n'}
+[0.794044] (vesc_ackermann) StderrLine: {'line': b'  with any of the following names:\n'}
+[0.794190] (vesc_ackermann) StderrLine: {'line': b'\n'}
+[0.794350] (vesc_ackermann) StderrLine: {'line': b'    ament_cmake_autoConfig.cmake\n'}
+[0.794531] (vesc_ackermann) StderrLine: {'line': b'    ament_cmake_auto-config.cmake\n'}
+[0.795162] (vesc_ackermann) StderrLine: {'line': b'\n'}
+[0.795333] (vesc_ackermann) StderrLine: {'line': b'  Add the installation prefix of "ament_cmake_auto" to CMAKE_PREFIX_PATH or\n'}
+[0.795451] (vesc_ackermann) StderrLine: {'line': b'  set "ament_cmake_auto_DIR" to a directory containing one of the above\n'}
+[0.795562] (vesc_ackermann) StderrLine: {'line': b'  files.  If "ament_cmake_auto" provides a separate development package or\n'}
+[0.795695] (vesc_ackermann) StderrLine: {'line': b'  SDK, be sure it has been installed.\n'}
+[0.795812] (vesc_ackermann) StderrLine: {'line': b'\n'}
+[0.795950] (vesc_ackermann) StderrLine: {'line': b'\n'}
+[0.796057] (vesc_ackermann) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.796176] (vesc_ackermann) StdoutLine: {'line': b'See also "/home/ircv7/RACE/real_ws/build/vesc_ackermann/CMakeFiles/CMakeOutput.log".\n'}
+[0.799630] (vesc_ackermann) JobEnded: {'identifier': 'vesc_ackermann', 'rc': 'SIGINT'}
+[0.801684] (-) TimerEvent: {}
+[0.811120] (-) EventReactorShutdown: {}

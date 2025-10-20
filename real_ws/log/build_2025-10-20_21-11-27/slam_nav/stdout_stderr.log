@@ -1,0 +1,383 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/humble/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found std_srvs: 4.9.0 (/opt/ros/humble/share/std_srvs/cmake)
+-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+-- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)
+-- Found tf2_geometry_msgs: 0.25.16 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0") 
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found lifecycle_msgs: 1.2.2 (/opt/ros/humble/share/lifecycle_msgs/cmake)
+-- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: /home/ircv7/RACE/real_ws/src/slam_nav/include
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/ircv7/RACE/real_ws/build/slam_nav
+[ 25%] [32mBuilding CXX object CMakeFiles/slam_nav_manager.dir/src/slam_nav_manager.cpp.o[0m
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:[m[K In member function ‘[01m[Kvoid SlamNavManager::stopCurrentProcesses()[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:175:28:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint system(const char*)[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+  175 |                 [01;35m[Kstd::system(kill_cmd.c_str())[m[K;
+      |                 [01;35m[K~~~~~~~~~~~^~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:[m[K In member function ‘[01m[Kvoid SlamNavManager::saveMapCallback(std::shared_ptr<std_srvs::srv::Empty_Request_<std::allocator<void> > >, std::shared_ptr<std_srvs::srv::Empty_Response_<std::allocator<void> > >)[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/slam_nav_manager.cpp:133:24:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint system(const char*)[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+  133 |             [01;35m[Kstd::system(mkdir_cmd.c_str())[m[K;
+      |             [01;35m[K~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~[m[K
+[ 50%] [32m[1mLinking CXX executable slam_nav_manager[0m
+[ 50%] Built target slam_nav_manager
+[ 75%] [32mBuilding CXX object CMakeFiles/high_frequency_localizer_node.dir/src/high_frequency_localizer.cpp.o[0m
+In file included from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:10[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/opt/ros/humble/include/tf2_geometry_msgs/tf2_geometry_msgs/tf2_geometry_msgs.h:35:2:[m[K [01;35m[Kwarning: [m[K#warning This header is obsolete, please include tf2_geometry_msgs/tf2_geometry_msgs.hpp instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp-Wcpp]8;;[m[K]
+   35 | #[01;35m[Kwarning[m[K This header is obsolete, please include tf2_geometry_msgs/tf2_geometry_msgs.hpp instead
+      |  [01;35m[K^~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:9:1:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ does not name a type
+    9 | [01;31m[KHighFrequencyLocalizer[m[K::HighFrequencyLocalizer(const rclcpp::NodeOptions & options)
+      | [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:59:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+   59 | void [01;31m[KHighFrequencyLocalizer[m[K::amclPoseCallback(
+      |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::amclPoseCallback(geometry_msgs::msg::PoseWithCovarianceStamped_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:63:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kodom_received_[m[K’ was not declared in this scope
+   63 |   if ([01;31m[Kodom_received_[m[K) {
+      |       [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:66:23:[m[K [01;31m[Kerror: [m[K‘[01m[KquaternionToYaw[m[K’ was not declared in this scope
+   66 |     double amcl_yaw = [01;31m[KquaternionToYaw[m[K(msg->pose.pose.orientation);
+      |                       [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:68:21:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_pose_[m[K’ was not declared in this scope
+   68 |     double odom_x = [01;31m[Klast_odom_pose_[m[K.position.x;
+      |                     [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:73:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_x_[m[K’ was not declared in this scope
+   73 |     [01;31m[Kdrift_x_[m[K = amcl_x - odom_x;
+      |     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:74:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_y_[m[K’ was not declared in this scope
+   74 |     [01;31m[Kdrift_y_[m[K = amcl_y - odom_y;
+      |     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:75:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_yaw_[m[K’ was not declared in this scope
+   75 |     [01;31m[Kdrift_yaw_[m[K = normalizeAngle(amcl_yaw - odom_yaw);
+      |     [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:75:18:[m[K [01;31m[Kerror: [m[K‘[01m[KnormalizeAngle[m[K’ was not declared in this scope; did you mean ‘[01m[Ktf2NormalizeAngle[m[K’?
+   75 |     drift_yaw_ = [01;31m[KnormalizeAngle[m[K(amcl_yaw - odom_yaw);
+      |                  [01;31m[K^~~~~~~~~~~~~~[m[K
+      |                  [32m[Ktf2NormalizeAngle[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+   77 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |                 [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   77 |     [01;31m[KRCLCPP_INFO[m[K(this->get_logger(),
+      |     [01;31m[K^~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+   77 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |                 [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:77:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+   77 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |                 [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:82:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_amcl_pose_[m[K’ was not declared in this scope
+   82 |   [01;31m[Klast_amcl_pose_[m[K = msg->pose.pose;
+      |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:83:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_amcl_time_[m[K’ was not declared in this scope
+   83 |   [01;31m[Klast_amcl_time_[m[K = this->get_clock()->now();
+      |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:83:21:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+   83 |   last_amcl_time_ = [01;31m[Kthis[m[K->get_clock()->now();
+      |                     [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:84:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kamcl_received_[m[K’ was not declared in this scope
+   84 |   [01;31m[Kamcl_received_[m[K = true;
+      |   [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:87:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+   87 | void [01;31m[KHighFrequencyLocalizer[m[K::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
+      |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::odomCallback(nav_msgs::msg::Odometry_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:89:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_pose_[m[K’ was not declared in this scope
+   89 |   [01;31m[Klast_odom_pose_[m[K = msg->pose.pose;
+      |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:90:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_time_[m[K’ was not declared in this scope
+   90 |   [01;31m[Klast_odom_time_[m[K = this->get_clock()->now();
+      |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:90:21:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+   90 |   last_odom_time_ = [01;31m[Kthis[m[K->get_clock()->now();
+      |                     [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:91:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kodom_received_[m[K’ was not declared in this scope
+   91 |   [01;31m[Kodom_received_[m[K = true;
+      |   [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:94:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+   94 | void [01;31m[KHighFrequencyLocalizer[m[K::imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg)
+      |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::imuCallback(sensor_msgs::msg::Imu_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:96:3:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_imu_data_[m[K’ was not declared in this scope
+   96 |   [01;31m[Klast_imu_data_[m[K = *msg;
+      |   [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:99:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+   99 | void [01;31m[KHighFrequencyLocalizer[m[K::publishHighFreqPose()
+      |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::publishHighFreqPose()[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:101:8:[m[K [01;31m[Kerror: [m[K‘[01m[Kodom_received_[m[K’ was not declared in this scope
+  101 |   if (![01;31m[Kodom_received_[m[K) {
+      |        [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:105:23:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  105 |   auto current_time = [01;31m[Kthis[m[K->get_clock()->now();
+      |                       [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:108:24:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_odom_pose_[m[K’ was not declared in this scope
+  108 |   double corrected_x = [01;31m[Klast_odom_pose_[m[K.position.x + drift_x_;
+      |                        [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:108:53:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_x_[m[K’ was not declared in this scope
+  108 |   double corrected_x = last_odom_pose_.position.x + [01;31m[Kdrift_x_[m[K;
+      |                                                     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:109:53:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_y_[m[K’ was not declared in this scope
+  109 |   double corrected_y = last_odom_pose_.position.y + [01;31m[Kdrift_y_[m[K;
+      |                                                     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:111:21:[m[K [01;31m[Kerror: [m[K‘[01m[KquaternionToYaw[m[K’ was not declared in this scope
+  111 |   double odom_yaw = [01;31m[KquaternionToYaw[m[K(last_odom_pose_.orientation);
+      |                     [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:112:52:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_yaw_[m[K’ was not declared in this scope
+  112 |   double corrected_yaw = normalizeAngle(odom_yaw + [01;31m[Kdrift_yaw_[m[K);
+      |                                                    [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:112:26:[m[K [01;31m[Kerror: [m[K‘[01m[KnormalizeAngle[m[K’ was not declared in this scope; did you mean ‘[01m[Ktf2NormalizeAngle[m[K’?
+  112 |   double corrected_yaw = [01;31m[KnormalizeAngle[m[K(odom_yaw + drift_yaw_);
+      |                          [01;31m[K^~~~~~~~~~~~~~[m[K
+      |                          [32m[Ktf2NormalizeAngle[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:123:34:[m[K [01;31m[Kerror: [m[K‘[01m[KyawToQuaternion[m[K’ was not declared in this scope
+  123 |   fused_pose->pose.orientation = [01;31m[KyawToQuaternion[m[K(corrected_yaw);
+      |                                  [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:126:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kfused_pose_pub_[m[K’ was not declared in this scope; did you mean ‘[01m[Kfused_pose[m[K’?
+  126 |   [01;31m[Kfused_pose_pub_[m[K->publish(std::move(fused_pose));
+      |   [01;31m[K^~~~~~~~~~~~~~~[m[K
+      |   [32m[Kfused_pose[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:142:3:[m[K [01;31m[Kerror: [m[K‘[01m[Khigh_freq_odom_pub_[m[K’ was not declared in this scope; did you mean ‘[01m[Khigh_freq_odom[m[K’?
+  142 |   [01;31m[Khigh_freq_odom_pub_[m[K->publish(std::move(high_freq_odom));
+      |   [01;31m[K^~~~~~~~~~~~~~~~~~~[m[K
+      |   [32m[Khigh_freq_odom[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:145:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_timestamps_[m[K’ was not declared in this scope
+  145 |   [01;31m[Kpose_timestamps_[m[K.push_back(current_time);
+      |   [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:146:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_timestamps_[m[K’ was not declared in this scope
+  146 |   if (pose_timestamps_.size() > [01;31m[Kmax_timestamps_[m[K) {
+      |                                 [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:151:6:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+  151 | void [01;31m[KHighFrequencyLocalizer[m[K::printPerformanceStats()
+      |      [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kvoid slam_nav::printPerformanceStats()[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:153:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_timestamps_[m[K’ was not declared in this scope
+  153 |   if ([01;31m[Kpose_timestamps_[m[K.size() < 10) {
+      |       [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:158:23:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  158 |   auto current_time = [01;31m[Kthis[m[K->get_clock()->now();
+      |                       [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:162:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_timestamps_[m[K’ was not declared in this scope
+  162 |   for (const auto & timestamp : [01;31m[Kpose_timestamps_[m[K) {
+      |                                 [01;31m[K^~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  168 |   RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |               [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:3:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+  168 |   [01;31m[KRCLCPP_INFO[m[K(this->get_logger(),
+      |   [01;31m[K^~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  168 |   RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |               [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:168:15:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  168 |   RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |               [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:170:19:[m[K [01;31m[Kerror: [m[K‘[01m[Khigh_freq_rate_[m[K’ was not declared in this scope
+  170 |     recent_count, [01;31m[Khigh_freq_rate_[m[K);
+      |                   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:173:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kamcl_received_[m[K’ was not declared in this scope
+  173 |   if ([01;31m[Kamcl_received_[m[K) {
+      |       [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  174 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |                 [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+  174 |     [01;31m[KRCLCPP_INFO[m[K(this->get_logger(),
+      |     [01;31m[K^~~~~~~~~~~[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  174 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |                 [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:174:17:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+  174 |     RCLCPP_INFO([01;31m[Kthis[m[K->get_logger(),
+      |                 [01;31m[K^~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:176:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_x_[m[K’ was not declared in this scope
+  176 |       [01;31m[Kdrift_x_[m[K, drift_y_, drift_yaw_ * 180.0 / M_PI);
+      |       [01;31m[K^~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:176:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_y_[m[K’ was not declared in this scope
+  176 |       drift_x_, [01;31m[Kdrift_y_[m[K, drift_yaw_ * 180.0 / M_PI);
+      |                 [01;31m[K^~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:176:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrift_yaw_[m[K’ was not declared in this scope
+  176 |       drift_x_, drift_y_, [01;31m[Kdrift_yaw_[m[K * 180.0 / M_PI);
+      |                           [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K At global scope:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:180:8:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+  180 | double [01;31m[KHighFrequencyLocalizer[m[K::quaternionToYaw(const geometry_msgs::msg::Quaternion & quaternion)
+      |        [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:192:32:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+  192 | geometry_msgs::msg::Quaternion [01;31m[KHighFrequencyLocalizer[m[K::yawToQuaternion(double yaw)
+      |                                [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:203:8:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ has not been declared
+  203 | double [01;31m[KHighFrequencyLocalizer[m[K::normalizeAngle(double angle)
+      |        [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:221:42:[m[K [01;31m[Kerror: [m[K‘[01m[KHighFrequencyLocalizer[m[K’ is not a member of ‘[01m[Kslam_nav[m[K’; did you mean ‘[01m[Kf1tenth_slam_nav::HighFrequencyLocalizer[m[K’?
+  221 |   auto node = std::make_shared<slam_nav::[01;31m[KHighFrequencyLocalizer[m[K>();
+      |                                          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:26:7:[m[K [01;36m[Knote: [m[K‘[01m[Kf1tenth_slam_nav::HighFrequencyLocalizer[m[K’ declared here
+   26 | class [01;36m[KHighFrequencyLocalizer[m[K : public rclcpp::Node
+      |       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:221:65:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kmake_shared<<expression error> >()[m[K’
+  221 |   auto node = [01;31m[Kstd::make_shared<slam_nav::HighFrequencyLocalizer>()[m[K;
+      |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~[m[K
+In file included from [01m[K/usr/include/c++/11/memory:77[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/usr/include/c++/11/bits/shared_ptr.h:875:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class _Tp, class ... _Args> std::shared_ptr<_Tp> std::make_shared(_Args&& ...)[m[K’
+  875 |     [01;36m[Kmake_shared[m[K(_Args&&... __args)
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/usr/include/c++/11/bits/shared_ptr.h:875:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:221:65:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+  221 |   auto node = [01;31m[Kstd::make_shared<slam_nav::HighFrequencyLocalizer>()[m[K;
+      |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~[m[K
+In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/include/slam_nav/high_frequency_localizer.hpp:4[m[K,
+                 from [01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:1[m[K:
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:223:3:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+  223 |   [01;31m[KRCLCPP_INFO[m[K(node->get_logger(), "고주파 로컬라이제이션 C++ 노드 시작");
+      |   [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/ircv7/RACE/real_ws/src/slam_nav/src/high_frequency_localizer.cpp:228:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+  228 |     [01;31m[KRCLCPP_ERROR[m[K(node->get_logger(), "노드 실행 중 오류: %s", e.what());
+      |     [01;31m[K^~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/high_frequency_localizer_node.dir/build.make:76: CMakeFiles/high_frequency_localizer_node.dir/src/high_frequency_localizer.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/high_frequency_localizer_node.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

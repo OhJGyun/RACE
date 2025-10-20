@@ -1,0 +1,1 @@
+/home/ircv7/RACE/real_ws/build/vesc/ament_cmake_environment_hooks/local_setup.sh
