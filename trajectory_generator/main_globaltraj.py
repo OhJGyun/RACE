@@ -159,19 +159,6 @@ os.makedirs(file_paths["module"] + "/outputs", exist_ok=True)
 if opt_type == 'mintime':
     os.makedirs(file_paths["module"] + "/outputs/mintime", exist_ok=True)
 
-# create path folder for final trajectory outputs
-os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map), exist_ok=True)
-if opt_type == 'mintime':
-    os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, "mintime"), exist_ok=True)
-
-# assemble export paths (using relative path to path directory)
-file_paths["mintime_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "mintime")
-file_paths["traj_race_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "traj_race_cl.csv")
-file_paths["lane_optimal_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "lane_optimal.csv")
-
-# file_paths["traj_ltpl_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "traj_ltpl_cl.csv")
-file_paths["lap_time_mat_export"] = os.path.join(file_paths["module"], "..", "path", input_map, lap_time_mat_opts["file"])
-
 # ----------------------------------------------------------------------------------------------------------------------
 # IMPORT VEHICLE DEPENDENT PARAMETERS ----------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
@@ -208,6 +195,40 @@ elif opt_type == 'mintime':
     pars["optim_opts"]["warm_start"] = mintime_opts["warm_start"]
     pars["vehicle_params_mintime"]["wheelbase"] = (pars["vehicle_params_mintime"]["wheelbase_front"]
                                                    + pars["vehicle_params_mintime"]["wheelbase_rear"])
+
+# ----------------------------------------------------------------------------------------------------------------------
+# CREATE OUTPUT DIRECTORY STRUCTURE BASED ON GGV AND V_MAX -----------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Extract GGV profile name from filename (e.g., "ggv_conservative.csv" -> "conservative")
+ggv_filename = pars["ggv_file"].replace(".csv", "")
+if ggv_filename.startswith("ggv_"):
+    ggv_profile = ggv_filename.replace("ggv_", "")
+elif ggv_filename == "ggv":
+    ggv_profile = "default"
+else:
+    ggv_profile = ggv_filename
+
+# Create output subdirectory name: {ggv_profile}_{v_max}
+v_max = pars["veh_params"]["v_max"]
+output_subdir = f"{ggv_profile}_{v_max}"
+
+print(f"Output subdirectory: {input_map}/{output_subdir}/")
+
+# Create path folder for final trajectory outputs
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, output_subdir), exist_ok=True)
+if opt_type == 'mintime':
+    os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "mintime"), exist_ok=True)
+
+# Assemble export paths (using relative path to path directory with GGV/v_max subdirectory)
+file_paths["mintime_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "mintime")
+file_paths["traj_race_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "traj_race_cl.csv")
+file_paths["lane_optimal_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "lane_optimal.csv")
+
+# file_paths["traj_ltpl_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "traj_ltpl_cl.csv")
+file_paths["lap_time_mat_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, lap_time_mat_opts["file"])
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 # set import path for ggv diagram and ax_max_machines (if required)
 if not (opt_type == 'mintime' and not mintime_opts["recalc_vel_profile_by_tph"]):
@@ -764,19 +785,16 @@ vx_profile_right = tph.calc_vel_profile.calc_vel_profile(
     drag_coeff=pars["veh_params"]["dragcoeff"],
     m_veh=pars["veh_params"]["mass"])
 
-print("      Left lane velocity: min=%.2f m/s, max=%.2f m/s" % (np.min(vx_profile_left), np.max(vx_profile_left)))
-print("      Right lane velocity: min=%.2f m/s, max=%.2f m/s" % (np.min(vx_profile_right), np.max(vx_profile_right)))
-
-# Export left avoidance lane with its own velocity profile (using relative path to path directory)
-file_paths["lane_left_export"] = os.path.join(file_paths["module"], "..", "path", input_map,
+# Export left avoidance lane with its own velocity profile (using relative path with GGV/v_max subdirectory)
+file_paths["lane_left_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir,
                                                     "lane_left.csv")
 with open(file_paths["lane_left_export"], 'w') as f:
     f.write("# x_m, y_m, v_mps\n")
     for i in range(veh_bound_left.shape[0]):
         f.write("%.3f,%.3f,%.3f\n" % (veh_bound_left[i, 0], veh_bound_left[i, 1], vx_profile_left[i]))
 
-# Export right avoidance lane with its own velocity profile (using relative path to path directory)
-file_paths["lane_right_export"] = os.path.join(file_paths["module"], "..", "path", input_map,
+# Export right avoidance lane with its own velocity profile (using relative path with GGV/v_max subdirectory)
+file_paths["lane_right_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir,
                                                      "lane_right.csv")
 with open(file_paths["lane_right_export"], 'w') as f:
     f.write("# x_m, y_m, v_mps\n")
