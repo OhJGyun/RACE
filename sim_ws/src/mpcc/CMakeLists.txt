@@ -26,13 +26,8 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Install waypoint data directories
-install(DIRECTORY
-  scripts/f1tenth
-  scripts/f1tenth_for_mpcc
-  DESTINATION lib/${PROJECT_NAME}
-  OPTIONAL
-)
+# Note: Waypoint data is now stored in /RACE/path/ and shared between sim_ws and real_ws
+# No need to install waypoint directories into the package
 
 # Install params
 install(DIRECTORY

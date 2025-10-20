@@ -1,31 +1,31 @@
 /**:
   ros__parameters:
     ## Parameter for MPC solver
-    dT: 0.1 # time step duration (unit: s)
-    mpc_steps_N: 25 # number of steps in the Prediction horizon (N*dT = prediction horizon)
+    dT: 0.05 # time step duration (unit: s)
+    mpc_steps_N: 20 # number of steps in the Prediction horizon (N*dT = prediction horizon)
     vehicle_L: 0.33020 # wheelbase (unit: m) (lf + lr = 0.15875 + 0.17145)
 
-    max_speed: 8.0 # Maximum speed (unit: m/s)
-    mpc_ref_vel: 5.0 # Reference velocity (unit: m/s)
+    max_speed: 9.0 # Maximum speed (unit: m/s)
+    mpc_ref_vel: 5.5 # Reference velocity (unit: m/s)
     mpc_ref_cte: 0.0 # Reference cross-track error (centered on path)
     mpc_ref_epsi: 0.0 # Reference psi error (aligned with path)
 
-    mpc_w_cte: 1.5 # Contouring error weight
+    mpc_w_cte: 0.7 # Contouring error weight
     mpc_w_s: 1.0 # Progress weight
     mpc_w_lag: 1.0 # Lag error weight
     mpc_w_vel: 1.0 # Velocity weight
     mpc_w_p: 1.0 # Progress speed weight (p=ds/dt)
     mpc_w_delta: 1.0 # Steering weight
-    mpc_w_accel: 1.0 # Acceleration weight
+    mpc_w_accel: 0.2 # Acceleration weight
     mpc_w_delta_d: 1.0 # Steering change weight
-    mpc_w_delta_p: 1.0 # Progress speed change weight (d p = d (ds/dt))
+    mpc_w_delta_p: 0.2 # Progress speed change weight (d p = d (ds/dt))
 
     mpc_max_steering: 0.4 # Maximum steering angle (unit: rad)
     mpc_max_throttle: 5.0 # Maximum throttle (unit: m/s^2)
     mpc_bound_value: 1000.0
 
     p_min: 0.0 # Lower bound for progress state
-    p_max: 6.5 # Upper bound for progress state
+    p_max: 8.0 # Upper bound for progress state
 
     x_min: -200.0 # Lower bound for x state
     x_max: 200.0 # Upper bound for x state
@@ -51,7 +51,7 @@
     spline_poly_order: 3
     goal_threshold: 2.0 # unit: m
     controller_freq: 15.0
-    path_folder_name: f1tenth_for_mpcc
+    path_folder_name: 1017_for_mpcc  # Map-specific folder name (relative path used in code)
     inflation_factor: 0.8
     lag_time: 0.05
     arc_length_min_dist_tol: 0.05

@@ -8,10 +8,17 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import os
 import re
+import yaml
 
 # Configuration
 module = os.path.dirname(os.path.abspath(__file__))
-map_name = "f1tenth"
+
+# Read map name from config file
+config_file = os.path.join(module, "config", "params.yaml")
+with open(config_file, 'r') as stream:
+    parsed_yaml = yaml.safe_load(stream)
+map_name = parsed_yaml["map_name"]
+print(f"Map name: {map_name}")
 
 # Read v_max from racecar.ini
 ini_path = os.path.join(module, "params", "racecar.ini")
@@ -115,6 +122,7 @@ for ggv in ggv_profiles:
 ax.set_xlabel('X [m]', fontsize=12, fontweight='bold')
 ax.set_ylabel('Y [m]', fontsize=12, fontweight='bold')
 ax.set_zlabel('Velocity [m/s]', fontsize=12, fontweight='bold')
+ax.set_zlim(0, 10)  # Fix z-axis scale from 0 to 10 m/s
 ax.set_title(f'F1TENTH Trajectory Comparison\n9 Lanes (3 GGV profiles × 3 lanes)\nv_max = {v_max} m/s',
              fontsize=14, fontweight='bold', pad=20)
 

@@ -108,12 +108,18 @@ class MPCKinematicNode(Node):
             'ipopt_verbose': self.get_parameter('ipopt_verbose').value
         }
 
-        dirname = os.path.dirname(__file__)
+        # Use relative path from installed script location to /home/ojg/RACE/path/
+        # Installed at: /home/ojg/RACE/sim_ws/install/lib/mpcc/mpcc_node.py
+        # Target: /home/ojg/RACE/path/
+        # Relative: ../../../../../path/
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        path_base_dir = os.path.join(script_dir, "..", "..", "..", "..", "..", "path")
         path_folder_name = self.get_parameter('path_folder_name').value
-        self.CENTER_TRACK_FILENAME = os.path.join(dirname, path_folder_name + '/centerline_waypoints.csv')
-        self.CENTER_DERIVATIVE_FILENAME = os.path.join(dirname, path_folder_name + '/center_spline_derivatives.csv')
-        self.RIGHT_TRACK_FILENAME = os.path.join(dirname, path_folder_name + '/right_waypoints.csv')
-        self.LEFT_TRACK_FILENAME = os.path.join(dirname, path_folder_name + '/left_waypoints.csv')
+        path_dir = os.path.join(path_base_dir, path_folder_name)
+        self.CENTER_TRACK_FILENAME = os.path.join(path_dir, 'centerline_waypoints.csv')
+        self.CENTER_DERIVATIVE_FILENAME = os.path.join(path_dir, 'center_spline_derivatives.csv')
+        self.RIGHT_TRACK_FILENAME = os.path.join(path_dir, 'right_waypoints.csv')
+        self.LEFT_TRACK_FILENAME = os.path.join(path_dir, 'left_waypoints.csv')
         self.CONTROLLER_FREQ = self.get_parameter('controller_freq').value
         self.GOAL_THRESHOLD = self.get_parameter('goal_threshold').value
         self.CAR_WIDTH = self.get_parameter('car_width').value

@@ -197,36 +197,19 @@ elif opt_type == 'mintime':
                                                    + pars["vehicle_params_mintime"]["wheelbase_rear"])
 
 # ----------------------------------------------------------------------------------------------------------------------
-# CREATE OUTPUT DIRECTORY STRUCTURE BASED ON GGV AND V_MAX -----------------------------------------------------------
+# MPCC VERSION: Direct output to path/{input_map}/ without subdirectories -------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 
-# Extract GGV profile name from filename (e.g., "ggv_conservative.csv" -> "conservative")
-ggv_filename = pars["ggv_file"].replace(".csv", "")
-if ggv_filename.startswith("ggv_"):
-    ggv_profile = ggv_filename.replace("ggv_", "")
-elif ggv_filename == "ggv":
-    ggv_profile = "default"
-else:
-    ggv_profile = ggv_filename
+print(f"MPCC Mode: Output directly to {input_map}/")
+print(f"MPCC Mode: No GGV-based subdirectories (only MPCC format files will be exported)")
 
-# Create output subdirectory name: {ggv_profile}_{v_max}
-v_max = pars["veh_params"]["v_max"]
-output_subdir = f"{ggv_profile}_{v_max}"
+# Create path folder for MPCC outputs (no subdirectories)
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map), exist_ok=True)
 
-print(f"Output subdirectory: {input_map}/{output_subdir}/")
-
-# Create path folder for final trajectory outputs
-os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, output_subdir), exist_ok=True)
-if opt_type == 'mintime':
-    os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "mintime"), exist_ok=True)
-
-# Assemble export paths (using relative path to path directory with GGV/v_max subdirectory)
-file_paths["mintime_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "mintime")
-file_paths["traj_race_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "traj_race_cl.csv")
-file_paths["lane_optimal_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "lane_optimal.csv")
-
-# file_paths["traj_ltpl_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, "traj_ltpl_cl.csv")
-file_paths["lap_time_mat_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir, lap_time_mat_opts["file"])
+# Disable standard trajectory exports for MPCC mode (we only need MPCC format files)
+# file_paths["traj_race_export"] = None
+# file_paths["lane_optimal_export"] = None
+# file_paths["lap_time_mat_export"] = None
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -532,26 +515,27 @@ bound1, bound2 = helper_funcs_glob.src.check_traj.\
 # EXPORT ---------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 
+# MPCC MODE: Skip standard trajectory exports (not needed for MPCC)
 # export race trajectory  to CSV
-if "traj_race_export" in file_paths.keys():
-    helper_funcs_glob.src.export_traj_race.export_traj_race(file_paths=file_paths,
-                                                            traj_race=traj_race_cl)
+# if "traj_race_export" in file_paths.keys():
+#     helper_funcs_glob.src.export_traj_race.export_traj_race(file_paths=file_paths,
+#                                                             traj_race=traj_race_cl)
 
 # if requested, export trajectory including map information (via normal vectors) to CSV
-if "traj_ltpl_export" in file_paths.keys():
-    helper_funcs_glob.src.export_traj_ltpl.export_traj_ltpl(file_paths=file_paths,
-                                                            spline_lengths_opt=spline_lengths_opt,
-                                                            trajectory_opt=trajectory_opt,
-                                                            reftrack=reftrack_interp,
-                                                            normvec_normalized=normvec_normalized_interp,
-                                                            alpha_opt=alpha_opt)
+# if "traj_ltpl_export" in file_paths.keys():
+#     helper_funcs_glob.src.export_traj_ltpl.export_traj_ltpl(file_paths=file_paths,
+#                                                             spline_lengths_opt=spline_lengths_opt,
+#                                                             trajectory_opt=trajectory_opt,
+#                                                             reftrack=reftrack_interp,
+#                                                             normvec_normalized=normvec_normalized_interp,
+#                                                             alpha_opt=alpha_opt)
 
-print("INFO: Finished export of trajectory:", time.strftime("%H:%M:%S"))
+print("INFO: MPCC Mode - Skipping standard trajectory exports")
 
-# save another copy of lane_optimal.csv
-with open(file_paths["lane_optimal_export"], 'w') as f:
-    for x, y, v in zip(trajectory_opt[:, 1], trajectory_opt[:, 2], trajectory_opt[:, 5]):
-        f.write("%.3f,%.3f,%.3f\n" % (x, y, v))
+# MPCC MODE: Skip lane_optimal.csv export (not needed for MPCC)
+# with open(file_paths["lane_optimal_export"], 'w') as f:
+#     for x, y, v in zip(trajectory_opt[:, 1], trajectory_opt[:, 2], trajectory_opt[:, 5]):
+#         f.write("%.3f,%.3f,%.3f\n" % (x, y, v))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EXPORT TRACK BOUNDARIES FOR MPCC ------------------------------------------------------------------------------------
@@ -624,27 +608,11 @@ vx_profile_right = tph.calc_vel_profile.calc_vel_profile(
     drag_coeff=pars["veh_params"]["dragcoeff"],
     m_veh=pars["veh_params"]["mass"])
 
-# Export left avoidance lane with its own velocity profile (using relative path with GGV/v_max subdirectory)
-file_paths["lane_left_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir,
-                                                    "lane_left.csv")
-with open(file_paths["lane_left_export"], 'w') as f:
-    f.write("# x_m, y_m, v_mps\n")
-    for i in range(veh_bound_left.shape[0]):
-        f.write("%.3f,%.3f,%.3f\n" % (veh_bound_left[i, 0], veh_bound_left[i, 1], vx_profile_left[i]))
-
-# Export right avoidance lane with its own velocity profile (using relative path with GGV/v_max subdirectory)
-file_paths["lane_right_export"] = os.path.join(file_paths["module"], "..", "path", input_map, output_subdir,
-                                                     "lane_right.csv")
-with open(file_paths["lane_right_export"], 'w') as f:
-    f.write("# x_m, y_m, v_mps\n")
-    for i in range(veh_bound_right.shape[0]):
-        f.write("%.3f,%.3f,%.3f\n" % (veh_bound_right[i, 0], veh_bound_right[i, 1], vx_profile_right[i]))
-
-print("INFO: Track boundaries exported successfully")
-print("      Using avoidance_opt = %.3fm" % avoidance_opt)
-print("      Left lane:  %s" % file_paths["lane_left_export"])
-print("      Right lane: %s" % file_paths["lane_right_export"])
-print("      Offset from centerline: %.3fm (avoidance_opt/2)" % (avoidance_opt/2))
+# MPCC MODE: Skip lane_left.csv and lane_right.csv exports (not needed for MPCC)
+# Only MPCC format files will be exported below
+print("INFO: MPCC Mode - Skipping standard lane exports (left/right/optimal)")
+print("      Only MPCC format files will be generated")
+print("      Using avoidance_opt = %.3fm for boundary calculation" % avoidance_opt)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EXPORT FOR MPCC ------------------------------------------------------------------------------------------------------
@@ -686,8 +654,8 @@ for i in range(len(centerline_xy)):
 
 track_widths = np.column_stack((left_widths, right_widths))
 
-# Export MPCC files (relative path to sim_ws/src/mpcc/scripts/{map_name}/)
-mpcc_export_dir = os.path.join(file_paths["module"], "..", "sim_ws", "src", "mpcc", "scripts", input_map)
+# Export MPCC files to /home/ojg/RACE/path/{map_name}_for_mpcc/
+mpcc_export_dir = os.path.join(file_paths["module"], "..", "path", input_map)
 os.makedirs(mpcc_export_dir, exist_ok=True)
 
 # 1. centerline_waypoints.csv

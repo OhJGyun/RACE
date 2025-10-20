@@ -1,4 +1,4 @@
-image: f1tenth.pgm
+image: 1017.pgm
 mode: trinary
 resolution: 0.05
 origin: [-11, -2.79, 0]
