@@ -1,9 +1,6 @@
 # GitHub 토큰 보안 파일
 GITHUB_TOKEN.md
 
-# Claude 설정 파일
-CLAUDE.md
-
 # ROS2 build directories
 build/
 install/
