@@ -59,7 +59,7 @@ print("track filename: ", file_paths["track_name"])
 
 # set import options ---------------------------------------------------------------------------------------------------
 imp_opts = {"flip_imp_track": False,                # flip imported track to reverse direction
-            "set_new_start": False,                 # set new starting point (changes order, not coordinates)
+            "set_new_start": True,                 # set new starting point (changes order, not coordinates)
             "new_start": np.array([0.0, -47.0]),    # [x_m, y_m]
             "min_track_width": None,                # [m] minimum enforced track width (set None to deactivate)
             "num_laps": 1}                          # number of laps to be driven (significant with powertrain-option),
