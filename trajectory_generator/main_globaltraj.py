@@ -131,7 +131,7 @@ pkg_resources.require(dependencies)
 # INITIALIZATION OF PATHS ----------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 
-# assemble track import path
+# assemble track import path (from lane_generator outputs)
 file_paths["track_file"] = os.path.join(file_paths["module"], "outputs", file_paths["track_name"] + ".csv")
 
 # assemble friction map import paths
@@ -153,19 +153,24 @@ if opt_type == 'mintime' \
     print("WARNING: var_friction option is not None but friction map data is missing for current track -> Setting"
           " var_friction to None!")
 
-# create outputs folder(s)
+# create outputs folder(s) for lane_generator
 os.makedirs(file_paths["module"] + "/outputs", exist_ok=True)
 
 if opt_type == 'mintime':
     os.makedirs(file_paths["module"] + "/outputs/mintime", exist_ok=True)
 
-# assemble export paths
-file_paths["mintime_export"] = os.path.join(file_paths["module"], "outputs", input_map, "mintime")
-file_paths["traj_race_export"] = os.path.join(file_paths["module"], "outputs", input_map, "traj_race_cl.csv")
-file_paths["lane_optimal_export"] = os.path.join(file_paths["module"], "outputs", input_map, "lane_optimal.csv")
+# create path folder for final trajectory outputs
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map), exist_ok=True)
+if opt_type == 'mintime':
+    os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, "mintime"), exist_ok=True)
 
-# file_paths["traj_ltpl_export"] = os.path.join(file_paths["module"], "outputs", input_map, "traj_ltpl_cl.csv")
-file_paths["lap_time_mat_export"] = os.path.join(file_paths["module"], "outputs", input_map, lap_time_mat_opts["file"])
+# assemble export paths (using relative path to path directory)
+file_paths["mintime_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "mintime")
+file_paths["traj_race_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "traj_race_cl.csv")
+file_paths["lane_optimal_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "lane_optimal.csv")
+
+# file_paths["traj_ltpl_export"] = os.path.join(file_paths["module"], "..", "path", input_map, "traj_ltpl_cl.csv")
+file_paths["lap_time_mat_export"] = os.path.join(file_paths["module"], "..", "path", input_map, lap_time_mat_opts["file"])
 
 # ----------------------------------------------------------------------------------------------------------------------
 # IMPORT VEHICLE DEPENDENT PARAMETERS ----------------------------------------------------------------------------------
@@ -762,16 +767,16 @@ vx_profile_right = tph.calc_vel_profile.calc_vel_profile(
 print("      Left lane velocity: min=%.2f m/s, max=%.2f m/s" % (np.min(vx_profile_left), np.max(vx_profile_left)))
 print("      Right lane velocity: min=%.2f m/s, max=%.2f m/s" % (np.min(vx_profile_right), np.max(vx_profile_right)))
 
-# Export left avoidance lane with its own velocity profile
-file_paths["lane_left_export"] = os.path.join(file_paths["module"], "outputs", input_map,
+# Export left avoidance lane with its own velocity profile (using relative path to path directory)
+file_paths["lane_left_export"] = os.path.join(file_paths["module"], "..", "path", input_map,
                                                     "lane_left.csv")
 with open(file_paths["lane_left_export"], 'w') as f:
     f.write("# x_m, y_m, v_mps\n")
     for i in range(veh_bound_left.shape[0]):
         f.write("%.3f,%.3f,%.3f\n" % (veh_bound_left[i, 0], veh_bound_left[i, 1], vx_profile_left[i]))
 
-# Export right avoidance lane with its own velocity profile
-file_paths["lane_right_export"] = os.path.join(file_paths["module"], "outputs", input_map,
+# Export right avoidance lane with its own velocity profile (using relative path to path directory)
+file_paths["lane_right_export"] = os.path.join(file_paths["module"], "..", "path", input_map,
                                                      "lane_right.csv")
 with open(file_paths["lane_right_export"], 'w') as f:
     f.write("# x_m, y_m, v_mps\n")

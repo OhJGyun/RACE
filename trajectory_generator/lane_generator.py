@@ -118,8 +118,8 @@ if __name__ == "__main__":
     outer_safe_dist = parsed_yaml["outer_safe_dist"]
     opp_safe_dist = parsed_yaml["opp_safe_dist"]
 
-    # Read map params
-    yaml_file = module + "/maps/" + input_map + ".yaml"
+    # Read map params (using relative path to map directory)
+    yaml_file = os.path.join(module, "..", "map", input_map + ".yaml")
     with open(yaml_file, 'r') as stream:
         parsed_yaml = yaml.safe_load(stream)
     scale = parsed_yaml["resolution"]
@@ -131,8 +131,8 @@ if __name__ == "__main__":
     if not np.any(lane_ratios == 1.0):
         lane_ratios = np.append(lane_ratios, 1.0)
 
-    # Read image
-    img_path = module + "/maps/" + input_map + input_map_ext
+    # Read image (using relative path to map directory)
+    img_path = os.path.join(module, "..", "map", input_map + input_map_ext)
     input_img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     h, w = input_img.shape[:2]
 
