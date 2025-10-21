@@ -10,7 +10,7 @@
     mpc_ref_cte: 0.0 # Reference cross-track error (centered on path)
     mpc_ref_epsi: 0.0 # Reference psi error (aligned with path)
 
-    mpc_w_cte: 10.0 # Contouring error weight
+    mpc_w_cte: 1.0 # Contouring error weight
     mpc_w_s: 2.0 # Progress weight
     mpc_w_lag: 1.0 # Lag error weight
     mpc_w_vel: 1.0 # Velocity weight

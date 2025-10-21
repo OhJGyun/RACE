@@ -352,6 +352,26 @@ class MPC:
         sol = self.solver(x0=x_init, lbx=self.lbx, ubx=self.ubx, lbg=self.lbg, ubg=self.ubg, p=p)
         solve_time = time.time() - solve_start
 
+        # Check if solver failed - if so, reconstruct warm start and retry
+        solver_status = self.solver.stats()['return_status']
+        if solver_status != 'Solve_Succeeded':
+            print(f"[WARNING] Solver failed with status: {solver_status}")
+            print(f"[WARNING] Reconstructing warm start from centerline...")
+
+            # Reconstruct warm start based on centerline
+            self.construct_warm_start_soln(initial_state)
+
+            # Rebuild initial guess with fresh warm start
+            x_init = vertcat(reshape(self.X0.T, self.n_states * (self.N + 1), 1),
+                           reshape(self.u0.T, self.n_controls * self.N, 1))
+
+            # Retry solve with reconstructed warm start
+            solve_start_retry = time.time()
+            sol = self.solver(x0=x_init, lbx=self.lbx, ubx=self.ubx, lbg=self.lbg, ubg=self.ubg, p=p)
+            solve_time = time.time() - solve_start_retry
+            solver_status = self.solver.stats()['return_status']
+            print(f"[RETRY] Solve time: {solve_time*1000:.2f} ms | Status: {solver_status}")
+
         # Get state and control solution
         self.X0 = reshape(sol['x'][0:self.n_states * (self.N + 1)], self.n_states, self.N + 1).T  # get soln trajectory
         u = reshape(sol['x'][self.n_states * (self.N + 1):], self.n_controls, self.N).T  # get controls solution
@@ -365,12 +385,27 @@ class MPC:
         self.solve_times.append(solve_time)
 
         # Debug: print solver output and timing
-        print(f"[MUMPS] Solve time: {solve_time*1000:.2f} ms | Status: {self.solver.stats()['return_status']}")
+        print(f"[MUMPS] Solve time: {solve_time*1000:.2f} ms | Status: {solver_status}")
         print(f"[MPC DEBUG] First control: v={float(con_first[0]):.2f}, theta={float(con_first[1]):.2f}, p={float(con_first[2]):.2f}")
 
         # Shift trajectory and control solution to initialize the next step
         self.X0 = vertcat(self.X0[1:, :], self.X0[self.X0.size1() - 1, :])
         self.u0 = vertcat(u[1:, :], u[u.size1() - 1, :])
+
+        # Improve last state prediction using centerline (instead of simple copy)
+        # This prevents infeasible problems when entering corners
+        s_last = float(self.X0[self.N - 1, 3])
+        s_new = s_last + self.p_initial * self.dT
+        if s_new >= self.arc_lengths_orig_l:
+            s_new -= self.arc_lengths_orig_l
+        x_new = float(self.center_lut_x(s_new))
+        y_new = float(self.center_lut_y(s_new))
+        psi_new = float(self.get_angle_at_centerline(s_new))
+        self.X0[self.N, 0] = x_new
+        self.X0[self.N, 1] = y_new
+        self.X0[self.N, 2] = psi_new
+        self.X0[self.N, 3] = s_new
+
         return con_first, trajectory, inputs
 
     def print_solver_statistics(self):
