@@ -2,23 +2,23 @@
   ros__parameters:
     ## Parameter for MPC solver
     dT: 0.1 # time step duration (unit: s)
-    mpc_steps_N: 15 # number of steps in the Prediction horizon (N*dT = prediction horizon)
+    mpc_steps_N: 20 # number of steps in the Prediction horizon (N*dT = prediction horizon)
     vehicle_L: 0.33020 # wheelbase (unit: m) (lf + lr = 0.15875 + 0.17145)
 
-    max_speed: 6.0 # Maximum speed (unit: m/s)
-    mpc_ref_vel: 5.0 # Reference velocity (unit: m/s)
+    max_speed: 5.0 # Maximum speed (unit: m/s)
+    mpc_ref_vel: 4.0 # Reference velocity (unit: m/s)
     mpc_ref_cte: 0.0 # Reference cross-track error (centered on path)
     mpc_ref_epsi: 0.0 # Reference psi error (aligned with path)
 
     mpc_w_cte: 1.0 # Contouring error weight
-    mpc_w_s: 2.0 # Progress weight
+    mpc_w_s: 1.0 # Progress weight
     mpc_w_lag: 1.0 # Lag error weight
     mpc_w_vel: 1.0 # Velocity weight
     mpc_w_p: 1.0 # Progress speed weight (p=ds/dt)
     mpc_w_delta: 1.0 # Steering weight
-    mpc_w_accel: 0.3 # Acceleration weight
+    mpc_w_accel: 1.0 # Acceleration weight
     mpc_w_delta_d: 1.0 # Steering change weight
-    mpc_w_delta_p: 0.3 # Progress speed change weight (d p = d (ds/dt))
+    mpc_w_delta_p: 1.0 # Progress speed change weight (d p = d (ds/dt))
 
     mpc_max_steering: 0.36 # Maximum steering angle (unit: rad)
     mpc_max_throttle: 5.0 # Maximum throttle (unit: m/s^2)
@@ -57,6 +57,7 @@
     arc_length_min_dist_tol: 0.05
     integration_mode: 'Euler'
     ipopt_verbose: true
+    linear_solver: 'mumps'  # Options: 'ma57' (HSL, faster, requires license), 'mumps' (free, default)
 
     # Frame names
     car_frame: ego_racecar/base_link
