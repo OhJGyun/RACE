@@ -5,7 +5,7 @@
     mpc_steps_N: 15 # number of steps in the Prediction horizon (N*dT = prediction horizon)
     vehicle_L: 0.33020 # wheelbase (unit: m) (lf + lr = 0.15875 + 0.17145)
 
-    max_speed: 8.5 # Maximum speed (unit: m/s)
+    max_speed: 6.0 # Maximum speed (unit: m/s)
     mpc_ref_vel: 5.0 # Reference velocity (unit: m/s)
     mpc_ref_cte: 0.0 # Reference cross-track error (centered on path)
     mpc_ref_epsi: 0.0 # Reference psi error (aligned with path)
@@ -25,7 +25,7 @@
     mpc_bound_value: 1000.0
 
     p_min: 0.0 # Lower bound for progress state
-    p_max: 7.5 # Upper bound for progress state
+    p_max: 6.5 # Upper bound for progress state
 
     x_min: -200.0 # Lower bound for x state
     x_max: 200.0 # Upper bound for x state
