@@ -5,8 +5,8 @@
     mpc_steps_N: 20 # number of steps in the Prediction horizon (N*dT = prediction horizon)
     vehicle_L: 0.33020 # wheelbase (unit: m) (lf + lr = 0.15875 + 0.17145)
 
-    max_speed: 5.0 # Maximum speed (unit: m/s)
-    mpc_ref_vel: 4.0 # Reference velocity (unit: m/s)
+    max_speed: 8.0 # Maximum speed (unit: m/s)
+    mpc_ref_vel: 6.0 # Reference velocity (unit: m/s)
     mpc_ref_cte: 0.0 # Reference cross-track error (centered on path)
     mpc_ref_epsi: 0.0 # Reference psi error (aligned with path)
 
@@ -51,7 +51,7 @@
     spline_poly_order: 3
     goal_threshold: 2.0 # unit: m
     controller_freq: 15.0
-    path_folder_name: 1017_for_mpcc  # Map-specific folder name (relative path used in code)
+    path_folder_name: nochun_for_mpcc  # Map-specific folder name (relative path used in code)
     inflation_factor: 0.8
     lag_time: 0.05
     arc_length_min_dist_tol: 0.05

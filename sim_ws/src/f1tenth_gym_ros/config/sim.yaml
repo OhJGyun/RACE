@@ -42,7 +42,7 @@ bridge:
     scan_beams: 1080
 
     # map parameters
-    map_path: '/home/ircv7/RACE/sim_ws/map_global_path_bound/maps/1017_without_obs'
+    map_path: '/home/ojg/RACE/map/nochun'
     map_img_ext: '.pgm'
 
     # opponent parameters
