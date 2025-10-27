@@ -205,16 +205,13 @@ class MPC:
                                 reshape(self.U, self.n_controls * self.N, 1))
         self.opts["ipopt"] = {}
         self.opts["ipopt"]["max_iter"] = 2000
-        linear_solver = self.param.get('linear_solver', 'mumps')
-        # Temporarily increase print level to verify solver loading
-        self.opts["ipopt"]["print_level"] = 5 if linear_solver == 'ma57' else 0
+        self.opts["ipopt"]["print_level"] = 0  # 0: minimal output
         self.opts["verbose"] = self.param['ipopt_verbose']
         self.opts["jit"] = True
         self.opts["print_time"] = 0
         self.opts["ipopt"]["acceptable_tol"] = 1e-8
         self.opts["ipopt"]["acceptable_obj_change_tol"] = 1e-6
         self.opts["ipopt"]["fixed_variable_treatment"] = "make_parameter"
-        # Use MUMPS linear solver (default, stable, fast for this problem size)
         self.opts["ipopt"]["linear_solver"] = "mumps"
         # Nonlinear problem formulation with solver initialization
         self.nlp_prob = {'f': self.obj, 'x': OPT_variables, 'g': self.g, 'p': self.P}
@@ -318,24 +315,6 @@ class MPC:
             self.lbg[self.n_states - 1 + (self.n_states + 1) * (k + 1), 0] = low_bound
             self.ubg[self.n_states - 1 + (self.n_states + 1) * (k + 1), 0] = up_bound
 
-            # OBSTACLE AVOIDANCE DISABLED
-            # # Obstacle avoidance constraint bounds (dist^2 - r^2 >= 0)
-            # for obs_idx in range(self.N_OBST):
-            #     constraint_idx = self.n_states * (self.N + 1) + self.N + k * self.N_OBST + obs_idx
-            #     self.lbg[constraint_idx, 0] = 0.0  # Distance squared >= radius squared
-            #     self.ubg[constraint_idx, 0] = np.inf
-
-        # OBSTACLE AVOIDANCE DISABLED
-        # # Set obstacle parameters (x, y, r, active for each obstacle)
-        # for obs_idx in range(self.N_OBST):
-        #     obs_param_idx = self.n_states + 2 * self.N + obs_idx * 4
-        #     if obs_idx < len(self.obstacles):
-        #         obs_x, obs_y, obs_r = self.obstacles[obs_idx]
-        #         p[obs_param_idx:obs_param_idx + 4] = [obs_x, obs_y, obs_r, 1.0]  # active
-        #     else:
-        #         # No obstacle: set far away with small radius
-        #         p[obs_param_idx:obs_param_idx + 4] = [1000.0, 1000.0, 0.01, 0.0]  # inactive
-
         # Control parameters
         for k in range(self.N):
             v_ref = self.param['ref_vel']
@@ -371,6 +350,7 @@ class MPC:
         # Shift trajectory and control solution to initialize the next step
         self.X0 = vertcat(self.X0[1:, :], self.X0[self.X0.size1() - 1, :])
         self.u0 = vertcat(u[1:, :], u[u.size1() - 1, :])
+
         return con_first, trajectory, inputs
 
     def print_solver_statistics(self):
