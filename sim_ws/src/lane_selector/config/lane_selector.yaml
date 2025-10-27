@@ -8,9 +8,9 @@ lane_selector_node:
 
     # 레인 CSV (센터 + 좌/우 보조 레인)
     lane_csv_paths:
-      - "/home/ircv7/RACE/real_ws/map_global_path_bound/global_paths/lane_optimal.csv"  # Lane 0: 센터 최적 라인
-      - "/home/ircv7/RACE/real_ws/map_global_path_bound/global_paths/lane_left.csv"     # Lane 1: 왼쪽 회피 라인
-      - "/home/ircv7/RACE/real_ws/map_global_path_bound/global_paths/lane_right.csv"     # Lane 2: 오른쪽 회피 라인
+      - "/home/ircv7/RACE/sim_ws/map_global_path_bound/global_paths/lane_optimal.csv"  # Lane 0: 센터 최적 라인
+      - "/home/ircv7/RACE/sim_ws/map_global_path_bound/global_paths/lane_left.csv"     # Lane 1: 왼쪽 회피 라인
+      - "/home/ircv7/RACE/sim_ws/map_global_path_bound/global_paths/lane_right.csv"     # Lane 2: 오른쪽 회피 라인
 
     lane_topic: "/lane_selector/target_lane"
     lookahead_distance: 12.0

@@ -5,8 +5,8 @@ obs_detect_node:
     odom_topic: "/ego_racecar/odom"
 
     # 경계 CSV
-    outer_csv: "/home/ircv7/RACE/real_ws/map_global_path_bound/bounds/1017_wo_obs_outer_bound_world.csv"
-    inner_csvs: "/home/ircv7/RACE/real_ws/map_global_path_bound/bounds/1017_wo_obs_inner_bound_world.csv"
+    outer_csv: "/home/ircv7/RACE/sim_ws/map_global_path_bound/bounds/1017_wo_obs_outer_bound_world.csv"
+    inner_csvs: "/home/ircv7/RACE/sim_ws/map_global_path_bound/bounds/1017_wo_obs_inner_bound_world.csv"
 
     include_boundary: false
     roi_deg: 90.0

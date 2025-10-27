@@ -413,7 +413,7 @@ def generate_launch_description():
     
     rviz_config_arg = DeclareLaunchArgument(
         "rviz_config",
-        default_value="/home/joon/joon_foxy2humble/rviz2_config/localization_with_path.rviz",
+        default_value="/home/ircv7/RACE/real_ws/rviz2_config/localization_with_path.rviz",
         description="Path to RViz config file"
     )
 

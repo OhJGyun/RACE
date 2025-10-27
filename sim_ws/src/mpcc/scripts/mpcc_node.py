@@ -108,9 +108,9 @@ class MPCKinematicNode(Node):
             'ipopt_verbose': self.get_parameter('ipopt_verbose').value
         }
 
-        # Use relative path from installed script location to /home/ojg/RACE/path/
-        # Installed at: /home/ojg/RACE/sim_ws/install/lib/mpcc/mpcc_node.py
-        # Target: /home/ojg/RACE/path/
+        # Use relative path from installed script location to /home/ircv7/RACE/path/
+        # Installed at: /home/ircv7/RACE/sim_ws/install/lib/mpcc/mpcc_node.py
+        # Target: /home/ircv7/RACE/path/
         # Relative: ../../../../../path/
         script_dir = os.path.dirname(os.path.abspath(__file__))
         path_base_dir = os.path.join(script_dir, "..", "..", "..", "..", "..", "path")
