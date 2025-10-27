@@ -260,6 +260,8 @@ if __name__ == "__main__":
         new_lane = transform_coords(lanes[idx], h, scale, offset_x, offset_y)
         lanes[idx] = new_lane
     opp_track_pts = transform_coords(opp_track_pts, h, scale, offset_x, offset_y)
+    opp_outer_bound = transform_coords(opp_outer_bound, h, scale, offset_x, offset_y)
+    opp_inner_bound = transform_coords(opp_inner_bound, h, scale, offset_x, offset_y)
 
     # Plot real-world coordinates
     plt.figure(figsize=(10, 8))
@@ -287,10 +289,14 @@ if __name__ == "__main__":
     save_csv(opp_track_pts, os.path.join(csv_folder, "track.csv"))
     np.save(os.path.join(csv_folder, "track"), opp_track_pts)
 
-    save_csv(opp_outer_bound, os.path.join(csv_folder, "outer_bound.csv"))
-    np.save(os.path.join(csv_folder, "outer_bound"), opp_outer_bound)
+    # Save bounds to /home/ojg/RACE/bound/map_name/
+    bound_folder = os.path.join(module, "..", "bound", input_map)
+    os.makedirs(bound_folder, exist_ok=True)
 
-    save_csv(opp_inner_bound, os.path.join(csv_folder, "inner_bound.csv"))
-    np.save(os.path.join(csv_folder, "inner_bound"), opp_inner_bound)
+    save_csv(opp_outer_bound, os.path.join(bound_folder, "outer_bound.csv"))
+    np.save(os.path.join(bound_folder, "outer_bound"), opp_outer_bound)
+
+    save_csv(opp_inner_bound, os.path.join(bound_folder, "inner_bound.csv"))
+    np.save(os.path.join(bound_folder, "inner_bound"), opp_inner_bound)
 
     print("Finish")
