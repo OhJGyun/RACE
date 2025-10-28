@@ -1,0 +1,8 @@
+/build/
+/install/
+/log/
+/bag/
+/**/build/
+/**/install/
+/**/log/
+/**/bag/

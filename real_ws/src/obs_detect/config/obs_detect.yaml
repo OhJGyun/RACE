@@ -5,8 +5,8 @@ obs_detect_node:
     odom_topic: "/odom"
 
     # 경계 CSV
-    outer_csv: "/home/ircv7/RACE/bound/1027/outer_bound.csv"
-    inner_csvs: "/home/ircv7/RACE/bound/1027/inner_bound.csv"
+    outer_csv: "/home/ircv7/RACE/bound/1028/outer_bound.csv"
+    inner_csvs: "/home/ircv7/RACE/bound/1028/inner_bound.csv"
 
     include_boundary: false
     roi_deg: 90.0
