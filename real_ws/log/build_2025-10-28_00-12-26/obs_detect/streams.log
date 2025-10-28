@@ -1,0 +1,21 @@
+[2.332s] Invoking command in '/home/ircv7/RACE/real_ws/build/obs_detect': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build --no-deps symlink_data --force
+[3.182s] running develop
+[3.711s] running egg_info
+[3.748s] writing obs_detect.egg-info/PKG-INFO
+[3.749s] writing dependency_links to obs_detect.egg-info/dependency_links.txt
+[3.749s] writing entry points to obs_detect.egg-info/entry_points.txt
+[3.750s] writing requirements to obs_detect.egg-info/requires.txt
+[3.750s] writing top-level names to obs_detect.egg-info/top_level.txt
+[3.849s] reading manifest file 'obs_detect.egg-info/SOURCES.txt'
+[3.850s] writing manifest file 'obs_detect.egg-info/SOURCES.txt'
+[3.966s] running build_ext
+[3.966s] Creating /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs-detect.egg-link (link to .)
+[3.967s] Installing obs_detect_node script to /home/ircv7/RACE/real_ws/install/obs_detect/lib/obs_detect
+[3.968s] 
+[3.968s] Installed /home/ircv7/RACE/real_ws/build/obs_detect
+[3.968s] running symlink_data
+[3.969s] symbolically linking /home/ircv7/RACE/real_ws/build/obs_detect/resource/obs_detect -> /home/ircv7/RACE/real_ws/install/obs_detect/share/ament_index/resource_index/packages
+[3.969s] symbolically linking /home/ircv7/RACE/real_ws/build/obs_detect/package.xml -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect
+[3.969s] symbolically linking /home/ircv7/RACE/real_ws/build/obs_detect/config/obs_detect.yaml -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/config
+[3.970s] symbolically linking /home/ircv7/RACE/real_ws/build/obs_detect/launch/obs_detect_launch.py -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/launch
+[4.081s] Invoked command in '/home/ircv7/RACE/real_ws/build/obs_detect' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build --no-deps symlink_data --force

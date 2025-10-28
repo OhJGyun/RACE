@@ -27,17 +27,17 @@ from ament_index_python.packages import get_package_share_directory
 class MapSelectorGUI:
     def __init__(self):
         self.selected_map = None
-        self.workspace_root = "/home/f1/f1tenth_ws"
-        self.default_map = "/home/f1/f1tenth_ws/joon_path_generate/maps/gap_map_final.yaml"
+        self.workspace_root = "/home/ircv7/RACE"
+        self.default_map = "/home/ircv7/RACE/map/1027.yaml"
         self.maps = self._find_all_maps()
 
     def _find_all_maps(self):
         """Find all yaml map files in the workspace"""
         map_patterns = [
             f"{self.workspace_root}/**/maps/*.yaml",
-            f"{self.workspace_root}/maps/*.yaml",
-            f"{self.workspace_root}/joon_path_generate/maps/*.yaml",
-            f"{self.workspace_root}/path_generate/**/maps/*.yaml"
+            f"{self.workspace_root}/map/*.yaml",
+            f"{self.workspace_root}/real_ws/map_global_path_bound/maps/*.yaml",
+            f"{self.workspace_root}/sim_ws/map_global_path_bound/maps/*.yaml"
         ]
 
         all_maps = []
@@ -318,12 +318,12 @@ def select_map_file():
 
 def _terminal_map_selection():
     """Terminal-based map selection as fallback"""
-    workspace_root = "/home/f1/f1tenth_ws"
+    workspace_root = "/home/ircv7/RACE"
     map_patterns = [
         f"{workspace_root}/**/maps/*.yaml",
-        f"{workspace_root}/maps/*.yaml",
-        f"{workspace_root}/joon_path_generate/maps/*.yaml",
-        f"{workspace_root}/path_generate/**/maps/*.yaml"
+        f"{workspace_root}/map/*.yaml",
+        f"{workspace_root}/real_ws/map_global_path_bound/maps/*.yaml",
+        f"{workspace_root}/sim_ws/map_global_path_bound/maps/*.yaml"
     ]
 
     all_maps = []
@@ -334,7 +334,7 @@ def _terminal_map_selection():
 
     if not unique_maps:
         print("❌ No map files found in the workspace!")
-        return "/home/f1/f1tenth_ws/joon_path_generate/maps/gap_map_final.yaml"
+        return "/home/ircv7/RACE/map/1027.yaml"
 
     print("\n🗺️  Available Map Files:")
     print("=" * 70)
@@ -351,7 +351,7 @@ def _terminal_map_selection():
             choice = input(f"\n🎯 Select map file (1-{len(unique_maps)}) or [ENTER] for default: ").strip()
 
             if choice == "":
-                default_map = "/home/f1/f1tenth_ws/joon_path_generate/maps/gap_map_final.yaml"
+                default_map = "/home/ircv7/RACE/map/1027.yaml"
                 print(f"✅ Using default map: {os.path.basename(default_map)}")
                 return default_map
 
@@ -367,7 +367,7 @@ def _terminal_map_selection():
             print("❌ Please enter a valid number")
         except KeyboardInterrupt:
             print("\n🛑 Selection cancelled. Using default map.")
-            return "/home/f1/f1tenth_ws/joon_path_generate/maps/gap_map_final.yaml"
+            return "/home/ircv7/RACE/map/1027.yaml"
 
 
 def generate_launch_description():
@@ -376,6 +376,7 @@ def generate_launch_description():
 
     # Interactive map selection (only if not provided as argument)
     selected_map_file = select_map_file()
+    print(f"[DEBUG] Final selected map file: {selected_map_file}")
 
     # Safe mode exit handler
     def signal_handler(sig, frame):

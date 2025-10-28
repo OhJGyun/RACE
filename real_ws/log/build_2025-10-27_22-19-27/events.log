@@ -1,0 +1,106 @@
+[0.000000] (-) TimerEvent: {}
+[0.000547] (-) JobUnselected: {'identifier': 'ackermann_mux'}
+[0.000982] (-) JobUnselected: {'identifier': 'f1tenth_stack'}
+[0.001239] (-) JobUnselected: {'identifier': 'joy_teleop'}
+[0.001434] (-) JobUnselected: {'identifier': 'key_teleop'}
+[0.001510] (-) JobUnselected: {'identifier': 'lane_selector'}
+[0.001645] (-) JobUnselected: {'identifier': 'mouse_teleop'}
+[0.001709] (-) JobUnselected: {'identifier': 'obs_detect'}
+[0.001744] (-) JobUnselected: {'identifier': 'pure_pursuit'}
+[0.001778] (-) JobUnselected: {'identifier': 'slam_nav'}
+[0.001831] (-) JobUnselected: {'identifier': 'teleop_tools'}
+[0.001866] (-) JobUnselected: {'identifier': 'teleop_tools_msgs'}
+[0.001896] (-) JobUnselected: {'identifier': 'vesc'}
+[0.001925] (-) JobUnselected: {'identifier': 'vesc_ackermann'}
+[0.001952] (-) JobUnselected: {'identifier': 'vesc_driver'}
+[0.001979] (-) JobUnselected: {'identifier': 'vesc_msgs'}
+[0.002013] (map_control) JobQueued: {'identifier': 'map_control', 'dependencies': OrderedDict()}
+[0.002057] (map_control) JobStarted: {'identifier': 'map_control'}
+[0.099473] (-) TimerEvent: {}
+[0.200052] (-) TimerEvent: {}
+[0.300605] (-) TimerEvent: {}
+[0.401266] (-) TimerEvent: {}
+[0.501986] (-) TimerEvent: {}
+[0.602656] (-) TimerEvent: {}
+[0.703480] (-) TimerEvent: {}
+[0.804291] (-) TimerEvent: {}
+[0.904870] (-) TimerEvent: {}
+[1.005498] (-) TimerEvent: {}
+[1.106261] (-) TimerEvent: {}
+[1.207070] (-) TimerEvent: {}
+[1.307830] (-) TimerEvent: {}
+[1.408597] (-) TimerEvent: {}
+[1.509404] (-) TimerEvent: {}
+[1.610089] (-) TimerEvent: {}
+[1.710758] (-) TimerEvent: {}
+[1.811405] (-) TimerEvent: {}
+[1.912131] (-) TimerEvent: {}
+[2.012851] (-) TimerEvent: {}
+[2.113499] (-) TimerEvent: {}
+[2.149793] (map_control) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/map_control', 'build', '--build-base', '/home/ircv7/RACE/real_ws/build/map_control/build', 'install', '--record', '/home/ircv7/RACE/real_ws/build/map_control/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/ircv7/RACE/real_ws/src/map_control', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'CONDA_PROMPT_MODIFIER': '(base)', 'USER': 'ircv7', 'XDG_SESSION_TYPE': 'x11', 'GIT_ASKPASS': '/usr/share/code/resources/app/extensions/git/dist/askpass.sh', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/ircv7', 'CHROME_DESKTOP': 'code.desktop', 'OLDPWD': '/home/ircv7/RACE', 'LESS': '-R', 'CONDA_SHLVL': '1', 'DESKTOP_SESSION': 'ubuntu', 'NVM_BIN': '/home/ircv7/.nvm/versions/node/v22.20.0/bin', 'TERM_PROGRAM_VERSION': '1.105.1', 'JETSON_L4T': '36.4.7', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/code.desktop', 'ZSH': '/home/ircv7/.oh-my-zsh', 'LSCOLORS': 'Gxfxcxdxbxegedabagacad', 'NVM_INC': '/home/ircv7/.nvm/versions/node/v22.20.0/include/node', 'GTK_MODULES': 'gail:atk-bridge', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'JETSON_MODEL': 'NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super', 'PAGER': 'less', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js', 'MANAGERPID': '2412', 'VSCODE_GIT_ASKPASS_NODE': '/usr/share/code/code', 'SYSTEMD_EXEC_PID': '2617', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'VISUAL': 'nvim', 'VSCODE_PYTHON_AUTOACTIVATE_GUARD': '1', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '7222', '_CE_M': '', '_CONDA_ROOT': '/home/ircv7/miniconda3', 'COLORTERM': 'truecolor', 'NVM_DIR': '/home/ircv7/.nvm', 'IM_CONFIG_PHASE': '1', 'ROS_DISTRO': 'humble', 'COLCON_PREFIX_PATH': '/home/ircv7/RACE/sim_ws/install', 'LOGNAME': 'ircv7', 'GTK_IM_MODULE': 'fcitx', 'JETSON_MODULE': 'NVIDIA Jetson Orin Nano (Developer kit)', 'JETSON_SERIAL_NUMBER': '1422623008383', '_': '/usr/bin/colcon', 'JOURNAL_STREAM': '8:45687', 'XDG_SESSION_CLASS': 'user', 'ROS_VERSION': '2', 'CLAUDE_CODE_SSE_PORT': '10396', 'USER_ZDOTDIR': '/home/ircv7', 'USERNAME': 'ircv7', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', '_CE_CONDA': '', 'WINDOWPATH': '2', 'PATH': '/home/ircv7/miniconda3/bin:/home/ircv7/miniconda3/condabin:/home/ircv7/.nvm/versions/node/v22.20.0/bin:/opt/ros/humble/bin:/home/ircv7/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ircv7/.fzf/bin:/home/ircv7/.config/Code/User/globalStorage/github.copilot-chat/debugCommand', 'SESSION_MANAGER': 'local/ubuntu:@/tmp/.ICE-unix/2582,unix/ubuntu:/tmp/.ICE-unix/2582', 'INVOCATION_ID': 'a7df51044e5f4be5bfe7625c7eebdaf0', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XDG_MENU_PREFIX': 'gnome-', 'GDK_BACKEND': 'x11', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'Unity', 'VSCODE_INJECTION': '1', 'JETSON_SOC': 'tegra234', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XMODIFIERS': '@im=fcitx', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'TERM_PROGRAM': 'vscode', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-8837dfeedb.sock', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ORIGINAL_XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'AMENT_PREFIX_PATH': '/home/ircv7/RACE/sim_ws/install/obs_detect:/home/ircv7/RACE/sim_ws/install/mpcc:/home/ircv7/RACE/sim_ws/install/map_control:/home/ircv7/RACE/sim_ws/install/lane_selector:/home/ircv7/RACE/sim_ws/install/f1tenth_gym_ros:/home/ircv7/RACE/sim_ws/install/disparity_autodrive:/opt/ros/humble', 'CONDA_PYTHON_EXE': '/home/ircv7/miniconda3/bin/python', 'SHELL': '/usr/bin/zsh', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'CONDA_DEFAULT_ENV': 'base', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', '_CONDA_EXE': '/home/ircv7/miniconda3/bin/conda', 'QT_IM_MODULE': 'fcitx', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'JETSON_CUDA_ARCH_BIN': '8.7', 'LC_ALL': 'en_US.UTF-8', 'PWD': '/home/ircv7/RACE/real_ws/build/map_control', 'ENABLE_IDE_INTEGRATION': 'true', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'CLUTTER_IM_MODULE': 'fcitx', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'NVM_CD_FLAGS': '-q', 'CONDA_EXE': '/home/ircv7/miniconda3/bin/conda', 'ZDOTDIR': '/home/ircv7', 'PYTHONPATH': '/home/ircv7/RACE/real_ws/build/map_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages:/home/ircv7/RACE/sim_ws/build/obs_detect:/home/ircv7/RACE/sim_ws/build/map_control:/home/ircv7/RACE/sim_ws/build/lane_selector:/home/ircv7/RACE/sim_ws/build/f1tenth_gym_ros:/home/ircv7/RACE/sim_ws/install/obs_detect/lib/python3.10/site-packages:/home/ircv7/RACE/sim_ws/install/mpcc/local/lib/python3.10/dist-packages:/home/ircv7/RACE/sim_ws/install/map_control/lib/python3.10/site-packages:/home/ircv7/RACE/sim_ws/install/lane_selector/lib/python3.10/site-packages:/home/ircv7/RACE/sim_ws/install/f1tenth_gym_ros/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'CONDA_PREFIX': '/home/ircv7/miniconda3', 'COLCON': '1', 'JETSON_JETPACK': '', 'JETSON_P_NUMBER': 'p3767-0005', 'EDITOR': 'nvim', 'CMAKE_PREFIX_PATH': '/home/ircv7/RACE/sim_ws/install/mpcc:/home/ircv7/RACE/sim_ws/install/disparity_autodrive'}, 'shell': False}
+[2.213660] (-) TimerEvent: {}
+[2.314236] (-) TimerEvent: {}
+[2.414792] (-) TimerEvent: {}
+[2.515357] (-) TimerEvent: {}
+[2.615929] (-) TimerEvent: {}
+[2.716493] (-) TimerEvent: {}
+[2.728982] (map_control) StdoutLine: {'line': b'running egg_info\n'}
+[2.729796] (map_control) StdoutLine: {'line': b'creating ../../build/map_control/map_control.egg-info\n'}
+[2.767535] (map_control) StdoutLine: {'line': b'writing ../../build/map_control/map_control.egg-info/PKG-INFO\n'}
+[2.768644] (map_control) StdoutLine: {'line': b'writing dependency_links to ../../build/map_control/map_control.egg-info/dependency_links.txt\n'}
+[2.769087] (map_control) StdoutLine: {'line': b'writing entry points to ../../build/map_control/map_control.egg-info/entry_points.txt\n'}
+[2.769406] (map_control) StdoutLine: {'line': b'writing requirements to ../../build/map_control/map_control.egg-info/requires.txt\n'}
+[2.769687] (map_control) StdoutLine: {'line': b'writing top-level names to ../../build/map_control/map_control.egg-info/top_level.txt\n'}
+[2.769981] (map_control) StdoutLine: {'line': b"writing manifest file '../../build/map_control/map_control.egg-info/SOURCES.txt'\n"}
+[2.816675] (-) TimerEvent: {}
+[2.845896] (map_control) StdoutLine: {'line': b"reading manifest file '../../build/map_control/map_control.egg-info/SOURCES.txt'\n"}
+[2.847478] (map_control) StdoutLine: {'line': b"writing manifest file '../../build/map_control/map_control.egg-info/SOURCES.txt'\n"}
+[2.848170] (map_control) StdoutLine: {'line': b'running build\n'}
+[2.848616] (map_control) StdoutLine: {'line': b'running build_py\n'}
+[2.849697] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/build/map_control/build\n'}
+[2.850074] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/build/map_control/build/lib\n'}
+[2.850252] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control\n'}
+[2.850445] (map_control) StdoutLine: {'line': b'copying map_control/map_controller.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control\n'}
+[2.850572] (map_control) StdoutLine: {'line': b'copying map_control/frenet_converter.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control\n'}
+[2.850877] (map_control) StdoutLine: {'line': b'copying map_control/steering_lookup.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control\n'}
+[2.851210] (map_control) StdoutLine: {'line': b'copying map_control/__init__.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control\n'}
+[2.851611] (map_control) StdoutLine: {'line': b'copying map_control/controller_manager.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control\n'}
+[2.851972] (map_control) StdoutLine: {'line': b'running install\n'}
+[2.862257] (map_control) StdoutLine: {'line': b'running install_lib\n'}
+[2.901942] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control\n'}
+[2.902591] (map_control) StdoutLine: {'line': b'copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/map_controller.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control\n'}
+[2.903216] (map_control) StdoutLine: {'line': b'copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/frenet_converter.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control\n'}
+[2.903572] (map_control) StdoutLine: {'line': b'copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/steering_lookup.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control\n'}
+[2.903846] (map_control) StdoutLine: {'line': b'copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/__init__.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control\n'}
+[2.904356] (map_control) StdoutLine: {'line': b'copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/controller_manager.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control\n'}
+[2.905050] (map_control) StdoutLine: {'line': b'byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/map_controller.py to map_controller.cpython-310.pyc\n'}
+[2.909073] (map_control) StdoutLine: {'line': b'byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/frenet_converter.py to frenet_converter.cpython-310.pyc\n'}
+[2.910833] (map_control) StdoutLine: {'line': b'byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/steering_lookup.py to steering_lookup.cpython-310.pyc\n'}
+[2.912326] (map_control) StdoutLine: {'line': b'byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/__init__.py to __init__.cpython-310.pyc\n'}
+[2.913241] (map_control) StdoutLine: {'line': b'byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/controller_manager.py to controller_manager.cpython-310.pyc\n'}
+[2.916739] (-) TimerEvent: {}
+[2.920004] (map_control) StdoutLine: {'line': b'running install_data\n'}
+[2.920655] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/share/ament_index\n'}
+[2.921097] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/share/ament_index/resource_index\n'}
+[2.921534] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/share/ament_index/resource_index/packages\n'}
+[2.921863] (map_control) StdoutLine: {'line': b'copying resource/map_control -> /home/ircv7/RACE/real_ws/install/map_control/share/ament_index/resource_index/packages\n'}
+[2.922223] (map_control) StdoutLine: {'line': b'copying package.xml -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control\n'}
+[2.922529] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/share/map_control/launch\n'}
+[2.922869] (map_control) StdoutLine: {'line': b'copying launch/map_with_lane_selector.launch.py -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/launch\n'}
+[2.923176] (map_control) StdoutLine: {'line': b'copying launch/map_controller.launch.py -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/launch\n'}
+[2.923436] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config\n'}
+[2.923744] (map_control) StdoutLine: {'line': b'copying config/map_control_params.yaml -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config\n'}
+[2.923989] (map_control) StdoutLine: {'line': b'creating /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config/steering_lut\n'}
+[2.924221] (map_control) StdoutLine: {'line': b'copying config/steering_lut/NUC2_pacejka_lookup_table.csv -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config/steering_lut\n'}
+[2.924449] (map_control) StdoutLine: {'line': b'running install_egg_info\n'}
+[2.965317] (map_control) StdoutLine: {'line': b'Copying ../../build/map_control/map_control.egg-info to /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control-1.0.0-py3.10.egg-info\n'}
+[2.967038] (map_control) StdoutLine: {'line': b'running install_scripts\n'}
+[3.016912] (-) TimerEvent: {}
+[3.117538] (-) TimerEvent: {}
+[3.218312] (-) TimerEvent: {}
+[3.288810] (map_control) StdoutLine: {'line': b'Installing map_controller script to /home/ircv7/RACE/real_ws/install/map_control/lib/map_control\n'}
+[3.289725] (map_control) StdoutLine: {'line': b"writing list of installed files to '/home/ircv7/RACE/real_ws/build/map_control/install.log'\n"}
+[3.318499] (-) TimerEvent: {}
+[3.370737] (map_control) CommandEnded: {'returncode': 0}
+[3.414975] (map_control) JobEnded: {'identifier': 'map_control', 'rc': 0}
+[3.417511] (-) EventReactorShutdown: {}

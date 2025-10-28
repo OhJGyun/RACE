@@ -1,6 +1,13 @@
 package.xml
 setup.cfg
 setup.py
+../../build/obs_detect/obs_detect.egg-info/PKG-INFO
+../../build/obs_detect/obs_detect.egg-info/SOURCES.txt
+../../build/obs_detect/obs_detect.egg-info/dependency_links.txt
+../../build/obs_detect/obs_detect.egg-info/entry_points.txt
+../../build/obs_detect/obs_detect.egg-info/requires.txt
+../../build/obs_detect/obs_detect.egg-info/top_level.txt
+../../build/obs_detect/obs_detect.egg-info/zip-safe
 config/obs_detect.yaml
 launch/obs_detect_launch.py
 obs_detect/__init__.py

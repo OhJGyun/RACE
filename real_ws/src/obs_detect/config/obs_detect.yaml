@@ -2,11 +2,11 @@ obs_detect_node:
   ros__parameters:
     # LiDAR / 차량 토픽
     scan_topic: "/scan"
-    odom_topic: "/ego_racecar/odom"
+    odom_topic: "/odom"
 
     # 경계 CSV
-    outer_csv: "/home/ircv7/RACE/real_ws/map_global_path_bound/bounds/1017_wo_obs_outer_bound_world.csv"
-    inner_csvs: "/home/ircv7/RACE/real_ws/map_global_path_bound/bounds/1017_wo_obs_inner_bound_world.csv"
+    outer_csv: "/home/ircv7/RACE/bound/1027/outer_bound.csv"
+    inner_csvs: "/home/ircv7/RACE/bound/1027/inner_bound.csv"
 
     include_boundary: false
     roi_deg: 90.0

@@ -1,0 +1,17 @@
+[3.452s] Invoking command in '/home/ircv7/RACE/real_ws/build/lane_selector': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/lane_selector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/lane_selector/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/lane_selector/build --no-deps symlink_data
+[4.222s] running develop
+[4.756s] running egg_info
+[4.795s] writing lane_selector.egg-info/PKG-INFO
+[4.796s] writing dependency_links to lane_selector.egg-info/dependency_links.txt
+[4.797s] writing entry points to lane_selector.egg-info/entry_points.txt
+[4.798s] writing requirements to lane_selector.egg-info/requires.txt
+[4.798s] writing top-level names to lane_selector.egg-info/top_level.txt
+[4.916s] reading manifest file 'lane_selector.egg-info/SOURCES.txt'
+[4.918s] writing manifest file 'lane_selector.egg-info/SOURCES.txt'
+[5.054s] running build_ext
+[5.054s] Creating /home/ircv7/RACE/real_ws/install/lane_selector/lib/python3.10/site-packages/lane-selector.egg-link (link to .)
+[5.056s] Installing lane_selector_node script to /home/ircv7/RACE/real_ws/install/lane_selector/lib/lane_selector
+[5.057s] 
+[5.057s] Installed /home/ircv7/RACE/real_ws/build/lane_selector
+[5.058s] running symlink_data
+[5.216s] Invoked command in '/home/ircv7/RACE/real_ws/build/lane_selector' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/lane_selector/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/lane_selector/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/lane_selector/build --no-deps symlink_data

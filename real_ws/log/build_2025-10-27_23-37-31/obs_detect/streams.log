@@ -1,0 +1,38 @@
+[2.121s] Invoking command in '/home/ircv7/RACE/real_ws/build/obs_detect': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build
+[2.824s] running develop
+[3.330s] Removing /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs-detect.egg-link (link to .)
+[3.435s] Invoked command in '/home/ircv7/RACE/real_ws/build/obs_detect' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/ircv7/RACE/real_ws/build/obs_detect/build
+[3.440s] Invoking command in '/home/ircv7/RACE/real_ws/src/obs_detect': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/obs_detect build --build-base /home/ircv7/RACE/real_ws/build/obs_detect/build install --record /home/ircv7/RACE/real_ws/build/obs_detect/install.log --single-version-externally-managed install_data --force
+[4.009s] running egg_info
+[4.047s] writing ../../build/obs_detect/obs_detect.egg-info/PKG-INFO
+[4.048s] writing dependency_links to ../../build/obs_detect/obs_detect.egg-info/dependency_links.txt
+[4.049s] writing entry points to ../../build/obs_detect/obs_detect.egg-info/entry_points.txt
+[4.049s] writing requirements to ../../build/obs_detect/obs_detect.egg-info/requires.txt
+[4.049s] writing top-level names to ../../build/obs_detect/obs_detect.egg-info/top_level.txt
+[4.129s] reading manifest file '../../build/obs_detect/obs_detect.egg-info/SOURCES.txt'
+[4.131s] writing manifest file '../../build/obs_detect/obs_detect.egg-info/SOURCES.txt'
+[4.131s] running build
+[4.131s] running build_py
+[4.132s] creating /home/ircv7/RACE/real_ws/build/obs_detect/build
+[4.132s] creating /home/ircv7/RACE/real_ws/build/obs_detect/build/lib
+[4.132s] creating /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect
+[4.132s] copying obs_detect/obs_detect_node.py -> /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect
+[4.133s] copying obs_detect/__init__.py -> /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect
+[4.133s] running install
+[4.145s] running install_lib
+[4.185s] creating /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect
+[4.185s] copying /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect/obs_detect_node.py -> /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect
+[4.186s] copying /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect/__init__.py -> /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect
+[4.187s] byte-compiling /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect/obs_detect_node.py to obs_detect_node.cpython-310.pyc
+[4.193s] byte-compiling /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect/__init__.py to __init__.cpython-310.pyc
+[4.193s] running install_data
+[4.193s] copying resource/obs_detect -> /home/ircv7/RACE/real_ws/install/obs_detect/share/ament_index/resource_index/packages
+[4.194s] copying package.xml -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect
+[4.194s] copying config/obs_detect.yaml -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/config
+[4.195s] copying launch/obs_detect_launch.py -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/launch
+[4.195s] running install_egg_info
+[4.237s] Copying ../../build/obs_detect/obs_detect.egg-info to /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect-0.0.0-py3.10.egg-info
+[4.240s] running install_scripts
+[4.563s] Installing obs_detect_node script to /home/ircv7/RACE/real_ws/install/obs_detect/lib/obs_detect
+[4.563s] writing list of installed files to '/home/ircv7/RACE/real_ws/build/obs_detect/install.log'
+[4.651s] Invoked command in '/home/ircv7/RACE/real_ws/src/obs_detect' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/obs_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/obs_detect build --build-base /home/ircv7/RACE/real_ws/build/obs_detect/build install --record /home/ircv7/RACE/real_ws/build/obs_detect/install.log --single-version-externally-managed install_data --force

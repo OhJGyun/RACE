@@ -54,7 +54,7 @@ class LaneSelectorNode(Node):
         # 파라미터 선언
         # ------------------------------------------------------------------
         # 차량 자세
-        self.declare_parameter("odom_topic", "/ego_racecar/odom")
+        self.declare_parameter("odom_topic", "/odom")
 
         # 장애물 정보
         self.declare_parameter("obstacles_topic", "obs_detect/obstacles")

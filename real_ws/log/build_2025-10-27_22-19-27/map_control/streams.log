@@ -1,0 +1,53 @@
+[2.151s] Invoking command in '/home/ircv7/RACE/real_ws/src/map_control': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/map_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/map_control build --build-base /home/ircv7/RACE/real_ws/build/map_control/build install --record /home/ircv7/RACE/real_ws/build/map_control/install.log --single-version-externally-managed install_data
+[2.727s] running egg_info
+[2.728s] creating ../../build/map_control/map_control.egg-info
+[2.766s] writing ../../build/map_control/map_control.egg-info/PKG-INFO
+[2.767s] writing dependency_links to ../../build/map_control/map_control.egg-info/dependency_links.txt
+[2.767s] writing entry points to ../../build/map_control/map_control.egg-info/entry_points.txt
+[2.767s] writing requirements to ../../build/map_control/map_control.egg-info/requires.txt
+[2.768s] writing top-level names to ../../build/map_control/map_control.egg-info/top_level.txt
+[2.768s] writing manifest file '../../build/map_control/map_control.egg-info/SOURCES.txt'
+[2.844s] reading manifest file '../../build/map_control/map_control.egg-info/SOURCES.txt'
+[2.846s] writing manifest file '../../build/map_control/map_control.egg-info/SOURCES.txt'
+[2.846s] running build
+[2.847s] running build_py
+[2.848s] creating /home/ircv7/RACE/real_ws/build/map_control/build
+[2.848s] creating /home/ircv7/RACE/real_ws/build/map_control/build/lib
+[2.848s] creating /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control
+[2.848s] copying map_control/map_controller.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control
+[2.848s] copying map_control/frenet_converter.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control
+[2.849s] copying map_control/steering_lookup.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control
+[2.849s] copying map_control/__init__.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control
+[2.849s] copying map_control/controller_manager.py -> /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control
+[2.850s] running install
+[2.860s] running install_lib
+[2.900s] creating /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control
+[2.901s] copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/map_controller.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control
+[2.901s] copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/frenet_converter.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control
+[2.901s] copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/steering_lookup.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control
+[2.902s] copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/__init__.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control
+[2.902s] copying /home/ircv7/RACE/real_ws/build/map_control/build/lib/map_control/controller_manager.py -> /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control
+[2.903s] byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/map_controller.py to map_controller.cpython-310.pyc
+[2.907s] byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/frenet_converter.py to frenet_converter.cpython-310.pyc
+[2.909s] byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/steering_lookup.py to steering_lookup.cpython-310.pyc
+[2.910s] byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/__init__.py to __init__.cpython-310.pyc
+[2.911s] byte-compiling /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control/controller_manager.py to controller_manager.cpython-310.pyc
+[2.918s] running install_data
+[2.919s] creating /home/ircv7/RACE/real_ws/install/map_control/share/ament_index
+[2.919s] creating /home/ircv7/RACE/real_ws/install/map_control/share/ament_index/resource_index
+[2.919s] creating /home/ircv7/RACE/real_ws/install/map_control/share/ament_index/resource_index/packages
+[2.920s] copying resource/map_control -> /home/ircv7/RACE/real_ws/install/map_control/share/ament_index/resource_index/packages
+[2.920s] copying package.xml -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control
+[2.920s] creating /home/ircv7/RACE/real_ws/install/map_control/share/map_control/launch
+[2.921s] copying launch/map_with_lane_selector.launch.py -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/launch
+[2.921s] copying launch/map_controller.launch.py -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/launch
+[2.921s] creating /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config
+[2.922s] copying config/map_control_params.yaml -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config
+[2.922s] creating /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config/steering_lut
+[2.922s] copying config/steering_lut/NUC2_pacejka_lookup_table.csv -> /home/ircv7/RACE/real_ws/install/map_control/share/map_control/config/steering_lut
+[2.922s] running install_egg_info
+[2.963s] Copying ../../build/map_control/map_control.egg-info to /home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages/map_control-1.0.0-py3.10.egg-info
+[2.965s] running install_scripts
+[3.287s] Installing map_controller script to /home/ircv7/RACE/real_ws/install/map_control/lib/map_control
+[3.288s] writing list of installed files to '/home/ircv7/RACE/real_ws/build/map_control/install.log'
+[3.370s] Invoked command in '/home/ircv7/RACE/real_ws/src/map_control' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/map_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/map_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/map_control build --build-base /home/ircv7/RACE/real_ws/build/map_control/build install --record /home/ircv7/RACE/real_ws/build/map_control/install.log --single-version-externally-managed install_data

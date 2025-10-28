@@ -1,0 +1,35 @@
+[0.084s] Invoking command in '/home/ircv7/RACE/real_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/sim_ws/install/obs_detect:/home/ircv7/RACE/sim_ws/install/map_control:/home/ircv7/RACE/sim_ws/install/lane_selector:/home/ircv7/RACE/sim_ws/install/f1tenth_gym_ros:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/ackermann_mux -- -j6 -l6
+[1.472s] [100%] Built target ackermann_mux
+[2.019s] Invoked command in '/home/ircv7/RACE/real_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/sim_ws/install/obs_detect:/home/ircv7/RACE/sim_ws/install/map_control:/home/ircv7/RACE/sim_ws/install/lane_selector:/home/ircv7/RACE/sim_ws/install/f1tenth_gym_ros:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ircv7/RACE/real_ws/build/ackermann_mux -- -j6 -l6
+[2.042s] Invoking command in '/home/ircv7/RACE/real_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/sim_ws/install/obs_detect:/home/ircv7/RACE/sim_ws/install/map_control:/home/ircv7/RACE/sim_ws/install/lane_selector:/home/ircv7/RACE/sim_ws/install/f1tenth_gym_ros:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/ackermann_mux
+[2.063s] -- Install configuration: "Release"
+[2.063s] -- Execute custom install script
+[2.063s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/lib/ackermann_mux/ackermann_mux
+[2.064s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/launch/ackermann_mux_launch.py
+[2.064s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_locks.yaml
+[2.064s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_topics.yaml
+[2.064s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/config/joystick.yaml
+[2.077s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux.hpp
+[2.078s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics.hpp
+[2.078s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics_status.hpp
+[2.078s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/params_helpers.hpp
+[2.079s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/topic_handle.hpp
+[2.079s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/include/ackermann_mux/utils.hpp
+[2.079s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/package_run_dependencies/ackermann_mux
+[2.079s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/parent_prefix_path/ackermann_mux
+[2.079s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.sh
+[2.080s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.dsv
+[2.080s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/path.sh
+[2.081s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/environment/path.dsv
+[2.081s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.bash
+[2.081s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.sh
+[2.081s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.zsh
+[2.081s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/local_setup.dsv
+[2.081s] -- Symlinking: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.dsv
+[2.142s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ament_index/resource_index/packages/ackermann_mux
+[2.142s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.142s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.142s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig.cmake
+[2.142s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig-version.cmake
+[2.142s] -- Up-to-date symlink: /home/ircv7/RACE/real_ws/install/ackermann_mux/share/ackermann_mux/package.xml
+[2.203s] Invoked command in '/home/ircv7/RACE/real_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ircv7/RACE/sim_ws/install/obs_detect:/home/ircv7/RACE/sim_ws/install/map_control:/home/ircv7/RACE/sim_ws/install/lane_selector:/home/ircv7/RACE/sim_ws/install/f1tenth_gym_ros:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ircv7/RACE/real_ws/build/ackermann_mux

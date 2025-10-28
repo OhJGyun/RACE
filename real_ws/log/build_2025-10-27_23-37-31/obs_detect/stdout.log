@@ -1,0 +1,34 @@
+running develop
+Removing /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs-detect.egg-link (link to .)
+running egg_info
+writing ../../build/obs_detect/obs_detect.egg-info/PKG-INFO
+writing dependency_links to ../../build/obs_detect/obs_detect.egg-info/dependency_links.txt
+writing entry points to ../../build/obs_detect/obs_detect.egg-info/entry_points.txt
+writing requirements to ../../build/obs_detect/obs_detect.egg-info/requires.txt
+writing top-level names to ../../build/obs_detect/obs_detect.egg-info/top_level.txt
+reading manifest file '../../build/obs_detect/obs_detect.egg-info/SOURCES.txt'
+writing manifest file '../../build/obs_detect/obs_detect.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/ircv7/RACE/real_ws/build/obs_detect/build
+creating /home/ircv7/RACE/real_ws/build/obs_detect/build/lib
+creating /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect
+copying obs_detect/obs_detect_node.py -> /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect
+copying obs_detect/__init__.py -> /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect
+running install
+running install_lib
+creating /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect
+copying /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect/obs_detect_node.py -> /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect
+copying /home/ircv7/RACE/real_ws/build/obs_detect/build/lib/obs_detect/__init__.py -> /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect
+byte-compiling /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect/obs_detect_node.py to obs_detect_node.cpython-310.pyc
+byte-compiling /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect/__init__.py to __init__.cpython-310.pyc
+running install_data
+copying resource/obs_detect -> /home/ircv7/RACE/real_ws/install/obs_detect/share/ament_index/resource_index/packages
+copying package.xml -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect
+copying config/obs_detect.yaml -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/config
+copying launch/obs_detect_launch.py -> /home/ircv7/RACE/real_ws/install/obs_detect/share/obs_detect/launch
+running install_egg_info
+Copying ../../build/obs_detect/obs_detect.egg-info to /home/ircv7/RACE/real_ws/install/obs_detect/lib/python3.10/site-packages/obs_detect-0.0.0-py3.10.egg-info
+running install_scripts
+Installing obs_detect_node script to /home/ircv7/RACE/real_ws/install/obs_detect/lib/obs_detect
+writing list of installed files to '/home/ircv7/RACE/real_ws/build/obs_detect/install.log'

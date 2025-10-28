@@ -1,0 +1,17 @@
+[4.490s] Invoking command in '/home/ircv7/RACE/real_ws/build/key_teleop': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/key_teleop/build --no-deps symlink_data
+[6.170s] running develop
+[7.186s] running egg_info
+[7.246s] writing key_teleop.egg-info/PKG-INFO
+[7.248s] writing dependency_links to key_teleop.egg-info/dependency_links.txt
+[7.249s] writing entry points to key_teleop.egg-info/entry_points.txt
+[7.250s] writing requirements to key_teleop.egg-info/requires.txt
+[7.250s] writing top-level names to key_teleop.egg-info/top_level.txt
+[7.445s] reading manifest file 'key_teleop.egg-info/SOURCES.txt'
+[7.449s] writing manifest file 'key_teleop.egg-info/SOURCES.txt'
+[7.648s] running build_ext
+[7.649s] Creating /home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages/key-teleop.egg-link (link to .)
+[7.651s] Installing key_teleop script to /home/ircv7/RACE/real_ws/install/key_teleop/lib/key_teleop
+[7.652s] 
+[7.652s] Installed /home/ircv7/RACE/real_ws/build/key_teleop
+[7.653s] running symlink_data
+[8.105s] Invoked command in '/home/ircv7/RACE/real_ws/build/key_teleop' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ircv7/RACE/real_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ircv7/RACE/real_ws/install/key_teleop/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ircv7/RACE/real_ws/build/key_teleop/build --no-deps symlink_data
