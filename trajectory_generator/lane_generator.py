@@ -95,6 +95,13 @@ def transform_coords(path, height, s, tx, ty):
         return np.vstack((new_path_x, new_path_y)).T
 
 
+def inverse_transform_coords(path, height, s, tx, ty):
+    """Transform from map coordinates to pixel coordinates"""
+    pixel_x = (path[:, 0] - tx) / s
+    pixel_y = height - (path[:, 1] - ty) / s
+    return np.vstack((pixel_x, pixel_y)).T.astype(int)
+
+
 def save_csv(data, csv_name, header=None):
     with open(csv_name, mode='w') as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -298,5 +305,31 @@ if __name__ == "__main__":
 
     save_csv(opp_inner_bound, os.path.join(bound_folder, "inner_bound.csv"))
     np.save(os.path.join(bound_folder, "inner_bound"), opp_inner_bound)
+
+    # Create debug image with bounds overlaid on map
+    print("Creating debug image...")
+    debug_img = cv2.imread(img_path)
+    if debug_img is None:
+        debug_img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+        debug_img = cv2.cvtColor(debug_img, cv2.COLOR_GRAY2BGR)
+
+    # Convert map coordinates back to pixel coordinates
+    outer_bound_pixels = inverse_transform_coords(opp_outer_bound, h, scale, offset_x, offset_y)
+    inner_bound_pixels = inverse_transform_coords(opp_inner_bound, h, scale, offset_x, offset_y)
+
+    # Draw outer bound points in red
+    for i in range(len(outer_bound_pixels)):
+        pt = tuple(outer_bound_pixels[i])
+        cv2.circle(debug_img, pt, 2, (0, 0, 255), -1)
+
+    # Draw inner bound points in blue
+    for i in range(len(inner_bound_pixels)):
+        pt = tuple(inner_bound_pixels[i])
+        cv2.circle(debug_img, pt, 2, (255, 0, 0), -1)
+
+    # Save debug image
+    debug_img_path = os.path.join(bound_folder, "debug_bounds.png")
+    cv2.imwrite(debug_img_path, debug_img)
+    print(f"Debug image saved to {debug_img_path}")
 
     print("Finish")
