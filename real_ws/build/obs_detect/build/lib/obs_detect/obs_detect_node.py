@@ -19,10 +19,13 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 
-from geometry_msgs.msg import Pose, PoseArray, Point
+from geometry_msgs.msg import Pose, PoseArray, Point, PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
 from visualization_msgs.msg import Marker, MarkerArray
+from rclpy.time import Time
+from tf2_ros import Buffer, TransformListener, LookupException, ConnectivityException, ExtrapolationException
+from transforms3d.euler import quat2euler
 
 
 ################################################################################
@@ -30,6 +33,7 @@ from visualization_msgs.msg import Marker, MarkerArray
 ################################################################################
 
 Point2D = Tuple[float, float]
+
 
 def load_world_csv(path: str) -> List[Point2D]:
     """CSV에서 (x, y) 좌표 목록을 불러온다."""
@@ -145,7 +149,14 @@ class ObsDetectNode(Node):
         # ------------------------------------------------------------------
         # LiDAR & 차량 자세
         self.declare_parameter("scan_topic", "/scan")
-        self.declare_parameter("odom_topic", "/ego_racecar/odom")
+        self.declare_parameter("odom_topic", "/odom")
+        self.declare_parameter("amcl_topic", "/amcl_pose")
+
+        # Localization 설정
+        self.declare_parameter("use_tf_for_localization", True)
+        self.declare_parameter("use_amcl_pose", False)
+        self.declare_parameter("tf_timeout", 0.1)
+        self.declare_parameter("max_pose_age", 0.5)
 
         # 경계 정보
         self.declare_parameter("outer_csv", "outer_bound_world.csv")
@@ -155,7 +166,7 @@ class ObsDetectNode(Node):
         # LiDAR ROI / 센서 설정
         self.declare_parameter("roi_deg", 90.0)
         self.declare_parameter("range_max", 12.0)
-        self.declare_parameter("laser_yaw_offset_deg", 135.0)
+        self.declare_parameter("laser_yaw_offset_deg", 0.0)
 
         # 장애물 필터링 & 클러스터링
         self.declare_parameter("boundary_margin", 0.50)
@@ -172,6 +183,11 @@ class ObsDetectNode(Node):
         # ------------------------------------------------------------------
         self.scan_topic = str(self.get_parameter("scan_topic").value)
         self.odom_topic = str(self.get_parameter("odom_topic").value)
+        self.amcl_topic = str(self.get_parameter("amcl_topic").value)
+        self.use_tf_for_localization = bool(self.get_parameter("use_tf_for_localization").value)
+        self.use_amcl_pose = bool(self.get_parameter("use_amcl_pose").value)
+        self.tf_timeout = float(self.get_parameter("tf_timeout").value)
+        self.max_pose_age = float(self.get_parameter("max_pose_age").value)
         self.outer_csv = str(self.get_parameter("outer_csv").value)
         self.inner_spec = str(self.get_parameter("inner_csvs").value)
         self.include_boundary = bool(self.get_parameter("include_boundary").value)
@@ -197,9 +213,17 @@ class ObsDetectNode(Node):
         )
 
         # ------------------------------------------------------------------
+        # TF2 초기화
+        # ------------------------------------------------------------------
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+
+        # ------------------------------------------------------------------
         # 상태 변수 초기화
         # ------------------------------------------------------------------
-        self.pose: Optional[Tuple[float, float, float]] = None
+        self.odom_pose: Optional[Tuple[float, float, float]] = None
+        self.amcl_pose: Optional[Tuple[float, float, float]] = None
+        self.last_amcl_time = self.get_clock().now()
 
         # ------------------------------------------------------------------
         # ROS 인터페이스
@@ -207,31 +231,106 @@ class ObsDetectNode(Node):
         self.sub_odom = self.create_subscription(Odometry, self.odom_topic, self._on_odom, 20)
         self.sub_scan = self.create_subscription(LaserScan, self.scan_topic, self._on_scan, 10)
 
+        # AMCL fallback 구독
+        if self.use_amcl_pose or self.use_tf_for_localization:
+            self.sub_amcl = self.create_subscription(
+                PoseWithCovarianceStamped,
+                self.amcl_topic,
+                self._on_amcl,
+                10
+            )
+
         self.pub_obstacle_markers = self.create_publisher(MarkerArray, "obs_detect/markers", 1)
         self.pub_obstacle_centers = self.create_publisher(PoseArray, "obs_detect/obstacles", 10)
 
-        self.get_logger().info("Obstacle detection node ready.")
+        loc_mode = "TF2 (map->base_link)" if self.use_tf_for_localization else ("AMCL" if self.use_amcl_pose else "Odom")
+        self.get_logger().info(f"Obstacle detection node ready. Localization: {loc_mode}")
+
+    # ----------------------------------------------------------------------
+    # Localization 메서드 (map_control과 동일한 구조)
+    # ----------------------------------------------------------------------
+    def get_current_pose_from_tf(self) -> Optional[Tuple[float, float, float]]:
+        """Get current pose from TF (map -> base_link transform)"""
+        try:
+            from rclpy.duration import Duration
+            transform = self.tf_buffer.lookup_transform(
+                'map',
+                'base_link',
+                Time().to_msg(),  # Humble compatibility
+                timeout=Duration(seconds=self.tf_timeout)
+            )
+            x = transform.transform.translation.x
+            y = transform.transform.translation.y
+            q = transform.transform.rotation
+            _, _, theta = quat2euler([q.w, q.x, q.y, q.z])
+            return (x, y, theta)
+        except (LookupException, ConnectivityException, ExtrapolationException) as e:
+            self.get_logger().warn(f"TF lookup failed: {e}", throttle_duration_sec=1.0)
+            return None
+
+    def get_current_pose_from_amcl(self) -> Optional[Tuple[float, float, float]]:
+        """Get current pose from AMCL topic (fallback)"""
+        if self.amcl_pose is None:
+            return None
+        age = (self.get_clock().now() - self.last_amcl_time).nanoseconds / 1e9
+        if age > self.max_pose_age:
+            return None
+        return self.amcl_pose
+
+    def get_current_pose(self) -> Optional[Tuple[float, float, float]]:
+        """Get current pose (TF first, then AMCL fallback, then odom fallback)"""
+        # Method 1: TF (real-time, recommended)
+        if self.use_tf_for_localization:
+            pose = self.get_current_pose_from_tf()
+            if pose is not None:
+                return pose
+            self.get_logger().warn("TF failed, trying AMCL fallback", throttle_duration_sec=2.0)
+
+        # Method 2: AMCL topic (fallback)
+        if self.use_amcl_pose or self.use_tf_for_localization:
+            pose = self.get_current_pose_from_amcl()
+            if pose is not None:
+                return pose
+
+        # Method 3: Odom (last resort)
+        return self.odom_pose
 
     # ----------------------------------------------------------------------
     # Odometry 콜백
     # ----------------------------------------------------------------------
     def _on_odom(self, msg: Odometry) -> None:
+        """Update odom pose (used as last-resort fallback)"""
         x = msg.pose.pose.position.x
         y = msg.pose.pose.position.y
         q = msg.pose.pose.orientation
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
         yaw = math.atan2(siny_cosp, cosy_cosp)
-        self.pose = (x, y, yaw)
+        self.odom_pose = (x, y, yaw)
+
+    # ----------------------------------------------------------------------
+    # AMCL 콜백
+    # ----------------------------------------------------------------------
+    def _on_amcl(self, msg: PoseWithCovarianceStamped) -> None:
+        """Update AMCL pose (used as TF fallback)"""
+        x = msg.pose.pose.position.x
+        y = msg.pose.pose.position.y
+        q = msg.pose.pose.orientation
+        siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
+        cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
+        yaw = math.atan2(siny_cosp, cosy_cosp)
+        self.amcl_pose = (x, y, yaw)
+        self.last_amcl_time = self.get_clock().now()
 
     # ----------------------------------------------------------------------
     # LiDAR 스캔 콜백 (장애물 감지)
     # ----------------------------------------------------------------------
     def _on_scan(self, scan: LaserScan) -> None:
-        if self.pose is None:
+        pose = self.get_current_pose()
+        if pose is None:
             return
 
-        px, py, psi = self.pose
+        px, py, psi = pose
         ang_min = scan.angle_min
         ang_inc = scan.angle_increment
         n = len(scan.ranges)
