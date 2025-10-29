@@ -31,7 +31,6 @@ from visualization_msgs.msg import Marker, MarkerArray
 
 Point2D = Tuple[float, float]
 
-
 def load_world_csv(path: str) -> List[Point2D]:
     """CSV에서 (x, y) 좌표 목록을 불러온다."""
     pts: List[Point2D] = []
@@ -156,7 +155,7 @@ class ObsDetectNode(Node):
         # LiDAR ROI / 센서 설정
         self.declare_parameter("roi_deg", 90.0)
         self.declare_parameter("range_max", 12.0)
-        self.declare_parameter("laser_yaw_offset_deg", 0.0)
+        self.declare_parameter("laser_yaw_offset_deg", 135.0)
 
         # 장애물 필터링 & 클러스터링
         self.declare_parameter("boundary_margin", 0.50)
