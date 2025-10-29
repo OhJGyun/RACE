@@ -540,10 +540,12 @@ class ControllerManager(Node):
         try:
             from rclpy.time import Time
             from rclpy.duration import Duration
+            # Humble fix: Use rclpy.time.Time() requires arguments
+            # Using Time() without args defaults to t=0 which means "latest"
             transform = self.tf_buffer.lookup_transform(
                 'map',
                 'base_link',
-                Time(),
+                Time().to_msg(),  # Convert to builtin_interfaces.msg.Time
                 timeout=Duration(seconds=self.tf_timeout)
             )
 

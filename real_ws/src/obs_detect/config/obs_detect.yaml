@@ -5,8 +5,8 @@ obs_detect_node:
     odom_topic: "/odom"
 
     # 경계 CSV
-    outer_csv: "/home/ircv7/RACE/bound/1028/outer_bound.csv"
-    inner_csvs: "/home/ircv7/RACE/bound/1028/inner_bound.csv"
+    outer_csv: "/home/ircv7/RACE/bound/1029_1/outer_bound.csv"
+    inner_csvs: "/home/ircv7/RACE/bound/1029_1/inner_bound.csv"
 
     include_boundary: false
     roi_deg: 90.0
@@ -14,8 +14,8 @@ obs_detect_node:
     laser_yaw_offset_deg: 0.0
 
     # 장애물 필터링 / 클러스터링
-    boundary_margin: 0.30
-    cluster_epsilon: 0.35
+    boundary_margin: 0.7
+    cluster_epsilon: 0.55
     cluster_min_points: 4
     cluster_confirm_points: 6
 

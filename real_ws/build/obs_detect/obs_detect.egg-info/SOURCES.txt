@@ -12,4 +12,11 @@ config/obs_detect.yaml
 launch/obs_detect_launch.py
 obs_detect/__init__.py
 obs_detect/obs_detect_node.py
+obs_detect.egg-info/PKG-INFO
+obs_detect.egg-info/SOURCES.txt
+obs_detect.egg-info/dependency_links.txt
+obs_detect.egg-info/entry_points.txt
+obs_detect.egg-info/requires.txt
+obs_detect.egg-info/top_level.txt
+obs_detect.egg-info/zip-safe
 resource/obs_detect

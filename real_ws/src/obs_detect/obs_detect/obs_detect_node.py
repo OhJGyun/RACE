@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Obstacle detection node for the obs_detect package.
 
 LiDAR 기반 자유공간 장애물 감지 (경계 필터, 클러스터링, RViz 시각화)
+- 오직 TF만 사용: map ← laser 변환을 스캔 타임스탬프에 맞춰 조회
+- odom / amcl 폴백 없음
 """
 
 from __future__ import annotations
@@ -19,24 +22,23 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 
-from geometry_msgs.msg import Pose, PoseArray, Point, PoseWithCovarianceStamped
-from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Pose, PoseArray, Point
 from sensor_msgs.msg import LaserScan
 from visualization_msgs.msg import Marker, MarkerArray
 from rclpy.time import Time
+from rclpy.duration import Duration
 from tf2_ros import Buffer, TransformListener, LookupException, ConnectivityException, ExtrapolationException
-from transforms3d.euler import quat2euler
+from transforms3d.quaternions import quat2mat
 
-
-################################################################################
+# ============================================================================ #
 # 공통 유틸
-################################################################################
+# ============================================================================ #
 
 Point2D = Tuple[float, float]
 
 
 def load_world_csv(path: str) -> List[Point2D]:
-    """CSV에서 (x, y) 좌표 목록을 불러온다."""
+    """CSV에서 (x, y) 좌표 목록을 불러온다. (map 프레임 기준 가정)"""
     pts: List[Point2D] = []
     path = os.path.expanduser(path)
     with open(path, "r") as f:
@@ -45,7 +47,6 @@ def load_world_csv(path: str) -> List[Point2D]:
             if not row:
                 continue
             pts.append((float(row[0]), float(row[1])))
-
     if pts and pts[0] != pts[-1]:
         pts.append(pts[0])
     return pts
@@ -54,7 +55,6 @@ def load_world_csv(path: str) -> List[Point2D]:
 def load_multi_inner(spec: str) -> List[List[Point2D]]:
     """여러 내측 경계를 한꺼번에 불러온다 (구분자/글롭 지원)."""
     spec = os.path.expanduser(spec)
-    parts: List[str] = []
     if any(ch in spec for ch in ",; "):
         parts = [p for p in re.split(r"[,\s;]+", spec) if p]
     else:
@@ -120,9 +120,9 @@ def min_dist_to_poly(px: float, py: float, poly: Sequence[Point2D]) -> float:
     return dmin
 
 
-################################################################################
+# ============================================================================ #
 # 장애물 클러스터 구조체
-################################################################################
+# ============================================================================ #
 
 @dataclass
 class Cluster:
@@ -136,36 +136,30 @@ class Cluster:
         return sx / n, sy / n
 
 
-################################################################################
-# 장애물 감지 노드
-################################################################################
+# ============================================================================ #
+# 장애물 감지 노드 (TF-only)
+# ============================================================================ #
 
 class ObsDetectNode(Node):
     def __init__(self) -> None:
         super().__init__("obs_detect_node")
 
-        # ------------------------------------------------------------------
-        # 파라미터 선언
-        # ------------------------------------------------------------------
-        # LiDAR & 차량 자세
+        # -------------------- 파라미터 선언 -------------------- #
         self.declare_parameter("scan_topic", "/scan")
-        self.declare_parameter("odom_topic", "/odom")
-        self.declare_parameter("amcl_topic", "/amcl_pose")
 
-        # Localization 설정
-        self.declare_parameter("use_tf_for_localization", True)
-        self.declare_parameter("use_amcl_pose", False)
-        self.declare_parameter("tf_timeout", 0.1)
-        self.declare_parameter("max_pose_age", 0.5)
+        # Localization / TF 설정
+        self.declare_parameter("tf_timeout", 0.1)  # 초
+        # (중요) 모든 좌표 변환은 TF로만 수행. odom/amcl 사용 안 함.
 
-        # 경계 정보
+        # 경계 정보 (map 프레임)
         self.declare_parameter("outer_csv", "outer_bound_world.csv")
         self.declare_parameter("inner_csvs", "inner_bound_world.csv")
         self.declare_parameter("include_boundary", False)
 
         # LiDAR ROI / 센서 설정
-        self.declare_parameter("roi_deg", 90.0)
+        self.declare_parameter("roi_deg", 90.0)          # 전방 ±90도
         self.declare_parameter("range_max", 12.0)
+        # 디버깅용 추가 yaw 오프셋(가능하면 0으로 두고 TF에 맡기기)
         self.declare_parameter("laser_yaw_offset_deg", 0.0)
 
         # 장애물 필터링 & 클러스터링
@@ -178,32 +172,28 @@ class ObsDetectNode(Node):
         self.declare_parameter("marker_frame_id", "map")
         self.declare_parameter("marker_scale", 0.35)
 
-        # ------------------------------------------------------------------
-        # 파라미터 로딩
-        # ------------------------------------------------------------------
+        # -------------------- 파라미터 로딩 -------------------- #
         self.scan_topic = str(self.get_parameter("scan_topic").value)
-        self.odom_topic = str(self.get_parameter("odom_topic").value)
-        self.amcl_topic = str(self.get_parameter("amcl_topic").value)
-        self.use_tf_for_localization = bool(self.get_parameter("use_tf_for_localization").value)
-        self.use_amcl_pose = bool(self.get_parameter("use_amcl_pose").value)
+
         self.tf_timeout = float(self.get_parameter("tf_timeout").value)
-        self.max_pose_age = float(self.get_parameter("max_pose_age").value)
+
         self.outer_csv = str(self.get_parameter("outer_csv").value)
         self.inner_spec = str(self.get_parameter("inner_csvs").value)
         self.include_boundary = bool(self.get_parameter("include_boundary").value)
+
         self.roi_rad = math.radians(float(self.get_parameter("roi_deg").value))
         self.range_max = float(self.get_parameter("range_max").value)
         self.laser_yaw = math.radians(float(self.get_parameter("laser_yaw_offset_deg").value))
+
         self.boundary_margin = float(self.get_parameter("boundary_margin").value)
         self.cluster_epsilon = float(self.get_parameter("cluster_epsilon").value)
         self.cluster_min_points = int(self.get_parameter("cluster_min_points").value)
         self.cluster_confirm_points = int(self.get_parameter("cluster_confirm_points").value)
+
         self.marker_frame = str(self.get_parameter("marker_frame_id").value)
         self.marker_scale = float(self.get_parameter("marker_scale").value)
 
-        # ------------------------------------------------------------------
-        # 경계 데이터 로딩
-        # ------------------------------------------------------------------
+        # -------------------- 경계 데이터 로딩 -------------------- #
         self.outer = load_world_csv(self.outer_csv)
         if len(self.outer) < 3:
             raise RuntimeError(f"Invalid outer boundary CSV: {self.outer_csv}")
@@ -212,125 +202,53 @@ class ObsDetectNode(Node):
             f"Bounds loaded: outer={len(self.outer)} pts, inners={len(self.inners)} polygon(s)"
         )
 
-        # ------------------------------------------------------------------
-        # TF2 초기화
-        # ------------------------------------------------------------------
+        # -------------------- TF2 초기화 -------------------- #
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
 
-        # ------------------------------------------------------------------
-        # 상태 변수 초기화
-        # ------------------------------------------------------------------
-        self.odom_pose: Optional[Tuple[float, float, float]] = None
-        self.amcl_pose: Optional[Tuple[float, float, float]] = None
-        self.last_amcl_time = self.get_clock().now()
-
-        # ------------------------------------------------------------------
-        # ROS 인터페이스
-        # ------------------------------------------------------------------
-        self.sub_odom = self.create_subscription(Odometry, self.odom_topic, self._on_odom, 20)
+        # -------------------- ROS 인터페이스 -------------------- #
         self.sub_scan = self.create_subscription(LaserScan, self.scan_topic, self._on_scan, 10)
-
-        # AMCL fallback 구독
-        if self.use_amcl_pose or self.use_tf_for_localization:
-            self.sub_amcl = self.create_subscription(
-                PoseWithCovarianceStamped,
-                self.amcl_topic,
-                self._on_amcl,
-                10
-            )
 
         self.pub_obstacle_markers = self.create_publisher(MarkerArray, "obs_detect/markers", 1)
         self.pub_obstacle_centers = self.create_publisher(PoseArray, "obs_detect/obstacles", 10)
+        self.pub_track_bounds = self.create_publisher(MarkerArray, "obs_detect/track_bounds", 1)
 
-        loc_mode = "TF2 (map->base_link)" if self.use_tf_for_localization else ("AMCL" if self.use_amcl_pose else "Odom")
-        self.get_logger().info(f"Obstacle detection node ready. Localization: {loc_mode}")
+        # Track bounds 시각화 타이머 (2초마다)
+        self.bound_viz_timer = self.create_timer(2.0, self._publish_track_bounds)
 
-    # ----------------------------------------------------------------------
-    # Localization 메서드 (map_control과 동일한 구조)
-    # ----------------------------------------------------------------------
-    def get_current_pose_from_tf(self) -> Optional[Tuple[float, float, float]]:
-        """Get current pose from TF (map -> base_link transform)"""
+        self.get_logger().info("Obstacle detection node ready. Localization: TF-only (map<-laser @ scan time)")
+
+    # -------------------- TF 헬퍼 -------------------- #
+    def _lookup_map_from(self, source_frame: str, stamp) -> Optional[Tuple[np.ndarray, np.ndarray]]:
+        """
+        TF에서 (map <- source_frame) 변환을 'stamp' 시각 기준으로 조회.
+        반환: (R: 3x3 회전행렬, T: 3,)
+        """
         try:
-            from rclpy.duration import Duration
-            transform = self.tf_buffer.lookup_transform(
-                'map',
-                'base_link',
-                Time().to_msg(),  # Humble compatibility
-                timeout=Duration(seconds=self.tf_timeout)
+            tfmsg = self.tf_buffer.lookup_transform(
+                'map', source_frame, stamp, timeout=Duration(seconds=self.tf_timeout)
             )
-            x = transform.transform.translation.x
-            y = transform.transform.translation.y
-            q = transform.transform.rotation
-            _, _, theta = quat2euler([q.w, q.x, q.y, q.z])
-            return (x, y, theta)
+            t = tfmsg.transform.translation
+            q = tfmsg.transform.rotation  # geometry_msgs/Quaternion (x,y,z,w)
+            # transforms3d는 [w, x, y, z] 순서!
+            R = quat2mat([q.w, q.x, q.y, q.z])  # 3x3
+            T = np.array([t.x, t.y, t.z], dtype=float)
+            return R, T
         except (LookupException, ConnectivityException, ExtrapolationException) as e:
-            self.get_logger().warn(f"TF lookup failed: {e}", throttle_duration_sec=1.0)
+            self.get_logger().warn(f"TF lookup (map <- {source_frame}) failed: {e}", throttle_duration_sec=1.0)
             return None
 
-    def get_current_pose_from_amcl(self) -> Optional[Tuple[float, float, float]]:
-        """Get current pose from AMCL topic (fallback)"""
-        if self.amcl_pose is None:
-            return None
-        age = (self.get_clock().now() - self.last_amcl_time).nanoseconds / 1e9
-        if age > self.max_pose_age:
-            return None
-        return self.amcl_pose
-
-    def get_current_pose(self) -> Optional[Tuple[float, float, float]]:
-        """Get current pose (TF first, then AMCL fallback, then odom fallback)"""
-        # Method 1: TF (real-time, recommended)
-        if self.use_tf_for_localization:
-            pose = self.get_current_pose_from_tf()
-            if pose is not None:
-                return pose
-            self.get_logger().warn("TF failed, trying AMCL fallback", throttle_duration_sec=2.0)
-
-        # Method 2: AMCL topic (fallback)
-        if self.use_amcl_pose or self.use_tf_for_localization:
-            pose = self.get_current_pose_from_amcl()
-            if pose is not None:
-                return pose
-
-        # Method 3: Odom (last resort)
-        return self.odom_pose
-
-    # ----------------------------------------------------------------------
-    # Odometry 콜백
-    # ----------------------------------------------------------------------
-    def _on_odom(self, msg: Odometry) -> None:
-        """Update odom pose (used as last-resort fallback)"""
-        x = msg.pose.pose.position.x
-        y = msg.pose.pose.position.y
-        q = msg.pose.pose.orientation
-        siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
-        cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-        yaw = math.atan2(siny_cosp, cosy_cosp)
-        self.odom_pose = (x, y, yaw)
-
-    # ----------------------------------------------------------------------
-    # AMCL 콜백
-    # ----------------------------------------------------------------------
-    def _on_amcl(self, msg: PoseWithCovarianceStamped) -> None:
-        """Update AMCL pose (used as TF fallback)"""
-        x = msg.pose.pose.position.x
-        y = msg.pose.pose.position.y
-        q = msg.pose.pose.orientation
-        siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
-        cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-        yaw = math.atan2(siny_cosp, cosy_cosp)
-        self.amcl_pose = (x, y, yaw)
-        self.last_amcl_time = self.get_clock().now()
-
-    # ----------------------------------------------------------------------
-    # LiDAR 스캔 콜백 (장애물 감지)
-    # ----------------------------------------------------------------------
+    # -------------------- LiDAR 스캔 콜백 (장애물 감지) -------------------- #
     def _on_scan(self, scan: LaserScan) -> None:
-        pose = self.get_current_pose()
-        if pose is None:
-            return
+        # 스캔 프레임명 확인 (반드시 TF에 존재해야 함)
+        laser_frame = scan.header.frame_id or 'laser'
 
-        px, py, psi = pose
+        # 스캔 시각에 맞춰 map <- laser TF 조회
+        got = self._lookup_map_from(laser_frame, scan.header.stamp)
+        if got is None:
+            return
+        R_ml, T_ml = got  # map <- laser
+
         ang_min = scan.angle_min
         ang_inc = scan.angle_increment
         n = len(scan.ranges)
@@ -342,31 +260,31 @@ class ObsDetectNode(Node):
         boundary_filtered = 0
         roi_skipped = 0
 
+        # 레이저 프레임에서 빔을 만들고, map으로 투영
         for i in range(n):
-            r = scan.ranges[i]
-            if (
-                math.isnan(r)
-                or math.isinf(r)
-                or r < scan.range_min
-                or r > max_range
-            ):
+            r = float(scan.ranges[i])
+            if math.isnan(r) or math.isinf(r) or r < scan.range_min or r > max_range:
                 continue
 
-            # 레이저 프레임에서의 각도 (차량 전방 기준)
-            angle = ang_min + i * ang_inc
-
-            # ROI 필터링: 전방 180도만 (-90도 ~ +90도)
+            angle = ang_min + i * ang_inc  # laser 프레임 기준
+            # ROI: 전방 ±roi_rad (laser x+가 전방이라는 표준 가정)
             if abs(angle) > self.roi_rad:
                 roi_skipped += 1
                 continue
 
-            world_angle = psi + self.laser_yaw + angle
-            wx = px + r * math.cos(world_angle)
-            wy = py + r * math.sin(world_angle)
+            # 디버깅용 yaw 오프셋(가능하면 0으로 유지)
+            a = angle + self.laser_yaw
+            ex = r * math.cos(a)
+            ey = r * math.sin(a)
+            p_laser = np.array([ex, ey, 0.0])  # laser 좌표
 
+            # map 좌표로 투영
+            p_map = R_ml @ p_laser + T_ml
+            wx, wy = float(p_map[0]), float(p_map[1])
+
+            # 트랙 영역 필터 (map 프레임 경계)
             if not point_in_polygon(wx, wy, self.outer, self.include_boundary):
                 continue
-
             in_inner = any(
                 len(poly) >= 3 and point_in_polygon(wx, wy, poly, self.include_boundary)
                 for poly in self.inners
@@ -374,6 +292,7 @@ class ObsDetectNode(Node):
             if in_inner:
                 continue
 
+            # 경계 마진
             dist_outer = min_dist_to_poly(wx, wy, self.outer)
             dist_inner = min(
                 (min_dist_to_poly(wx, wy, poly) for poly in self.inners if len(poly) >= 3),
@@ -385,9 +304,9 @@ class ObsDetectNode(Node):
 
             free_points.append((wx, wy))
 
+        # 클러스터링
         clusters = self._cluster_points(free_points, self.cluster_epsilon, self.cluster_min_points)
         confirmed = [c for c in clusters if len(c.points) >= self.cluster_confirm_points]
-
         centers = [cluster.center for cluster in confirmed]
 
         if confirmed:
@@ -396,15 +315,12 @@ class ObsDetectNode(Node):
                 f"(raw_points={len(free_points)}, roi_skip={roi_skipped}, boundary_filtered={boundary_filtered})"
             )
 
+        # 시각화
         self._publish_obstacle_markers(free_points, confirmed)
         self._publish_obstacle_centers(centers)
 
-    # ----------------------------------------------------------------------
-    # 장애물 클러스터링
-    # ----------------------------------------------------------------------
-    def _cluster_points(
-        self, points: Sequence[Point2D], epsilon: float, min_points: int
-    ) -> List[Cluster]:
+    # -------------------- 장애물 클러스터링 -------------------- #
+    def _cluster_points(self, points: Sequence[Point2D], epsilon: float, min_points: int) -> List[Cluster]:
         n = len(points)
         if n == 0:
             return []
@@ -442,12 +358,9 @@ class ObsDetectNode(Node):
             if len(idxs) < min_points:
                 continue
             clusters.append(Cluster(points=[points[k] for k in idxs]))
-
         return clusters
 
-    # ----------------------------------------------------------------------
-    # 장애물 시각화
-    # ----------------------------------------------------------------------
+    # -------------------- 장애물 시각화 -------------------- #
     def _publish_obstacle_markers(self, points: Sequence[Point2D], clusters: Iterable[Cluster]) -> None:
         arr = MarkerArray()
         m_clear = Marker()
@@ -456,6 +369,7 @@ class ObsDetectNode(Node):
 
         now = self.get_clock().now().to_msg()
 
+        # 원시 포인트 (map 프레임)
         m_pts = Marker()
         m_pts.header.frame_id = self.marker_frame
         m_pts.header.stamp = now
@@ -472,6 +386,7 @@ class ObsDetectNode(Node):
             m_pts.points.append(Point(x=float(x), y=float(y), z=0.0))
         arr.markers.append(m_pts)
 
+        # 클러스터 중심 (map 프레임)
         m_centers = Marker()
         m_centers.header.frame_id = self.marker_frame
         m_centers.header.stamp = now
@@ -505,10 +420,65 @@ class ObsDetectNode(Node):
             arr.poses.append(pose)
         self.pub_obstacle_centers.publish(arr)
 
+    # -------------------- Track Bounds 시각화 -------------------- #
+    def _publish_track_bounds(self) -> None:
+        """Publish track boundaries (outer and inner) as LINE_STRIP markers."""
+        markers = MarkerArray()
+        now = self.get_clock().now().to_msg()
 
-################################################################################
+        # Outer boundary - RED
+        m_outer = Marker()
+        m_outer.header.frame_id = self.marker_frame
+        m_outer.header.stamp = now
+        m_outer.ns = "track_bounds"
+        m_outer.id = 0
+        m_outer.type = Marker.LINE_STRIP
+        m_outer.action = Marker.ADD
+        m_outer.scale.x = 0.08  # Line width
+        m_outer.color.r = 1.0
+        m_outer.color.g = 0.0
+        m_outer.color.b = 0.0
+        m_outer.color.a = 0.8
+        m_outer.pose.orientation.w = 1.0
+
+        for x, y in self.outer:
+            p = Point()
+            p.x = float(x)
+            p.y = float(y)
+            p.z = 0.0
+            m_outer.points.append(p)
+        markers.markers.append(m_outer)
+
+        # Inner boundaries - BLUE
+        for idx, inner_poly in enumerate(self.inners):
+            m_inner = Marker()
+            m_inner.header.frame_id = self.marker_frame
+            m_inner.header.stamp = now
+            m_inner.ns = "track_bounds"
+            m_inner.id = idx + 1
+            m_inner.type = Marker.LINE_STRIP
+            m_inner.action = Marker.ADD
+            m_inner.scale.x = 0.08
+            m_inner.color.r = 0.0
+            m_inner.color.g = 0.5
+            m_inner.color.b = 1.0
+            m_inner.color.a = 0.8
+            m_inner.pose.orientation.w = 1.0
+
+            for x, y in inner_poly:
+                p = Point()
+                p.x = float(x)
+                p.y = float(y)
+                p.z = 0.0
+                m_inner.points.append(p)
+            markers.markers.append(m_inner)
+
+        self.pub_track_bounds.publish(markers)
+
+
+# ============================================================================ #
 # main
-################################################################################
+# ============================================================================ #
 
 def main(args=None) -> None:
     rclpy.init(args=args)
