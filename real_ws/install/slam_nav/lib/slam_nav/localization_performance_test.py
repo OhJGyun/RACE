@@ -1,1 +1,0 @@
-/home/ircv7/RACE/real_ws/src/slam_nav/scripts/localization_performance_test.py

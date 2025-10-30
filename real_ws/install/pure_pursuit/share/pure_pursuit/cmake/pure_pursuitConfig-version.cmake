@@ -1,1 +1,0 @@
-/home/ircv7/RACE/real_ws/build/pure_pursuit/ament_cmake_core/pure_pursuitConfig-version.cmake

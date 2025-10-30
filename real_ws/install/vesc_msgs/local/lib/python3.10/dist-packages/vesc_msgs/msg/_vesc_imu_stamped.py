@@ -1,1 +1,0 @@
-/home/ircv7/RACE/real_ws/build/vesc_msgs/rosidl_generator_py/vesc_msgs/msg/_vesc_imu_stamped.py
