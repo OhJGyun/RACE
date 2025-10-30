@@ -29,7 +29,7 @@ def generate_launch_description():
     )
 
     db_min_samples_arg = DeclareLaunchArgument(
-        'db_min_samples', default_value='8',
+        'db_min_samples', default_value='7',
         description='Minimum number of points to form a cluster'
     )
 
@@ -39,12 +39,12 @@ def generate_launch_description():
     )
 
     roi_max_dist_arg = DeclareLaunchArgument(
-        'roi_max_dist', default_value='3.00',
+        'roi_max_dist', default_value='3.50',
         description='Maximum ROI distance (m)'
     )
 
     center_scale_arg = DeclareLaunchArgument(
-        'center_scale', default_value='0.3',
+        'center_scale', default_value='0.5',
         description='Sphere marker scale for cluster centers'
     )
 
@@ -59,7 +59,7 @@ def generate_launch_description():
     )
 
     eps0_arg = DeclareLaunchArgument(
-        'eps0', default_value='0.12',
+        'eps0', default_value='0.10',
         description='Base distance threshold (m) for scanline clustering'
     )
 
