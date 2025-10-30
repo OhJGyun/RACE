@@ -69,8 +69,8 @@ private:
 class PurePursuitNode : public rclcpp::Node
 {
 public:
-    PurePursuitNode() : Node("pure_pursuit_node"), 
-                        tf_buffer_(this->get_clock()), 
+    PurePursuitNode() : Node("pure_pursuit_node"),
+                        tf_buffer_(this->get_clock(), tf2::durationFromSec(10.0)),  // 10초 cache
                         tf_listener_(tf_buffer_)  // ✅ shared_from_this() 제거
     {
         // Parameters
@@ -83,7 +83,7 @@ public:
 
         // ✅ 새로운 파라미터: TF 사용 여부
         this->declare_parameter("use_tf_for_localization", true);
-        this->declare_parameter("tf_timeout", 0.1);  // TF 조회 타임아웃 (초)
+        this->declare_parameter("tf_timeout", 0.5);  // TF 조회 타임아웃 (초) - 0.1초에서 0.5초로 증가
         this->declare_parameter("max_pose_age", 0.5);  // amcl_pose 최대 허용 나이 (초)
 
         // PID parameters

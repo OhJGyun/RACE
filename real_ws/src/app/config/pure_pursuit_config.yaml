@@ -4,14 +4,14 @@ pure_pursuit_node:
     csv_file_path: "/home/ircv7/RACE/path/1030/normal_5.0/lane_optimal.csv"
 
     # Pure Pursuit parameters
-    lookahead_distance: 0.9
+    lookahead_distance: 1.5
     max_speed: 5.0
     min_speed: 1.0
     max_steering_angle: 0.40  # 24 degrees in radians
     wheelbase: 0.33  # F1TENTH wheelbase
 
     # PID parameters for speed control
-    speed_kp: 1.0
+    speed_kp: 0.8
     speed_ki: 0.1
     speed_kd: 0.05
     speed_max_integral: 2.0
@@ -21,15 +21,15 @@ pure_pursuit_node:
     enable_curvature_control: true    # Enable/disable curvature-based speed reduction
     max_curvature: 1.1               # Maximum curvature threshold (1/m)
     min_curve_speed: 3.0             # Minimum speed in tight curves (m/s)
-    curvature_speed_factor: 0.8      # Speed reduction factor (0.0 = no reduction, 1.0 = maximum reduction)
+    curvature_speed_factor: 0.4      # Speed reduction factor (0.0 = no reduction, 1.0 = maximum reduction)
     curve_lookahead_points: 6        # Number of waypoints ahead to check for curves
 
     # Adaptive lookahead and steering smoothing parameters
     enable_adaptive_lookahead: false  # Disable adaptive lookahead for now
-    min_lookahead_distance: 0.7      # Minimum lookahead distance (m)
-    max_lookahead_distance: 2.5      # Maximum lookahead distance (m)
+    min_lookahead_distance: 0.3      # Minimum lookahead distance (m)
+    max_lookahead_distance: 1.8      # Maximum lookahead distance (m)
     lookahead_speed_factor: 0.1      # Very conservative speed adjustment
-    steering_smoothing_factor: 0.3   # Light smoothing (0.0 = no smoothing, 1.0 = maximum smoothing)
+    steering_smoothing_factor: 0.4   # Light smoothing (0.0 = no smoothing, 1.0 = maximum smoothing)
 
 # Alternative CSV files for easy switching
 # Uncomment and change csv_file_path to switch between different racelines
