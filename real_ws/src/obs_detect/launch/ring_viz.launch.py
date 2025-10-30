@@ -19,12 +19,12 @@ def generate_launch_description():
             'tf_timeout': 0.3,
 
             # DBSCAN
-            'db_eps': 0.25,
-            'db_min_samples': 8,
+            'db_eps': 0.3,
+            'db_min_samples': 10,
 
             # ROI 거리 범위 (m)
-            'roi_min_dist': 0.3,
-            'roi_max_dist': 3.0,
+            'roi_min_dist': 2.0,
+            'roi_max_dist': 5.0,
 
             # 시각화
             'center_scale': 0.12,
