@@ -20,11 +20,11 @@ def generate_launch_description():
 
             # DBSCAN
             'db_eps': 0.25,
-            'db_min_samples': 5,
+            'db_min_samples': 8,
 
             # ROI 거리 범위 (m)
             'roi_min_dist': 0.3,
-            'roi_max_dist': 6.0,
+            'roi_max_dist': 3.0,
 
             # 시각화
             'center_scale': 0.12,
@@ -44,3 +44,4 @@ def generate_launch_description():
     )
 
     return LaunchDescription([ring_viz_node])
+ß
