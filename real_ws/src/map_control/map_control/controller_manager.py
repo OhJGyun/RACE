@@ -217,7 +217,7 @@ class ControllerManager(Node):
         self.declare_parameter('steering_lut', '')
 
         # Loop rate
-        self.declare_parameter('loop_rate_hz', 40.0)
+        self.declare_parameter('loop_rate_hz', 80.0)
 
         # Localization settings (TF-first approach)
         self.declare_parameter('use_tf_for_localization', True)
@@ -540,10 +540,13 @@ class ControllerManager(Node):
         try:
             from rclpy.time import Time
             from rclpy.duration import Duration
+            # In Humble, passing rclpy.time.Time() with default 0 returns the latest transform.
+            # Humble fix: Use rclpy.time.Time() requires arguments
+            # Using Time() without args defaults to t=0 which means "latest"
             transform = self.tf_buffer.lookup_transform(
                 'map',
                 'base_link',
-                Time(),
+                Time(),  #.to_msg(),   Convert to builtin_interfaces.msg.Time
                 timeout=Duration(seconds=self.tf_timeout)
             )
 
@@ -622,7 +625,7 @@ class ControllerManager(Node):
             )
 
         return None
-
+    
     def _update_pose(self, x: float, y: float, theta: float):
         """Update stored pose and associated Frenet coordinates."""
         self.position_in_map = np.array([[x, y, theta]])
