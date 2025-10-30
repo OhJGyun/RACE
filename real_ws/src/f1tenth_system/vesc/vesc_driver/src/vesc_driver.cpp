@@ -39,8 +39,6 @@
 #include <memory>
 #include <sstream>
 #include <string>
-#include <fstream>  // 기존 include 섹션에 추가
-#include <iomanip>
 
 namespace vesc_driver
 {
@@ -273,27 +271,7 @@ void VescDriver::vescErrorCallback(const std::string & error)
 void VescDriver::dutyCycleCallback(const Float64::SharedPtr duty_cycle)
 {
   if (driver_mode_ == MODE_OPERATING) {
-    double clipped_value = duty_cycle_limit_.clip(duty_cycle->data);
-    
-    // 로깅 추가
-    std::ofstream log_file("/tmp/vesc_duty_cycle.log", std::ios::app);
-    if (log_file.is_open()) {
-      auto now_time = std::chrono::system_clock::now();
-      auto time_t = std::chrono::system_clock::to_time_t(now_time);
-      auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now_time.time_since_epoch()) % 1000;
-      
-      log_file << std::put_time(std::localtime(&time_t), "%H:%M:%S");
-      log_file << "." << std::setfill('0') << std::setw(3) << ms.count();
-      log_file << " DUTY_CYCLE: " << std::fixed << std::setprecision(6) << clipped_value;
-      if (clipped_value != duty_cycle->data) {
-        log_file << " (original: " << duty_cycle->data << " [CLIPPED])";
-      }
-      log_file << std::endl;
-      log_file.close();
-    }
-    
-    vesc_.setDutyCycle(clipped_value);
+    vesc_.setDutyCycle(duty_cycle_limit_.clip(duty_cycle->data));
   }
 }
 

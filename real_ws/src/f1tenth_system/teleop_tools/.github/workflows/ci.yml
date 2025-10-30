@@ -8,19 +8,19 @@ on:
 
 jobs:
   ci:
-    name: Humble source job
+    name: Foxy source job
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
     steps:
       - uses: ros-tooling/setup-ros@v0.1
         with:
-          required-ros-distributions: humble
+          required-ros-distributions: foxy
       # workaround
       - run: sudo RTI_NC_LICENSE_ACCEPTED=yes apt-get install -y rti-connext-dds-5.3.1
       - uses: ros-tooling/action-ros-ci@v0.1
         with:
-          target-ros2-distro: humble
+          target-ros2-distro: foxy
           # build all packages listed in the meta package
           package-name:
             joy_teleop

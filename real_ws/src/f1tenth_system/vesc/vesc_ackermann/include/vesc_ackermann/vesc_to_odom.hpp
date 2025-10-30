@@ -36,7 +36,6 @@
 #include <std_msgs/msg/float64.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 #include <vesc_msgs/msg/vesc_state_stamped.hpp>
-#include <sensor_msgs/msg/imu.hpp>
 
 #include <memory>
 #include <string>
@@ -47,7 +46,6 @@ namespace vesc_ackermann
 using nav_msgs::msg::Odometry;
 using std_msgs::msg::Float64;
 using vesc_msgs::msg::VescStateStamped;
-using sensor_msgs::msg::Imu;
 
 class VescToOdom : public rclcpp::Node
 {
@@ -68,10 +66,6 @@ private:
 
   // odometry state
   double x_, y_, yaw_;
-  bool yaw_initialized_;
-  bool use_imu_yaw_;  ///< Use IMU for yaw instead of wheel odometry
-  double imu_yaw_;  ///< Latest yaw from IMU
-  rclcpp::Time last_imu_time_;  ///< Timestamp of last IMU message
   Float64::SharedPtr last_servo_cmd_;  ///< Last servo position commanded value
   VescStateStamped::SharedPtr last_state_;  ///< Last received state message
 
@@ -79,13 +73,11 @@ private:
   rclcpp::Publisher<Odometry>::SharedPtr odom_pub_;
   rclcpp::Subscription<VescStateStamped>::SharedPtr vesc_state_sub_;
   rclcpp::Subscription<Float64>::SharedPtr servo_sub_;
-  rclcpp::Subscription<Imu>::SharedPtr imu_sub_;
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_pub_;
 
   // ROS callbacks
   void vescStateCallback(const VescStateStamped::SharedPtr state);
   void servoCmdCallback(const Float64::SharedPtr servo);
-  void imuCallback(const Imu::SharedPtr imu);
 };
 
 }  // namespace vesc_ackermann
