@@ -17,7 +17,7 @@ from rclpy.time import Time as RclTime
 from builtin_interfaces.msg import Time as BuiltinTime
 
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point, Pose, PoseArray
 from visualization_msgs.msg import Marker, MarkerArray
 from tf2_ros import Buffer, TransformListener, TransformException
 from transforms3d.quaternions import quat2mat
@@ -108,6 +108,8 @@ class SimpleScanViz(Node):
         # ROS I/O
         self.sub = self.create_subscription(LaserScan, self.scan_topic, self._on_scan, 10)
         self.pub = self.create_publisher(MarkerArray, "scan_viz/markers", 1)
+        # CRITICAL: Publish obstacle positions for lane_selector
+        self.obstacle_pub = self.create_publisher(PoseArray, "obs_detect/obstacles", 10)
 
         self.tf_ready = False
         self._ready_timer = self.create_timer(0.5, self._check_tf)
@@ -166,6 +168,28 @@ class SimpleScanViz(Node):
 
     # 중심점만 표시
     def _publish_centers(self, pts: Sequence[Point2D], clusters: List[List[int]]):
+        # 1) Publish PoseArray for lane_selector (CRITICAL for obstacle avoidance)
+        pose_array = PoseArray()
+        pose_array.header.frame_id = self.marker_frame
+        pose_array.header.stamp = self.get_clock().now().to_msg()
+
+        for idxs in clusters:
+            if not idxs:
+                continue
+            # Calculate cluster center
+            cx = sum(pts[i][0] for i in idxs) / len(idxs)
+            cy = sum(pts[i][1] for i in idxs) / len(idxs)
+
+            pose = Pose()
+            pose.position.x = cx
+            pose.position.y = cy
+            pose.position.z = 0.0
+            pose.orientation.w = 1.0  # Valid quaternion
+            pose_array.poses.append(pose)
+
+        self.obstacle_pub.publish(pose_array)
+
+        # 2) Publish MarkerArray for visualization
         arr = MarkerArray()
 
         m_clear = Marker()

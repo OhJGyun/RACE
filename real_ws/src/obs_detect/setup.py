@@ -24,6 +24,7 @@ setup(
         'console_scripts': [
             'obs_detect_node = obs_detect.obs_detect_node:main',
             'ring_viz_node  = obs_detect.ring_viz_node:main',
+            'boundary_viz_node = obs_detect.boundary_viz_node:main',
         ],
     },
 )

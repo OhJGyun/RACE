@@ -570,7 +570,7 @@ class ControllerManager(Node):
         Get current pose from AMCL topic (fallback)
         Returns: (x, y, theta) or None if failed
         """
-        if not self.has_pose:
+        if not self.has_pose or self.current_pose is None:
             return None
 
         from rclpy.time import Time

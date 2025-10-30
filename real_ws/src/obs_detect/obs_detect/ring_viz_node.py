@@ -88,7 +88,7 @@ class SimpleScanViz(Node):
         self.declare_parameter("tf_timeout", 0.3)
         self.declare_parameter("db_eps", 0.25)
         self.declare_parameter("db_min_samples", 5)
-        self.declare_parameter("roi_min_dist", 0.20)
+        self.declare_parameter("roi_min_dist", 2.00)
         self.declare_parameter("roi_max_dist", 3.00)
         self.declare_parameter("center_scale", 0.12)
 
@@ -176,11 +176,6 @@ class SimpleScanViz(Node):
     def _publish_centers(self, centers: List[Point]):
         arr = MarkerArray()
 
-        # 기존 마커 삭제
-        m_clear = Marker()
-        m_clear.action = Marker.DELETEALL
-        arr.markers.append(m_clear)
-
         # 중심 구(SPHERE_LIST)
         m = Marker()
         m.header.frame_id = self.marker_frame
@@ -188,13 +183,16 @@ class SimpleScanViz(Node):
         m.ns = "cluster_centers"
         m.id = 0
         m.type = Marker.SPHERE_LIST
+        m.action = Marker.ADD  # 명시적으로 ADD 설정
+        m.pose.orientation.w = 1.0  # 유효한 quaternion
         m.scale.x = self.center_scale
         m.scale.y = self.center_scale
         m.scale.z = self.center_scale
         m.color.r = 1.0
         m.color.g = 1.0
-        m.color.b = 1.0
-        m.color.a = 0.97
+        m.color.b = 0.0  # 노란색으로 변경 (더 잘 보임)
+        m.color.a = 1.0  # 완전 불투명
+        m.lifetime = Duration(seconds=0.5).to_msg()  # 0.5초 lifetime
         m.points.extend(centers)
         arr.markers.append(m)
 

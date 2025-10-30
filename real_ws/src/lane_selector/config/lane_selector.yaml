@@ -9,9 +9,9 @@ lane_selector_node:
     # 레인 CSV (센터 + 좌/우 보조 레인)
     # CRITICAL: These paths MUST exactly match map_control_params.yaml lane_csv_paths!
     lane_csv_paths:
-      - "/home/ircv7/RACE/path/1028/normal_7.0/lane_optimal.csv"  # Lane 0: 센터 최적 라인
-      - "/home/ircv7/RACE/path/1028/normal_7.0/lane_left.csv"     # Lane 1: 왼쪽 회피 라인
-      - "/home/ircv7/RACE/path/1028/normal_7.0/lane_right.csv"    # Lane 2: 오른쪽 회피 라인
+      - "/home/ircv7/RACE/path/1030/normal_5.0/lane_optimal.csv"  # Lane 0: 센터 최적 라인
+      - "/home/ircv7/RACE/path/1030/normal_5.0/lane_left.csv"     # Lane 1: 왼쪽 회피 라인
+      - "/home/ircv7/RACE/path/1030/normal_5.0/lane_right.csv"    # Lane 2: 오른쪽 회피 라인
 
     lane_topic: "/lane_selector/target_lane"
     lookahead_distance: 12.0
