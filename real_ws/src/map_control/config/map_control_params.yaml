@@ -9,14 +9,14 @@
     # Waypoint Configuration (Multi-lane Support)
     # ------------------------------------------------------------------------
     # Primary waypoint file (used as default lane)
-    csv_file_path: "/home/ircv7/RACE/path/1030/normal_5.0/lane_optimal.csv"
+    csv_file_path: "/home/ircv7/RACE/path/1030/normal_4.0/lane_optimal.csv"
 
     # Multiple lane paths for dynamic lane switching
     # Lane order MUST match the lane_selector output indices!
     lane_csv_paths:
-      - "/home/ircv7/RACE/path/1030/normal_5.0/lane_optimal.csv"  # Lane 0: Optimal/Center
-      - "/home/ircv7/RACE/path/1030/normal_5.0/lane_left.csv"     # Lane 1: Left avoidance
-      - "/home/ircv7/RACE/path/1030/normal_5.0/lane_right.csv"    # Lane 2: Right avoidance
+      - "/home/ircv7/RACE/path/1030/normal_4.0/lane_optimal.csv"  # Lane 0: Optimal/Center
+      - "/home/ircv7/RACE/path/1030/normal_4.0/lane_left.csv"     # Lane 1: Left avoidance
+      - "/home/ircv7/RACE/path/1030/normal_4.0/lane_right.csv"    # Lane 2: Right avoidance
 
     # Lane selector topic (receives Int32 lane index)
     lane_selector_topic: "/lane_selector/target_lane"
