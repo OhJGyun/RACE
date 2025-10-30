@@ -1,3 +1,33 @@
+// Copyright 2020 F1TENTH Foundation
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//   * Redistributions of source code must retain the above copyright
+//     notice, this list of conditions and the following disclaimer.
+//
+//   * Redistributions in binary form must reproduce the above copyright
+//     notice, this list of conditions and the following disclaimer in the
+//     documentation and/or other materials provided with the distribution.
+//
+//   * Neither the name of the {copyright_holder} nor the names of its
+//     contributors may be used to endorse or promote products derived from
+//     this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+// -*- mode:c++; fill-column: 100; -*-
+
 #include "vesc_ackermann/ackermann_to_vesc.hpp"
 
 #include <ackermann_msgs/msg/ackermann_drive_stamped.hpp>
@@ -6,9 +36,6 @@
 #include <cmath>
 #include <sstream>
 #include <string>
-#include <fstream>  // 로깅을 위해 추가
-#include <iomanip>  // 시간 포맷을 위해 추가
-#include <chrono>   // 시간 측정을 위해 추가
 
 namespace vesc_ackermann
 {
@@ -20,11 +47,17 @@ using std_msgs::msg::Float64;
 AckermannToVesc::AckermannToVesc(const rclcpp::NodeOptions & options)
 : Node("ackermann_to_vesc_node", options)
 {
+  // declare parameters
+  declare_parameter("speed_to_erpm_gain", 0.0);
+  declare_parameter("speed_to_erpm_offset", 0.0);
+  declare_parameter("steering_angle_to_servo_gain", 0.0);
+  declare_parameter("steering_angle_to_servo_offset", 0.0);
+  
   // get conversion parameters
-  speed_to_erpm_gain_ = declare_parameter("speed_to_erpm_gain", 0.0);
-  speed_to_erpm_offset_ = declare_parameter("speed_to_erpm_offset", 0.0);
-  steering_to_servo_gain_ = declare_parameter("steering_angle_to_servo_gain", 0.0);
-  steering_to_servo_offset_ = declare_parameter("steering_angle_to_servo_offset", 0.0);
+  speed_to_erpm_gain_ = get_parameter("speed_to_erpm_gain").get_value<double>();
+  speed_to_erpm_offset_ = get_parameter("speed_to_erpm_offset").get_value<double>();
+  steering_to_servo_gain_ = get_parameter("steering_angle_to_servo_gain").get_value<double>();
+  steering_to_servo_offset_ = get_parameter("steering_angle_to_servo_offset").get_value<double>();
 
   // create publishers to vesc electric-RPM (speed) and servo commands
   erpm_pub_ = create_publisher<Float64>("commands/motor/speed", 10);
@@ -45,23 +78,6 @@ void AckermannToVesc::ackermannCmdCallback(const AckermannDriveStamped::SharedPt
   Float64 servo_msg;
   servo_msg.data = steering_to_servo_gain_ * cmd->drive.steering_angle + steering_to_servo_offset_;
 
-  // 로깅 추가
-  std::ofstream log_file("/tmp/ackermann_to_vesc.log", std::ios::app);
-  if (log_file.is_open()) {
-    auto now_time = std::chrono::system_clock::now();
-    auto time_t = std::chrono::system_clock::to_time_t(now_time);
-    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-      now_time.time_since_epoch()) % 1000;
-    
-    log_file << std::put_time(std::localtime(&time_t), "%H:%M:%S");
-    log_file << "." << std::setfill('0') << std::setw(3) << ms.count();
-    log_file << " ACKERMANN_CMD: speed=" << std::fixed << std::setprecision(3) 
-             << cmd->drive.speed << " steering=" << cmd->drive.steering_angle;
-    log_file << " | VESC_OUT: erpm=" << erpm_msg.data << " servo=" << servo_msg.data;
-    log_file << std::endl;
-    log_file.close();
-  }
-
   // publish
   if (rclcpp::ok()) {
     erpm_pub_->publish(erpm_msg);
@@ -71,6 +87,6 @@ void AckermannToVesc::ackermannCmdCallback(const AckermannDriveStamped::SharedPt
 
 }  // namespace vesc_ackermann
 
-#include "rclcpp_components/register_node_macro.hpp"
+#include "rclcpp_components/register_node_macro.hpp"  // NOLINT
 
 RCLCPP_COMPONENTS_REGISTER_NODE(vesc_ackermann::AckermannToVesc)
