@@ -1,11 +1,11 @@
 # The following params are for maps
-map_name: '1029_1'
+map_name: '1030'
 map_img_ext: '.pgm'
 
 # The following params are for path generator
 num_lanes: 1
 clockwise: False
-inner_safe_dist: 0.4
+inner_safe_dist: 0.5
 outer_safe_dist: 0.4
 opp_safe_dist: 0.3
 
