@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: map_humble
-Version: 1.0.0
-Summary: MAP Controller Unified - Multi-lane support with TF-based localization
-Maintainer: joon
-Maintainer-email: joon@f1tenth.org
-License: MIT
-Requires-Dist: setuptools

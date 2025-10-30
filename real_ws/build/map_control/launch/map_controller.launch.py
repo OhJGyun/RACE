@@ -1,1 +1,0 @@
-/home/ircv7/RACE/real_ws/src/map_control/launch/map_controller.launch.py

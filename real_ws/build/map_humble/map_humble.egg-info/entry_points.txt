@@ -1,2 +1,0 @@
-[console_scripts]
-map_controller = map_humble.controller_manager:main
