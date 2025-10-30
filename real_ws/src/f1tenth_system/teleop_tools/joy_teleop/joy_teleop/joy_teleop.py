@@ -182,7 +182,7 @@ class JoyTeleopTopicCommand(JoyTeleopCommand):
 
         qos = rclpy.qos.QoSProfile(history=rclpy.qos.QoSHistoryPolicy.KEEP_LAST,
                                    depth=1,
-                                   reliability=rclpy.qos.QoSReliabilityPolicy.RELIABLE,
+                                   reliability=rclpy.qos.QoSReliabilityPolicy.BEST_EFFORT,
                                    durability=rclpy.qos.QoSDurabilityPolicy.VOLATILE)
 
         self.pub = node.create_publisher(self.topic_type, config['topic_name'], qos)

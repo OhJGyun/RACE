@@ -54,5 +54,5 @@ throttle_interpolator:
     max_acceleration: 2.5 # meters/second^2
     throttle_smoother_rate: 75.0 # messages/sec
     # servo smoother - limits rotation speed and smooths anything above limit
-    max_servo_speed: 3.2 # radians/second
+    max_servo_speed: 5.0 # radians/second
     servo_smoother_rate: 75.0 # messages/sec

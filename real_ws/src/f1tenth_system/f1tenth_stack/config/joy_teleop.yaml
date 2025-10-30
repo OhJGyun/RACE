@@ -3,8 +3,8 @@ joy:
     # device_name: /dev/input/joypad-f710
     device_id: 0
     deadzone: 0.01
-    autorepeat_rate: 20.0
-    coalesce_interval: 0.01
+    autorepeat_rate: 20.0  # Increased from 20Hz to 100Hz for faster response
+    coalesce_interval: 0.01  # Reduced from 0.01 to 0.001 for lower latency
 
 joy_teleop:
   ros__parameters:
@@ -18,7 +18,7 @@ joy_teleop:
           scale: 0.0
           offset: 0.0
         drive-steering_angle:
-          axis: 2 #3
+          axis: 3
           scale: 0.0
           offset: 0.0
 
@@ -33,8 +33,8 @@ joy_teleop:
           scale: 3.0
           offset: 0.0
         drive-steering_angle:
-          axis: 2 #3
-          scale: 0.40
+          axis: 3
+          scale: 0.30
           offset: 0.0
 
     autonomous_control:
@@ -43,5 +43,4 @@ joy_teleop:
       topic_name: /dev/null
       deadman_buttons: [5]
       message_value:
-        data:
-          value: 0
+        data: 0

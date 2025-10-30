@@ -50,6 +50,12 @@ install(DIRECTORY launch/
   DESTINATION share/${PROJECT_NAME}/launch/
 )
 
+# Install Python scripts
+install(PROGRAMS
+  scripts/steering_test_node.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
