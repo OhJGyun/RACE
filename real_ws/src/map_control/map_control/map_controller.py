@@ -389,6 +389,27 @@ class MAP_Controller:
         distances_to_position = np.linalg.norm(abs(position_array - waypoints), axis=1)
         return np.argmin(distances_to_position)
 
+        # Alternative (commented): Sliding-window nearest waypoint around previous index (±K)
+        # -------------------------------------------------------------------------------
+        # This version reduces computation by searching only in a local window
+        # around the last nearest index. Fall back to full scan when last index is
+        # unknown or when a large jump is detected.
+        #
+        # Example usage:
+        #   last_idx = getattr(self, 'idx_nearest_waypoint', None)
+        #   K = 20  # window half-size (tune by speed/loop_rate/spacing)
+        #   n = len(waypoints)
+        #   if last_idx is None or n == 0:
+        #       position_array = np.array([position]*n)
+        #       distances = np.linalg.norm(position_array - waypoints, axis=1)
+        #       return int(np.argmin(distances))
+        #   center = int(last_idx) % n
+        #   lo = max(0, center - K)
+        #   hi = min(n, center + K + 1)
+        #   window = waypoints[lo:hi]
+        #   dists = np.linalg.norm(window - position, axis=1)
+        #   return lo + int(np.argmin(dists))
+
     def waypoint_at_distance_before_car(self, distance, waypoints, idx_waypoint_behind_car):
         """
         Calculates the waypoint at a certain frenet distance in front of the car
