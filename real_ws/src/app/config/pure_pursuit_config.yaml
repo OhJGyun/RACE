@@ -1,7 +1,7 @@
 pure_pursuit_node:
   ros__parameters:
     # Waypoint file path
-    csv_file_path: "/home/ircv7/RACE/path/1028/normal_7.0/lane_optimal.csv"
+    csv_file_path: "/home/ircv7/RACE/path/1028/normal_8.0/lane_optimal.csv"
 
     # Pure Pursuit parameters
     lookahead_distance: 0.9

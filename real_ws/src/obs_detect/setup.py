@@ -1,32 +1,29 @@
-from setuptools import setup
+from setuptools import setup, find_packages
+from glob import glob
 
 package_name = 'obs_detect'
 
 setup(
     name=package_name,
-    version='0.0.0',
-    packages=[package_name],
+    version='0.0.1',
+    packages=find_packages(include=[package_name]),
     data_files=[
-        ('share/ament_index/resource_index/packages',
-         ['resource/' + package_name]),
+        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/config', [
-            'config/obs_detect.yaml',
-        ]),
-        ('share/' + package_name + '/launch', [
-            'launch/obs_detect_launch.py',
-        ]),
+        # launch / config 전체 설치 (확실히 잡히게 *.py도 허용)
+        ('share/' + package_name + '/launch', glob('launch/*.launch.py') + glob('launch/*.py')),
+        ('share/' + package_name + '/config', glob('config/*.yaml') + glob('config/*.yml')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='joon',
-    maintainer_email='joon@example.com',
-    description='Obstacle detection using LiDAR within predefined bounds with RViz2 visualization.',
-    license='Apache-2.0',
-    tests_require=['pytest'],
+    maintainer='...',
+    maintainer_email='...',
+    description='...',
+    license='...',
     entry_points={
         'console_scripts': [
             'obs_detect_node = obs_detect.obs_detect_node:main',
+            'ring_viz_node  = obs_detect.ring_viz_node:main',
         ],
     },
 )

@@ -9,14 +9,14 @@
     # Waypoint Configuration (Multi-lane Support)
     # ------------------------------------------------------------------------
     # Primary waypoint file (used as default lane)
-    csv_file_path: "/home/ircv7/RACE/path/1028/normal_7.0/lane_optimal.csv"
+    csv_file_path: "/home/ircv7/RACE/path/1028/normal_8.0/lane_optimal.csv"
 
     # Multiple lane paths for dynamic lane switching
     # Lane order MUST match the lane_selector output indices!
     lane_csv_paths:
-      - "/home/ircv7/RACE/path/1028/normal_7.0/lane_optimal.csv"  # Lane 0: Optimal/Center
-      - "/home/ircv7/RACE/path/1028/normal_7.0/lane_left.csv"     # Lane 1: Left avoidance
-      - "/home/ircv7/RACE/path/1028/normal_7.0/lane_right.csv"    # Lane 2: Right avoidance
+      - "/home/ircv7/RACE/path/1028/normal_8.0/lane_optimal.csv"  # Lane 0: Optimal/Center
+      - "/home/ircv7/RACE/path/1028/normal_8.0/lane_left.csv"     # Lane 1: Left avoidance
+      - "/home/ircv7/RACE/path/1028/normal_8.0/lane_right.csv"    # Lane 2: Right avoidance
 
     # Lane selector topic (receives Int32 lane index)
     lane_selector_topic: "/lane_selector/target_lane"
@@ -30,7 +30,7 @@
     max_pose_age: 0.5               # Max age for fallback AMCL pose (seconds)
 
     # Fallback options (if TF fails)
-    use_amcl_pose: false            # Fallback to AMCL topic
+    use_amcl_pose: false            # Fallback to AMCL topics
     use_odom_pose: false            # Fallback to odom (simulation mode)
 
     # ------------------------------------------------------------------------
@@ -46,11 +46,11 @@
     # ------------------------------------------------------------------------
     # Lookahead distance clipping
     t_clip_min: 0.8      # Minimum lookahead time [s] (aggressive: 0.8, conservative: 1.0)
-    t_clip_max: 1.5      # Maximum lookahead time [s] (aggressive: 1.5, conservative: 2.0)
+    t_clip_max: 5.0      # Maximum lookahead time [s] (aggressive: 1.5, conservative: 2.0)
 
     # L1 lookahead calculation: L1 = q_l1 + m_l1 * speed
     m_l1: 0.6            # Lookahead slope (adaptive to speed)
-    q_l1: -0.18          # Lookahead offset (aggressive: -0.18, conservative: 0.0)
+    q_l1: -0.165       # Lookahead offset (aggressive: -0.18, conservative: 0.0)
 
     # Speed lookahead for delay compensation
     speed_lookahead: 0.25              # Time lookahead for speed selection [s]
@@ -77,7 +77,7 @@
     # ------------------------------------------------------------------------
     # Control Loop Configuration
     # ------------------------------------------------------------------------
-    loop_rate_hz: 40.0
+    loop_rate_hz: 80.0
 
     # ========================================================================
     # Configuration Profiles (for reference)

@@ -16,7 +16,7 @@ import math
 import os
 import re
 from dataclasses import dataclass
-from typing import Iterable, List, Optional, Sequence, Tuple
+from typing import Iterable, List, Optional, Sequence, Tuple, Dict
 
 import numpy as np
 import rclpy
@@ -25,10 +25,19 @@ from rclpy.node import Node
 from geometry_msgs.msg import Pose, PoseArray, Point
 from sensor_msgs.msg import LaserScan
 from visualization_msgs.msg import Marker, MarkerArray
-from rclpy.time import Time
 from rclpy.duration import Duration
-from tf2_ros import Buffer, TransformListener, LookupException, ConnectivityException, ExtrapolationException
+from rclpy.time import Time as RclTime
+from tf2_ros import (
+    Buffer,
+    TransformListener,
+    LookupException,
+    ConnectivityException,
+    ExtrapolationException,
+)
 from transforms3d.quaternions import quat2mat
+from rclpy.time import Time as RclTime
+from builtin_interfaces.msg import Time as BuiltinTime
+from tf2_ros import TransformException
 
 # ============================================================================ #
 # 공통 유틸
@@ -147,9 +156,8 @@ class ObsDetectNode(Node):
         # -------------------- 파라미터 선언 -------------------- #
         self.declare_parameter("scan_topic", "/scan")
 
-        # Localization / TF 설정
+        # Localization / TF 설정 (TF-only)
         self.declare_parameter("tf_timeout", 0.1)  # 초
-        # (중요) 모든 좌표 변환은 TF로만 수행. odom/amcl 사용 안 함.
 
         # 경계 정보 (map 프레임)
         self.declare_parameter("outer_csv", "outer_bound_world.csv")
@@ -215,28 +223,52 @@ class ObsDetectNode(Node):
 
         # Track bounds 시각화 타이머 (2초마다)
         self.bound_viz_timer = self.create_timer(2.0, self._publish_track_bounds)
+        # 상단 파라미터에 추가 (기본 0.08s 권장)
+        self.declare_parameter("tf_time_tolerance", 0.08)
+        self.tf_tol = float(self.get_parameter("tf_time_tolerance").value)
+
 
         self.get_logger().info("Obstacle detection node ready. Localization: TF-only (map<-laser @ scan time)")
 
     # -------------------- TF 헬퍼 -------------------- #
-    def _lookup_map_from(self, source_frame: str, stamp) -> Optional[Tuple[np.ndarray, np.ndarray]]:
+    def _lookup_map_from(self, source_frame: str, stamp_msg: BuiltinTime):
+        """(map <- source_frame) 변환을 스캔 시간에 맞춰 조회하되,
+        미래 외삽 방지를 위해 tolerance만큼 과거로 당겨보고,
+        여전히 실패하면 latest로 폴백한다.
         """
-        TF에서 (map <- source_frame) 변환을 'stamp' 시각 기준으로 조회.
-        반환: (R: 3x3 회전행렬, T: 3,)
-        """
-        try:
+        def do_lookup(query_time: RclTime):
             tfmsg = self.tf_buffer.lookup_transform(
-                'map', source_frame, stamp, timeout=Duration(seconds=self.tf_timeout)
+                'map', source_frame, query_time, timeout=Duration(seconds=self.tf_timeout)
             )
             t = tfmsg.transform.translation
-            q = tfmsg.transform.rotation  # geometry_msgs/Quaternion (x,y,z,w)
-            # transforms3d는 [w, x, y, z] 순서!
-            R = quat2mat([q.w, q.x, q.y, q.z])  # 3x3
+            q = tfmsg.transform.rotation
+            R = quat2mat([q.w, q.x, q.y, q.z])
             T = np.array([t.x, t.y, t.z], dtype=float)
             return R, T
-        except (LookupException, ConnectivityException, ExtrapolationException) as e:
-            self.get_logger().warn(f"TF lookup (map <- {source_frame}) failed: {e}", throttle_duration_sec=1.0)
+
+        # (A) 스캔 시각에서 tol만큼 과거로
+        try:
+            qt = RclTime.from_msg(stamp_msg) - Duration(seconds=self.tf_tol)
+            return do_lookup(qt)
+        except TransformException as e:
+            self.get_logger().warn(f"TF @scan_time-tol failed: {e}", throttle_duration_sec=1.0)
+
+        # (B) 스캔 시각 그대로 한 번 더 시도 (간혹 교차 타이밍으로 성공하는 케이스)
+        try:
+            qt = RclTime.from_msg(stamp_msg)
+            return do_lookup(qt)
+        except TransformException as e:
+            self.get_logger().warn(f"TF @scan_time failed: {e}", throttle_duration_sec=1.0)
+
+        # (C) 마지막 폴백: latest
+        try:
+            self.get_logger().warn("TF fallback to latest (may introduce slight spatial lag).",
+                                throttle_duration_sec=2.0)
+            return do_lookup(RclTime())
+        except TransformException as e:
+            self.get_logger().warn(f"TF latest failed: {e}", throttle_duration_sec=1.0)
             return None
+
 
     # -------------------- LiDAR 스캔 콜백 (장애물 감지) -------------------- #
     def _on_scan(self, scan: LaserScan) -> None:
@@ -348,7 +380,7 @@ class ObsDetectNode(Node):
                 if dx * dx + dy * dy <= eps2:
                     union(i, j)
 
-        buckets: dict[int, List[int]] = {}
+        buckets: Dict[int, List[int]] = {}
         for idx in range(n):
             root = find(idx)
             buckets.setdefault(root, []).append(idx)

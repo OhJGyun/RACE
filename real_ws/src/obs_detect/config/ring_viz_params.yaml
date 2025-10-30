@@ -1,0 +1,17 @@
+ring_viz_node:
+  ros__parameters:
+    # 기본 동작 파라미터
+    scan_topic: "/scan"
+    target_radius_m: 0.01         # 1 cm
+    band_m: 0.002                  # ±2 mm
+    strict_tf: true                # latest 폴백 금지
+    tf_timeout: 0.1
+    tf_time_tolerance: 0.05
+
+    # RViz/표시
+    marker_frame_id: "map"
+    point_scale: 0.04
+    line_width: 0.02
+
+    # 시뮬레이션/rosbag이면 true
+    use_sim_time: false

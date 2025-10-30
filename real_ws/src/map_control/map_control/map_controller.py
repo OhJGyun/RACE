@@ -402,22 +402,28 @@ class MAP_Controller:
         if len(waypoints) == 0:
             raise ValueError("Waypoints array is empty")
 
-        current_index = int(idx_waypoint_behind_car) % len(waypoints)
-        if self.track_length <= 0.0:
-            # fallback: use simple index wrap with assumed spacing
-            approx_spacing = np.maximum(1e-3, np.linalg.norm(waypoints[(current_index + 1) % len(waypoints), :2] - waypoints[current_index, :2]))
-            steps = int(round(distance / approx_spacing))
-            target_index = (current_index + steps) % len(waypoints)
-            return np.array(waypoints[target_index])
+        # race_stack-style: assume fixed waypoint spacing (~0.1 m) and step indices forward
+        # Note: This replaces the s-based selection below for simplicity and easier debugging.
+        current_index = int(idx_waypoint_behind_car)
+        waypoints_distance = 0.1
+        d_index = int(distance / waypoints_distance + 0.5)
+        target_index = min(len(waypoints) - 1, current_index + d_index)
+        return np.array(waypoints[target_index])
 
-        current_s = self.waypoint_array_in_map[current_index, 4]
-        target_s = current_s + distance
-
-        s_column = self.waypoint_array_in_map[:, 4]
-        extended_s = np.concatenate([s_column, s_column[1:] + self.track_length])
-        extended_waypoints = np.vstack([waypoints, waypoints[1:]])
-
-        target_index = np.searchsorted(extended_s, target_s, side='left')
-        target_index = min(target_index, len(extended_waypoints) - 1)
-
-        return np.array(extended_waypoints[target_index % len(waypoints)])
+        # Previous RACE implementation using s-based lookup (kept for reference):
+        # current_index = int(idx_waypoint_behind_car) % len(waypoints)
+        # if self.track_length <= 0.0:
+        #     # fallback: use simple index wrap with estimated spacing
+        #     approx_spacing = np.maximum(1e-3, np.linalg.norm(waypoints[(current_index + 1) % len(waypoints), :2] - waypoints[current_index, :2]))
+        #     steps = int(round(distance / approx_spacing))
+        #     target_index = (current_index + steps) % len(waypoints)
+        #     return np.array(waypoints[target_index])
+        #
+        # current_s = self.waypoint_array_in_map[current_index, 4]
+        # target_s = current_s + distance
+        # s_column = self.waypoint_array_in_map[:, 4]
+        # extended_s = np.concatenate([s_column, s_column[1:] + self.track_length])
+        # extended_waypoints = np.vstack([waypoints, waypoints[1:]])
+        # target_index = np.searchsorted(extended_s, target_s, side='left')
+        # target_index = min(target_index, len(extended_waypoints) - 1)
+        # return np.array(extended_waypoints[target_index % len(waypoints)])
