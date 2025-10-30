@@ -196,6 +196,7 @@ if __name__ == "__main__":
     valid_pts = []  # used for lane calculating, [x, y, inner_dist, outer_dist, ratio]
     opp_track_pts = []  # used for opponent detector, [x, y]
     opp_inner_bound, opp_outer_bound = [], []  # used for opponent detector, [x, y]
+    safe_inner_bound, safe_outer_bound = [], []  # bounds with inner_safe_dist and outer_safe_dist
     for (x, y) in zip(X, Y):
         outer_dist = cv2.pointPolygonTest(outer_bound, (x, y), True)
         inner_dist = cv2.pointPolygonTest(inner_bound, (x, y), True)
@@ -208,12 +209,21 @@ if __name__ == "__main__":
             opp_outer_bound.append([x, y])
         if abs(inner_dist + opp_safe_dist / scale) < 2:
             opp_inner_bound.append([x, y])
+        # Extract bounds with inner_safe_dist and outer_safe_dist
+        if abs(outer_dist - outer_safe_dist / scale) < 2:
+            safe_outer_bound.append([x, y])
+        if abs(inner_dist + inner_safe_dist / scale) < 2:
+            safe_inner_bound.append([x, y])
     valid_pts = np.array(valid_pts)
     opp_track_pts = np.array(opp_track_pts)
     opp_outer_bound = np.array(opp_outer_bound)
     opp_inner_bound = np.array(opp_inner_bound)
+    safe_outer_bound = np.array(safe_outer_bound)
+    safe_inner_bound = np.array(safe_inner_bound)
     opp_outer_bound = reorder_vertex(output_img, opp_outer_bound)
     opp_inner_bound = reorder_vertex(output_img, opp_inner_bound)
+    safe_outer_bound = reorder_vertex(output_img, safe_outer_bound)
+    safe_inner_bound = reorder_vertex(output_img, safe_inner_bound)
 
     # Plot track
     print("Plotting track bounds...")
@@ -269,6 +279,9 @@ if __name__ == "__main__":
     opp_track_pts = transform_coords(opp_track_pts, h, scale, offset_x, offset_y)
     opp_outer_bound = transform_coords(opp_outer_bound, h, scale, offset_x, offset_y)
     opp_inner_bound = transform_coords(opp_inner_bound, h, scale, offset_x, offset_y)
+    safe_outer_bound = transform_coords(safe_outer_bound, h, scale, offset_x, offset_y)
+    safe_inner_bound = transform_coords(safe_inner_bound, h, scale, offset_x, offset_y)
+    valid_pts_xy = transform_coords(valid_pts[:, 0:2], h, scale, offset_x, offset_y)
 
     # Plot real-world coordinates
     plt.figure(figsize=(10, 8))
@@ -296,15 +309,27 @@ if __name__ == "__main__":
     save_csv(opp_track_pts, os.path.join(csv_folder, "track.csv"))
     np.save(os.path.join(csv_folder, "track"), opp_track_pts)
 
+    # Save valid_pts (points considering inner_safe_dist and outer_safe_dist)
+    save_csv(valid_pts_xy, os.path.join(csv_folder, "valid_track_pts.csv"))
+    np.save(os.path.join(csv_folder, "valid_track_pts"), valid_pts_xy)
+
     # Save bounds to /home/ojg/RACE/bound/map_name/
     bound_folder = os.path.join(module, "..", "bound", input_map)
     os.makedirs(bound_folder, exist_ok=True)
 
-    save_csv(opp_outer_bound, os.path.join(bound_folder, "outer_bound.csv"))
-    np.save(os.path.join(bound_folder, "outer_bound"), opp_outer_bound)
+    # Save bounds with inner_safe_dist and outer_safe_dist (main bounds)
+    save_csv(safe_outer_bound, os.path.join(bound_folder, "outer_bound.csv"))
+    np.save(os.path.join(bound_folder, "outer_bound"), safe_outer_bound)
 
-    save_csv(opp_inner_bound, os.path.join(bound_folder, "inner_bound.csv"))
-    np.save(os.path.join(bound_folder, "inner_bound"), opp_inner_bound)
+    save_csv(safe_inner_bound, os.path.join(bound_folder, "inner_bound.csv"))
+    np.save(os.path.join(bound_folder, "inner_bound"), safe_inner_bound)
+
+    # Save opponent bounds with opp_safe_dist
+    save_csv(opp_outer_bound, os.path.join(bound_folder, "opp_outer_bound.csv"))
+    np.save(os.path.join(bound_folder, "opp_outer_bound"), opp_outer_bound)
+
+    save_csv(opp_inner_bound, os.path.join(bound_folder, "opp_inner_bound.csv"))
+    np.save(os.path.join(bound_folder, "opp_inner_bound"), opp_inner_bound)
 
     # Create debug image with bounds overlaid on map
     print("Creating debug image...")
@@ -313,19 +338,17 @@ if __name__ == "__main__":
         debug_img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
         debug_img = cv2.cvtColor(debug_img, cv2.COLOR_GRAY2BGR)
 
-    # Convert map coordinates back to pixel coordinates
-    outer_bound_pixels = inverse_transform_coords(opp_outer_bound, h, scale, offset_x, offset_y)
-    inner_bound_pixels = inverse_transform_coords(opp_inner_bound, h, scale, offset_x, offset_y)
+    # Convert map coordinates back to pixel coordinates (using safe bounds)
+    outer_bound_pixels = inverse_transform_coords(safe_outer_bound, h, scale, offset_x, offset_y)
+    inner_bound_pixels = inverse_transform_coords(safe_inner_bound, h, scale, offset_x, offset_y)
 
-    # Draw outer bound points in red
+    # Draw outer bound as continuous line in red
     for i in range(len(outer_bound_pixels)):
-        pt = tuple(outer_bound_pixels[i])
-        cv2.circle(debug_img, pt, 2, (0, 0, 255), -1)
+        cv2.line(debug_img, tuple(outer_bound_pixels[i-1]), tuple(outer_bound_pixels[i]), (0, 0, 255), 2)
 
-    # Draw inner bound points in blue
+    # Draw inner bound as continuous line in blue
     for i in range(len(inner_bound_pixels)):
-        pt = tuple(inner_bound_pixels[i])
-        cv2.circle(debug_img, pt, 2, (255, 0, 0), -1)
+        cv2.line(debug_img, tuple(inner_bound_pixels[i-1]), tuple(inner_bound_pixels[i]), (255, 0, 0), 2)
 
     # Save debug image
     debug_img_path = os.path.join(bound_folder, "debug_bounds.png")
