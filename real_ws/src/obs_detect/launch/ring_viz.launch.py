@@ -25,8 +25,8 @@ def generate_launch_description():
                 # -------------------------
                 # ✅ DBSCAN 관련 파라미터 추가
                 # -------------------------
-                'db_eps': 0.10,           # 클러스터 반경 [m]
-                'db_min_samples': 2,      # 최소 점 개수
+                'db_eps': 0.25,           # 클러스터 반경 [m]
+                'db_min_samples': 5,      # 최소 점 개수
                 'point_scale': 0.04,      # RViz 점 크기
                 'show_centers': True,     # 중심점 표시 여부
                 'tf_timeout': 0.3,        # TF timeout
