@@ -1,6 +1,6 @@
 # MIT License
 
-# Copyright (c) 2025 Hongrui Zheng
+# Copyright (c) 2025 Zirui Zang
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -107,11 +107,11 @@ def generate_launch_description():
         name='throttle_interpolator',
         parameters=[LaunchConfiguration('vesc_config')]
     )
-    urg_node = Node(
-        package='urg_node',
-        executable='urg_node_driver',
-        name='urg_node',
-        parameters=[LaunchConfiguration('sensors_config')]
+    sick_node = Node(
+        package='sick_scan_xd',
+        executable='sick_generic_caller',
+        name='sick_node',
+        arguments=["/opt/ros/humble/share/sick_scan_xd/launch/sick_tim_5xx.launch"] # Be sure to update this to point to the launch folder's update .launch file
     )
     ackermann_mux_node = Node(
         package='ackermann_mux',
@@ -134,7 +134,7 @@ def generate_launch_description():
     ld.add_action(vesc_to_odom_node)
     ld.add_action(vesc_driver_node)
     # ld.add_action(throttle_interpolator_node)
-    ld.add_action(urg_node)
+    ld.add_action(sick_node)
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
 
