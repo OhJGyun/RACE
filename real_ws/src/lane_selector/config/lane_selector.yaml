@@ -14,11 +14,11 @@ lane_selector_node:
       - "/home/ircv7/RACE/path/1030/normal_5.0/lane_right.csv"    # Lane 2: 오른쪽 회피 라인
 
     lane_topic: "/lane_selector/target_lane"
-    lookahead_distance: 12.0
+    lookahead_distance: 10.0
     obstacle_clearance: 0.7
     forward_min_distance: 0.2
-    min_switch_interval: 1.5
-    update_rate_hz: 10.0
+    min_switch_interval: 0.5
+    update_rate_hz: 20.0
     detection_hold_time: 0.05
 
     # 시각화

@@ -66,7 +66,7 @@ class LaneSelectorNode(Node):
         self.declare_parameter("obstacle_clearance", 0.7)
         self.declare_parameter("forward_min_distance", 0.2)
         self.declare_parameter("min_switch_interval", 1.5)
-        self.declare_parameter("update_rate_hz", 10.0)
+        self.declare_parameter("update_rate_hz", 20.0)
         self.declare_parameter("detection_hold_time", 0.05)
 
         # 시각화
