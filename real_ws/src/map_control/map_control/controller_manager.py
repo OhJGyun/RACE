@@ -204,6 +204,7 @@ class ControllerManager(Node):
         self.declare_parameter('lane_csv_paths', [''])  # List of lane CSV paths (empty string for type inference)
         self.declare_parameter('lane_selector_topic', '/lane_selector/target_lane')
         self.declare_parameter('lane_change_ld_gain', 0.7)  # LD multiplier during lane change (0~1)
+        self.declare_parameter('lane_change_speed_gain', 0.7)  # Speed multiplier during lane change (0~1)
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -248,6 +249,7 @@ class ControllerManager(Node):
         self.lane_csv_paths = self.get_parameter('lane_csv_paths').value
         self.lane_selector_topic = self.get_parameter('lane_selector_topic').value
         self.lane_change_ld_gain = self.get_parameter('lane_change_ld_gain').value
+        self.lane_change_speed_gain = self.get_parameter('lane_change_speed_gain').value
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
@@ -640,13 +642,13 @@ class ControllerManager(Node):
         self.waypoint_array_in_map = self.lane_waypoints[desired_lane]
         self.track_length = self.waypoint_array_in_map[-1, 4]
 
-        # Activate lane change mode: apply reduced LD for better tracking
+        # Activate lane change mode: apply reduced LD and speed for better tracking
         self.lane_change_active = True
         self.lane_change_start_time = self.get_clock().now().nanoseconds * 1e-9
 
         self.get_logger().info(
             f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints), "
-            f"LD reduced by {self.lane_change_ld_gain:.2f}x for {self.lane_change_duration:.1f}s"
+            f"LD×{self.lane_change_ld_gain:.2f}, Speed×{self.lane_change_speed_gain:.2f} for {self.lane_change_duration:.1f}s"
         )
 
     def _load_single_waypoint_file(self, csv_path: str):
@@ -791,10 +793,18 @@ class ControllerManager(Node):
                     track_length=self.track_length
                 )
 
+            # Apply speed gain during lane change
+            if self.lane_change_active:
+                speed = speed * self.lane_change_speed_gain
+                acceleration = acceleration * self.lane_change_speed_gain
+                # jerk는 변화율이므로 gain^2 적용
+                jerk = jerk * (self.lane_change_speed_gain ** 2)
+
             # Debug output
             self.get_logger().info(
                 f"Control: pos=({self.position_in_map[0,0]:.2f},{self.position_in_map[0,1]:.2f}), "
-                f"speed={speed:.2f}, steer={steering_angle:.3f}, frenet=({self.position_in_map_frenet[0]:.2f},{self.position_in_map_frenet[1]:.2f})",
+                f"speed={speed:.2f}{'*' if self.lane_change_active else ''}, steer={steering_angle:.3f}, "
+                f"frenet=({self.position_in_map_frenet[0]:.2f},{self.position_in_map_frenet[1]:.2f})",
                 throttle_duration_sec=1.0
             )
 
