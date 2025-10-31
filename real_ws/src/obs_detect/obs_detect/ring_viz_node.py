@@ -1,28 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-SimpleScanViz (LaserScan → map → 초경량 클러스터링 → 중심 시각화 + 정적/동적/노이즈 분류)
-
-기능 요약
-- LaserScan 입력을 map 좌표계로 변환(스캔 '시각'의 TF 사용: time-synced)
-- FOV/ROI 필터 → O(N) 스캔라인 클러스터링 → 클러스터 중심 계산
-- CSV로 읽은 outer/inner 링(outer 안 ∧ inner 밖) 필터링
-- 슬라이딩 윈도우(초 단위) 히스토리로 '정적/동적/노이즈' 분류
-  * 정적:  Rs(1.0m) 내에 커버리지시간 ≥ Ts(0.1s)  또는  프레임수 ≥ Ns(자동: ceil(f_eff*Ts))
-  * 동적:  (정적 아님) AND Rd(2.0m) 내에 커버리지시간 ≥ Td(0.5s) 또는 프레임수 ≥ Nd(ceil(f_eff*Td))
-  * 노이즈: 나머지
-- MarkerArray 를 /scan_viz/markers 로 퍼블리시 (static=green, dynamic=red, noise=gray)
-
-주의
-- RViz Fixed Frame은 marker_frame_id(기본 "map")로 맞추세요.
-- ros2 bag 재생 시 --clock 사용 권장. TF가 스캔 시각에 존재해야 합니다.
+LaserScan → map 변환 → 초경량 클러스터링 → 중심만 RViz 시각화
++ CSV로 읽은 outer/inner 경계 사이(outer 안 ∧ inner 밖)에 있는 중심만 통과
++ 직전 프레임과 비교해서 static / dynamic 구분
 """
 
 from __future__ import annotations
 import os, csv, math
 from typing import List, Tuple, Sequence, Optional
-from collections import deque
-
 import numpy as np
 
 import rclpy
@@ -36,12 +22,10 @@ from visualization_msgs.msg import Marker, MarkerArray
 from tf2_ros import Buffer, TransformListener, TransformException
 from transforms3d.quaternions import quat2mat
 
-
 # -------------------------------
 # 타입
 # -------------------------------
 Point2D = Tuple[float, float]
-
 
 # -------------------------------
 # CSV 유틸
@@ -87,7 +71,9 @@ def point_in_polygon(x: float, y: float, poly: Sequence[Point2D], include_bounda
     return inside
 
 
-def in_ring(x: float, y: float, outer: Optional[Sequence[Point2D]], inner: Optional[Sequence[Point2D]]) -> bool:
+def in_ring(x: float, y: float,
+            outer: Optional[Sequence[Point2D]],
+            inner: Optional[Sequence[Point2D]]) -> bool:
     """outer 안 AND inner 밖이면 True (inner가 없으면 무시)."""
     if outer and not point_in_polygon(x, y, outer, True):
         return False
@@ -145,41 +131,35 @@ class SimpleScanViz(Node):
     """
     LaserScan → map 변환 → 초경량 클러스터링 → 중심 표시
     + CSV outer/inner 링 필터
-    + 슬라이딩 윈도우 기반 정적/동적/노이즈 분류
+    + 직전 프레임과 비교해 정적 / 동적 분류
     """
 
     def __init__(self):
         super().__init__("simple_scan_viz")
 
-        # ----- 파라미터 선언 -----
-        # 입력/출력/TF
+        # 파라미터
         self.declare_parameter("scan_topic", "/scan")
         self.declare_parameter("marker_frame_id", "map")
         self.declare_parameter("tf_timeout", 0.3)
-
-        # 전처리/표시
-        self.declare_parameter("db_min_samples", 8)
+        self.declare_parameter("db_min_samples", 5)
         self.declare_parameter("roi_min_dist", 0.20)
         self.declare_parameter("roi_max_dist", 6.00)
         self.declare_parameter("center_scale", 0.12)
         self.declare_parameter("fov_deg", 120.0)
         self.declare_parameter("fov_center_deg", 0.0)
-        self.declare_parameter("outer_bound_csv", "/home/ircv7/RACE/bound/1031/outer_bound.csv")
-        self.declare_parameter("inner_bound_csv", "/home/ircv7/RACE/bound/1031/inner_bound.csv")
+        self.declare_parameter("outer_bound_csv", "")
+        self.declare_parameter("inner_bound_csv", "")
 
-        # 분류(윈도우/임계)
-        self.declare_parameter("window_sec", 1.0)         # W: 최소 Td 이상 권장
-        self.declare_parameter("lidar_hz", 40.0)          # 기대 Hz (fallback)
-        self.declare_parameter("Ts", 0.1)                 # static coverage (s
-        self.declare_parameter("Td", 0.5)                 # dynamic coverage (s)
-        self.declare_parameter("static_radius", 1.0)      # Rs (m)
-        self.declare_parameter("dynamic_radius", 2.0)     # Rd (m)
+        # (신규) 동적/정적 판정 관련 파라미터
+        # match_radius: 같은 물체로 매칭했다고 볼 최대 위치 차이 (m)
+        # dyn_vel_thresh: 이 속도(m/s) 이상이면 dynamic으로 간주
+        self.declare_parameter("match_radius", 0.3)
+        self.declare_parameter("dyn_vel_thresh", 0.4)
 
-        # ----- 로드 -----
+        # 로드
         self.scan_topic = self.get_parameter("scan_topic").value
         self.marker_frame = self.get_parameter("marker_frame_id").value
         self.tf_timeout = float(self.get_parameter("tf_timeout").value)
-
         self.db_min_samples = int(self.get_parameter("db_min_samples").value)
         self.roi_min_dist = float(self.get_parameter("roi_min_dist").value)
         self.roi_max_dist = float(self.get_parameter("roi_max_dist").value)
@@ -189,12 +169,8 @@ class SimpleScanViz(Node):
         self.outer_csv = self.get_parameter("outer_bound_csv").value
         self.inner_csv = self.get_parameter("inner_bound_csv").value
 
-        self.window_sec = float(self.get_parameter("window_sec").value)
-        self.lidar_hz = float(self.get_parameter("lidar_hz").value)
-        self.Ts = float(self.get_parameter("Ts").value)
-        self.Td = float(self.get_parameter("Td").value)
-        self.static_radius = float(self.get_parameter("static_radius").value)
-        self.dynamic_radius = float(self.get_parameter("dynamic_radius").value)
+        self.match_radius = float(self.get_parameter("match_radius").value)
+        self.dyn_vel_thresh = float(self.get_parameter("dyn_vel_thresh").value)
 
         # 경계 로드
         self.outer_poly = load_world_csv(self.outer_csv) if self.outer_csv else []
@@ -212,27 +188,23 @@ class SimpleScanViz(Node):
         self.sub = self.create_subscription(LaserScan, self.scan_topic, self._on_scan, 10)
         self.pub = self.create_publisher(MarkerArray, "scan_viz/markers", 1)
 
-        # 히스토리(최근 window_sec 동안): (stamp_sec: float, pts_xy: np.ndarray[N,2])
-        self.history = deque()
+        # (신규) 지난 프레임 상태 저장용
+        self.prev_centers: List[Tuple[float, float]] = []
+        self.prev_stamp: Optional[float] = None  # sec 단위 float
 
         self.get_logger().info(
             f"[init] scan={self.scan_topic}, frame={self.marker_frame}, "
             f"ROI=[{self.roi_min_dist},{self.roi_max_dist}]m, "
-            f"FOV={self.fov_deg}°@{self.fov_center_deg}°, "
-            f"Rs={self.static_radius}m, Rd={self.dynamic_radius}m, "
-            f"Ts={self.Ts}s, Td={self.Td}s, W={self.window_sec}s"
+            f"FOV={self.fov_deg}°@{self.fov_center_deg}°"
         )
 
     # ---------------------------
-    # TF lookup @ 특정 시각 (스캔 시각)
+    # TF lookup
     # ---------------------------
-    def _lookup_at(self, target_frame: str, source_frame: str, t_ros: RclTime):
-        if not self.tf_buffer.can_transform(
-            target_frame, source_frame, t_ros, timeout=Duration(seconds=self.tf_timeout)
-        ):
-            raise TransformException(f"TF not available at time={t_ros.nanoseconds}")
+    def _lookup_latest(self, target_frame: str, source_frame: str):
         tf = self.tf_buffer.lookup_transform(
-            target_frame, source_frame, t_ros, timeout=Duration(seconds=self.tf_timeout)
+            target_frame, source_frame, RclTime(),
+            timeout=Duration(seconds=self.tf_timeout)
         )
         t = tf.transform.translation
         q = tf.transform.rotation
@@ -249,142 +221,126 @@ class SimpleScanViz(Node):
         arr.markers.append(m)
         self.pub.publish(arr)
 
-    def _make_marker(self, ns: str, rgba: Tuple[float, float, float, float], points: List[Point], stamp):
+    def _make_marker(self, centers: List[Point],
+                     r: float, g: float, b: float,
+                     ns: str, mid: int):
         m = Marker()
         m.header.frame_id = self.marker_frame
-        m.header.stamp = stamp
+        m.header.stamp = self.get_clock().now().to_msg()
         m.ns = ns
-        # 같은 ns라도 RViz가 갱신하도록 id를 고정값 하나로 사용
-        m.id = 0
+        m.id = mid
         m.type = Marker.SPHERE_LIST
         m.action = Marker.ADD
         m.pose.orientation.w = 1.0
         m.scale.x = self.center_scale
         m.scale.y = self.center_scale
         m.scale.z = self.center_scale
-        m.color.r, m.color.g, m.color.b, m.color.a = rgba
+        m.color.r = r
+        m.color.g = g
+        m.color.b = b
+        m.color.a = 1.0
         m.lifetime = Duration(seconds=0.5).to_msg()
-        m.points.extend(points)
+        m.points.extend(centers)
         return m
 
-    def _publish_centers_classed(self, centers: List[Point], stamp, idx_s, idx_d, idx_n):
+    def _publish_centers_two_colors(self,
+                                    static_pts: List[Point],
+                                    dynamic_pts: List[Point]):
         arr = MarkerArray()
-        if idx_s:
-            arr.markers.append(self._make_marker("centers_static",  (0.0, 1.0, 0.0, 1.0), [centers[i] for i in idx_s], stamp))  # green
-        if idx_d:
-            arr.markers.append(self._make_marker("centers_dynamic", (1.0, 0.0, 0.0, 1.0), [centers[i] for i in idx_d], stamp))  # red
-        if idx_n:
-            arr.markers.append(self._make_marker("centers_noise",   (0.5, 0.5, 0.5, 0.6), [centers[i] for i in idx_n], stamp))  # gray
-        if arr.markers:
-            self.pub.publish(arr)
-        else:
+
+        # static: 초록 (0,1,0)
+        if static_pts:
+            arr.markers.append(
+                self._make_marker(static_pts, 0.0, 1.0, 0.0,
+                                  "cluster_static", 0)
+            )
+
+        # dynamic: 빨강 (1,0,0)
+        if dynamic_pts:
+            arr.markers.append(
+                self._make_marker(dynamic_pts, 1.0, 0.0, 0.0,
+                                  "cluster_dynamic", 1)
+            )
+
+        # 아무것도 없으면 clear
+        if not arr.markers:
             self._publish_clear()
-
-    # ---------------------------
-    # 히스토리 관리 & 커버리지 계산
-    # ---------------------------
-    def _prune_history(self, now_sec: float):
-        cut = now_sec - self.window_sec
-        while self.history and self.history[0][0] < cut:
-            self.history.pop ()  # type: ignore[attr-defined]
-
-    # deque에는 popleft가 맞습니다. (IDE 헷갈림 방지용 별도 메서드)
-    def popleft(self):  # noqa: E999  (문법 하이라이트 방지용 이름)
-        pass
-
-    def _coverage_seconds(self, hit_ts: np.ndarray) -> float:
-        """
-        간단 근사: (히트 프레임 수 - 1) * median(Δt)
-        - 균등 샘플이 아니어도 robust
-        """
-        n = hit_ts.size
-        if n <= 1:
-            return 0.0
-        t_sorted = np.sort(hit_ts)
-        dts = np.diff(t_sorted)
-        if dts.size == 0:
-            return 0.0
-        return float((n - 1) * float(np.median(dts)))
-
-    # ---------------------------
-    # 분류기 (하이브리드: 시간 OR 프레임)
-    # ---------------------------
-    def _classify_centers(self, centers_xy: np.ndarray, now_sec: float):
-        M = centers_xy.shape[0]
-        if M == 0:
-            return [], [], []
-
-        # 오래된 프레임 제거
-        cut = now_sec - self.window_sec
-        while self.history and self.history[0][0] < cut:
-            self.history.popleft()
-
-        # 유효 주파수 추정
-        if len(self.history) >= 2:
-            ts_all = np.array([t for (t, _) in self.history], dtype=float)
-            span = float(ts_all[-1] - ts_all[0])
-            total_frames = len(self.history)
-            f_eff = (total_frames - 1) / span if span > 1e-6 else self.lidar_hz
         else:
-            f_eff = self.lidar_hz
+            self.pub.publish(arr)
 
-        Ns = int(math.ceil(f_eff * self.Ts))  # ~ ceil(40*0.1)=4
-        Nd = int(math.ceil(f_eff * self.Td))  # ~ ceil(40*0.5)=20
+    # ---------------------------
+    # (신규) 동적 / 정적 분류
+    # ---------------------------
+    def _classify_motion(self,
+                          centers_ring: List[Point],
+                          stamp_sec: float
+                          ) -> Tuple[List[Point], List[Point]]:
+        """
+        centers_ring: 이번 프레임에서 링 필터 통과한 Center들
+        stamp_sec: 이번 프레임 time(sec)
 
-        rs2 = self.static_radius * self.static_radius
-        rd2 = self.dynamic_radius * self.dynamic_radius
+        prev_centers / prev_stamp 와 비교해서
+        - 매칭된 점의 속도가 dyn_vel_thresh 이상이면 dynamic
+        - 아니면 static
+        매칭 안되면 (새로 튀어나온 애) 일단 dynamic으로 분류하는 쪽으로 둠.
+        """
+        if self.prev_stamp is None or not self.prev_centers:
+            # 첫 프레임이면 다 static 취급해도 되고,
+            # 혹은 다 dynamic 취급해도 되고. 여기선 static으로 시작.
+            return centers_ring, []
 
-        idx_s, idx_d, idx_n = [], [], []
+        dt = stamp_sec - self.prev_stamp
+        if dt <= 1e-3:
+            # 시간 차 없으면 속도 못 구하니까 전부 static으로.
+            return centers_ring, []
 
-        # 각 중심에 대해 윈도우 내 히트 프레임 시각 수집
-        for i in range(M):
-            c = centers_xy[i]  # (2,)
-            hit_ts_s = []
-            hit_ts_d = []
-            for (t, pts) in self.history:
-                if pts.size == 0:
-                    continue
-                dif = pts - c[None, :]
-                d2 = np.einsum('ij,ij->i', dif, dif)
-                if (d2 <= rs2).any():
-                    hit_ts_s.append(t)
-                if (d2 <= rd2).any():
-                    hit_ts_d.append(t)
+        static_pts: List[Point] = []
+        dynamic_pts: List[Point] = []
 
-            cnt_s = len(hit_ts_s)
-            cnt_d = len(hit_ts_d)
-            cov_s = self._coverage_seconds(np.array(hit_ts_s, dtype=float)) if cnt_s > 0 else 0.0
-            cov_d = self._coverage_seconds(np.array(hit_ts_d, dtype=float)) if cnt_d > 0 else 0.0
+        # 매칭 방식: 현재 center마다 prev_centers 중 가장 가까운 점 찾기
+        for p in centers_ring:
+            cx, cy = p.x, p.y
 
-            is_static  = (cov_s >= self.Ts) or (cnt_s >= Ns)
-            is_dynamic = (not is_static) and ((cov_d >= self.Td) or (cnt_d >= Nd))
+            best_d2 = None
+            best_prev = None
+            for (px, py) in self.prev_centers:
+                dx = cx - px
+                dy = cy - py
+                d2 = dx*dx + dy*dy
+                if best_d2 is None or d2 < best_d2:
+                    best_d2 = d2
+                    best_prev = (px, py)
 
-            if is_static:
-                idx_s.append(i)
-            elif is_dynamic:
-                idx_d.append(i)
+            if best_d2 is None:
+                # 매칭 불가 -> dynamic 가정
+                dynamic_pts.append(p)
+                continue
+
+            dist = math.sqrt(best_d2)
+            if dist > self.match_radius:
+                # 너무 멀면 같은 물체로 안 본다 -> 새로운 애, dynamic 가정
+                dynamic_pts.append(p)
+                continue
+
+            # 같은 애로 보고 속도 계산
+            speed = dist / dt  # m/s
+            if speed >= self.dyn_vel_thresh:
+                dynamic_pts.append(p)
             else:
-                idx_n.append(i)
+                static_pts.append(p)
 
-        return idx_s, idx_d, idx_n
+        return static_pts, dynamic_pts
 
     # ---------------------------
     # 스캔 콜백
     # ---------------------------
     def _on_scan(self, scan: LaserScan):
         laser_frame = scan.header.frame_id or "laser"
-
-        # 스캔 '시각'의 TF 조회 (time-synced)
-        scan_time_ros = RclTime.from_msg(scan.header.stamp)
         try:
-            R_ml, T_ml = self._lookup_at(self.marker_frame, laser_frame, scan_time_ros)
+            R_ml, T_ml = self._lookup_latest(self.marker_frame, laser_frame)
         except TransformException as e:
-            # 스캔 시각 TF 실패 시 최신 TF로 폴백
-            try:
-                R_ml, T_ml = self._lookup_at(self.marker_frame, laser_frame, RclTime())
-            except TransformException as e2:
-                self.get_logger().warn(f"TF not available (scan time & latest): {e2}")
-                return
+            self.get_logger().warn(f"TF not available: {e}")
+            return
 
         ang_min, ang_inc = scan.angle_min, scan.angle_increment
         rmin, rmax = scan.range_min, scan.range_max
@@ -392,6 +348,10 @@ class SimpleScanViz(Node):
         if not ranges or ang_inc == 0.0:
             self._publish_clear()
             return
+
+        # timestamp (sec) for velocity calc
+        now_msg = self.get_clock().now().to_msg()
+        now_sec = now_msg.sec + now_msg.nanosec * 1e-9
 
         fov_rad = math.radians(self.fov_deg)
         fov_center = math.radians(self.fov_center_deg)
@@ -414,12 +374,7 @@ class SimpleScanViz(Node):
 
         if not r_list:
             self._publish_clear()
-            # 히스토리에도 비어있는 프레임을 적재(시간축 유지)
-            stamp_sec = scan.header.stamp.sec + scan.header.stamp.nanosec * 1e-9
-            self.history.append((stamp_sec, np.empty((0, 2), dtype=float)))
-            cut = stamp_sec - self.window_sec
-            while self.history and self.history[0][0] < cut:
-                self.history.popleft()
+            # prev 갱신은 안 함 (관측 없음)
             return
 
         # 2) 초경량 클러스터링
@@ -442,30 +397,25 @@ class SimpleScanViz(Node):
             centers.append(Point(x=sx/n, y=sy/n, z=0.0))
 
         # 4) CSV 링 필터
-        centers_ring = [p for p in centers if in_ring(
-            p.x, p.y, self.outer_poly or None, self.inner_poly or None
-        )]
+        centers_ring = [
+            p for p in centers
+            if in_ring(p.x, p.y,
+                       self.outer_poly or None,
+                       self.inner_poly or None)
+        ]
 
-        # 5) 히스토리 적재 (프레임 단위)
-        stamp_sec = scan.header.stamp.sec + scan.header.stamp.nanosec * 1e-9
-        if centers_ring:
-            pts_xy = np.array([[p.x, p.y] for p in centers_ring], dtype=float)
-        else:
-            pts_xy = np.empty((0, 2), dtype=float)
-        self.history.append((stamp_sec, pts_xy))
-        cut = stamp_sec - self.window_sec
-        while self.history and self.history[0][0] < cut:
-            self.history.popleft()
+        # 5) 정적/동적 분류
+        static_pts, dynamic_pts = self._classify_motion(centers_ring, now_sec)
 
-        # 6) 분류 & 퍼블리시 (스캔 시각으로 타임스탬프)
-        if centers_ring:
-            centers_xy = np.array([[p.x, p.y] for p in centers_ring], dtype=float)
-            now_sec = stamp_sec
-            idx_s, idx_d, idx_n = self._classify_centers(centers_xy, now_sec)
-            self._publish_centers_classed(centers_ring, stamp=scan.header.stamp,
-                                          idx_s=idx_s, idx_d=idx_d, idx_n=idx_n)
+        # 6) 퍼블리시
+        if static_pts or dynamic_pts:
+            self._publish_centers_two_colors(static_pts, dynamic_pts)
         else:
             self._publish_clear()
+
+        # 7) 이번 프레임을 다음 프레임 비교용으로 저장
+        self.prev_centers = [(p.x, p.y) for p in centers_ring]
+        self.prev_stamp = now_sec
 
 
 # -------------------------------

@@ -57,7 +57,7 @@ class LaneSelectorNode(Node):
         self.declare_parameter("odom_topic", "/odom")
 
         # 장애물 정보
-        self.declare_parameter("obstacles_topic", "obs_detect/obstacles")
+        self.declare_parameter("obstacles_topic", "/scan_viz/markers")
 
         # 레인 관련
         self.declare_parameter("lane_csv_paths", [""])

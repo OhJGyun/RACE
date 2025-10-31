@@ -1,27 +1,38 @@
 simple_scan_viz:
   ros__parameters:
+    # LaserScan 구독할 토픽
     scan_topic: "/scan"
+
+    # 마커를 어떤 frame 기준으로 찍을지 (보통 "map")
     marker_frame_id: "map"
+
+    # TF lookup timeout (sec)
     tf_timeout: 0.3
 
-    # FOV/ROI
+    # 클러스터 최소 포인트 개수
+    db_min_samples: 8
+
+    # ROI 범위 (라이다 거리 제한)
+    roi_min_dist: 0.20
+    roi_max_dist: 3.00
+
+    # RViz에서 찍을 구체 마커 사이즈 (m)
+    center_scale: 0.2
+
+    # 시야각(FOV) 설정
+    # fov_deg: 라이다에서 사용할 시야각 (degree)
+    # fov_center_deg: 0도가 정면. +는 좌회전방향(반시계) 기준이면 그대로 사용
     fov_deg: 120.0
     fov_center_deg: 0.0
-    roi_min_dist: 0.2
-    roi_max_dist: 6.0
 
-    # 클러스터링/표시
-    db_min_samples: 5
-    center_scale: 0.12
+    # 주행 가능 구역 경계 CSV (map 좌표계 기준)
+    # outer 안 AND inner 밖 영역만 통과시키는 필터에 사용
+    outer_bound_csv: "/home/ircv7/RACE/bound/1031_1/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1031_1/inner_bound.csv"
 
-    # 링(경계) CSV
-    outer_bound_csv: ""
-    inner_bound_csv: ""
+    # --- 동적/정적 분류용 ---
+    # prev 프레임의 같은 물체로 인정할 최대 위치 차이 [m]
+    match_radius: 0.3
 
-    # 분류 기준
-    window_sec: 1.0
-    lidar_hz: 40.0
-    Ts: 0.1
-    Td: 0.5
-    static_radius: 1.0
-    dynamic_radius: 2.0
+    # 속도 임계값 [m/s] — 이 이상 움직이면 dynamic 으로 표시
+    dyn_vel_thresh: 0.4

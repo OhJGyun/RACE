@@ -1,3 +1,4 @@
+import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
@@ -14,16 +15,19 @@ def generate_launch_description():
     map_controller_visualization = LaunchConfiguration("launch_rviz")
     rviz2_config = LaunchConfiguration("rviz2_config")
 
+    # Get HOME directory
+    home_dir = os.getenv("HOME", "/home/ircv7")
+
     # Launch arguments
     inner_csv_arg = DeclareLaunchArgument(
         'inner_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1031/inner_bound.csv',
+        default_value=os.path.join(home_dir, 'RACE/bound/1031_1/inner_bound.csv'),
         description='Path to inner boundary CSV file'
     )
 
     outer_csv_arg = DeclareLaunchArgument(
         'outer_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1031/outer_bound.csv',
+        default_value=os.path.join(home_dir, 'RACE/bound/1031_1/outer_bound.csv'),
         description='Path to outer boundary CSV file'
     )
 
