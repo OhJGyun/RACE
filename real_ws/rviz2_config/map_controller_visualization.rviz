@@ -9,6 +9,9 @@ Panels:
         - /Path1
         - /Speed1
         - /Steering1
+        - /LaserScan1
+        - /Nearest Point1  # --- 추가됨 ---
+        - /Way Point1      # --- 추가됨 ---
       Splitter Ratio: 0.5
     Tree Height: 300
   - Class: rviz_common/Selection
@@ -44,6 +47,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+      
     - Class: rviz_default_plugins/Path
       Buffer Length: 1
       Color: 25; 255; 0
@@ -66,54 +70,72 @@ Visualization Manager:
       Topic:
         Value: /map_controller/path
       Value: true
-    - Class: rviz_2d_overlay_plugins/PieChartOverlay
-      Enabled: true
+
+    - Class: rviz_2d_overlay_plugins/BarGauge
       Name: Speed
       Topic:
         Value: /monitor/current_speed
-      Value: true
-      auto color change: true
-      background color: 255; 20; 147
-      backround alpha: 0
-      clockwise rotate direction: true
-      foreground alpha: 0.2
-      foreground alpha 2: 0.2
-      foreground color: 255; 20; 147
-      left: 10
-      max color: 255; 0; 0
-      max color change threthold: 5.0
-      max value: 8.0
-      med color: 255; 200; 0
-      med color change threthold: 2.0
-      min value: 0
-      show caption: true
-      size: 128
-      text size: 14
-      top: 380
-    - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
+      Value: true
+      auto_color_change: true
+      bar_color: 255; 100; 100
+      med_color: 255; 0; 0
+      med_color_threshold: 3.0
+      max_color: 180; 0; 0
+      max_color_threshold: 6.0
+      bg_color: 50; 50; 50
+      caption: Speed
+      height: 30
+      left: 10
+      max_value: 8.0
+      min_value: 0.0
+      orientation: horizontal
+      show_caption: true
+      text_size: 14
+      top: 430
+      width: 200
+
+    - Class: rviz_2d_overlay_plugins/BarGauge
       Name: Steering
       Topic:
         Value: /monitor/steering_input
+      Enabled: true
       Value: true
-      auto color change: false
-      background color: 255; 20; 147
-      backround alpha: 0
-      clockwise rotate direction: true
-      foreground alpha: 0.2
-      foreground alpha 2: 0.2
-      foreground color: 255; 20; 147
-      left: 150
-      max color: 255; 0; 0
-      max color change threthold: 0
-      max value: 0.436 # 약 25도 (라디안)
-      med color: 255; 0; 0
-      med color change threthold: 0
-      min value: -0.436 # 약 -25도 (라디안)
-      show caption: true
-      size: 128
-      text size: 14
-      top: 380
+      bar_color: 255; 255; 255
+      bg_color: 50; 50; 50
+      caption: Steering
+      height: 30
+      left: 10
+      max_value: 0.436
+      min_value: -0.436
+      orientation: horizontal
+      show_caption: true
+      text_size: 14
+      top: 470
+      width: 200
+    
+    - Class: rviz_default_plugins/Marker
+      Name: Nearest Point
+      Enabled: true
+      Topic:
+        Value: /Markers/nearest_point
+        History Policy: Keep Last
+        Depth: 5
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+      Value: true
+    
+    - Class: rviz_default_plugins/Marker
+      Name: Way Point
+      Enabled: true
+      Topic:
+        Value: /Marker/way_point
+        History Policy: Keep Last
+        Depth: 5
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+      Value: true
+
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -153,7 +175,7 @@ Window Geometry:
   Displays:
     collapsed: false
   Height: 800
-  Hide Left Dock: false
+  Hide LeftDock: false
   Hide Right Dock: false
   Width: 1200
   X: 100
