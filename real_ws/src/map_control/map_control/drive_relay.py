@@ -15,6 +15,10 @@ class DriveRelay(Node):
             self.drive_callback,
             10)
         
+        self.drive_drive_sub = self.create_subscription(
+            
+        )
+        
         # RViz 오버레이가 사용할 토픽 발행
         self.speed_pub = self.create_publisher(Float32, '/monitor/current_speed', 10)
         self.steer_pub = self.create_publisher(Float32, '/monitor/steering_input', 10)

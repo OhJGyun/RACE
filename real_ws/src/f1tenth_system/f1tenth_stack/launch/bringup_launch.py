@@ -22,13 +22,17 @@
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.conditions import IfCondition
 from launch.substitutions import Command
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 import os
+
+map_controller_visualization = LaunchConfiguration("launch_rviz")
+rviz2_config = LaunchConfiguration("rviz2_config")
 
 def generate_launch_description():
     joy_teleop_config = os.path.join(
@@ -127,6 +131,28 @@ def generate_launch_description():
         arguments=['0.27', '0.0', '0.11', '0.0', '0.0', '0.0', 'base_link', 'laser']
     )
 
+    launch_rviz_arg = DeclareLaunchArgument(
+        'launch_rviz',
+        default_value='true',
+        description='Automatically launch RViz'
+    )
+
+    rviz_config_arg = DeclareLaunchArgument(
+        'rviz2_config',
+        default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "rviz2_config", "map_controller_visualization.rviz"]),
+        description='RViz Config File'
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="rviz2",
+        arguments=["-d", rviz2_config],
+        condition=IfCondition(map_controller_visualization)
+    )
+
+
     # finalize
     ld.add_action(joy_node)
     ld.add_action(joy_teleop_node)
@@ -137,5 +163,8 @@ def generate_launch_description():
     ld.add_action(urg_node)
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
+    ld.add_action(launch_rviz_arg)
+    ld.add_action(rviz_config_arg)
+    ld.add_action(rviz_node)
 
     return ld
