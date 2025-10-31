@@ -39,6 +39,9 @@ def launch_setup(context, *args, **kwargs):
     slam_mode = LaunchConfiguration("slam_mode")
     slam_config_file = LaunchConfiguration("slam_config_file")
 
+    slam_nav_visualization = LaunchConfiguration("launch_rviz")
+    rviz2_config = LaunchConfiguration("rviz2_config")
+
     launch_actions = []
 
     if mode == "slam":
@@ -138,6 +141,17 @@ def launch_setup(context, *args, **kwargs):
             }.items()
         )
         launch_actions.append(localization_launch)
+    
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="rviz2",
+        arguments=["-d", rviz2_config],
+        parameters=[{"use_sim_time":use_sim_time}],
+        condition=IfCondition(slam_nav_visualization)
+    )
+    launch_actions.append(rviz_node)
 
     return launch_actions
 
@@ -189,6 +203,17 @@ def generate_launch_description():
         description="Path to SLAM config file"
     )
 
+    launch_rviz_arg = DeclareLaunchArgument(
+        "launch_rviz", default_value="true",
+        description="Launch RViz automatically:"
+    )
+
+    rviz_config_arg = DeclareLaunchArgument(
+        "rviz2_config",
+        default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "rviz", "slam_nav_visualization.rviz"]),
+        description="Path to RViz config"
+    )
+
     return LaunchDescription([
         mode_arg,
         slam_backend_arg,
@@ -197,5 +222,7 @@ def generate_launch_description():
         map_yaml_file_arg,
         autostart_arg,
         slam_config_arg,
+        launch_rviz_arg,
+        rviz_config_arg,
         OpaqueFunction(function=launch_setup)
     ])
