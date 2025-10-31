@@ -674,10 +674,31 @@ if "traj_ltpl_export" in file_paths.keys():
 
 print("INFO: Finished export of trajectory:", time.strftime("%H:%M:%S"))
 
-# save another copy of lane_optimal.csv
+# save another copy of lane_optimal.csv (legacy format: x, y, v)
 with open(file_paths["lane_optimal_export"], 'w') as f:
     for x, y, v in zip(trajectory_opt[:, 1], trajectory_opt[:, 2], trajectory_opt[:, 5]):
         f.write("%.3f,%.3f,%.3f\n" % (x, y, v))
+
+# Export full trajectory for MAP controller (x, y, v, d, s, kappa, psi, ax)
+file_paths["map_controller_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                    "lane_optimal_full.csv")
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map + "_for_map"), exist_ok=True)
+
+with open(file_paths["map_controller_export"], 'w') as f:
+    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
+    for i in range(trajectory_opt.shape[0]):
+        x = trajectory_opt[i, 1]
+        y = trajectory_opt[i, 2]
+        psi = trajectory_opt[i, 3]
+        kappa = trajectory_opt[i, 4]
+        v = trajectory_opt[i, 5]
+        ax = trajectory_opt[i, 6]
+        s = trajectory_opt[i, 0]
+        d = 0.0  # lateral offset from centerline (optimal raceline is the reference)
+
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" % (x, y, v, d, s, kappa, psi, ax))
+
+print("INFO: Exported full trajectory for MAP controller:", file_paths["map_controller_export"])
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EXPORT AVOIDANCE LANES (FROM SECOND OPTIMIZATION) -------------------------------------------------------------------
@@ -800,6 +821,60 @@ with open(file_paths["lane_right_export"], 'w') as f:
     f.write("# x_m, y_m, v_mps\n")
     for i in range(veh_bound_right.shape[0]):
         f.write("%.3f,%.3f,%.3f\n" % (veh_bound_right[i, 0], veh_bound_right[i, 1], vx_profile_right[i]))
+
+# Export LEFT avoidance lane for MAP controller (full format)
+file_paths["lane_left_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                    "lane_left_full.csv")
+# Calculate cumulative s for left lane
+s_left = np.zeros(len(el_lengths_left) + 1)
+s_left[1:] = np.cumsum(el_lengths_left)
+
+# Calculate ax for left lane
+vx_profile_left_cl = np.append(vx_profile_left, vx_profile_left[0])
+ax_profile_left = tph.calc_ax_profile.calc_ax_profile(vx_profile=vx_profile_left_cl,
+                                                       el_lengths=el_lengths_left,
+                                                       eq_length_output=False)
+
+with open(file_paths["lane_left_full_export"], 'w') as f:
+    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
+    for i in range(veh_bound_left.shape[0]):
+        x = veh_bound_left[i, 0]
+        y = veh_bound_left[i, 1]
+        v = vx_profile_left[i]
+        d = 0.0  # left lane is its own reference line
+        s = s_left[i]
+        kappa = kappa_left[i]
+        psi = psi_left[i]
+        ax = ax_profile_left[i]
+
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" % (x, y, v, d, s, kappa, psi, ax))
+
+# Export RIGHT avoidance lane for MAP controller (full format)
+file_paths["lane_right_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                     "lane_right_full.csv")
+# Calculate cumulative s for right lane
+s_right = np.zeros(len(el_lengths_right) + 1)
+s_right[1:] = np.cumsum(el_lengths_right)
+
+# Calculate ax for right lane
+vx_profile_right_cl = np.append(vx_profile_right, vx_profile_right[0])
+ax_profile_right = tph.calc_ax_profile.calc_ax_profile(vx_profile=vx_profile_right_cl,
+                                                        el_lengths=el_lengths_right,
+                                                        eq_length_output=False)
+
+with open(file_paths["lane_right_full_export"], 'w') as f:
+    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
+    for i in range(veh_bound_right.shape[0]):
+        x = veh_bound_right[i, 0]
+        y = veh_bound_right[i, 1]
+        v = vx_profile_right[i]
+        d = 0.0  # right lane is its own reference line
+        s = s_right[i]
+        kappa = kappa_right[i]
+        psi = psi_right[i]
+        ax = ax_profile_right[i]
+
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" % (x, y, v, d, s, kappa, psi, ax))
 
 print("INFO: Avoidance lanes exported successfully")
 print("      Based on SECOND optimization with avoidance_opt = %.3fm" % avoidance_opt)
