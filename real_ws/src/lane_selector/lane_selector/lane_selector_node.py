@@ -16,11 +16,14 @@ from typing import List, Optional, Sequence, Tuple
 import numpy as np
 import rclpy
 from rclpy.node import Node
+from rclpy.duration import Duration
+from rclpy.time import Time as RclTime
 
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, Point
 from nav_msgs.msg import Odometry, Path
 from std_msgs.msg import Int32
 from visualization_msgs.msg import Marker, MarkerArray
+from tf2_ros import Buffer, TransformListener, TransformException, LookupException, ConnectivityException, ExtrapolationException
 
 
 ################################################################################
@@ -53,11 +56,11 @@ class LaneSelectorNode(Node):
         # ------------------------------------------------------------------
         # 파라미터 선언
         # ------------------------------------------------------------------
-        # 차량 자세
-        self.declare_parameter("odom_topic", "/odom")
+        # TF localization (like map_controller)
+        self.declare_parameter("tf_timeout", 0.3)
 
         # 장애물 정보
-        self.declare_parameter("obstacles_topic", "/scan_viz/markers")
+        self.declare_parameter("obstacles_topic", "/scan_viz/obstacles")
 
         # 레인 관련
         self.declare_parameter("lane_csv_paths", [""])
@@ -75,7 +78,7 @@ class LaneSelectorNode(Node):
         # ------------------------------------------------------------------
         # 파라미터 로딩
         # ------------------------------------------------------------------
-        self.odom_topic = str(self.get_parameter("odom_topic").value)
+        self.tf_timeout = float(self.get_parameter("tf_timeout").value)
         self.obstacles_topic = str(self.get_parameter("obstacles_topic").value)
         self.lane_topic = str(self.get_parameter("lane_topic").value)
         self.lookahead_distance = float(self.get_parameter("lookahead_distance").value)
@@ -109,9 +112,14 @@ class LaneSelectorNode(Node):
         self.detection_durations: List[float] = [0.0] * len(self.lanes)
 
         # ------------------------------------------------------------------
+        # TF2 초기화
+        # ------------------------------------------------------------------
+        self.tf_buffer = Buffer(cache_time=Duration(seconds=5.0))
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+
+        # ------------------------------------------------------------------
         # ROS 인터페이스
         # ------------------------------------------------------------------
-        self.sub_odom = self.create_subscription(Odometry, self.odom_topic, self._on_odom, 20)
         self.sub_obstacles = self.create_subscription(
             PoseArray, self.obstacles_topic, self._on_obstacles, 10
         )
@@ -139,16 +147,28 @@ class LaneSelectorNode(Node):
         )
 
     # ----------------------------------------------------------------------
-    # Odometry 콜백
+    # TF를 통한 Pose 획득 (map -> base_link)
     # ----------------------------------------------------------------------
-    def _on_odom(self, msg: Odometry) -> None:
-        x = msg.pose.pose.position.x
-        y = msg.pose.pose.position.y
-        q = msg.pose.pose.orientation
-        siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
-        cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-        yaw = math.atan2(siny_cosp, cosy_cosp)
-        self.pose = (x, y, yaw)
+    def _get_current_pose_from_tf(self) -> Optional[Tuple[float, float, float]]:
+        """Get current pose from TF (map->base_link)"""
+        try:
+            transform = self.tf_buffer.lookup_transform(
+                'map',
+                'base_link',
+                RclTime(),
+                timeout=Duration(seconds=self.tf_timeout)
+            )
+            x = transform.transform.translation.x
+            y = transform.transform.translation.y
+            q = transform.transform.rotation
+            # Convert quaternion to yaw
+            siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
+            cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
+            yaw = math.atan2(siny_cosp, cosy_cosp)
+            return (x, y, yaw)
+        except (LookupException, ConnectivityException, ExtrapolationException, TransformException) as e:
+            self.get_logger().warn(f"TF lookup failed: {e}", throttle_duration_sec=1.0)
+            return None
 
     # ----------------------------------------------------------------------
     # 장애물 콜백
@@ -171,6 +191,8 @@ class LaneSelectorNode(Node):
     # 레인 평가 타이머
     # ----------------------------------------------------------------------
     def _evaluate_lanes(self) -> None:
+        # Get current pose from TF
+        self.pose = self._get_current_pose_from_tf()
         if self.pose is None or not self.lanes:
             return
 
@@ -251,6 +273,14 @@ class LaneSelectorNode(Node):
                 lane_points[obs_idx, 0] - obs[0],
                 lane_points[obs_idx, 1] - obs[1],
             )
+
+            # DEBUG LOG
+            self.get_logger().info(
+                f"[LANE CHECK] {lane.name}: obs=({obs[0]:.2f},{obs[1]:.2f}), "
+                f"forward={forward:.2f}m, diff_s={diff_s:.2f}m, lateral={lateral:.2f}m, "
+                f"clearance={self.obstacle_clearance:.2f}m -> {'BLOCKED' if lateral <= self.obstacle_clearance else 'CLEAR'}"
+            )
+
             if lateral <= self.obstacle_clearance:
                 return True
 
@@ -277,13 +307,20 @@ class LaneSelectorNode(Node):
         if lane_count == 0:
             return None
 
+        # DEBUG: Log blocked status
+        blocked_status = ", ".join([f"Lane {i} ({self.lanes[i].name}): {'BLOCKED' if blocked_flags[i] else 'CLEAR'}"
+                                     for i in range(len(blocked_flags))])
+        self.get_logger().info(f"[LANE STATUS] {blocked_status}")
+
         # 최적 레인(0번)이 비어있으면 항상 유지
         if not blocked_flags[0]:
+            self.get_logger().info("[LANE DECISION] Lane 0 is clear, staying on optimal lane")
             return 0
 
         current = self.current_lane_idx if self.current_lane_idx is not None else 0
         current = max(0, min(current, lane_count - 1))
         if not blocked_flags[current]:
+            self.get_logger().info(f"[LANE DECISION] Current lane {current} is clear, staying")
             return current
 
         candidates: List[Tuple[float, int]] = []
@@ -294,6 +331,7 @@ class LaneSelectorNode(Node):
             lane_point = self.lanes[idx].points[self._nearest_index(self.lanes[idx].points, vehicle_pos)]
             dist = math.hypot(lane_point[0] - vehicle_pos[0], lane_point[1] - vehicle_pos[1])
             candidates.append((dist, idx))
+            self.get_logger().info(f"[LANE CANDIDATE] Lane {idx}: distance={dist:.2f}m")
 
         if not candidates:
             return current
