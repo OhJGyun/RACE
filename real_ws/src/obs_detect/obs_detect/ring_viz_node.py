@@ -158,19 +158,19 @@ class SimpleScanViz(Node):
         self.declare_parameter("tf_timeout", 0.3)
 
         # 전처리/표시
-        self.declare_parameter("db_min_samples", 5)
+        self.declare_parameter("db_min_samples", 8)
         self.declare_parameter("roi_min_dist", 0.20)
         self.declare_parameter("roi_max_dist", 6.00)
         self.declare_parameter("center_scale", 0.12)
         self.declare_parameter("fov_deg", 120.0)
         self.declare_parameter("fov_center_deg", 0.0)
-        self.declare_parameter("outer_bound_csv", "")
-        self.declare_parameter("inner_bound_csv", "")
+        self.declare_parameter("outer_bound_csv", "/home/ircv7/RACE/bound/1031/outer_bound.csv")
+        self.declare_parameter("inner_bound_csv", "/home/ircv7/RACE/bound/1031/inner_bound.csv")
 
         # 분류(윈도우/임계)
         self.declare_parameter("window_sec", 1.0)         # W: 최소 Td 이상 권장
         self.declare_parameter("lidar_hz", 40.0)          # 기대 Hz (fallback)
-        self.declare_parameter("Ts", 0.1)                 # static coverage (s)
+        self.declare_parameter("Ts", 0.1)                 # static coverage (s
         self.declare_parameter("Td", 0.5)                 # dynamic coverage (s)
         self.declare_parameter("static_radius", 1.0)      # Rs (m)
         self.declare_parameter("dynamic_radius", 2.0)     # Rd (m)
@@ -286,10 +286,10 @@ class SimpleScanViz(Node):
     def _prune_history(self, now_sec: float):
         cut = now_sec - self.window_sec
         while self.history and self.history[0][0] < cut:
-            self.history.pop left()  # type: ignore[attr-defined]
+            self.history.pop ()  # type: ignore[attr-defined]
 
     # deque에는 popleft가 맞습니다. (IDE 헷갈림 방지용 별도 메서드)
-    def pop left(self):  # noqa: E999  (문법 하이라이트 방지용 이름)
+    def popleft(self):  # noqa: E999  (문법 하이라이트 방지용 이름)
         pass
 
     def _coverage_seconds(self, hit_ts: np.ndarray) -> float:
@@ -379,8 +379,12 @@ class SimpleScanViz(Node):
         try:
             R_ml, T_ml = self._lookup_at(self.marker_frame, laser_frame, scan_time_ros)
         except TransformException as e:
-            self.get_logger().warn(f"TF not available: {e}")
-            return
+            # 스캔 시각 TF 실패 시 최신 TF로 폴백
+            try:
+                R_ml, T_ml = self._lookup_at(self.marker_frame, laser_frame, RclTime())
+            except TransformException as e2:
+                self.get_logger().warn(f"TF not available (scan time & latest): {e2}")
+                return
 
         ang_min, ang_inc = scan.angle_min, scan.angle_increment
         rmin, rmax = scan.range_min, scan.range_max

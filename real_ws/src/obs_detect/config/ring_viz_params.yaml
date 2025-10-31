@@ -1,17 +1,27 @@
-ring_viz_node:
+simple_scan_viz:
   ros__parameters:
-    # 기본 동작 파라미터
     scan_topic: "/scan"
-    target_radius_m: 0.01         # 1 cm
-    band_m: 0.002                  # ±2 mm
-    strict_tf: true                # latest 폴백 금지
-    tf_timeout: 0.1
-    tf_time_tolerance: 0.05
-
-    # RViz/표시
     marker_frame_id: "map"
-    point_scale: 0.04
-    line_width: 0.02
+    tf_timeout: 0.3
 
-    # 시뮬레이션/rosbag이면 true
-    use_sim_time: false
+    # FOV/ROI
+    fov_deg: 120.0
+    fov_center_deg: 0.0
+    roi_min_dist: 0.2
+    roi_max_dist: 6.0
+
+    # 클러스터링/표시
+    db_min_samples: 5
+    center_scale: 0.12
+
+    # 링(경계) CSV
+    outer_bound_csv: ""
+    inner_bound_csv: ""
+
+    # 분류 기준
+    window_sec: 1.0
+    lidar_hz: 40.0
+    Ts: 0.1
+    Td: 0.5
+    static_radius: 1.0
+    dynamic_radius: 2.0

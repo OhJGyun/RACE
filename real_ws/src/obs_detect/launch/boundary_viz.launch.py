@@ -17,13 +17,13 @@ def generate_launch_description():
     # Launch arguments
     inner_csv_arg = DeclareLaunchArgument(
         'inner_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1030/inner_bound_world.csv',
+        default_value='/home/ircv7/RACE/bound/1031/inner_bound.csv',
         description='Path to inner boundary CSV file'
     )
 
     outer_csv_arg = DeclareLaunchArgument(
         'outer_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1030/outer_bound_world.csv',
+        default_value='/home/ircv7/RACE/bound/1031/outer_bound.csv',
         description='Path to outer boundary CSV file'
     )
 
@@ -99,7 +99,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        output="rviz2",
+        output="screen",
         arguments=["-d", rviz2_config],
         condition=IfCondition(map_controller_visualization)
     )

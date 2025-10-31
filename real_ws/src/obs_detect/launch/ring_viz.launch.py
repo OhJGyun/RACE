@@ -34,9 +34,9 @@ def generate_launch_description():
 
     # --------- Node ---------
     node = Node(
-        package='YOUR_PKG_NAME',            # <- 패키지명으로 교체
-        executable='simple_scan_viz',       # <- setup.py entry_point 또는 설치된 실행파일명
-        name='simple_scan_viz',
+        package='obs_detect',            # <- 패키지명으로 교체
+        executable='ring_viz_node',       # <- setup.py entry_point 또는 설치된 실행파일명
+        name='ring_viz_node',
         output='screen',
         parameters=[{
             'scan_topic':        LaunchConfiguration('scan_topic'),
