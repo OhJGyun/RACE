@@ -110,6 +110,8 @@ class LaneSelectorNode(Node):
         self.last_switch_time: Optional[float] = None
         self.last_eval_time: Optional[float] = None
         self.detection_durations: List[float] = [0.0] * len(self.lanes)
+        # 레인별 장애물까지의 최소 lateral 거리 캐시 (중복 계산 방지)
+        self.lane_min_lateral_distances: List[float] = [float('inf')] * len(self.lanes)
 
         # ------------------------------------------------------------------
         # TF2 초기화
@@ -239,8 +241,13 @@ class LaneSelectorNode(Node):
     # ----------------------------------------------------------------------
     # 레인 차단 판별
     # ----------------------------------------------------------------------
-    def _lane_blocked(self, lane: LaneData) -> bool:
+    def _lane_blocked(self, lane: LaneData, lane_idx: int) -> bool:
+        """
+        레인이 장애물에 의해 blocked 되었는지 판별
+        동시에 최소 lateral 거리를 self.lane_min_lateral_distances[lane_idx]에 저장
+        """
         if not self.obstacles_np or self.pose is None:
+            self.lane_min_lateral_distances[lane_idx] = float('inf')
             return False
 
         px, py, yaw = self.pose
@@ -253,6 +260,9 @@ class LaneSelectorNode(Node):
 
         cos_yaw = math.cos(yaw)
         sin_yaw = math.sin(yaw)
+
+        min_lateral = float('inf')
+        is_blocked = False
 
         for obs in self.obstacles_np:
             dx = float(obs[0] - px)
@@ -274,6 +284,9 @@ class LaneSelectorNode(Node):
                 lane_points[obs_idx, 1] - obs[1],
             )
 
+            # 최소 lateral 거리 업데이트
+            min_lateral = min(min_lateral, lateral)
+
             # DEBUG LOG
             self.get_logger().info(
                 f"[LANE CHECK] {lane.name}: obs=({obs[0]:.2f},{obs[1]:.2f}), "
@@ -282,14 +295,17 @@ class LaneSelectorNode(Node):
             )
 
             if lateral <= self.obstacle_clearance:
-                return True
+                is_blocked = True
 
-        return False
+        # 계산된 최소 lateral 거리를 캐시에 저장
+        self.lane_min_lateral_distances[lane_idx] = min_lateral
+
+        return is_blocked
 
     def _lane_blocked_confirmed(self, dt: float) -> List[bool]:
         flags: List[bool] = []
         for idx, lane in enumerate(self.lanes):
-            raw_blocked = self._lane_blocked(lane)
+            raw_blocked = self._lane_blocked(lane, idx)  # lane_idx 전달
             duration = self.detection_durations[idx]
             if raw_blocked:
                 duration = min(self.detection_hold_time, duration + dt)
@@ -323,21 +339,44 @@ class LaneSelectorNode(Node):
             self.get_logger().info(f"[LANE DECISION] Current lane {current} is clear, staying")
             return current
 
-        candidates: List[Tuple[float, int]] = []
+        # 현재 레인이 막혔으면, 가용한 레인들 중 장애물과의 lateral 거리가 가장 큰 레인 선택
+        candidates: List[Tuple[float, float, int]] = []  # (lateral_dist, vehicle_dist, lane_idx)
+
         for idx, blocked in enumerate(blocked_flags):
             if blocked:
                 continue
+
+            # 이미 _lane_blocked()에서 계산된 최소 lateral 거리를 캐시에서 가져옴 (중복 계산 방지)
+            min_lateral_dist = self.lane_min_lateral_distances[idx]
+
+            # 차량과 레인의 거리 (보조 기준)
             vehicle_pos = np.array(self.pose[:2], dtype=np.float64)
             lane_point = self.lanes[idx].points[self._nearest_index(self.lanes[idx].points, vehicle_pos)]
-            dist = math.hypot(lane_point[0] - vehicle_pos[0], lane_point[1] - vehicle_pos[1])
-            candidates.append((dist, idx))
-            self.get_logger().info(f"[LANE CANDIDATE] Lane {idx}: distance={dist:.2f}m")
+            vehicle_dist = math.hypot(lane_point[0] - vehicle_pos[0], lane_point[1] - vehicle_pos[1])
+
+            candidates.append((min_lateral_dist, vehicle_dist, idx))
+            self.get_logger().info(
+                f"[LANE CANDIDATE] Lane {idx} ({self.lanes[idx].name}): "
+                f"min_lateral_to_obs={min_lateral_dist:.2f}m (cached), vehicle_dist={vehicle_dist:.2f}m"
+            )
 
         if not candidates:
+            self.get_logger().warn("[LANE DECISION] All lanes blocked, staying on current")
             return current
 
-        candidates.sort(key=lambda item: item[0])
-        return candidates[0][1]
+        # 정렬: 1순위 장애물과의 lateral 거리가 큰 순, 2순위 차량과 가까운 순
+        # lateral_dist를 음수로 만들어 큰 값이 먼저 오도록 정렬
+        candidates.sort(key=lambda item: (-item[0], item[1]))
+
+        selected_idx = candidates[0][2]
+        selected_lateral = candidates[0][0]
+
+        self.get_logger().info(
+            f"[LANE DECISION] Selected Lane {selected_idx} ({self.lanes[selected_idx].name}) "
+            f"with max lateral distance to obstacles: {selected_lateral:.2f}m"
+        )
+
+        return selected_idx
 
     def _publish_lane(self, lane_idx: int) -> None:
         msg = Int32()
