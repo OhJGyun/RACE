@@ -160,6 +160,13 @@ class LaneSelectorNode(Node):
                 np.array([pose.position.x, pose.position.y], dtype=np.float64)
             )
 
+        # Log obstacle reception
+        if len(self.obstacles_np) > 0:
+            self.get_logger().info(
+                f"[OBSTACLE RECEIVED] {len(self.obstacles_np)} obstacle(s): "
+                f"{[(f'({obs[0]:.2f}, {obs[1]:.2f})') for obs in self.obstacles_np]}"
+            )
+
     # ----------------------------------------------------------------------
     # 레인 평가 타이머
     # ----------------------------------------------------------------------

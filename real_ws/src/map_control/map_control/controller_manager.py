@@ -23,7 +23,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseStamped, PoseArray, Pose
 from nav_msgs.msg import Odometry, Path
 from sensor_msgs.msg import Imu
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Int32
 from transforms3d.euler import quat2euler
 from tf2_ros import TransformException, LookupException, ConnectivityException, ExtrapolationException, Buffer, TransformListener
 import csv
@@ -67,6 +67,10 @@ class ControllerManager(Node):
         self.acc_now = np.zeros(5)  # last 5 acceleration values
         self.waypoint_array_in_map = None
         self.track_length = 0.0
+
+        # Multi-lane support
+        self.lane_waypoints = []  # List of all lane waypoint arrays
+        self.current_lane_idx = 0  # Currently active lane index
 
         # Control state
         self.state = "RACING"  # Simplified: no state machine, always racing
@@ -164,6 +168,16 @@ class ControllerManager(Node):
         )
         self.get_logger().info(f"Subscribed to {self.imu_topic} for acceleration (optional)")
 
+        # Lane selector subscription (if multi-lane enabled)
+        if self.lane_csv_paths and len(self.lane_csv_paths) > 1:
+            self.lane_selector_sub = self.create_subscription(
+                Int32,
+                self.lane_selector_topic,
+                self.lane_selector_callback,
+                10
+            )
+            self.get_logger().info(f"Subscribed to {self.lane_selector_topic} for lane switching")
+
         # Control loop timer
         self.timer = self.create_timer(1.0 / self.loop_rate, self.control_loop)
 
@@ -182,6 +196,10 @@ class ControllerManager(Node):
         """Declare all ROS2 parameters"""
         # CSV file path
         self.declare_parameter('csv_file_path', '')
+
+        # Multi-lane support
+        self.declare_parameter('lane_csv_paths', [''])  # List of lane CSV paths (empty string for type inference)
+        self.declare_parameter('lane_selector_topic', '/lane_selector/target_lane')
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -222,6 +240,10 @@ class ControllerManager(Node):
         """Load all parameters from ROS2 parameter server"""
         self.csv_file_path = self.get_parameter('csv_file_path').value
 
+        # Multi-lane support
+        self.lane_csv_paths = self.get_parameter('lane_csv_paths').value
+        self.lane_selector_topic = self.get_parameter('lane_selector_topic').value
+
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
         self.m_l1 = self.get_parameter('m_l1').value
@@ -254,10 +276,34 @@ class ControllerManager(Node):
         self.drive_topic = self.get_parameter('drive_topic').value
 
     def load_waypoints_from_csv(self):
-        """Load waypoints from CSV file
+        """Load waypoints from CSV file(s)
         CSV format: x, y, speed, [optional: d, s, kappa, psi]
         Minimal format: x, y, speed
+
+        Supports multi-lane: if lane_csv_paths is specified, load all lanes
         """
+        # Load multi-lane waypoints if available
+        if self.lane_csv_paths and len(self.lane_csv_paths) > 0:
+            self.get_logger().info(f"Loading {len(self.lane_csv_paths)} lane(s)...")
+            for idx, lane_path in enumerate(self.lane_csv_paths):
+                waypoints = self._load_single_waypoint_file(lane_path)
+                if waypoints is not None:
+                    self.lane_waypoints.append(waypoints)
+                    self.get_logger().info(f"  Lane {idx}: {lane_path} ({len(waypoints)} waypoints)")
+
+            if not self.lane_waypoints:
+                self.get_logger().error("Failed to load any lanes!")
+                return
+
+            # Set default lane to first one
+            self.waypoint_array_in_map = self.lane_waypoints[0]
+            self.current_lane_idx = 0
+            self.track_length = self.waypoint_array_in_map[-1, 4]
+            self.has_waypoints = True
+            self.get_logger().info(f"✅ Multi-lane initialized: {len(self.lane_waypoints)} lanes, default lane 0")
+            return
+
+        # Fallback to single CSV file
         if not self.csv_file_path:
             self.get_logger().error("No CSV file path specified!")
             return
@@ -270,9 +316,17 @@ class ControllerManager(Node):
                     if len(row) < 2:
                         continue
 
-                    x = float(row[0])
-                    y = float(row[1])
-                    speed = float(row[2]) if len(row) > 2 else 2.0
+                    # Skip header/comment lines
+                    if row[0].strip().startswith('#') or not row[0].strip():
+                        continue
+
+                    try:
+                        x = float(row[0])
+                        y = float(row[1])
+                        speed = float(row[2]) if len(row) > 2 else 2.0
+                    except ValueError:
+                        # Skip rows that can't be converted to float (headers, comments)
+                        continue
 
                     if waypoints and abs(waypoints[-1][0] - x) < 1e-4 and abs(waypoints[-1][1] - y) < 1e-4:
                         continue
@@ -561,6 +615,93 @@ class ControllerManager(Node):
         # Shift acceleration history
         self.acc_now[1:] = self.acc_now[:-1]
         self.acc_now[0] = msg.linear_acceleration.x  # Longitudinal acceleration
+
+    def lane_selector_callback(self, msg: Int32):
+        """Lane selector callback - switch to selected lane"""
+        desired_lane = msg.data
+
+        # Validate lane index
+        if desired_lane < 0 or desired_lane >= len(self.lane_waypoints):
+            self.get_logger().warn(f"Invalid lane index {desired_lane}, ignoring")
+            return
+
+        # Check if lane actually changed
+        if desired_lane == self.current_lane_idx:
+            return
+
+        # Switch lane
+        prev_lane = self.current_lane_idx
+        self.current_lane_idx = desired_lane
+        self.waypoint_array_in_map = self.lane_waypoints[desired_lane]
+        self.track_length = self.waypoint_array_in_map[-1, 4]
+
+        self.get_logger().info(
+            f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints)"
+        )
+
+    def _load_single_waypoint_file(self, csv_path: str):
+        """Load waypoints from a single CSV file
+        Returns processed numpy array or None if failed
+        """
+        waypoints = []
+        try:
+            with open(csv_path, 'r') as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    if len(row) < 2:
+                        continue
+
+                    # Skip header/comment lines
+                    if row[0].strip().startswith('#') or not row[0].strip():
+                        continue
+
+                    try:
+                        x = float(row[0])
+                        y = float(row[1])
+                        speed = float(row[2]) if len(row) > 2 else 2.0
+                    except ValueError:
+                        # Skip rows that can't be converted to float (headers, comments)
+                        continue
+
+                    if waypoints and abs(waypoints[-1][0] - x) < 1e-4 and abs(waypoints[-1][1] - y) < 1e-4:
+                        continue
+
+                    # For race_stack compatibility: [x, y, v, d, s, kappa, psi, ax]
+                    waypoints.append([x, y, speed, 0.0, 0.0, 0.0, 0.0, 0.0])
+
+            if len(waypoints) < 2:
+                self.get_logger().error(f"Not enough waypoints in {csv_path}")
+                return None
+
+            # Post-process waypoints
+            waypoints = np.array(waypoints)
+
+            # Compute cumulative distance (s)
+            for i in range(1, len(waypoints)):
+                dx = waypoints[i, 0] - waypoints[i-1, 0]
+                dy = waypoints[i, 1] - waypoints[i-1, 1]
+                waypoints[i, 4] = waypoints[i-1, 4] + np.sqrt(dx*dx + dy*dy)
+
+            # Compute heading (psi)
+            for i in range(len(waypoints) - 1):
+                dx = waypoints[i+1, 0] - waypoints[i, 0]
+                dy = waypoints[i+1, 1] - waypoints[i, 1]
+                waypoints[i, 6] = np.arctan2(dy, dx)
+            waypoints[-1, 6] = waypoints[-2, 6]
+
+            # Compute curvature (kappa)
+            for i in range(1, len(waypoints) - 1):
+                psi_prev = waypoints[i-1, 6]
+                psi_next = waypoints[i+1, 6]
+                ds = waypoints[i+1, 4] - waypoints[i-1, 4]
+                if ds > 0:
+                    waypoints[i, 5] = (psi_next - psi_prev) / ds
+
+            return waypoints
+
+        except Exception as e:
+            self.get_logger().error(f"Failed to load {csv_path}: {e}")
+            return None
 
     def nearest_waypoint(self, position):
         """Find index of nearest waypoint to position"""

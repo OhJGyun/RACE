@@ -67,26 +67,20 @@ Visualization Manager:
         Value: /map_controller/path
       Value: true
     
-    # --- Speed: 가로 막대 + 빨간색 그라데이션 효과 ---
+    # --- Speed: 가로 막대 + 흰색 ---
     - Class: rviz_2d_overlay_plugins/BarGauge
       Name: Speed
       Topic:
         Value: /monitor/current_speed
       Enabled: true
       Value: true
-      # 그라데이션 설정
-      auto_color_change: true
-      bar_color: 255; 100; 100  # 낮을 때: 연한 빨강
-      med_color: 255; 0; 0      # 중간: 선명한 빨강
-      med_color_threshold: 3.0
-      max_color: 180; 0; 0      # 높을 때: 어두운 빨강
-      max_color_threshold: 6.0
       # 게이지 설정
+      bar_color: 255; 255; 255  # 흰색
       bg_color: 50; 50; 50
       caption: Speed
       height: 30              # 높이
       left: 10
-      max_value: 8.0
+      max_value: 10.0         # 0-10 m/s 범위
       min_value: 0.0
       orientation: horizontal # 가로 막대
       show_caption: true

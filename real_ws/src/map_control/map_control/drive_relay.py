@@ -7,23 +7,19 @@ from std_msgs.msg import Float32
 class DriveRelay(Node):
     def __init__(self):
         super().__init__('drive_relay')
-        
-        # /drive 토픽 구독
-        self.drive_sub = self.create_subscription(
+
+        # /teleop 토픽 구독
+        self.teleop_sub = self.create_subscription(
             AckermannDriveStamped,
-            '/drive',  # controller_manager.py가 발행하는 토픽
+            '/teleop',  # AckermannDriveStamped 메시지를 받음
             self.drive_callback,
             10)
-        
-        self.drive_drive_sub = self.create_subscription(
-            
-        )
-        
+
         # RViz 오버레이가 사용할 토픽 발행
         self.speed_pub = self.create_publisher(Float32, '/monitor/current_speed', 10)
         self.steer_pub = self.create_publisher(Float32, '/monitor/steering_input', 10)
-        
-        self.get_logger().info('Drive Relay 노드가 시작되었습니다. /drive 토픽을 변환합니다.')
+
+        self.get_logger().info('Drive Relay 노드가 시작되었습니다. /teleop 토픽을 변환합니다.')
 
     def drive_callback(self, msg: AckermannDriveStamped):
         # 속도 값 추출 및 발행

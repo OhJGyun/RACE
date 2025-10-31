@@ -17,7 +17,7 @@ simple_scan_viz:
     roi_max_dist: 3.00
 
     # RViz에서 찍을 구체 마커 사이즈 (m)
-    center_scale: 0.2
+    center_scale: 0.5
 
     # 시야각(FOV) 설정
     # fov_deg: 라이다에서 사용할 시야각 (degree)
@@ -32,7 +32,7 @@ simple_scan_viz:
 
     # --- 동적/정적 분류용 ---
     # prev 프레임의 같은 물체로 인정할 최대 위치 차이 [m]
-    match_radius: 0.3
+    match_radius: 1.0
 
     # 속도 임계값 [m/s] — 이 이상 움직이면 dynamic 으로 표시
-    dyn_vel_thresh: 0.4
+    dyn_vel_thresh: 1.0
