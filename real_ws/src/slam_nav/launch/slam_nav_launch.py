@@ -210,7 +210,7 @@ def generate_launch_description():
 
     rviz_config_arg = DeclareLaunchArgument(
         "rviz2_config",
-        default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "rviz", "slam_nav_visualization.rviz"]),
+        default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "rviz2_config", "slam_nav_visualization.rviz"]),
         description="Path to RViz config"
     )
 

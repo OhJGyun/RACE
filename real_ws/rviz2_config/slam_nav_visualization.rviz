@@ -19,7 +19,6 @@ Panels:
     Expanded: [ /Current View1 ]
     Name: Views
     Splitter Ratio: 0.5
-  # 🔹 slam_toolbox RViz 패널 (지도 저장/로드 등)
   - Class: slam_toolbox/SlamToolboxPlugin
     Name: SLAM Toolbox
 
