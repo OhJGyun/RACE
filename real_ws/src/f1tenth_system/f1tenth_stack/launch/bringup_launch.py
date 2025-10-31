@@ -147,7 +147,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        output="rviz2",
+        output="screen",
         arguments=["-d", rviz2_config],
         condition=IfCondition(map_controller_visualization)
     )

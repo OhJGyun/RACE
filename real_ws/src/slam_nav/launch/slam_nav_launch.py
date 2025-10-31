@@ -146,7 +146,7 @@ def launch_setup(context, *args, **kwargs):
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        output="rviz2",
+        output="screen",
         arguments=["-d", rviz2_config],
         parameters=[{"use_sim_time":use_sim_time}],
         condition=IfCondition(slam_nav_visualization)

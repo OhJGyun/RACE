@@ -1,143 +1,70 @@
+# simple_scan_viz.launch.py
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
 
-
 def generate_launch_description():
-    """
-    Launch file for ring_viz_node (SimpleScanViz)
-    Uses fast scanline clustering with parameters eps0, k
-    """
+    # --------- Launch Args (필요시 마음껏 추가/수정) ---------
+    scan_topic        = DeclareLaunchArgument('scan_topic',        default_value=TextSubstitution(text='/scan'))
+    marker_frame_id   = DeclareLaunchArgument('marker_frame_id',   default_value=TextSubstitution(text='map'))
+    tf_timeout        = DeclareLaunchArgument('tf_timeout',        default_value=TextSubstitution(text='0.3'))
 
-    # -------------------------------
-    # Declare arguments
-    # -------------------------------
-    scan_topic_arg = DeclareLaunchArgument(
-        'scan_topic', default_value='/scan',
-        description='LaserScan topic to subscribe to'
-    )
+    # 시야/ROI
+    fov_deg           = DeclareLaunchArgument('fov_deg',           default_value=TextSubstitution(text='120.0'))
+    fov_center_deg    = DeclareLaunchArgument('fov_center_deg',    default_value=TextSubstitution(text='0.0'))
+    roi_min_dist      = DeclareLaunchArgument('roi_min_dist',      default_value=TextSubstitution(text='0.20'))
+    roi_max_dist      = DeclareLaunchArgument('roi_max_dist',      default_value=TextSubstitution(text='6.00'))
 
-    marker_frame_arg = DeclareLaunchArgument(
-        'marker_frame_id', default_value='map',
-        description='Frame ID for marker visualization'
-    )
+    # 클러스터링/표시
+    db_min_samples    = DeclareLaunchArgument('db_min_samples',    default_value=TextSubstitution(text='5'))
+    center_scale      = DeclareLaunchArgument('center_scale',      default_value=TextSubstitution(text='0.12'))
 
-    tf_timeout_arg = DeclareLaunchArgument(
-        'tf_timeout', default_value='0.3',
-        description='TF lookup timeout (seconds)'
-    )
+    # 링(경계) CSV
+    outer_bound_csv   = DeclareLaunchArgument('outer_bound_csv',   default_value=TextSubstitution(text=''))
+    inner_bound_csv   = DeclareLaunchArgument('inner_bound_csv',   default_value=TextSubstitution(text=''))
 
-    db_min_samples_arg = DeclareLaunchArgument(
-        'db_min_samples', default_value='7',
-        description='Minimum number of points to form a cluster'
-    )
+    # 분류(윈도우/임계/반경)
+    window_sec        = DeclareLaunchArgument('window_sec',        default_value=TextSubstitution(text='1.0'))   # W >= Td 권장
+    lidar_hz          = DeclareLaunchArgument('lidar_hz',          default_value=TextSubstitution(text='40.0'))
+    Ts                = DeclareLaunchArgument('Ts',                default_value=TextSubstitution(text='0.1'))   # 정적 커버리지(s)
+    Td                = DeclareLaunchArgument('Td',                default_value=TextSubstitution(text='0.5'))   # 동적 커버리지(s)
+    static_radius     = DeclareLaunchArgument('static_radius',     default_value=TextSubstitution(text='1.0'))   # Rs (m)
+    dynamic_radius    = DeclareLaunchArgument('dynamic_radius',    default_value=TextSubstitution(text='2.0'))   # Rd (m)
 
-    roi_min_dist_arg = DeclareLaunchArgument(
-        'roi_min_dist', default_value='0.20',
-        description='Minimum ROI distance (m)'
-    )
-
-    roi_max_dist_arg = DeclareLaunchArgument(
-        'roi_max_dist', default_value='3.50',
-        description='Maximum ROI distance (m)'
-    )
-
-    center_scale_arg = DeclareLaunchArgument(
-        'center_scale', default_value='0.5',
-        description='Sphere marker scale for cluster centers'
-    )
-
-    fov_deg_arg = DeclareLaunchArgument(
-        'fov_deg', default_value='120.0',
-        description='Field of view in degrees'
-    )
-
-    fov_center_deg_arg = DeclareLaunchArgument(
-        'fov_center_deg', default_value='0.0',
-        description='FOV center offset in degrees'
-    )
-
-    eps0_arg = DeclareLaunchArgument(
-        'eps0', default_value='0.10',
-        description='Base distance threshold (m) for scanline clustering'
-    )
-
-    k_arg = DeclareLaunchArgument(
-        'k', default_value='0.06',
-        description='Distance ratio coefficient for adaptive linking'
-    )
-
-    outer_bound_csv_arg = DeclareLaunchArgument(
-        'outer_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1030/outer_bound_world.csv',
-        description='Outer boundary CSV path'
-    )
-
-    inner_bound_csv_arg = DeclareLaunchArgument(
-        'inner_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1030/inner_bound_world.csv',
-        description='Inner boundary CSV path'
-    )
-
-    # -------------------------------
-    # Configurations
-    # -------------------------------
-    scan_topic = LaunchConfiguration('scan_topic')
-    marker_frame_id = LaunchConfiguration('marker_frame_id')
-    tf_timeout = LaunchConfiguration('tf_timeout')
-    db_min_samples = LaunchConfiguration('db_min_samples')
-    roi_min_dist = LaunchConfiguration('roi_min_dist')
-    roi_max_dist = LaunchConfiguration('roi_max_dist')
-    center_scale = LaunchConfiguration('center_scale')
-    fov_deg = LaunchConfiguration('fov_deg')
-    fov_center_deg = LaunchConfiguration('fov_center_deg')
-    eps0 = LaunchConfiguration('eps0')
-    k = LaunchConfiguration('k')
-    outer_bound_csv = LaunchConfiguration('outer_bound_csv')
-    inner_bound_csv = LaunchConfiguration('inner_bound_csv')
-
-    # -------------------------------
-    # Node definition
-    # -------------------------------
-    ring_viz_node = Node(
-        package='obs_detect',
-        executable='ring_viz_node',
-        name='ring_viz_node',
+    # --------- Node ---------
+    node = Node(
+        package='YOUR_PKG_NAME',            # <- 패키지명으로 교체
+        executable='simple_scan_viz',       # <- setup.py entry_point 또는 설치된 실행파일명
+        name='simple_scan_viz',
         output='screen',
         parameters=[{
-            'scan_topic': scan_topic,
-            'marker_frame_id': marker_frame_id,
-            'tf_timeout': tf_timeout,
-            'db_min_samples': db_min_samples,
-            'roi_min_dist': roi_min_dist,
-            'roi_max_dist': roi_max_dist,
-            'center_scale': center_scale,
-            'fov_deg': fov_deg,
-            'fov_center_deg': fov_center_deg,
-            'eps0': eps0,
-            'k': k,
-            'outer_bound_csv': outer_bound_csv,
-            'inner_bound_csv': inner_bound_csv,
+            'scan_topic':        LaunchConfiguration('scan_topic'),
+            'marker_frame_id':   LaunchConfiguration('marker_frame_id'),
+            'tf_timeout':        LaunchConfiguration('tf_timeout'),
+            'fov_deg':           LaunchConfiguration('fov_deg'),
+            'fov_center_deg':    LaunchConfiguration('fov_center_deg'),
+            'roi_min_dist':      LaunchConfiguration('roi_min_dist'),
+            'roi_max_dist':      LaunchConfiguration('roi_max_dist'),
+            'db_min_samples':    LaunchConfiguration('db_min_samples'),
+            'center_scale':      LaunchConfiguration('center_scale'),
+            'outer_bound_csv':   LaunchConfiguration('outer_bound_csv'),
+            'inner_bound_csv':   LaunchConfiguration('inner_bound_csv'),
+            'window_sec':        LaunchConfiguration('window_sec'),
+            'lidar_hz':          LaunchConfiguration('lidar_hz'),
+            'Ts':                LaunchConfiguration('Ts'),
+            'Td':                LaunchConfiguration('Td'),
+            'static_radius':     LaunchConfiguration('static_radius'),
+            'dynamic_radius':    LaunchConfiguration('dynamic_radius'),
         }],
+        # remappings=[('/scan', LaunchConfiguration('scan_topic'))],  # 필요시 사용
     )
 
-    # -------------------------------
-    # LaunchDescription
-    # -------------------------------
     return LaunchDescription([
-        scan_topic_arg,
-        marker_frame_arg,
-        tf_timeout_arg,
-        db_min_samples_arg,
-        roi_min_dist_arg,
-        roi_max_dist_arg,
-        center_scale_arg,
-        fov_deg_arg,
-        fov_center_deg_arg,
-        eps0_arg,
-        k_arg,
-        outer_bound_csv_arg,
-        inner_bound_csv_arg,
-        ring_viz_node,
+        scan_topic, marker_frame_id, tf_timeout,
+        fov_deg, fov_center_deg, roi_min_dist, roi_max_dist,
+        db_min_samples, center_scale,
+        outer_bound_csv, inner_bound_csv,
+        window_sec, lidar_hz, Ts, Td, static_radius, dynamic_radius,
+        node
     ])
