@@ -1,5 +1,5 @@
 # The following params are for maps
-map_name: '1031'
+map_name: '1031_1'
 map_img_ext: '.pgm'
 
 # The following params are for path generator
