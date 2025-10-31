@@ -15,11 +15,11 @@ lane_selector_node:
 
     lane_topic: "/lane_selector/target_lane"
     lookahead_distance: 15.0        # 더 멀리 미리 감지 (10.0 -> 15.0)
-    obstacle_clearance: 1.0         # 장애물과 레인 간 클리어런스 대폭 증가 (0.01 -> 1.5)
+    obstacle_clearance: 0.5         # 장애물과 레인 간 클리어런스 대폭 증가 (0.01 -> 1.5)
     forward_min_distance: 0.0       # 모든 전방 장애물 감지 (0.1 -> 0.0)
-    min_switch_interval: 0.1       # 레인 변경 간격 단축 (0.5 -> 0.2)
+    min_switch_interval: 0.3       # 레인 변경 간격 단축 (0.5 -> 0.2)
     update_rate_hz: 20.0            # 평가 빈도 증가 (20.0 -> 30.0)
-    detection_hold_time: 0.08        # 즉시 반응 (0.001 -> 0.0)
+    detection_hold_time: 0.1        # 즉시 반응 (0.001 -> 0.0)
 
     # 시각화
     marker_frame_id: "map"
