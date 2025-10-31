@@ -131,6 +131,13 @@ def generate_launch_description():
         arguments=['0.27', '0.0', '0.11', '0.0', '0.0', '0.0', 'base_link', 'laser']
     )
 
+    drive_relay_node = Node(
+        package='map_control',
+        executable='drive_relay',
+        name='drive_relay',
+        output='screen'
+    )
+
     launch_rviz_arg = DeclareLaunchArgument(
         'launch_rviz',
         default_value='true',
@@ -139,7 +146,7 @@ def generate_launch_description():
 
     rviz_config_arg = DeclareLaunchArgument(
         'rviz2_config',
-        default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "rviz2_config", "map_controller_visualization.rviz"]),
+        default_value=PathJoinSubstitution([get_package_share_directory("f1tenth_stack"), "rviz2_config", "bringup_visualization.rviz"]),
         description='RViz Config File'
     )
 
@@ -163,6 +170,7 @@ def generate_launch_description():
     ld.add_action(urg_node)
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
+    ld.add_action(drive_relay_node)
     ld.add_action(launch_rviz_arg)
     ld.add_action(rviz_config_arg)
     ld.add_action(rviz_node)
