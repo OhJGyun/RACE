@@ -71,6 +71,9 @@ class ControllerManager(Node):
         # Multi-lane support
         self.lane_waypoints = []  # List of all lane waypoint arrays
         self.current_lane_idx = 0  # Currently active lane index
+        self.lane_change_active = False  # Flag for lane change in progress
+        self.lane_change_start_time = None  # Time when lane change started
+        self.lane_change_duration = 1.0  # Duration to apply reduced LD (seconds)
 
         # Control state
         self.state = "RACING"  # Simplified: no state machine, always racing
@@ -200,6 +203,7 @@ class ControllerManager(Node):
         # Multi-lane support
         self.declare_parameter('lane_csv_paths', [''])  # List of lane CSV paths (empty string for type inference)
         self.declare_parameter('lane_selector_topic', '/lane_selector/target_lane')
+        self.declare_parameter('lane_change_ld_gain', 0.7)  # LD multiplier during lane change (0~1)
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -243,6 +247,7 @@ class ControllerManager(Node):
         # Multi-lane support
         self.lane_csv_paths = self.get_parameter('lane_csv_paths').value
         self.lane_selector_topic = self.get_parameter('lane_selector_topic').value
+        self.lane_change_ld_gain = self.get_parameter('lane_change_ld_gain').value
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
@@ -635,8 +640,13 @@ class ControllerManager(Node):
         self.waypoint_array_in_map = self.lane_waypoints[desired_lane]
         self.track_length = self.waypoint_array_in_map[-1, 4]
 
+        # Activate lane change mode: apply reduced LD for better tracking
+        self.lane_change_active = True
+        self.lane_change_start_time = self.get_clock().now().nanoseconds * 1e-9
+
         self.get_logger().info(
-            f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints)"
+            f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints), "
+            f"LD reduced by {self.lane_change_ld_gain:.2f}x for {self.lane_change_duration:.1f}s"
         )
 
     def _load_single_waypoint_file(self, csv_path: str):
@@ -747,6 +757,27 @@ class ControllerManager(Node):
             self._control_active_logged = True
 
         try:
+            # Check if lane change duration has elapsed
+            if self.lane_change_active:
+                current_time = self.get_clock().now().nanoseconds * 1e-9
+                elapsed_time = current_time - self.lane_change_start_time
+                if elapsed_time >= self.lane_change_duration:
+                    # Lane change period ended, restore original LD parameters
+                    self.lane_change_active = False
+                    self.map_controller.m_l1 = self.m_l1
+                    self.map_controller.q_l1 = self.q_l1
+                    self.get_logger().info("🛣️ Lane change complete, LD restored to normal")
+
+            # Apply reduced LD during lane change
+            if self.lane_change_active:
+                # Temporarily reduce LD for better lane tracking
+                self.map_controller.m_l1 = self.m_l1 * self.lane_change_ld_gain
+                self.map_controller.q_l1 = self.q_l1 * self.lane_change_ld_gain
+            else:
+                # Ensure normal LD parameters
+                self.map_controller.m_l1 = self.m_l1
+                self.map_controller.q_l1 = self.q_l1
+
             # Call MAP controller main_loop (matching race_stack API)
             speed, acceleration, jerk, steering_angle, L1_point, L1_distance, idx_nearest = \
                 self.map_controller.main_loop(

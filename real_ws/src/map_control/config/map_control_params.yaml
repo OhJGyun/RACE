@@ -21,6 +21,9 @@
     # Lane selector topic (receives Int32 lane index)
     lane_selector_topic: "/lane_selector/target_lane"
 
+    # Lane change behavior: reduce LD during lane changes for better tracking
+    lane_change_ld_gain: 0.5  # LD multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
+
     # ------------------------------------------------------------------------
     # Localization Configuration (TF-first approach)
     # ------------------------------------------------------------------------

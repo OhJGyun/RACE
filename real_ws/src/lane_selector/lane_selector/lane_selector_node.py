@@ -21,7 +21,7 @@ from rclpy.time import Time as RclTime
 
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, Point
 from nav_msgs.msg import Odometry, Path
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32, Float32
 from visualization_msgs.msg import Marker, MarkerArray
 from tf2_ros import Buffer, TransformListener, TransformException, LookupException, ConnectivityException, ExtrapolationException
 
