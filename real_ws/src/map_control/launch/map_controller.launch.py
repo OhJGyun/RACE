@@ -31,13 +31,6 @@ def generate_launch_description():
         parameters=[config],
     )
 
-    drive_relay_node = Node(
-        package='map_control',
-        executable='drive_relay',
-        name='drive_relay',
-        output='screen'
-    )
-
     launch_rviz_arg = DeclareLaunchArgument(
         'launch_rviz',
         default_value='true',
@@ -46,7 +39,7 @@ def generate_launch_description():
 
     rviz_config_arg = DeclareLaunchArgument(
         'rviz2_config',
-        default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "rviz2_config", "map_controller_visualization.rviz"]),
+        default_value=PathJoinSubstitution([get_package_share_directory("map_control"), "rviz2_config", "map_controller_visualization.rviz"]),
         description='RViz Config File'
     )
 
@@ -61,7 +54,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         map_controller_node,
-        drive_relay_node,
         launch_rviz_arg,
         rviz_config_arg,
         rviz_node
