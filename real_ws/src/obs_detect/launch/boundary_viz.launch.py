@@ -12,8 +12,6 @@ def generate_launch_description():
     Launch file for boundary_viz_node
     Visualizes track boundaries from CSV files in RViz
     """
-    map_controller_visualization = LaunchConfiguration("launch_rviz")
-    rviz2_config = LaunchConfiguration("rviz2_config")
 
     # Get HOME directory
     home_dir = os.getenv("HOME", "/home/ircv7")
@@ -87,26 +85,6 @@ def generate_launch_description():
         }]
     )
 
-    launch_rviz_arg = DeclareLaunchArgument(
-        'launch_rviz',
-        default_value='true',
-        description='Automatically launch RViz'
-    )
-
-    rviz_config_arg = DeclareLaunchArgument(
-        'rviz2_config',
-        default_value=PathJoinSubstitution([get_package_share_directory("obs_detect"), "rviz2_config", "obs_detect_visualization.rviz"]),
-        description='RViz Config File'
-    )
-
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="screen",
-        arguments=["-d", rviz2_config],
-        condition=IfCondition(map_controller_visualization)
-    )
 
     return LaunchDescription([
         inner_csv_arg,
@@ -117,7 +95,4 @@ def generate_launch_description():
         z_height_arg,
         use_sim_time_arg,
         boundary_viz_node,
-        launch_rviz_arg,
-        rviz_config_arg,
-        rviz_node,
     ])

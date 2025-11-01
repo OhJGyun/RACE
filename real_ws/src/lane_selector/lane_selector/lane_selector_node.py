@@ -21,12 +21,9 @@ from rclpy.time import Time as RclTime
 
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, Point
 from nav_msgs.msg import Odometry, Path
-from std_msgs.msg import Int32, Float32
+from std_msgs.msg import Int32, Float32, Int32MultiArray
 from visualization_msgs.msg import Marker, MarkerArray
 from tf2_ros import Buffer, TransformListener, TransformException, LookupException, ConnectivityException, ExtrapolationException
-
-# ✅ Local Planner 확장: LaneSegment 메시지 import
-from lane_selector.msg import LaneSegment
 
 
 ################################################################################
@@ -150,8 +147,9 @@ class LaneSelectorNode(Node):
         ]
         self.pub_selected_lane = self.create_publisher(Path, "lane_selector/selected_lane", 10)
 
-        # ✅ Local Planner 확장: LaneSegment 퍼블리셔 추가
-        self.pub_lane_segment = self.create_publisher(LaneSegment, "lane_selector/current_segment", 10)
+        # ✅ Local Planner 확장: LaneSegment 퍼블리셔 추가 (Int32MultiArray 사용)
+        # data[0] = lane_id, data[1] = start_idx, data[2] = end_idx
+        self.pub_lane_segment = self.create_publisher(Int32MultiArray, "lane_selector/current_segment", 10)
 
         if self.update_rate > 0.0:
             self.eval_timer = self.create_timer(1.0 / self.update_rate, self._evaluate_lanes)
@@ -239,17 +237,16 @@ class LaneSelectorNode(Node):
         start_idx = max(0, car_idx - self.local_index_margin)
         end_idx = min(len(lane_points), car_idx + self.local_index_margin)
 
-        # LaneSegment 메시지 퍼블리시
-        msg = LaneSegment()
-        msg.lane_id = int(self.current_lane_idx)
-        msg.start_idx = int(start_idx)
-        msg.end_idx = int(end_idx)
+        # ✅ Int32MultiArray로 LaneSegment 정보 퍼블리시
+        # data[0] = lane_id, data[1] = start_idx, data[2] = end_idx
+        msg = Int32MultiArray()
+        msg.data = [int(self.current_lane_idx), int(start_idx), int(end_idx)]
         self.pub_lane_segment.publish(msg)
 
         # DEBUG LOG (throttled)
         # self.get_logger().info(
-        #     f"[LANE SEGMENT] lane={msg.lane_id}, car_idx={car_idx}, "
-        #     f"segment=[{msg.start_idx}, {msg.end_idx})",
+        #     f"[LANE SEGMENT] lane={msg.data[0]}, car_idx={car_idx}, "
+        #     f"segment=[{msg.data[1]}, {msg.data[2]})",
         #     throttle_duration_sec=1.0
         # )
 

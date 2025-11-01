@@ -39,7 +39,7 @@ def generate_launch_description():
 
     rviz_config_arg = DeclareLaunchArgument(
         'rviz2_config',
-        default_value=PathJoinSubstitution([get_package_share_directory("map_control"), "rviz2_config", "map_controller_visualization.rviz"]),
+        default_value=PathJoinSubstitution([get_package_share_directory("map_control"), "rviz2_config", "/home/ircv7/RACE/real_ws/rviz2_config/slam_nav_visualization_joon.rviz"]),
         description='RViz Config File'
     )
 

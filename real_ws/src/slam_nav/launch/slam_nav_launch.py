@@ -197,7 +197,5 @@ def generate_launch_description():
         map_yaml_file_arg,
         autostart_arg,
         slam_config_arg,
-        launch_rviz_arg,
-        rviz_config_arg,
         OpaqueFunction(function=launch_setup)
     ])
