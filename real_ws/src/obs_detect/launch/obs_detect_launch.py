@@ -12,7 +12,10 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('obs_detect')
     config = os.path.join(pkg_share, 'config', 'ring_viz_params.yaml')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee
     obs_detect_node = Node(
         package='obs_detect',
         executable='obs_detect_node',

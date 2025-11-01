@@ -21,7 +21,7 @@ from rclpy.time import Time as RclTime
 
 from geometry_msgs.msg import Pose, PoseArray, PoseStamped, Point
 from nav_msgs.msg import Odometry, Path
-from std_msgs.msg import Int32, Float32
+from std_msgs.msg import Int32, Float32, Int32MultiArray
 from visualization_msgs.msg import Marker, MarkerArray
 from tf2_ros import Buffer, TransformListener, TransformException, LookupException, ConnectivityException, ExtrapolationException
 
@@ -72,6 +72,9 @@ class LaneSelectorNode(Node):
         self.declare_parameter("update_rate_hz", 20.0)
         self.declare_parameter("detection_hold_time", 0.05)
 
+        # ✅ Local Planner 확장: 로컬 인덱스 범위 설정
+        self.declare_parameter("local_index_margin", 150)
+
         # 시각화
         self.declare_parameter("marker_frame_id", "map")
 
@@ -88,6 +91,9 @@ class LaneSelectorNode(Node):
         self.update_rate = float(self.get_parameter("update_rate_hz").value)
         self.detection_hold_time = max(0.0, float(self.get_parameter("detection_hold_time").value))
         self.marker_frame = str(self.get_parameter("marker_frame_id").value)
+
+        # ✅ Local Planner 확장: 로컬 인덱스 범위 파라미터 로딩
+        self.local_index_margin = int(self.get_parameter("local_index_margin").value)
 
         raw_paths = self.get_parameter("lane_csv_paths").value
         self.lane_paths: List[str] = [p for p in raw_paths if isinstance(p, str) and p]
@@ -113,6 +119,9 @@ class LaneSelectorNode(Node):
         # 레인별 장애물까지의 최소 lateral 거리 캐시 (중복 계산 방지)
         self.lane_min_lateral_distances: List[float] = [float('inf')] * len(self.lanes)
 
+        # ✅ Local Planner 확장: 차량의 현재 레인 인덱스 캐시 (최적화)
+        self.last_car_idx: Optional[int] = None
+
         # ------------------------------------------------------------------
         # TF2 초기화
         # ------------------------------------------------------------------
@@ -137,6 +146,10 @@ class LaneSelectorNode(Node):
             for idx in range(len(self.lanes))
         ]
         self.pub_selected_lane = self.create_publisher(Path, "lane_selector/selected_lane", 10)
+
+        # ✅ Local Planner 확장: LaneSegment 퍼블리셔 추가 (Int32MultiArray 사용)
+        # data[0] = lane_id, data[1] = start_idx, data[2] = end_idx
+        self.pub_lane_segment = self.create_publisher(Int32MultiArray, "lane_selector/current_segment", 10)
 
         if self.update_rate > 0.0:
             self.eval_timer = self.create_timer(1.0 / self.update_rate, self._evaluate_lanes)
@@ -190,6 +203,54 @@ class LaneSelectorNode(Node):
             )
 
     # ----------------------------------------------------------------------
+    # ✅ Local Planner 확장: 현재 레인 세그먼트 퍼블리시
+    # ----------------------------------------------------------------------
+    def _publish_current_segment(self) -> None:
+        """
+        현재 선택된 레인의 (lane_id, start_idx, end_idx)를 퍼블리시
+        Local Planner처럼 동작하여 차량 위치 기준 로컬 세그먼트를 계산
+        """
+        if self.pose is None or not self.lanes:
+            return
+
+        # 현재 레인이 없으면 기본값 0 (optimal lane) 사용
+        if self.current_lane_idx is None:
+            self.current_lane_idx = 0
+
+        # 현재 레인 데이터
+        lane = self.lanes[self.current_lane_idx]
+        lane_points = lane.points
+        lane_s = lane.arc_lengths
+
+        # 차량 위치
+        px, py, _ = self.pose
+        vehicle_pos = np.array([px, py], dtype=np.float64)
+
+        # ✅ 최적화: 로컬 윈도우 탐색으로 현재 인덱스 찾기
+        car_idx = self._nearest_index_local(
+            lane_points, lane_s, vehicle_pos,
+            last_idx=self.last_car_idx, window_size=100
+        )
+        self.last_car_idx = car_idx  # 다음 탐색을 위해 캐시
+
+        # 로컬 세그먼트 범위 계산
+        start_idx = max(0, car_idx - self.local_index_margin)
+        end_idx = min(len(lane_points), car_idx + self.local_index_margin)
+
+        # ✅ Int32MultiArray로 LaneSegment 정보 퍼블리시
+        # data[0] = lane_id, data[1] = start_idx, data[2] = end_idx
+        msg = Int32MultiArray()
+        msg.data = [int(self.current_lane_idx), int(start_idx), int(end_idx)]
+        self.pub_lane_segment.publish(msg)
+
+        # DEBUG LOG (throttled)
+        # self.get_logger().info(
+        #     f"[LANE SEGMENT] lane={msg.data[0]}, car_idx={car_idx}, "
+        #     f"segment=[{msg.data[1]}, {msg.data[2]})",
+        #     throttle_duration_sec=1.0
+        # )
+
+    # ----------------------------------------------------------------------
     # 레인 평가 타이머
     # ----------------------------------------------------------------------
     def _evaluate_lanes(self) -> None:
@@ -197,6 +258,9 @@ class LaneSelectorNode(Node):
         self.pose = self._get_current_pose_from_tf()
         if self.pose is None or not self.lanes:
             return
+
+        # ✅ Local Planner 확장: 매 주기마다 현재 레인 세그먼트 퍼블리시
+        self._publish_current_segment()
 
         now = self._now()
         if self.last_eval_time is None:
@@ -520,6 +584,29 @@ class LaneSelectorNode(Node):
         diffs = points - query
         dists = np.einsum("ij,ij->i", diffs, diffs)
         return int(np.argmin(dists))
+
+    # ✅ Local Planner 확장: arc_length 기반 로컬 윈도우 탐색으로 최적화
+    def _nearest_index_local(self, points: np.ndarray, arc_lengths: np.ndarray, query: np.ndarray,
+                             last_idx: Optional[int] = None, window_size: int = 50) -> int:
+        """
+        arc_length 기반 로컬 윈도우 탐색으로 nearest index를 찾음
+        last_idx가 주어지면 그 주변만 탐색하여 성능 최적화
+        """
+        if last_idx is None or last_idx < 0 or last_idx >= len(points):
+            # 초기화: 전체 탐색
+            return self._nearest_index(points, query)
+
+        # 로컬 윈도우 범위 설정
+        start_idx = max(0, last_idx - window_size)
+        end_idx = min(len(points), last_idx + window_size)
+
+        # 로컬 윈도우 내에서 탐색
+        local_points = points[start_idx:end_idx]
+        local_diffs = local_points - query
+        local_dists = np.einsum("ij,ij->i", local_diffs, local_diffs)
+        local_min_idx = int(np.argmin(local_dists))
+
+        return start_idx + local_min_idx
 
     @staticmethod
     def _estimate_yaw(points: np.ndarray, idx: int) -> float:

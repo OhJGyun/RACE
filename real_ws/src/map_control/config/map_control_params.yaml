@@ -14,16 +14,16 @@
     # Multiple lane paths for dynamic lane switching
     # Lane order MUST match the lane_selector output indices!
     lane_csv_paths:
-      - "/home/ircv7/RACE/path/1031_1/test_9.0/lane_optimal.csv"  # Lane 0: Optimal/Center
-      - "/home/ircv7/RACE/path/1031_1/test_9.0/lane_left.csv"     # Lane 1: Left avoidance
-      - "/home/ircv7/RACE/path/1031_1/test_9.0/lane_right.csv"    # Lane 2: Right avoidance
+    - "/home/ircv7/RACE/path/1031_1/test_9.0/lane_optimal.csv"  # Lane 0: Optimal/Center
+    - "/home/ircv7/RACE/path/1031_1/test_9.0/lane_left.csv"     # Lane 1: Left avoidance
+    - "/home/ircv7/RACE/path/1031_1/test_9.0/lane_right.csv"    # Lane 2: Right avoidance
 
     # Lane selector topic (receives Int32 lane index)
     lane_selector_topic: "/lane_selector/target_lane"
 
     # Lane change behavior: reduce LD and speed during lane changes for better tracking
     lane_change_ld_gain: 0.5     # LD multiplier during lane change [0.0-1.0] (0.5 = 50% reduction)
-    lane_change_speed_gain: 0.7  # Speed multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
+    lane_change_speed_gain: 0.6  # Speed multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
 
     # ------------------------------------------------------------------------
     # Localization Configuration (TF-first approach)

@@ -135,6 +135,10 @@ def generate_launch_description():
         output='screen'
     )
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee
 
     # finalize
     ld.add_action(joy_node)
