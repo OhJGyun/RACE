@@ -281,7 +281,7 @@ Visualization Manager:
       Line color: 128; 128; 0
     - Class: rviz_default_plugins/SetInitialPose
       Topic:
-        Depth: 5
+        Depth: 5selection
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable

@@ -31,9 +31,6 @@ from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 import os
 
-map_controller_visualization = LaunchConfiguration("launch_rviz")
-rviz2_config = LaunchConfiguration("rviz2_config")
-
 def generate_launch_description():
     joy_teleop_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
@@ -138,27 +135,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    launch_rviz_arg = DeclareLaunchArgument(
-        'launch_rviz',
-        default_value='true',
-        description='Automatically launch RViz'
-    )
-
-    rviz_config_arg = DeclareLaunchArgument(
-        'rviz2_config',
-        default_value=PathJoinSubstitution([get_package_share_directory("f1tenth_stack"), "rviz2_config", "bringup_visualization.rviz"]),
-        description='RViz Config File'
-    )
-
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="screen",
-        arguments=["-d", rviz2_config],
-        condition=IfCondition(map_controller_visualization)
-    )
-
 
     # finalize
     ld.add_action(joy_node)
@@ -171,8 +147,5 @@ def generate_launch_description():
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
     ld.add_action(drive_relay_node)
-    ld.add_action(launch_rviz_arg)
-    ld.add_action(rviz_config_arg)
-    ld.add_action(rviz_node)
 
     return ld
