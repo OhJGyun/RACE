@@ -78,7 +78,7 @@ cat > "$TERMINATOR_CONFIG" << 'EOF'
       parent = child1
       order = 1
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '🛣️  [2/5] Starting MAP Controller...' && ros2 launch map_control map_controller.launch.py; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '🛣️  [2/5] Starting MAP Controller...' && ros2 launch map_control map_controller.launch.py launch_rviz:=false; exec zsh"
     [[[terminal3]]]
       type = Terminal
       parent = child1
@@ -96,7 +96,7 @@ cat > "$TERMINATOR_CONFIG" << 'EOF'
       parent = child1
       order = 4
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 9 && echo '📊 [5/5] Starting Boundary Visualization...' && ros2 launch obs_detect boundary_viz.launch.py; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 9 && echo '📊 [5/5] Starting Boundary Visualization...' && ros2 launch obs_detect boundary_viz.launch.py launch_rviz:=false; exec zsh"
 
 [plugins]
 EOF
