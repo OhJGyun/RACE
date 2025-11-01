@@ -12,8 +12,6 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('obs_detect')
     config = os.path.join(pkg_share, 'config', 'ring_viz_params.yaml')
 
-    map_controller_visualization = LaunchConfiguration("launch_rviz")
-    rviz2_config = LaunchConfiguration("rviz2_config")
 
     obs_detect_node = Node(
         package='obs_detect',
@@ -23,33 +21,8 @@ def generate_launch_description():
         parameters=[config],
     )
 
-    launch_rviz_arg = DeclareLaunchArgument(
-        'launch_rviz',
-        default_value='true',
-        description='Automatically launch RViz'
-    )
-
-    rviz_config_arg = DeclareLaunchArgument(
-        'rviz2_config',
-        default_value=PathJoinSubstitution([get_package_share_directory("obs_detect"), "rviz2_config", "obs_detect_visualization.rviz"]),
-        description='RViz Config File'
-    )
-
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="rviz2",
-        arguments=["-d", rviz2_config],
-        condition=IfCondition(map_controller_visualization)
-    )
-
-
     return LaunchDescription([
         obs_detect_node,
-        launch_rviz_arg,
-        rviz_config_arg,
-        rviz_node,
     ])
 
 
