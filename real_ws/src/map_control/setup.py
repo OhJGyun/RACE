@@ -27,6 +27,7 @@ setup(
         'console_scripts': [
             'map_controller = map_control.controller_manager:main',
             'drive_relay = map_control.drive_relay:main',
+            'lap_timer_node = map_control.lap_timer_node:main',
         ],
     },
 )

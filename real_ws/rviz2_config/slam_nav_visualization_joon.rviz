@@ -353,7 +353,7 @@ Visualization Manager:
       bg_color: 50; 50; 50
     - Class: rviz_2d_overlay_plugins/TextOverlay
       Name: Steering
-      Topic: {Value: /monitor/steering_input}
+      Topic: {Value: /ackermann_cmd/steering_angle}
       Enabled: true
       Value: true
       text_size: 16

@@ -70,13 +70,13 @@ def generate_launch_description():
 
     outer_bound_csv_arg = DeclareLaunchArgument(
         'outer_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1031_1/outer_bound.csv',
+        default_value='/home/ircv7/RACE/bound/1031_1/0.7_0.7/outer_bound.csv',
         description='Outer boundary CSV path'
     )
 
     inner_bound_csv_arg = DeclareLaunchArgument(
         'inner_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1031_1/inner_bound.csv',
+        default_value='/home/ircv7/RACE/bound/1031_1/0.7_0.7/inner_bound.csv',
         description='Inner boundary CSV path'
     )
 
