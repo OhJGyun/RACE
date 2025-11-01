@@ -23,7 +23,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseStamped, PoseArray, Pose
 from nav_msgs.msg import Odometry, Path
 from sensor_msgs.msg import Imu
-from std_msgs.msg import Float32, Int32
+from std_msgs.msg import Float32, Int32, Int32MultiArray  # 레인 세그먼트 정보를 받기 위한 Int32MultiArray 사용
 from transforms3d.euler import quat2euler
 from tf2_ros import TransformException, LookupException, ConnectivityException, ExtrapolationException, Buffer, TransformListener
 import csv
@@ -74,6 +74,8 @@ class ControllerManager(Node):
         self.lane_change_active = False  # Flag for lane change in progress
         self.lane_change_start_time = None  # Time when lane change started
         self.lane_change_duration = 1.0  # Duration to apply reduced LD (seconds)
+        # 레인별 Frenet 변환기 캐시 (세그먼트만 써도 s/d는 전체 레인 기준으로 일관 유지)
+        self._lane_frenet_converters = []
 
         # Control state
         self.state = "RACING"  # Simplified: no state machine, always racing
@@ -181,6 +183,15 @@ class ControllerManager(Node):
             )
             self.get_logger().info(f"Subscribed to {self.lane_selector_topic} for lane switching")
 
+            # 레인 세그먼트(로컬 윈도우) 갱신 토픽 구독
+            self.lane_segment_sub = self.create_subscription(
+                Int32MultiArray,              # data = [lane_id, start_idx, end_idx)
+                self.lane_segment_topic,      # lane_selector에서 퍼블리시하는 세그먼트 토픽
+                self.lane_segment_callback,   # 세그먼트 수신 콜백: 활성 웨이포인트 덩어리를 갱신
+                10,                           # 큐 크기
+            )
+            self.get_logger().info(f"Subscribed to {self.lane_segment_topic} for local segments")
+
         # Control loop timer
         self.timer = self.create_timer(1.0 / self.loop_rate, self.control_loop)
 
@@ -203,8 +214,11 @@ class ControllerManager(Node):
         # Multi-lane support
         self.declare_parameter('lane_csv_paths', [''])  # List of lane CSV paths (empty string for type inference)
         self.declare_parameter('lane_selector_topic', '/lane_selector/target_lane')
+        self.declare_parameter('lane_segment_topic', 'lane_selector/current_segment')  # 세그먼트 수신 토픽 이름
         self.declare_parameter('lane_change_ld_gain', 0.7)  # LD multiplier during lane change (0~1)
         self.declare_parameter('lane_change_speed_gain', 0.7)  # Speed multiplier during lane change (0~1)
+        # 로컬 세그먼트 크롭: 차량 인덱스 기준 양쪽 점 개수 (총 2*n 사용)
+        self.declare_parameter('segment_points_each_side', 40)
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -248,8 +262,10 @@ class ControllerManager(Node):
         # Multi-lane support
         self.lane_csv_paths = self.get_parameter('lane_csv_paths').value
         self.lane_selector_topic = self.get_parameter('lane_selector_topic').value
+        self.lane_segment_topic = self.get_parameter('lane_segment_topic').value  # 세그먼트 토픽
         self.lane_change_ld_gain = self.get_parameter('lane_change_ld_gain').value
         self.lane_change_speed_gain = self.get_parameter('lane_change_speed_gain').value
+        self.segment_points_each_side = int(self.get_parameter('segment_points_each_side').value)  # 세그먼트 크기(한쪽)
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
@@ -307,6 +323,22 @@ class ControllerManager(Node):
             self.current_lane_idx = 0
             self.track_length = self.waypoint_array_in_map[-1, 4]
             self.has_waypoints = True
+            # 세그먼트 모드에서도 s/d 일관성을 위해 레인별 Frenet 변환기 생성
+            self._lane_frenet_converters = []
+            for idx, wp in enumerate(self.lane_waypoints):
+                try:
+                    conv = FrenetConverter(
+                        waypoints_x=wp[:, 0],
+                        waypoints_y=wp[:, 1],
+                        waypoints_psi=wp[:, 6],
+                    )
+                    self._lane_frenet_converters.append(conv)  # 생성 성공 시 목록에 추가
+                except Exception as e:
+                    self.get_logger().warn(f"Frenet converter init failed for lane {idx}: {e}")
+                    self._lane_frenet_converters.append(None)  # 실패 시 자리 채우기
+            # 현재 활성 레인의 Frenet 변환기로 설정
+            if self._lane_frenet_converters and self._lane_frenet_converters[0] is not None:
+                self.frenet_converter = self._lane_frenet_converters[0]
             self.get_logger().info(f"✅ Multi-lane initialized: {len(self.lane_waypoints)} lanes, default lane 0")
             return
 
@@ -432,7 +464,9 @@ class ControllerManager(Node):
             pose_simple.orientation.w = qw
             pose_array.poses.append(pose_simple)
 
-        if len(self.waypoint_array_in_map) > 1:
+        # 세그먼트 모드(track_length == 0.0)에서는 닫힘선을 그리지 않음
+        # 전체 랩 경로(폐곡선)일 때만 시작점을 다시 추가하여 시각적으로 닫힌 경로 표시
+        if len(self.waypoint_array_in_map) > 1 and self.track_length > 0.0:
             first = self.waypoint_array_in_map[0]
 
             closing_pose = PoseStamped()
@@ -641,6 +675,10 @@ class ControllerManager(Node):
         self.current_lane_idx = desired_lane
         self.waypoint_array_in_map = self.lane_waypoints[desired_lane]
         self.track_length = self.waypoint_array_in_map[-1, 4]
+        # 레인 변경 시, 프레네 변환기도 해당 레인의 전체 경로 기준으로 교체
+        if 0 <= desired_lane < len(self._lane_frenet_converters):
+            if self._lane_frenet_converters[desired_lane] is not None:
+                self.frenet_converter = self._lane_frenet_converters[desired_lane]
 
         # Activate lane change mode: apply reduced LD and speed for better tracking
         self.lane_change_active = True
@@ -649,6 +687,62 @@ class ControllerManager(Node):
         self.get_logger().info(
             f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints), "
             f"LD×{self.lane_change_ld_gain:.2f}, Speed×{self.lane_change_speed_gain:.2f} for {self.lane_change_duration:.1f}s"
+        )
+
+    def lane_segment_callback(self, msg: Int32MultiArray):
+        """lane_selector에서 퍼블리시한 로컬 세그먼트 갱신 처리
+        msg.data: [lane_id, start_idx, end_idx) 3개 인덱스 사용
+        """
+        if not self.lane_waypoints:
+            return
+        if not msg.data or len(msg.data) < 3:
+            return
+        lane_id = int(msg.data[0])
+        start_idx = int(msg.data[1])
+        end_idx = int(msg.data[2])
+
+        if lane_id < 0 or lane_id >= len(self.lane_waypoints):  # 유효한 레인 인덱스인지 검사
+            self.get_logger().warn(f"[SEGMENT] invalid lane_id {lane_id}")
+            return
+
+        full = self.lane_waypoints[lane_id]
+        n = len(full)
+        if n == 0:  # 빈 레인이면 무시
+            return
+        # 인덱스 클램프 (경계 밖 방지)
+        start_idx = max(0, min(start_idx, n - 1))
+        end_idx = max(start_idx + 1, min(end_idx, n))
+
+        # 필요 시 중앙(≈차량 위치) 기준으로 고정 크기 윈도우로 추가 크롭
+        if self.segment_points_each_side and (end_idx - start_idx) > 2 * self.segment_points_each_side:
+            mid = (start_idx + end_idx - 1) // 2
+            new_start = max(0, mid - self.segment_points_each_side)
+            new_end = min(n, mid + self.segment_points_each_side)
+            start_idx, end_idx = new_start, new_end
+
+        segment = full[start_idx:end_idx]
+        if len(segment) < 2:  # 최소 2점 이상 필요
+            return
+
+        # 레인이 바뀌었으면 활성 레인 교체 및 Frenet 변환기 동기화
+        if lane_id != self.current_lane_idx:
+            self.current_lane_idx = lane_id
+            # s/d 일관성을 위해 전체 레인 기준 변환기로 교체
+            if 0 <= lane_id < len(self._lane_frenet_converters):
+                if self._lane_frenet_converters[lane_id] is not None:
+                    self.frenet_converter = self._lane_frenet_converters[lane_id]
+
+        # 제어/시각화에는 로컬 세그먼트만 사용
+        self.waypoint_array_in_map = segment
+        # 세그먼트 모드에서는 s 기반 탐색 대신 인덱스 기반 L1 계산을 쓰도록 트랙 길이를 0으로 설정
+        self.track_length = 0.0
+
+        # 웨이포인트 사용 가능 플래그 활성화
+        self.has_waypoints = True
+        # 로그(스로틀)
+        self.get_logger().info(
+            f"[SEGMENT] lane={lane_id}, segment=[{start_idx}, {end_idx}) ({len(segment)} pts)",
+            throttle_duration_sec=1.0,
         )
 
     def _load_single_waypoint_file(self, csv_path: str):
@@ -861,4 +955,3 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
