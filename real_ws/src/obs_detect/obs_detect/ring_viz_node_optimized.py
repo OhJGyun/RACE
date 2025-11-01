@@ -89,7 +89,7 @@ def in_ring(x: float, y: float, outer: Optional[Sequence[Point2D]], inner: Optio
 # -------------------------------
 # 초경량 스캔라인 기반 클러스터링 (O(N))
 # -------------------------------
-def fast_scanline_clusters(r_list, ang_inc, original_indices=None, min_samples=5, max_samples=999, eps0=0.12, k=0.06):
+def fast_scanline_clusters(r_list, ang_inc, original_indices=None, min_samples=4, max_samples=50, eps0=0.12, k=0.06, max_index_gap=2):
     """
     연속한 빔 간 거리로 클러스터링 (정렬된 스캔 전제)
 
@@ -116,7 +116,8 @@ def fast_scanline_clusters(r_list, ang_inc, original_indices=None, min_samples=5
         # 최적화: 원본 인덱스가 연속적이지 않으면 다른 클러스터
         if original_indices is not None:
             idx_gap = original_indices[i] - original_indices[i - 1]
-            if idx_gap > 1:
+            # allow gaps up to max_index_gap (handles down-sampling)
+            if idx_gap > max_index_gap:
                 # 인덱스 비연속 → 무조건 새 클러스터
                 # min/max 범위 체크
                 if min_samples <= len(cur) <= max_samples:
@@ -408,7 +409,8 @@ class SimpleScanViz(Node):
             min_samples=self.min_samples,
             max_samples=self.max_samples,
             eps0=effective_eps0,
-            k=effective_k
+            k=effective_k,
+            max_index_gap=self.sample_stride
         )
 
         if len(idx_clusters) == 0:
