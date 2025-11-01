@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from glob import glob
+import os
 
 package_name = 'obs_detect'
 
@@ -13,6 +14,7 @@ setup(
         # launch / config 전체 설치 (확실히 잡히게 *.py도 허용)
         ('share/' + package_name + '/launch', glob('launch/*.launch.py') + glob('launch/*.py')),
         ('share/' + package_name + '/config', glob('config/*.yaml') + glob('config/*.yml')),
+        (os.path.join('share', package_name, 'rviz2_config'), glob('rviz2_config/*.rviz')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
