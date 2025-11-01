@@ -39,6 +39,8 @@ class MAP_Controller:
                 loop_rate,
                 LUT_name,
                 state_machine_rate,
+                # 최대 허용 횡가속 (곡률 기반 v_max 계산용)
+                lat_accel_max=4.0,
 
                 logger_info = logging.info,
                 logger_warn = logging.warn
@@ -67,6 +69,7 @@ class MAP_Controller:
         self.loop_rate = loop_rate
         self.LUT_name = LUT_name
         self.state_machine_rate = state_machine_rate
+        self.lat_accel_max = float(lat_accel_max)  # v_max = sqrt(a_lat_max/|kappa|) 계산에 사용 (옵션 기능)
 
         # Parameters in the controller
         self.lateral_error_list = [] # list of squared lateral error
@@ -252,7 +255,28 @@ class MAP_Controller:
             self.i_gap = 0
             speed_command = global_speed
 
+        # 속도 계산 스택(감속 로직) 개요
+        # - (1) 횡오차·곡률 기반 감속: race_stack 원본 로직(활성)
+        # - (2) 헤딩 에러 기반 감속: 자세 오차가 클 때 추가 감속(현재 비활성: 주석 해제 시 활성화)
+        # - (3) 곡률 기반 v_max 제한: 물리 한계(최대 횡가속) 캡(현재 비활성: 주석 해제 시 활성화)
+
+        # 1) 횡오차·곡률 기반 감속 (race_stack 기반)
         speed_command = self.speed_adjust_lat_err(speed_command, lat_e_norm)
+
+        # 2) 헤딩 에러 기반 감속 (옵션)
+        # 사용자 요청으로 일단 비활성화 (사용하려면 아래 한 줄 주석 해제)
+        # speed_command = self.speed_adjust_heading(speed_command)
+
+        # 3) 곡률 기반 v_max 제한 (v_max = sqrt(a_lat_max / |kappa|))
+        # 사용자 요청으로 일단 비활성화 (사용하려면 아래 블록 주석 해제)
+        # try:
+        #     kappa_here = abs(float(self.waypoint_array_in_map[idx_la_position, 5]))
+        # except Exception:
+        #     kappa_here = 0.0
+        #
+        # if kappa_here > 1e-6 and self.lat_accel_max > 0.0:
+        #     v_max_curv = float(np.sqrt(self.lat_accel_max / max(kappa_here, 1e-6)))
+        #     speed_command = float(min(speed_command, v_max_curv))
 
         return speed_command
 
@@ -344,13 +368,21 @@ class MAP_Controller:
         Returns:
             global_speed: the speed we want to follow
         """
-        # scaling down global speed with lateral error and curvature
-        # lat_e_coeff = self.lat_err_coeff # must be in [0, 1]
-        # lat_e_norm *= 2
-        # curv = np.clip(2*(np.mean(self.curvature_waypoints)/0.8) - 2, a_min = 0, a_max = 1) # 0.8 ca. max curvature mean
+        # 곡률·횡오차 기반 감속 (race_stack 로직 복구)
+        # lat_e_coeff: [0,1] (0=감속없음, 1=최대 감속)
+        lat_e_coeff = np.clip(self.lat_err_coeff, 0.0, 1.0)
+        # lat_e_norm은 calc_lateral_error_norm에서 0~0.5로 정규화 → 민감도 보정을 위해 2배
+        lat_e_norm_eff = np.clip(lat_e_norm * 2.0, 0.0, 2.0)
+        # 평균 곡률을 0~1로 정규화 (0.8 부근을 최대 곡률로 가정)
+        try:
+            curv_mean = float(abs(self.curvature_waypoints))
+        except Exception:
+            curv_mean = 0.0
+        curv = float(np.clip(2.0 * (curv_mean / 0.8) - 2.0, 0.0, 1.0))
 
-        # global_speed *= (1 - lat_e_coeff + lat_e_coeff*np.exp(-lat_e_norm*curv))
-        return global_speed
+        # 지수 감쇠로 속도 축소
+        scaled = float(global_speed) * (1.0 - lat_e_coeff + lat_e_coeff * float(np.exp(-lat_e_norm_eff * curv)))
+        return scaled
 
     def speed_adjust_heading(self, speed_command):
         """
@@ -361,6 +393,15 @@ class MAP_Controller:
         Returns:
             global_speed: the speed we want to follow
         """
+
+        # 최근접 인덱스가 아직 계산되지 않았다면, 여기서 한 번 계산 (calc_L1_point 이전 호출 대비)
+        # 이 함수는 기본 비활성(주석 처리) 상태이며, 주석 해제 시 안정적으로 동작하도록 가드 추가
+        if self.idx_nearest_waypoint is None or not (0 <= int(self.idx_nearest_waypoint) < len(self.waypoint_array_in_map)):
+            try:
+                idx_tmp = self.nearest_waypoint(self.position_in_map[0, :2], self.waypoint_array_in_map[:, :2])
+                self.idx_nearest_waypoint = int(idx_tmp)
+            except Exception:
+                return speed_command
 
         heading = self.position_in_map[0,2]
         map_heading = self.waypoint_array_in_map[self.idx_nearest_waypoint, 6]

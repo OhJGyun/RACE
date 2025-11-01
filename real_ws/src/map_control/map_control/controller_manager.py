@@ -122,6 +122,7 @@ class ControllerManager(Node):
             loop_rate=self.loop_rate,
             LUT_name=self.LUT_name,
             state_machine_rate=self.loop_rate,
+            lat_accel_max=self.lat_accel_max,  # 곡률 기반 v_max 제한 활성화 시 사용될 최대 횡가속 파라미터
 
             logger_info=self.get_logger().info,
             logger_warn=self.get_logger().warn
@@ -219,6 +220,8 @@ class ControllerManager(Node):
         self.declare_parameter('lane_change_speed_gain', 0.7)  # Speed multiplier during lane change (0~1)
         # 로컬 세그먼트 크롭: 차량 인덱스 기준 양쪽 점 개수 (총 2*n 사용)
         self.declare_parameter('segment_points_each_side', 40)
+        # 곡률 기반 속도 제한을 위한 최대 허용 횡가속 [m/s^2]
+        self.declare_parameter('lat_accel_max', 4.0)  # 헤딩/곡률 기반 감속 중 곡률 v_max 제한을 사용할 때 상한 가속도
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -266,6 +269,7 @@ class ControllerManager(Node):
         self.lane_change_ld_gain = self.get_parameter('lane_change_ld_gain').value
         self.lane_change_speed_gain = self.get_parameter('lane_change_speed_gain').value
         self.segment_points_each_side = int(self.get_parameter('segment_points_each_side').value)  # 세그먼트 크기(한쪽)
+        self.lat_accel_max = float(self.get_parameter('lat_accel_max').value)  # 곡률 기반 v_max 제한용 (현재 코드는 비활성 상태)
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
