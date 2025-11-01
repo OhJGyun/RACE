@@ -5,189 +5,434 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
+        - /Grid1
+        - /Map1
         - /LaserScan1
+        - /Robot Pose1
+        - /Lane Control1
+        - /Obstacles1
+        - /Path Planning1
+        - /Boundaries1
+        - /Obstacle Centers1
+        - /Obstacle Text1
+        - /Nearest Point1
+        - /Way Point1
+        - /Speed1
+        - /Steering1
       Splitter Ratio: 0.5
-    Tree Height: 324
+    Tree Height: 800
   - Class: rviz_common/Selection
-    Name: Selection
+    [cite_start]Name: Selection [cite: 1]
   - Class: rviz_common/Tool Properties
     Expanded:
-      - /2D Goal Pose1
-      - /Publish Point1
-    Name: Tool Properties
-    Splitter Ratio: 0.5886790156364441
+      - [cite_start]/2D Goal Pose1 [cite: 2]
+      - [cite_start]/Publish Point1 [cite: 2]
+    [cite_start]Name: Tool Properties [cite: 2]
+    [cite_start]Splitter Ratio: 0.588679 [cite: 58]
   - Class: rviz_common/Views
     Expanded:
-      - /Current View1
-    Name: Views
-    Splitter Ratio: 0.5
+      - [cite_start]/Current View1 [cite: 1]
+    [cite_start]Name: Views [cite: 1]
+    [cite_start]Splitter Ratio: 0.5 [cite: 1]
   - Class: rviz_common/Time
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
-  - Class: slam_toolbox::SlamToolboxPlugin
-    Name: SlamToolboxPlugin
+    [cite_start]SyncSource: LaserScan [cite: 130]
+  - Class: slam_toolbox/SlamToolboxPlugin
+    [cite_start]Name: SLAM Toolbox [cite: 130]
 Visualization Manager:
-  Class: ""
+  [cite_start]Class: "" [cite: 1]
   Displays:
-    - Alpha: 0.5
-      Cell Size: 1
-      Class: rviz_default_plugins/Grid
-      Color: 160; 160; 164
-      Enabled: true
+    - [cite_start]Alpha: 0.5 [cite: 3]
+      [cite_start]Cell Size: 1 [cite: 3]
+      [cite_start]Class: rviz_default_plugins/Grid [cite: 3]
+      Color: 160; 160; [cite_start]164 [cite: 3]
+      [cite_start]Enabled: true [cite: 3]
       Line Style:
-        Line Width: 0.029999999329447746
-        Value: Lines
+        [cite_start]Line Width: 0.03 [cite: 59]
+        [cite_start]Value: Lines [cite: 59]
       Name: Grid
-      Normal Cell Count: 0
-      Offset:
-        X: 0
-        Y: 0
-        Z: 0
-      Plane: XY
-      Plane Cell Count: 10
-      Reference Frame: <Fixed Frame>
-      Value: true
-    - Alpha: 0.699999988079071
-      Class: rviz_default_plugins/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
+      [cite_start]Normal Cell Count: 0 [cite: 3]
+      [cite_start]Offset: {X: 0, Y: 0, Z: 0} [cite: 3]
+      [cite_start]Plane: XY [cite: 3]
+      [cite_start]Plane Cell Count: 10 [cite: 3]
+      [cite_start]Reference Frame: <Fixed Frame> [cite: 4]
+      [cite_start]Value: true [cite: 3]
+    - [cite_start]Alpha: 0.7 [cite: 5]
+      [cite_start]Class: rviz_default_plugins/Map [cite: 5]
+      [cite_start]Color Scheme: map [cite: 5]
+      [cite_start]Draw Behind: false [cite: 5]
+      [cite_start]Enabled: true [cite: 5]
       Name: Map
       Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        Filter size: 10
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /map
+        [cite_start]Depth: 5 [cite: 5]
+        [cite_start]Durability Policy: Transient Local [cite: 5]
+        [cite_start]Filter size: 10 [cite: 5]
+        [cite_start]History Policy: Keep Last [cite: 5]
+        [cite_start]Reliability Policy: Reliable [cite: 5]
+        [cite_start]Value: /map [cite: 5]
       Update Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /map_updates
-      Use Timestamp: false
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz_default_plugins/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
+        [cite_start]Depth: 5 [cite: 5]
+        [cite_start]Durability Policy: Volatile [cite: 5]
+        [cite_start]History Policy: Keep Last [cite: 5]
+        [cite_start]Reliability Policy: Reliable [cite: 5]
+        [cite_start]Value: /map_updates [cite: 5]
+      [cite_start]Use Timestamp: false [cite: 5]
+      [cite_start]Value: true [cite: 5]
+    - [cite_start]Alpha: 1 [cite: 6]
+      [cite_start]Autocompute Intensity Bounds: true [cite: 6]
+      [cite_start]Autocompute Value Bounds: {Max Value: 10, Min Value: -10, Value: true} [cite: 6]
+      [cite_start]Axis: Z [cite: 6]
+      [cite_start]Channel Name: intensity [cite: 6]
+      [cite_start]Class: rviz_default_plugins/LaserScan [cite: 6]
+      Color: 255; 255; [cite_start]255 [cite: 7]
+      [cite_start]Color Transformer: Intensity [cite: 7]
+      [cite_start]Decay Time: 0 [cite: 7]
+      [cite_start]Enabled: true [cite: 7]
+      [cite_start]Invert Rainbow: false [cite: 7]
+      Max Color: 255; 255; [cite_start]255 [cite: 8]
+      Min Color: 0; 0; [cite_start]0 [cite: 9]
       Name: LaserScan
-      Position Transformer: XYZ
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.10000000149011612
-      Style: Flat Squares
+      [cite_start]Position Transformer: XYZ [cite: 9]
+      [cite_start]Queue Size: 10 [cite: 9]
+      [cite_start]Selectable: true [cite: 9]
+      [cite_start]Size (Pixels): 3 [cite: 9]
+      [cite_start]Size (m): 0.009999999776482582 [cite: 9]
+      [cite_start]Style: Flat Squares [cite: 9]
       Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        Filter size: 10
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /scan
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-  Enabled: true
+        [cite_start]Depth: 5 [cite: 10]
+        [cite_start]Durability Policy: Volatile [cite: 10]
+        [cite_start]Filter size: 10 [cite: 10]
+        [cite_start]History Policy: Keep Last [cite: 10]
+        [cite_start]Reliability Policy: Best Effort [cite: 10]
+        [cite_start]Value: /scan [cite: 10]
+      [cite_start]Use Fixed Frame: true [cite: 10]
+      [cite_start]Use rainbow: true [cite: 10]
+      [cite_start]Value: true [cite: 10]
+    - [cite_start]Alpha: 1 [cite: 11]
+      [cite_start]Axes Length: 1 [cite: 11]
+      [cite_start]Axes Radius: 0.1 [cite: 11]
+      [cite_start]Class: rviz_default_plugins/PoseWithCovariance [cite: 11]
+      Color: 255; 25; [cite_start]0 [cite: 11]
+      Covariance:
+        Orientation:
+          [cite_start]Alpha: 0.5 [cite: 11]
+          Color: 255; 255; [cite_start]127 [cite: 12]
+          [cite_start]Color Style: Unique [cite: 12]
+          [cite_start]Frame: Local [cite: 12]
+          [cite_start]Offset: 1 [cite: 12]
+          [cite_start]Scale: 1 [cite: 12]
+          [cite_start]Value: true [cite: 12]
+        Position:
+          [cite_start]Alpha: 0.3 [cite: 13]
+          Color: 204; 51; [cite_start]204 [cite: 13]
+          [cite_start]Scale: 1 [cite: 13]
+          [cite_start]Value: true [cite: 13]
+        [cite_start]Value: true [cite: 13]
+      [cite_start]Enabled: true [cite: 13]
+      [cite_start]Head Length: 0.3 [cite: 13]
+      [cite_start]Head Radius: 0.1 [cite: 13]
+      Name: Robot Pose
+      [cite_start]Shaft Length: 1 [cite: 14]
+      [cite_start]Shaft Radius: 0.05 [cite: 14]
+      [cite_start]Shape: Arrow [cite: 14]
+      Topic:
+        [cite_start]Depth: 5 [cite: 14]
+        [cite_start]Durability Policy: Volatile [cite: 14]
+        [cite_start]Filter size: 10 [cite: 14]
+        [cite_start]History Policy: Keep Last [cite: 14]
+        [cite_start]Reliability Policy: Reliable [cite: 14]
+        [cite_start]Value: /amcl_pose [cite: 14]
+      [cite_start]Value: true [cite: 14]
+    - [cite_start]Class: rviz_common/Group [cite: 15]
+      Displays:
+        - [cite_start]Alpha: 1 [cite: 15]
+          [cite_start]Buffer Length: 1 [cite: 15]
+          [cite_start]Class: rviz_default_plugins/Path [cite: 15]
+          Color: 255; 170; [cite_start]0 [cite: 16]
+          [cite_start]Enabled: true [cite: 16]
+          [cite_start]Line Style: Lines [cite: 16]
+          [cite_start]Line Width: 0.05 [cite: 16]
+          Name: Active Lane Path
+          [cite_start]Offset: {X: 0, Y: 0, Z: 0} [cite: 17]
+          Topic:
+            [cite_start]Depth: 5 [cite: 19]
+            [cite_start]Durability Policy: Volatile [cite: 19]
+            [cite_start]Filter size: 10 [cite: 19]
+            [cite_start]History Policy: Keep Last [cite: 19]
+            [cite_start]Reliability Policy: Reliable [cite: 19]
+            [cite_start]Value: /map_controller/path [cite: 19]
+          [cite_start]Value: true [cite: 19]
+        - [cite_start]Alpha: 1 [cite: 19]
+          [cite_start]Buffer Length: 1 [cite: 19]
+          [cite_start]Class: rviz_default_plugins/Path [cite: 19]
+          Color: 0; 255; [cite_start]0 [cite: 20]
+          [cite_start]Enabled: true [cite: 20]
+          [cite_start]Line Style: Lines [cite: 20]
+          [cite_start]Line Width: 0.1 [cite: 20]
+          Name: Selected Lane (Bold)
+          [cite_start]Offset: {X: 0, Y: 0, Z: 0.01} [cite: 21]
+          Topic:
+            [cite_start]Depth: 5 [cite: 23]
+            [cite_start]Durability Policy: Volatile [cite: 23]
+            [cite_start]Filter size: 10 [cite: 23]
+            [cite_start]History Policy: Keep Last [cite: 23]
+            [cite_start]Reliability Policy: Reliable [cite: 23]
+            [cite_start]Value: /lane_selector/selected_lane [cite: 23]
+          [cite_start]Value: true [cite: 23]
+        - [cite_start]Class: rviz_default_plugins/MarkerArray [cite: 23]
+          [cite_start]Enabled: true [cite: 23]
+          Name: All Lanes Markers
+          [cite_start]Namespaces: {lane_0: true, lane_1: true, lane_2: true} [cite: 24]
+          Topic:
+            [cite_start]Depth: 5 [cite: 24]
+            [cite_start]Durability Policy: Volatile [cite: 24]
+            [cite_start]History Policy: Keep Last [cite: 24]
+            [cite_start]Reliability Policy: Reliable [cite: 25]
+            [cite_start]Value: /lane_selector/markers [cite: 25]
+          [cite_start]Value: true [cite: 25]
+        - [cite_start]Alpha: 1 [cite: 25]
+          [cite_start]Axes Length: 0.5 [cite: 25]
+          [cite_start]Axes Radius: 0.05 [cite: 25]
+          [cite_start]Class: rviz_default_plugins/Pose [cite: 25]
+          Color: 255; 0; [cite_start]0 [cite: 26]
+          [cite_start]Enabled: true [cite: 26]
+          [cite_start]Head Length: 0.3 [cite: 26]
+          [cite_start]Head Radius: 0.15 [cite: 26]
+          Name: Lookahead Point
+          [cite_start]Shaft Length: 0.5 [cite: 26]
+          [cite_start]Shaft Radius: 0.08 [cite: 26]
+          [cite_start]Shape: Arrow [cite: 26]
+          Topic:
+            [cite_start]Depth: 5 [cite: 27]
+            [cite_start]Durability Policy: Volatile [cite: 27]
+            [cite_start]Filter size: 10 [cite: 27]
+            [cite_start]History Policy: Keep Last [cite: 27]
+            [cite_start]Reliability Policy: Reliable [cite: 27]
+            [cite_start]Value: /map_controller/lookahead_point [cite: 27]
+          [cite_start]Value: true [cite: 27]
+      [cite_start]Enabled: true [cite: 28]
+      [cite_start]Name: Lane Control [cite: 28]
+    - [cite_start]Class: rviz_common/Group [cite: 28]
+      Displays:
+        - [cite_start]Class: rviz_default_plugins/MarkerArray [cite: 28]
+          [cite_start]Enabled: true [cite: 28]
+          Name: Obstacle Markers
+          [cite_start]Namespaces: {obstacle_centers: true, obstacle_points: true} [cite: 28]
+          Topic:
+            [cite_start]Depth: 5 [cite: 29]
+            [cite_start]Durability Policy: Volatile [cite: 29]
+            [cite_start]History Policy: Keep Last [cite: 29]
+            [cite_start]Reliability Policy: Reliable [cite: 29]
+            [cite_start]Value: obs_detect/markers [cite: 29]
+          [cite_start]Value: true [cite: 29]
+        - [cite_start]Alpha: 1 [cite: 29]
+          [cite_start]Axes Length: 0.3 [cite: 29]
+          [cite_start]Axes Radius: 0.05 [cite: 30]
+          [cite_start]Class: rviz_default_plugins/PoseArray [cite: 30]
+          Color: 255; 0; [cite_start]0 [cite: 31]
+          [cite_start]Enabled: true [cite: 31]
+          [cite_start]Head Length: 0.2 [cite: 31]
+          [cite_start]Head Radius: 0.1 [cite: 31]
+          Name: Obstacle Centers
+          [cite_start]Shaft Length: 0.3 [cite: 31]
+          [cite_start]Shaft Radius: 0.05 [cite: 31]
+          [cite_start]Shape: Arrow [cite: 31]
+          Topic:
+            [cite_start]Depth: 5 [cite: 32]
+            [cite_start]Durability Policy: Volatile [cite: 32]
+            [cite_start]Filter size: 10 [cite: 32]
+            [cite_start]History Policy: Keep Last [cite: 32]
+            [cite_start]Reliability Policy: Reliable [cite: 32]
+            [cite_start]Value: obs_detect/obstacles [cite: 32]
+          [cite_start]Value: true [cite: 32]
+      [cite_start]Enabled: true [cite: 33]
+      [cite_start]Name: Obstacles [cite: 33]
+    - [cite_start]Class: rviz_common/Group [cite: 89]
+      Displays:
+        - [cite_start]Alpha: 1 [cite: 89]
+          [cite_start]Buffer Length: 1 [cite: 89]
+          [cite_start]Class: rviz_default_plugins/Path [cite: 89]
+          Color: 25; 255; [cite_start]0 [cite: 90]
+          [cite_start]Enabled: true [cite: 90]
+          [cite_start]Line Style: Lines [cite: 90]
+          [cite_start]Line Width: 0.03 [cite: 90]
+          Name: Planned Path
+          [cite_start]Offset: {X: 0, Y: 0, Z: 0} [cite: 91]
+          Topic:
+            [cite_start]Depth: 5 [cite: 93]
+            [cite_start]Durability Policy: Volatile [cite: 93]
+            [cite_start]Filter size: 10 [cite: 93]
+            [cite_start]History Policy: Keep Last [cite: 93]
+            [cite_start]Reliability Policy: Reliable [cite: 93]
+            [cite_start]Value: /planned_path [cite: 93]
+          [cite_start]Value: true [cite: 93]
+        - [cite_start]Alpha: 1 [cite: 93]
+          [cite_start]Buffer Length: 1 [cite: 93]
+          [cite_start]Class: rviz_default_plugins/Path [cite: 93]
+          Color: 255; 170; [cite_start]0 [cite: 94]
+          [cite_start]Enabled: true [cite: 94]
+          [cite_start]Line Style: Lines [cite: 94]
+          [cite_start]Line Width: 0.05 [cite: 94]
+          Name: Racing Line
+          [cite_start]Offset: {X: 0, Y: 0, Z: 0} [cite: 95]
+          Topic:
+            [cite_start]Depth: 5 [cite: 97]
+            [cite_start]Durability Policy: Volatile [cite: 97]
+            [cite_start]Filter size: 10 [cite: 97]
+            [cite_start]History Policy: Keep Last [cite: 97]
+            [cite_start]Reliability Policy: Reliable [cite: 97]
+            [cite_start]Value: /racing_line [cite: 97]
+          [cite_start]Value: true [cite: 97]
+      [cite_start]Enabled: true [cite: 97]
+      [cite_start]Name: Path Planning [cite: 97]
+    - [cite_start]Class: rviz_default_plugins/MarkerArray [cite: 102]
+      [cite_start]Enabled: true [cite: 102]
+      Name: Obstacle Centers
+      [cite_start]Namespaces: {} [cite: 102]
+      Topic:
+        [cite_start]Depth: 5 [cite: 102]
+        [cite_start]Durability Policy: Volatile [cite: 102]
+        [cite_start]History Policy: Keep Last [cite: 102]
+        [cite_start]Reliability Policy: Reliable [cite: 102]
+        [cite_start]Value: /scan_viz/markers [cite: 102]
+      [cite_start]Value: true [cite: 103]
+    - [cite_start]Class: rviz_default_plugins/MarkerArray [cite: 103]
+      [cite_start]Enabled: true [cite: 103]
+      Name: Boundaries
+      [cite_start]Namespaces: {inner_boundary: true, outer_boundary: true} [cite: 103]
+      Topic:
+        [cite_start]Depth: 5 [cite: 103]
+        [cite_start]Durability Policy: Volatile [cite: 103]
+        [cite_start]History Policy: Keep Last [cite: 103]
+        [cite_start]Reliability Policy: Reliable [cite: 103]
+        [cite_start]Value: /boundary_markers [cite: 103]
+      [cite_start]Value: true [cite: 104]
+    - [cite_start]Class: rviz_default_plugins/MarkerArray [cite: 158]
+      [cite_start]Enabled: true [cite: 158]
+      Name: Obstacle Text
+      Topic:
+        [cite_start]Value: /obstacle_info_markers [cite: 158]
+        [cite_start]History Policy: Keep Last [cite: 158]
+        [cite_start]Depth: 5 [cite: 158]
+        [cite_start]Reliability Policy: Best Effort [cite: 158]
+        [cite_start]Durability Policy: Volatile [cite: 158]
+      [cite_start]Value: true [cite: 158]
+    - [cite_start]Class: rviz_default_plugins/Marker [cite: 125]
+      Name: Nearest Point
+      [cite_start]Enabled: true [cite: 125]
+      Topic:
+        [cite_start]Value: /Markers/nearest_point [cite: 125]
+        [cite_start]History Policy: Keep Last [cite: 125]
+        [cite_start]Depth: 5 [cite: 125]
+        [cite_start]Reliability Policy: Best Effort [cite: 125]
+        [cite_start]Durability Policy: Volatile [cite: 125]
+      [cite_start]Value: true [cite: 125]
+    - [cite_start]Class: rviz_default_plugins/Marker [cite: 126]
+      Name: Way Point
+      [cite_start]Enabled: true [cite: 126]
+      Topic:
+        [cite_start]Value: /Marker/way_point [cite: 126]
+        [cite_start]History Policy: Keep Last [cite: 126]
+        [cite_start]Depth: 5 [cite: 126]
+        [cite_start]Reliability Policy: Best Effort [cite: 126]
+        [cite_start]Durability Policy: Volatile [cite: 126]
+      [cite_start]Value: true [cite: 126]
+    - [cite_start]Class: rviz_2d_overlay_plugins/BarGauge [cite: 63]
+      Name: Speed
+      [cite_start]Topic: {Value: /monitor/current_speed} [cite: 63]
+      [cite_start]Enabled: true [cite: 63]
+      [cite_start]Value: true [cite: 63]
+      bar_color: 255; 255; [cite_start]255 [cite: 64]
+      bg_color: 50; 50; [cite_start]50 [cite: 65]
+      [cite_start]caption: Speed [cite: 65]
+      [cite_start]height: 30 [cite: 65]
+      [cite_start]left: 10 [cite: 65]
+      [cite_start]max_value: 10.0 [cite: 65]
+      [cite_start]min_value: 0.0 [cite: 65]
+      [cite_start]orientation: horizontal [cite: 65]
+      [cite_start]show_caption: true [cite: 65]
+      [cite_start]text_size: 14 [cite: 65]
+      [cite_start]top: 430 [cite: 66]
+      [cite_start]width: 200 [cite: 66]
+    - [cite_start]Class: rviz_2d_overlay_plugins/BarGauge [cite: 67]
+      Name: Steering
+      [cite_start]Topic: {Value: /monitor/steering_input} [cite: 67]
+      [cite_start]Enabled: true [cite: 67]
+      [cite_start]Value: true [cite: 67]
+      bar_color: 255; 255; [cite_start]255 [cite: 67]
+      bg_color: 50; 50; [cite_start]50 [cite: 68]
+      [cite_start]caption: Steering [cite: 68]
+      [cite_start]height: 30 [cite: 68]
+      [cite_start]left: 10 [cite: 68]
+      [cite_start]max_value: 0.436 [cite: 68]
+      [cite_start]min_value: -0.436 [cite: 68]
+      [cite_start]orientation: horizontal [cite: 68]
+      [cite_start]show_caption: true [cite: 68]
+      [cite_start]text_size: 14 [cite: 68]
+      [cite_start]top: 470 [cite: 68]
+      [cite_start]width: 200 [cite: 68]
+  [cite_start]Enabled: true [cite: 33]
   Global Options:
-    Background Color: 48; 48; 48
-    Fixed Frame: map
-    Frame Rate: 30
-  Name: root
+    Background Color: 48; 48; [cite_start]48 [cite: 34]
+    [cite_start]Fixed Frame: map [cite: 34]
+    [cite_start]Frame Rate: 60 [cite: 34]
+  [cite_start]Name: root [cite: 34]
   Tools:
-    - Class: rviz_default_plugins/Interact
-      Hide Inactive Objects: true
-    - Class: rviz_default_plugins/MoveCamera
-    - Class: rviz_default_plugins/Select
-    - Class: rviz_default_plugins/FocusCamera
-    - Class: rviz_default_plugins/Measure
-      Line color: 128; 128; 0
-    - Class: rviz_default_plugins/SetInitialPose
-      Covariance x: 0.25
-      Covariance y: 0.25
-      Covariance yaw: 0.06853891909122467
+    - [cite_start]Class: rviz_default_plugins/Interact [cite: 35]
+      [cite_start]Hide Inactive Objects: true [cite: 35]
+    - [cite_start]Class: rviz_default_plugins/MoveCamera [cite: 35]
+    - [cite_start]Class: rviz_default_plugins/Select [cite: 35]
+    - [cite_start]Class: rviz_default_plugins/FocusCamera [cite: 35]
+    - [cite_start]Class: rviz_default_plugins/Measure [cite: 35]
+      Line color: 128; 128; [cite_start]0 [cite: 35]
+    - [cite_start]Class: rviz_default_plugins/SetInitialPose [cite: 35]
       Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /initialpose
-    - Class: rviz_default_plugins/SetGoal
+        [cite_start]Depth: 5 [cite: 35]
+        [cite_start]Durability Policy: Volatile [cite: 35]
+        [cite_start]History Policy: Keep Last [cite: 35]
+        [cite_start]Reliability Policy: Reliable [cite: 35]
+        [cite_start]Value: /initialpose [cite: 35]
+    - [cite_start]Class: rviz_default_plugins/SetGoal [cite: 36]
       Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /goal_pose
-    - Class: rviz_default_plugins/PublishPoint
-      Single click: true
+        [cite_start]Depth: 5 [cite: 36]
+        [cite_start]Durability Policy: Volatile [cite: 36]
+        [cite_start]History Policy: Keep Last [cite: 36]
+        [cite_start]Reliability Policy: Reliable [cite: 36]
+        [cite_start]Value: /goal_pose [cite: 36]
+    - [cite_start]Class: rviz_default_plugins/PublishPoint [cite: 36]
+      [cite_start]Single click: true [cite: 36]
       Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /clicked_point
+        [cite_start]Depth: 5 [cite: 36]
+        [cite_start]Durability Policy: Volatile [cite: 36]
+        [cite_start]History Policy: Keep Last [cite: 36]
+        [cite_start]Reliability Policy: Reliable [cite: 36]
+        [cite_start]Value: /clicked_point [cite: 36]
   Transformation:
     Current:
-      Class: rviz_default_plugins/TF
-  Value: true
+      [cite_start]Class: rviz_default_plugins/TF [cite: 37]
+  [cite_start]Value: true [cite: 37]
   Views:
     Current:
-      Class: rviz_default_plugins/Orbit
-      Distance: 25.790849685668945
-      Enable Stereo Rendering:
-        Stereo Eye Separation: 0.05999999865889549
-        Stereo Focal Distance: 1
-        Swap Stereo Eyes: false
-        Value: false
-      Focal Point:
-        X: -5.755800247192383
-        Y: -3.924808979034424
-        Z: 0.3867912292480469
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.05000000074505806
-      Invert Z Axis: false
-      Name: Current View
-      Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
-      Target Frame: <Fixed Frame>
-      Value: Orbit (rviz)
-      Yaw: 1.3303977251052856
-    Saved: ~
+      [cite_start]Class: rviz_default_plugins/Orbit [cite: 38]
+      [cite_start]Distance: 15 [cite: 109]
+      [cite_start]Enable Stereo Rendering: {Stereo Eye Separation: 0.06, Stereo Focal Distance: 1, Swap Stereo Eyes: false, Value: false} [cite: 38]
+      [cite_start]Focal Point: {X: 0, Y: 0, Z: 0} [cite: 38]
+      [cite_start]Focal Shape Fixed Size: true [cite: 38]
+      [cite_start]Focal Shape Size: 0.05 [cite: 38]
+      [cite_start]Invert Z Axis: false [cite: 38]
+      [cite_start]Name: Current View [cite: 38]
+      [cite_start]Near Clip Distance: 0.01 [cite: 38]
+      [cite_start]Pitch: 1.5 [cite: 38]
+      [cite_start]Target Frame: <Fixed Frame> [cite: 38]
+      [cite_start]Value: Orbit (rviz) [cite: 38]
+      [cite_start]Yaw: 0 [cite: 38]
+    [cite_start]Saved: ~ [cite: 38]
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1016
+  Height: 846
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000002170000035afc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000001cf000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000220053006c0061006d0054006f006f006c0062006f00780050006c007500670069006e0100000212000001850000018500ffffff000000010000010f0000035afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d0000035a000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073a0000003efc0100000002fb0000000800540069006d006501000000000000073a000002fb00fffffffb0000000800540069006d00650100000000000004500000000000000000000004080000035a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
-  Selection:
-    collapsed: false
-  SlamToolboxPlugin:
-    collapsed: false
-  Time:
-    collapsed: false
-  Tool Properties:
-    collapsed: false
-  Views:
-    collapsed: false
-  Width: 1850
-  X: 70
-  Y: 27
+  QMainWindow State: 000000ff00000000fd000000040000000000000156000002f4fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f006f00650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f006f006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000002f4000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002f4fc0200000003fb0000001e0054006f006f006c002000500072006f006f0065007200740069006500730100000041000000780000000000000000fb0Services
