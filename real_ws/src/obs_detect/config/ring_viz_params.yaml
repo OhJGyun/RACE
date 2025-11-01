@@ -14,7 +14,7 @@ simple_scan_viz:
 
     # ROI 범위 (라이다 거리 제한)
     roi_min_dist: 0.20
-    roi_max_dist: 3.00
+    roi_max_dist: 6.00
 
     # RViz에서 찍을 구체 마커 사이즈 (m)
     center_scale: 0.5

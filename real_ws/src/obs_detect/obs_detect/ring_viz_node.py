@@ -139,7 +139,7 @@ class SimpleScanViz(Node):
         self.declare_parameter("marker_frame_id", "map")
         self.declare_parameter("tf_timeout", 0.3)
         self.declare_parameter("db_min_samples", 8)
-        self.declare_parameter("roi_min_dist", 0.20)
+        self.declare_parameter("roi_min_dist", 0.00)
         self.declare_parameter("roi_max_dist", 3.00)
         self.declare_parameter("center_scale", 0.12)
         self.declare_parameter("fov_deg", 120.0)

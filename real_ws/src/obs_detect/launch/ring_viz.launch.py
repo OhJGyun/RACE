@@ -39,7 +39,7 @@ def generate_launch_description():
     )
 
     roi_max_dist_arg = DeclareLaunchArgument(
-        'roi_max_dist', default_value='3.00',
+        'roi_max_dist', default_value='6.00',
         description='Maximum ROI distance (m)'
     )
 

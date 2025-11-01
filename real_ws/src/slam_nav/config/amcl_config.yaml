@@ -14,8 +14,8 @@ amcl:
     global_frame_id: "map"
     
     # Particle filter parameters (optimized for F1TENTH racing)
-    max_particles: 500      # Maximum number of particles
-    min_particles: 100       # Minimum number of particles  
+    max_particles: 1000      # Maximum number of particles
+    min_particles: 300       # Minimum number of particles  
     kld_err: 0.05           # Maximum error between the true distribution and the KLD approximation
     kld_z: 0.99             # Upper standard normal quantile
     update_min_d: 0.0001      # Minimum translational movement to trigger filter update
