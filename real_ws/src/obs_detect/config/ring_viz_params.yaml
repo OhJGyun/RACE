@@ -55,8 +55,8 @@ simple_scan_viz:
     # 지도 경계 필터 (트랙 in/out 용)
     # outer 안 AND inner 밖인 포인트만 유지
     # ---------------------------
-    outer_bound_csv: "/home/ircv7/RACE/bound/1031_1/outer_bound.csv"
-    inner_bound_csv: "/home/ircv7/RACE/bound/1031_1/inner_bound.csv"
+    outer_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/inner_bound.csv"
 
     # ---------------------------
     # 정적/동적 판정 트래커 파트

@@ -41,11 +41,22 @@ def generate_launch_description():
     steer_viz_node = Node(
             package='rviz_2d_overlay_plugins',
             executable='string_to_overlay_text',
-            name='string_to_overlay_text',
+            name='steer_viz_node',
             output='screen',
             parameters=[
-                {"string_topic": "/viz/steering_angle"},
-                {"fg_color": "b"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+                {"string_topic": "/viz/steer"},
+                {"fg_color": "w"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+            ],
+    )
+
+    speed_viz_node = Node(
+            package='rviz_2d_overlay_plugins',
+            executable='string_to_overlay_text',
+            name='speed_viz_node',
+            output='screen',
+            parameters=[
+                {"string_topic": "/viz/speed"},
+                {"fg_color": "w"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
             ],
     )
 
@@ -74,6 +85,7 @@ def generate_launch_description():
         map_controller_node,
         drive_relay_node,
         steer_viz_node,
+        speed_viz_node,
         launch_rviz_arg,
         rviz_config_arg,
         rviz_node

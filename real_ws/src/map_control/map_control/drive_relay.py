@@ -8,7 +8,7 @@ class AckermannRelay(Node):
     def __init__(self):
         super().__init__('ackermann_relay_node')
         
-        self.max_speed = 0.0 
+        self.max_speed = 0.00
         
         self.subscription = self.create_subscription(
             AckermannDriveStamped,
@@ -18,12 +18,12 @@ class AckermannRelay(Node):
         
         self.steer_pub = self.create_publisher(
             String, 
-            '/viz/steering_angle',
+            '/viz/steer',
             10)
             
         self.speed_pub = self.create_publisher(
             String, 
-            '/viz/speed_max',
+            '/viz/speed',
             10)
 
     def listener_callback(self, msg: AckermannDriveStamped):

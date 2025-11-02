@@ -24,8 +24,8 @@ class BoundaryVizNode(Node):
 
         # Parameters
         home_dir = os.getenv('HOME', '/home/ircv7')
-        self.declare_parameter('inner_bound_csv', os.path.join(home_dir, 'RACE/bound/1102/1.0_1.0/inner_bound.csv'))
-        self.declare_parameter('outer_bound_csv', os.path.join(home_dir, 'RACE/bound/1102/1.0_1.0/outer_bound.csv'))
+        self.declare_parameter('inner_bound_csv', os.path.join(home_dir, 'RACE/bound/1102/0.5_0.5/inner_bound.csv'))
+        self.declare_parameter('outer_bound_csv', os.path.join(home_dir, 'RACE/bound/1102/0.5_0.5/outer_bound.csv'))
         self.declare_parameter('marker_frame_id', 'map')
         self.declare_parameter('publish_rate', 1.0)  # Hz
         self.declare_parameter('line_width', 0.05)

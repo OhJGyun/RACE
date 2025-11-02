@@ -1,143 +1,52 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
     """
-    Launch file for ring_viz_node (SimpleScanViz)
-    Uses fast scanline clustering with parameters eps0, k
+    ring_viz_node (SimpleScanViz) 를 파라미터 YAML과 함께 띄우는 launch 파일.
+
+    전제:
+    - 패키지 이름: obs_detect
+    - setup.py 내 console_scripts:
+        "ring_viz_node = obs_detect.simple_scan_viz:main"
+      이런 식으로 등록돼 있다고 가정.
+      (즉 ros2 run obs_detect ring_viz_node 가 돌아간다고 가정)
+    - config/ring_viz.yaml 안에 우리가 선언했던 모든 declare_parameter 값이 들어있음.
     """
 
-    # -------------------------------
-    # Declare arguments
-    # -------------------------------
-    scan_topic_arg = DeclareLaunchArgument(
-        'scan_topic', default_value='/scan',
-        description='LaserScan topic to subscribe to'
+    # 패키지 내부 구조 가정:
+    # your_pkg/
+    #   launch/ring_viz.launch.py   (요 파일)
+    #   config/ring_viz.yaml        (파라미터)
+    #
+    # launch/에서 ../config/ring_viz.yaml 상대 경로로 접근
+    this_dir = os.path.dirname(__file__)
+    config_path = os.path.normpath(
+        os.path.join(this_dir, "..", "config", "ring_viz.yaml")
     )
 
-    marker_frame_arg = DeclareLaunchArgument(
-        'marker_frame_id', default_value='map',
-        description='Frame ID for marker visualization'
+    ring_viz = Node(
+        package="obs_detect",          # ← 실제 패키지명으로 맞춰줘
+        executable="ring_viz_node",    # ← setup.py console_scripts 이름
+        name="ring_viz_node",          # ← rclpy에서 보일 node name
+        output="screen",
+        parameters=[config_path],
+        remappings=[
+            # (= topic remap)
+            # 기본 코드에서는:
+            #   LaserScan 구독: /scan   (scan_topic 파라미터로도 바꿀 수 있음)
+            #   MarkerArray 퍼블리시: scan_viz/markers
+            #   PoseArray 퍼블리시:   scan_viz/obstacles
+            #
+            # 필요한 경우 주석 풀어서 사용:
+            # ("scan_viz/obstacles", "/lane_selector/obstacles_in_ring"),
+            # ("/scan", "/scan_front"),
+        ],
     )
 
-    tf_timeout_arg = DeclareLaunchArgument(
-        'tf_timeout', default_value='0.3',
-        description='TF lookup timeout (seconds)'
-    )
-
-    db_min_samples_arg = DeclareLaunchArgument(
-        'db_min_samples', default_value='8',
-        description='Minimum number of points to form a cluster'
-    )
-
-    roi_min_dist_arg = DeclareLaunchArgument(
-        'roi_min_dist', default_value='0.20',
-        description='Minimum ROI distance (m)'
-    )
-
-    roi_max_dist_arg = DeclareLaunchArgument(
-        'roi_max_dist', default_value='6.00',
-        description='Maximum ROI distance (m)'
-    )
-
-    center_scale_arg = DeclareLaunchArgument(
-        'center_scale', default_value='0.3',
-        description='Sphere marker scale for cluster centers'
-    )
-
-    fov_deg_arg = DeclareLaunchArgument(
-        'fov_deg', default_value='120.0',
-        description='Field of view in degrees'
-    )
-
-    fov_center_deg_arg = DeclareLaunchArgument(
-        'fov_center_deg', default_value='0.0',
-        description='FOV center offset in degrees'
-    )
-
-    eps0_arg = DeclareLaunchArgument(
-        'eps0', default_value='0.12',
-        description='Base distance threshold (m) for scanline clustering'
-    )
-
-    k_arg = DeclareLaunchArgument(
-        'k', default_value='0.06',
-        description='Distance ratio coefficient for adaptive linking'
-    )
-
-    outer_bound_csv_arg = DeclareLaunchArgument(
-        'outer_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1031_1/0.7_0.7/outer_bound.csv',
-        description='Outer boundary CSV path'
-    )
-
-    inner_bound_csv_arg = DeclareLaunchArgument(
-        'inner_bound_csv',
-        default_value='/home/ircv7/RACE/bound/1031_1/0.7_0.7/inner_bound.csv',
-        description='Inner boundary CSV path'
-    )
-
-    # -------------------------------
-    # Configurations
-    # -------------------------------
-    scan_topic = LaunchConfiguration('scan_topic')
-    marker_frame_id = LaunchConfiguration('marker_frame_id')
-    tf_timeout = LaunchConfiguration('tf_timeout')
-    db_min_samples = LaunchConfiguration('db_min_samples')
-    roi_min_dist = LaunchConfiguration('roi_min_dist')
-    roi_max_dist = LaunchConfiguration('roi_max_dist')
-    center_scale = LaunchConfiguration('center_scale')
-    fov_deg = LaunchConfiguration('fov_deg')
-    fov_center_deg = LaunchConfiguration('fov_center_deg')
-    eps0 = LaunchConfiguration('eps0')
-    k = LaunchConfiguration('k')
-    outer_bound_csv = LaunchConfiguration('outer_bound_csv')
-    inner_bound_csv = LaunchConfiguration('inner_bound_csv')
-
-    # -------------------------------
-    # Node definition
-    # -------------------------------
-    ring_viz_node = Node(
-        package='obs_detect',
-        executable='ring_viz_node',
-        name='ring_viz_node',
-        output='screen',
-        parameters=[{
-            'scan_topic': scan_topic,
-            'marker_frame_id': marker_frame_id,
-            'tf_timeout': tf_timeout,
-            'db_min_samples': db_min_samples,
-            'roi_min_dist': roi_min_dist,
-            'roi_max_dist': roi_max_dist,
-            'center_scale': center_scale,
-            'fov_deg': fov_deg,
-            'fov_center_deg': fov_center_deg,
-            'eps0': eps0,
-            'k': k,
-            'outer_bound_csv': outer_bound_csv,
-            'inner_bound_csv': inner_bound_csv,
-        }],
-    )
-
-    # -------------------------------
-    # LaunchDescription
-    # -------------------------------
-    return LaunchDescription([
-        scan_topic_arg,
-        marker_frame_arg,
-        tf_timeout_arg,
-        db_min_samples_arg,
-        roi_min_dist_arg,
-        roi_max_dist_arg,
-        center_scale_arg,
-        fov_deg_arg,
-        fov_center_deg_arg,
-        eps0_arg,
-        k_arg,
-        outer_bound_csv_arg,
-        inner_bound_csv_arg,
-        ring_viz_node,
-    ])
+    return LaunchDescription([ring_viz])
