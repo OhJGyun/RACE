@@ -64,11 +64,11 @@
     speed_lookahead_for_steer: 0.1     # Time lookahead for steering calculation [s]
 
     # Lateral error speed reduction
-    lat_err_coeff: 1.0   # Coefficient for speed reduction based on lateral error [0-1]
+    lat_err_coeff: 0.75   # Coefficient for speed reduction based on lateral error [0-1]
 
     # Steering scaling based on acceleration
-    acc_scaler_for_steer: 1.0   # Increase ssteering when accelerating
-    dec_scaler_for_steer: 1.0   # Decrease steering when braking
+    acc_scaler_for_steer: 1.2   # Increase ssteering when accelerating
+    dec_scaler_for_steer: 1.5   # Decrease steering when braking
 
     # Steering scaling based on speed
     start_scale_speed: 7.0     # Speed where steering starts to scale down [m/s]

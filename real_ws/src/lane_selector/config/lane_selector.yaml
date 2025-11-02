@@ -22,7 +22,7 @@ lane_selector_node:
     update_rate_hz: 50.0            # 레인 평가 업데이트 빈도 (Hz)
 
     # ✅ 동적/정적 장애물 별도 detection hold time (코드 77-78번 줄)
-    static_detection_hold_time: 0.05    # 정적 장애물 감지 유지 시간 (50ms)
+    static_detection_hold_time: 0.1    # 정적 장애물 감지 유지 시간 (100ms)
     dynamic_detection_hold_time: 0.2    # 동적 장애물 감지 유지 시간 (200ms)
 
     # ✅ Local Planner 확장: 로컬 세그먼트 인덱스 범위 (전방/후방 분리)

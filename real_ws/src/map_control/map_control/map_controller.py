@@ -182,10 +182,10 @@ class MAP_Controller:
         steering_angle = self.speed_steer_scaling(steering_angle, speed_for_lu)
 
         # modifying steer based on velocity
-        steering_angle *= np.clip(1 + (self.speed_now/10), 1, 1.25)
+        steering_angle *= np.clip(1 + (self.speed_now/10), 1, 1.35)
 
         # limit change of steering angle
-        threshold = 0.4
+        threshold = 0.55
         if abs(steering_angle - self.curr_steering_angle) > threshold:
             self.logger_info(f"[MAP Controller] steering angle clipped")
         steering_angle = np.clip(steering_angle, self.curr_steering_angle - threshold, self.curr_steering_angle + threshold)

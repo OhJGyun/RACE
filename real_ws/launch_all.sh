@@ -90,7 +90,7 @@ cat > "$TERMINATOR_CONFIG" << 'EOF'
       parent = child1
       order = 3
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '⏱️  [4/5] Starting Lap Timer...' && ros2 run map_control lap_timer_node.py; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '⏱️  [4/5] Starting Lap Timer...' && ros2 launch map_control lap_timer.launch.py; exec zsh"
     [[[terminal5]]]
       type = Terminal
       parent = child1

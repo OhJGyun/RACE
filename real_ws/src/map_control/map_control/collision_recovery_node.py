@@ -37,8 +37,8 @@ class CollisionRecoveryNode(Node):
         # Declare configurable parameters
         self.declare_parameter('stuck_distance_threshold', 0.5)
         self.declare_parameter('stuck_time_threshold', 2.0)
-        self.declare_parameter('reverse_speed', -0.3)
-        self.declare_parameter('reverse_duration', 1.5)
+        self.declare_parameter('reverse_speed', -0.5)
+        self.declare_parameter('reverse_duration', 1.0)
         self.declare_parameter('map_frame', 'map')
         self.declare_parameter('base_frame', 'base_link')
         self.declare_parameter('command_topic', '/recovery/ackermann_cmd')
