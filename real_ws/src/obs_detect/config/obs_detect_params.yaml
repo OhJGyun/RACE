@@ -22,3 +22,13 @@ ring_viz_node:
     static_max_age: 1.0
     static_vel_thresh: 3.0
     vel_ema_alpha: 0.3
+
+boundary_viz_node:
+  ros__parameters:
+    inner_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/inner_bound.csv"
+    outer_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/outer_bound.csv"
+    marker_frame_id: "map"
+    publish_rate: 1.0
+    line_width: 0.05
+    z_height: 0.0
+    use_sim_time: false

@@ -30,6 +30,7 @@ class BoundaryVizNode(Node):
         self.declare_parameter('publish_rate', 1.0)  # Hz
         self.declare_parameter('line_width', 0.05)
         self.declare_parameter('z_height', 0.0)
+        self.declare_parameter('use_sim_time', False)
 
         # Get parameters
         self.inner_csv = self.get_parameter('inner_bound_csv').get_parameter_value().string_value
@@ -38,6 +39,10 @@ class BoundaryVizNode(Node):
         self.publish_rate = self.get_parameter('publish_rate').get_parameter_value().double_value
         self.line_width = self.get_parameter('line_width').get_parameter_value().double_value
         self.z_height = self.get_parameter('z_height').get_parameter_value().double_value
+        self.use_sim_time = self.get_parameter('use_sim_time').get_parameter_value().bool_value
+
+        if self.use_sim_time:
+            self.get_logger().info('Simulation time enabled for boundary visualization.')
 
         # Load boundaries
         self.inner_points = self._load_csv(self.inner_csv)
