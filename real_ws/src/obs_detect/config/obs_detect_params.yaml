@@ -1,0 +1,57 @@
+# ============================================================
+# Obstacle Detection Parameters
+# ============================================================
+
+/**:
+  ros__parameters:
+    # --- Scan Topic ---
+    scan_topic: "/scan"
+
+    # --- Frames ---
+    marker_frame_id: "map"
+    tf_timeout: 0.3
+
+    # --- ROI (Region of Interest) Parameters ---
+    # Distance filtering (meters)
+    roi_min_dist: 0.00
+    roi_max_dist: 3.00
+
+    # FOV (Field of View) filtering (degrees)
+    # fov_deg: total field of view angle
+    # fov_center_deg: center direction (0 = forward, positive = left, negative = right)
+    fov_deg: 120.0
+    fov_center_deg: 0.0
+
+    # --- Clustering Parameters ---
+    # Cluster size limits (number of points)
+    min_samples: 4          # Minimum number of points to form a cluster
+    max_samples: 50         # Maximum number of points (larger clusters are walls/boundaries)
+
+    # Scanline clustering parameters
+    cluster_eps0: 0.12      # Minimum link threshold (meters)
+    cluster_k: 0.06         # Distance-proportional coefficient
+
+    # --- Obstacle Size Filtering ---
+    # Maximum obstacle size (meters) - larger objects will be filtered out
+    max_obstacle_size: 0.6
+    # Minimum obstacle size (meters) - smaller objects will be filtered out
+    min_obstacle_size: 0.0
+
+    # --- Visualization ---
+    center_scale: 0.12      # Size of obstacle markers in RViz
+
+    # --- Boundary Files ---
+    # Paths to outer and inner boundary CSV files
+    outer_bound_csv: "/home/ircv7/RACE/bound/1031_1/0.7_0.7/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1031_1/0.7_0.7/inner_bound.csv"
+
+    # --- Performance Options ---
+    # Enable vectorized transformations (recommended)
+    use_vectorized_tf: true
+
+    # Enable size-based filtering
+    enable_size_filter: false
+
+    # Point sampling stride (1=use all points, 2=use every 2nd point, etc.)
+    # Higher values reduce computation but may miss small obstacles
+    sample_stride: 2

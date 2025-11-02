@@ -338,17 +338,13 @@ Visualization Manager:
         Reliability Policy: Best Effort
         Durability Policy: Volatile
       Value: true
-<<<<<<< HEAD
     - Class: rviz_2d_overlay_plugins/BarGauge
-=======
     # BarGauge is not available in this version - using TextOverlay instead
     - Class: rviz_2d_overlay_plugins/TextOverlay
->>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee
       Name: Speed
       Topic: {Value: /monitor/current_speed}
       Enabled: true
       Value: true
-<<<<<<< HEAD
       bar_color: 255; 255; 255
       bg_color: 50; 50; 50
       caption: Speed
@@ -362,7 +358,6 @@ Visualization Manager:
       top: 430
       width: 200
     - Class: rviz_2d_overlay_plugins/BarGauge
-=======
       text_size: 16
       left: 10
       top: 430
@@ -371,12 +366,10 @@ Visualization Manager:
       fg_color: 255; 255; 255
       bg_color: 50; 50; 50
     - Class: rviz_2d_overlay_plugins/TextOverlay
->>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee
       Name: Steering
-      Topic: {Value: /monitor/steering_input}
+      Topic: {Value: /ackermann_cmd/steering_angle}
       Enabled: true
       Value: true
-<<<<<<< HEAD
       bar_color: 255; 255; 255
       bg_color: 50; 50; 50
       caption: Steering
@@ -389,7 +382,6 @@ Visualization Manager:
       text_size: 14
       top: 470
       width: 200
-=======
       text_size: 16
       left: 10
       top: 470
@@ -397,7 +389,6 @@ Visualization Manager:
       height: 30
       fg_color: 255; 255; 255
       bg_color: 50; 50; 50
->>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -469,8 +460,5 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 72
-<<<<<<< HEAD
   Y: 60
-=======
   Y: 60
->>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee

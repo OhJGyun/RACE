@@ -345,11 +345,11 @@ class MAP_Controller:
             global_speed: the speed we want to follow
         """
         # scaling down global speed with lateral error and curvature
-        # lat_e_coeff = self.lat_err_coeff # must be in [0, 1]
-        # lat_e_norm *= 2
-        # curv = np.clip(2*(np.mean(self.curvature_waypoints)/0.8) - 2, a_min = 0, a_max = 1) # 0.8 ca. max curvature mean
+        lat_e_coeff = self.lat_err_coeff # must be in [0, 1]
+        lat_e_norm *= 2
+        curv = np.clip(2*(np.mean(self.curvature_waypoints)/0.8) - 2, a_min = 0, a_max = 1) # 0.8 ca. max curvature mean
 
-        # global_speed *= (1 - lat_e_coeff + lat_e_coeff*np.exp(-lat_e_norm*curv))
+        global_speed *= (1 - lat_e_coeff + lat_e_coeff*np.exp(-lat_e_norm*curv))
         return global_speed
 
     def speed_adjust_heading(self, speed_command):

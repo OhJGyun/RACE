@@ -313,46 +313,21 @@ if __name__ == "__main__":
     save_csv(valid_pts_xy, os.path.join(csv_folder, "valid_track_pts.csv"))
     np.save(os.path.join(csv_folder, "valid_track_pts"), valid_pts_xy)
 
-    # Save bounds to /home/ojg/RACE/bound/map_name/
-    bound_folder = os.path.join(module, "..", "bound", input_map)
-    os.makedirs(bound_folder, exist_ok=True)
-
-    # Save bounds with inner_safe_dist and outer_safe_dist (main bounds)
-    save_csv(safe_outer_bound, os.path.join(bound_folder, "outer_bound.csv"))
-    np.save(os.path.join(bound_folder, "outer_bound"), safe_outer_bound)
-
-    save_csv(safe_inner_bound, os.path.join(bound_folder, "inner_bound.csv"))
-    np.save(os.path.join(bound_folder, "inner_bound"), safe_inner_bound)
-
-    # Save opponent bounds with opp_safe_dist
-    save_csv(opp_outer_bound, os.path.join(bound_folder, "opp_outer_bound.csv"))
-    np.save(os.path.join(bound_folder, "opp_outer_bound"), opp_outer_bound)
-
-    save_csv(opp_inner_bound, os.path.join(bound_folder, "opp_inner_bound.csv"))
-    np.save(os.path.join(bound_folder, "opp_inner_bound"), opp_inner_bound)
-
-    # Create debug image with bounds overlaid on map
-    print("Creating debug image...")
-    debug_img = cv2.imread(img_path)
-    if debug_img is None:
-        debug_img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
-        debug_img = cv2.cvtColor(debug_img, cv2.COLOR_GRAY2BGR)
-
-    # Convert map coordinates back to pixel coordinates (using safe bounds)
-    outer_bound_pixels = inverse_transform_coords(safe_outer_bound, h, scale, offset_x, offset_y)
-    inner_bound_pixels = inverse_transform_coords(safe_inner_bound, h, scale, offset_x, offset_y)
-
-    # Draw outer bound as continuous line in red
-    for i in range(len(outer_bound_pixels)):
-        cv2.line(debug_img, tuple(outer_bound_pixels[i-1]), tuple(outer_bound_pixels[i]), (0, 0, 255), 2)
-
-    # Draw inner bound as continuous line in blue
-    for i in range(len(inner_bound_pixels)):
-        cv2.line(debug_img, tuple(inner_bound_pixels[i-1]), tuple(inner_bound_pixels[i]), (255, 0, 0), 2)
-
-    # Save debug image
-    debug_img_path = os.path.join(bound_folder, "debug_bounds.png")
-    cv2.imwrite(debug_img_path, debug_img)
-    print(f"Debug image saved to {debug_img_path}")
-
-    print("Finish")
+    # ============================================================
+    # NOTE: Boundary saving removed!
+    # Use boundary_generator.py instead for boundary generation
+    # ============================================================
+    print("\n" + "="*60)
+    print("✅ Lane generation complete!")
+    print("="*60)
+    print(f"📂 Output directory: {csv_folder}")
+    print("\n📝 Generated files:")
+    print(f"   - Lanes: {len(lanes)} files")
+    print(f"   - Track points: track.csv")
+    print(f"   - Valid track points: valid_track_pts.csv")
+    print("\n⚠️  NOTE: Boundaries are NOT saved by lane_generator")
+    print("   Use boundary_generator.py to create boundaries:")
+    print("   $ cd ~/RACE/trajectory_generator")
+    print("   $ python3 boundary_generator.py")
+    print("="*60)
+    print("\nFinish")

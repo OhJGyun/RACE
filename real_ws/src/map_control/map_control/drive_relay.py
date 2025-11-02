@@ -2,42 +2,53 @@
 import rclpy
 from rclpy.node import Node
 from ackermann_msgs.msg import AckermannDriveStamped
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 
-class DriveRelay(Node):
+class AckermannRelay(Node):
     def __init__(self):
-        super().__init__('drive_relay')
-
-        # /teleop 토픽 구독
-        self.teleop_sub = self.create_subscription(
+        super().__init__('ackermann_relay_node')
+        
+        # /ackermann_cmd 토픽을 구독합니다.
+        self.subscription = self.create_subscription(
             AckermannDriveStamped,
-            '/teleop',  # AckermannDriveStamped 메시지를 받음
-            self.drive_callback,
+            '/ackermann_cmd',  # 구독할 토픽
+            self.listener_callback,
+            10)
+        
+        # RViz가 볼 수 있도록 단순한 Float64 타입으로 발행할 퍼블리셔
+        self.steer_pub = self.create_publisher(
+            Float64, 
+            '/viz/steering_angle',  # RViz용 스티어링 토픽
+            10)
+            
+        self.speed_pub = self.create_publisher(
+            Float64, 
+            '/viz/speed',           # RViz용 속도 토픽
             10)
 
-        # RViz 오버레이가 사용할 토픽 발행
-        self.speed_pub = self.create_publisher(Float32, '/monitor/current_speed', 10)
-        self.steer_pub = self.create_publisher(Float32, '/monitor/steering_input', 10)
-
-        self.get_logger().info('Drive Relay 노드가 시작되었습니다. /teleop 토픽을 변환합니다.')
-
-    def drive_callback(self, msg: AckermannDriveStamped):
-        # 속도 값 추출 및 발행
-        speed_msg = Float32()
-        speed_msg.data = msg.drive.speed
-        self.speed_pub.publish(speed_msg)
+    def listener_callback(self, msg: AckermannDriveStamped):
+        # Float64 메시지를 새로 만듭니다.
+        steer_msg = String()
+        speed_msg = String()
         
-        # 조향각 값 추출 및 발행
-        steer_msg = Float32()
+        # 값을 복사합니다.
         steer_msg.data = msg.drive.steering_angle
+        speed_msg.data = msg.drive.speed
+        
+        # 새로 만든 토픽으로 발행합니다.
         self.steer_pub.publish(steer_msg)
+        self.speed_pub.publish(speed_msg)
 
 def main(args=None):
     rclpy.init(args=args)
-    drive_relay = DriveRelay()
-    rclpy.spin(drive_relay)
-    drive_relay.destroy_node()
-    rclpy.shutdown()
+    node = AckermannRelay()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

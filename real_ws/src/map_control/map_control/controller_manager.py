@@ -23,7 +23,8 @@ from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseStamped, PoseArray, Pose
 from nav_msgs.msg import Odometry, Path
 from sensor_msgs.msg import Imu
-from std_msgs.msg import Float32, Int32
+from std_msgs.msg import Float32, Int32, Int32MultiArray  # 레인 세그먼트 정보를 받기 위한 Int32MultiArray 사용
+from visualization_msgs.msg import Marker, MarkerArray
 from transforms3d.euler import quat2euler
 from tf2_ros import TransformException, LookupException, ConnectivityException, ExtrapolationException, Buffer, TransformListener
 import csv
@@ -74,6 +75,11 @@ class ControllerManager(Node):
         self.lane_change_active = False  # Flag for lane change in progress
         self.lane_change_start_time = None  # Time when lane change started
         self.lane_change_duration = 1.0  # Duration to apply reduced LD (seconds)
+        # 레인별 Frenet 변환기 캐시 (세그먼트만 써도 s/d는 전체 레인 기준으로 일관 유지)
+        self._lane_frenet_converters = []
+
+        # 🔄 Circular track: 마지막 nearest waypoint 인덱스 캐시 (성능 최적화)
+        self.last_nearest_idx = None
 
         # Control state
         self.state = "RACING"  # Simplified: no state machine, always racing
@@ -131,6 +137,12 @@ class ControllerManager(Node):
         self.lookahead_distance_pub = self.create_publisher(Float32, '/map_controller/lookahead_distance', 10)
         self.path_pub = self.create_publisher(Path, '/map_controller/path', 10)
         self.waypoints_pose_pub = self.create_publisher(PoseArray, '/map_controller/waypoints_pose', 10)
+        # Speed error publishers
+        self.speed_error_pub = self.create_publisher(Float32, '/map_controller/speed_error', 10)
+        self.speed_ref_pub = self.create_publisher(Float32, '/map_controller/speed_ref', 10)
+        self.speed_actual_pub = self.create_publisher(Float32, '/map_controller/speed_actual', 10)
+        # Speed text visualization
+        self.speed_text_pub = self.create_publisher(MarkerArray, '/map_controller/speed_text', 10)
         self._path_published_once = False
 
         # Subscribers
@@ -181,6 +193,15 @@ class ControllerManager(Node):
             )
             self.get_logger().info(f"Subscribed to {self.lane_selector_topic} for lane switching")
 
+            # 레인 세그먼트(로컬 윈도우) 갱신 토픽 구독
+            self.lane_segment_sub = self.create_subscription(
+                Int32MultiArray,              # data = [lane_id, start_idx, end_idx)
+                self.lane_segment_topic,      # lane_selector에서 퍼블리시하는 세그먼트 토픽
+                self.lane_segment_callback,   # 세그먼트 수신 콜백: 활성 웨이포인트 덩어리를 갱신
+                10,                           # 큐 크기
+            )
+            self.get_logger().info(f"Subscribed to {self.lane_segment_topic} for local segments")
+
         # Control loop timer
         self.timer = self.create_timer(1.0 / self.loop_rate, self.control_loop)
 
@@ -203,8 +224,11 @@ class ControllerManager(Node):
         # Multi-lane support
         self.declare_parameter('lane_csv_paths', [''])  # List of lane CSV paths (empty string for type inference)
         self.declare_parameter('lane_selector_topic', '/lane_selector/target_lane')
+        self.declare_parameter('lane_segment_topic', 'lane_selector/current_segment')  # 세그먼트 수신 토픽 이름
         self.declare_parameter('lane_change_ld_gain', 0.7)  # LD multiplier during lane change (0~1)
         self.declare_parameter('lane_change_speed_gain', 0.7)  # Speed multiplier during lane change (0~1)
+        # 로컬 세그먼트 크롭: 차량 인덱스 기준 양쪽 점 개수 (총 2*n 사용)
+        self.declare_parameter('segment_points_each_side', 0)
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -248,8 +272,10 @@ class ControllerManager(Node):
         # Multi-lane support
         self.lane_csv_paths = self.get_parameter('lane_csv_paths').value
         self.lane_selector_topic = self.get_parameter('lane_selector_topic').value
+        self.lane_segment_topic = self.get_parameter('lane_segment_topic').value  # 세그먼트 토픽
         self.lane_change_ld_gain = self.get_parameter('lane_change_ld_gain').value
         self.lane_change_speed_gain = self.get_parameter('lane_change_speed_gain').value
+        self.segment_points_each_side = int(self.get_parameter('segment_points_each_side').value)  # 세그먼트 크기(한쪽)
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
@@ -307,6 +333,22 @@ class ControllerManager(Node):
             self.current_lane_idx = 0
             self.track_length = self.waypoint_array_in_map[-1, 4]
             self.has_waypoints = True
+            # 세그먼트 모드에서도 s/d 일관성을 위해 레인별 Frenet 변환기 생성
+            self._lane_frenet_converters = []
+            for idx, wp in enumerate(self.lane_waypoints):
+                try:
+                    conv = FrenetConverter(
+                        waypoints_x=wp[:, 0],
+                        waypoints_y=wp[:, 1],
+                        waypoints_psi=wp[:, 6],
+                    )
+                    self._lane_frenet_converters.append(conv)  # 생성 성공 시 목록에 추가
+                except Exception as e:
+                    self.get_logger().warn(f"Frenet converter init failed for lane {idx}: {e}")
+                    self._lane_frenet_converters.append(None)  # 실패 시 자리 채우기
+            # 현재 활성 레인의 Frenet 변환기로 설정
+            if self._lane_frenet_converters and self._lane_frenet_converters[0] is not None:
+                self.frenet_converter = self._lane_frenet_converters[0]
             self.get_logger().info(f"✅ Multi-lane initialized: {len(self.lane_waypoints)} lanes, default lane 0")
             return
 
@@ -432,7 +474,9 @@ class ControllerManager(Node):
             pose_simple.orientation.w = qw
             pose_array.poses.append(pose_simple)
 
-        if len(self.waypoint_array_in_map) > 1:
+        # 세그먼트 모드(track_length == 0.0)에서는 닫힘선을 그리지 않음
+        # 전체 랩 경로(폐곡선)일 때만 시작점을 다시 추가하여 시각적으로 닫힌 경로 표시
+        if len(self.waypoint_array_in_map) > 1 and self.track_length > 0.0:
             first = self.waypoint_array_in_map[0]
 
             closing_pose = PoseStamped()
@@ -641,6 +685,10 @@ class ControllerManager(Node):
         self.current_lane_idx = desired_lane
         self.waypoint_array_in_map = self.lane_waypoints[desired_lane]
         self.track_length = self.waypoint_array_in_map[-1, 4]
+        # 레인 변경 시, 프레네 변환기도 해당 레인의 전체 경로 기준으로 교체
+        if 0 <= desired_lane < len(self._lane_frenet_converters):
+            if self._lane_frenet_converters[desired_lane] is not None:
+                self.frenet_converter = self._lane_frenet_converters[desired_lane]
 
         # Activate lane change mode: apply reduced LD and speed for better tracking
         self.lane_change_active = True
@@ -649,6 +697,71 @@ class ControllerManager(Node):
         self.get_logger().info(
             f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints), "
             f"LD×{self.lane_change_ld_gain:.2f}, Speed×{self.lane_change_speed_gain:.2f} for {self.lane_change_duration:.1f}s"
+        )
+
+    def lane_segment_callback(self, msg: Int32MultiArray):
+        """
+        lane_selector에서 퍼블리시한 로컬 세그먼트 갱신 처리
+        🔄 Circular track: msg.data = [lane_id, start_idx, end_idx, num_points]
+        """
+        if not self.lane_waypoints:
+            return
+        if not msg.data or len(msg.data) < 3:
+            return
+
+        lane_id = int(msg.data[0])
+        start_idx = int(msg.data[1])
+        end_idx = int(msg.data[2])
+        num_points = int(msg.data[3]) if len(msg.data) >= 4 else 0  # 🔄 순환 판별용
+
+        if lane_id < 0 or lane_id >= len(self.lane_waypoints):
+            self.get_logger().warn(f"[SEGMENT] invalid lane_id {lane_id}")
+            return
+
+        full = self.lane_waypoints[lane_id]
+        n = len(full)
+        if n == 0:
+            return
+
+        # 🔄 Circular track: wrap-around 처리
+        if num_points > 0 and num_points == n:
+            # lane_selector가 순환 인덱스를 보냄
+            if end_idx > start_idx:
+                # 정상 범위
+                segment = full[start_idx:end_idx]
+            else:
+                # Wrap-around: 끝 + 처음 연결
+                segment = np.vstack([full[start_idx:], full[:end_idx]])
+        else:
+            # 레거시 모드: 클램핑 사용
+            start_idx = max(0, min(start_idx, n - 1))
+            end_idx = max(start_idx + 1, min(end_idx, n))
+            segment = full[start_idx:end_idx]
+
+        if len(segment) < 2:  # 최소 2점 이상 필요
+            return
+
+        # 레인이 바뀌었으면 활성 레인 교체 및 Frenet 변환기 동기화
+        if lane_id != self.current_lane_idx:
+            self.current_lane_idx = lane_id
+            # 🔄 레인 변경 시 nearest waypoint 캐시 리셋
+            self.last_nearest_idx = None
+            # s/d 일관성을 위해 전체 레인 기준 변환기로 교체
+            if 0 <= lane_id < len(self._lane_frenet_converters):
+                if self._lane_frenet_converters[lane_id] is not None:
+                    self.frenet_converter = self._lane_frenet_converters[lane_id]
+
+        # 제어/시각화에는 로컬 세그먼트만 사용
+        self.waypoint_array_in_map = segment
+        # 세그먼트 모드에서는 s 기반 탐색 대신 인덱스 기반 L1 계산을 쓰도록 트랙 길이를 0으로 설정
+        self.track_length = 0.0
+
+        # 웨이포인트 사용 가능 플래그 활성화
+        self.has_waypoints = True
+        # 로그(스로틀)
+        self.get_logger().info(
+            f"[SEGMENT] lane={lane_id}, segment=[{start_idx}, {end_idx}) ({len(segment)} pts)",
+            throttle_duration_sec=1.0,
         )
 
     def _load_single_waypoint_file(self, csv_path: str):
@@ -715,14 +828,43 @@ class ControllerManager(Node):
             self.get_logger().error(f"Failed to load {csv_path}: {e}")
             return None
 
-    def nearest_waypoint(self, position):
-        """Find index of nearest waypoint to position"""
+    def nearest_waypoint(self, position, window_size=50):
+        """
+        Find index of nearest waypoint to position
+        🔄 Circular track: 로컬 윈도우 탐색으로 성능 최적화
+        """
         if not self.has_waypoints:
             return 0
 
-        position_array = np.array([position] * len(self.waypoint_array_in_map))
-        distances = np.linalg.norm(position_array - self.waypoint_array_in_map[:, :2], axis=1)
-        return np.argmin(distances)
+        waypoints = self.waypoint_array_in_map[:, :2]
+        num_points = len(waypoints)
+
+        # 🔄 첫 호출 또는 레인 변경 후: 전체 탐색
+        if self.last_nearest_idx is None or self.last_nearest_idx >= num_points:
+            position_array = np.array([position] * num_points)
+            distances = np.linalg.norm(position_array - waypoints, axis=1)
+            self.last_nearest_idx = int(np.argmin(distances))
+            return self.last_nearest_idx
+
+        # 🔄 로컬 윈도우 탐색 (세그먼트는 이미 작으므로 전체 탐색)
+        # 세그먼트가 작을 때는 전체 탐색이 더 빠를 수 있음
+        if num_points <= window_size * 2:
+            position_array = np.array([position] * num_points)
+            distances = np.linalg.norm(position_array - waypoints, axis=1)
+            self.last_nearest_idx = int(np.argmin(distances))
+            return self.last_nearest_idx
+
+        # 큰 배열에서만 로컬 윈도우 탐색
+        start_idx = max(0, self.last_nearest_idx - window_size)
+        end_idx = min(num_points, self.last_nearest_idx + window_size)
+
+        local_waypoints = waypoints[start_idx:end_idx]
+        position_array = np.array([position] * len(local_waypoints))
+        distances = np.linalg.norm(position_array - local_waypoints, axis=1)
+        local_min_idx = int(np.argmin(distances))
+
+        self.last_nearest_idx = start_idx + local_min_idx
+        return self.last_nearest_idx
 
     def control_loop(self):
         """Main control loop - called at loop_rate Hz"""
@@ -800,11 +942,116 @@ class ControllerManager(Node):
                 # jerk는 변화율이므로 gain^2 적용
                 jerk = jerk * (self.lane_change_speed_gain ** 2)
 
+            # 🚗 Speed error logging: ref_speed (CSV) vs actual_speed (ackermann)
+            ref_speed = speed  # Controller output (from CSV profile)
+            actual_speed = self.speed_now  # Current vehicle speed (from odometry)
+            speed_error = ref_speed - actual_speed
+            speed_error_pct = (speed_error / ref_speed * 100.0) if abs(ref_speed) > 0.1 else 0.0
+
+            # Publish speed error metrics
+            speed_error_msg = Float32()
+            speed_error_msg.data = float(speed_error)
+            self.speed_error_pub.publish(speed_error_msg)
+
+            speed_ref_msg = Float32()
+            speed_ref_msg.data = float(ref_speed)
+            self.speed_ref_pub.publish(speed_ref_msg)
+
+            speed_actual_msg = Float32()
+            speed_actual_msg.data = float(actual_speed)
+            self.speed_actual_pub.publish(speed_actual_msg)
+
+            # 📊 Speed text visualization in RViz2 - Horizontal layout
+            marker_array = MarkerArray()
+            current_time = self.get_clock().now().to_msg()
+
+            # Get vehicle position for marker placement
+            vehicle_x = self.position_in_map[0, 0]
+            vehicle_y = self.position_in_map[0, 1]
+
+            # 가로 배치를 위한 오프셋 (차량 왼쪽에서 오른쪽으로)
+            horizontal_spacing = 10.0  # 텍스트 간격 (미터)
+            text_height = 1.0  # 차량 위 높이
+
+            # Text 1: Reference Speed (green) - 왼쪽
+            marker_ref = Marker()
+            marker_ref.header.frame_id = "map"
+            marker_ref.header.stamp = current_time
+            marker_ref.ns = "speed_info"
+            marker_ref.id = 0
+            marker_ref.type = Marker.TEXT_VIEW_FACING
+            marker_ref.action = Marker.ADD
+            marker_ref.pose.position.x = vehicle_x - horizontal_spacing
+            marker_ref.pose.position.y = vehicle_y
+            marker_ref.pose.position.z = text_height
+            marker_ref.pose.orientation.w = 1.0
+            marker_ref.scale.z = -5.0  # Text height
+            marker_ref.color.r = 0.0
+            marker_ref.color.g = 1.0
+            marker_ref.color.b = 0.0
+            marker_ref.color.a = 1.0
+            marker_ref.text = f"Ref: {ref_speed:.2f} m/s"
+            marker_array.markers.append(marker_ref)
+
+            # Text 2: Actual Speed (blue) - 중앙
+            marker_actual = Marker()
+            marker_actual.header.frame_id = "map"
+            marker_actual.header.stamp = current_time
+            marker_actual.ns = "speed_info"
+            marker_actual.id = 1
+            marker_actual.type = Marker.TEXT_VIEW_FACING
+            marker_actual.action = Marker.ADD
+            marker_actual.pose.position.x = vehicle_x
+            marker_actual.pose.position.y = vehicle_y
+            marker_actual.pose.position.z = text_height
+            marker_actual.pose.orientation.w = 1.0
+            marker_actual.scale.z = 0.3
+            marker_actual.color.r = 0.0
+            marker_actual.color.g = 0.5
+            marker_actual.color.b = 1.0
+            marker_actual.color.a = 1.0
+            marker_actual.text = f"Act: {actual_speed:.2f} m/s"
+            marker_array.markers.append(marker_actual)
+
+            # Text 3: Speed Error (red/yellow based on magnitude) - 오른쪽
+            marker_error = Marker()
+            marker_error.header.frame_id = "map"
+            marker_error.header.stamp = current_time
+            marker_error.ns = "speed_info"
+            marker_error.id = 2
+            marker_error.type = Marker.TEXT_VIEW_FACING
+            marker_error.action = Marker.ADD
+            marker_error.pose.position.x = vehicle_x + horizontal_spacing
+            marker_error.pose.position.y = vehicle_y
+            marker_error.pose.position.z = text_height
+            marker_error.pose.orientation.w = 1.0
+            marker_error.scale.z = 0.3
+            # Color: red if error > 1.0, yellow if error > 0.5, white otherwise
+            if abs(speed_error) > 1.0:
+                marker_error.color.r = 1.0
+                marker_error.color.g = 0.0
+                marker_error.color.b = 0.0
+            elif abs(speed_error) > 0.5:
+                marker_error.color.r = 1.0
+                marker_error.color.g = 1.0
+                marker_error.color.b = 0.0
+            else:
+                marker_error.color.r = 1.0
+                marker_error.color.g = 1.0
+                marker_error.color.b = 1.0
+            marker_error.color.a = 1.0
+            marker_error.text = f"Err: {speed_error:+.2f} m/s ({speed_error_pct:+.1f}%)"
+            marker_array.markers.append(marker_error)
+
+            # Publish marker array
+            self.speed_text_pub.publish(marker_array)
+
             # Debug output
             self.get_logger().info(
                 f"Control: pos=({self.position_in_map[0,0]:.2f},{self.position_in_map[0,1]:.2f}), "
-                f"speed={speed:.2f}{'*' if self.lane_change_active else ''}, steer={steering_angle:.3f}, "
-                f"frenet=({self.position_in_map_frenet[0]:.2f},{self.position_in_map_frenet[1]:.2f})",
+                f"ref_spd={ref_speed:.2f}{'*' if self.lane_change_active else ''}, "
+                f"act_spd={actual_speed:.2f}, err={speed_error:+.2f} ({speed_error_pct:+.1f}%), "
+                f"steer={steering_angle:.3f}, frenet=({self.position_in_map_frenet[0]:.2f},{self.position_in_map_frenet[1]:.2f})",
                 throttle_duration_sec=1.0
             )
 
@@ -861,4 +1108,3 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
