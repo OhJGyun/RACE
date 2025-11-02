@@ -24,9 +24,10 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import Command
 from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, LogInfo, RegisterEventHandler
 from launch.actions import IncludeLaunchDescription
 from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
+from launch.event_handlers import OnShutdown
 from ament_index_python.packages import get_package_share_directory
 import os
 
@@ -137,5 +138,23 @@ def generate_launch_description():
     ld.add_action(sick_node)
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
+
+    stop_ackermann = ExecuteProcess(
+        cmd=[
+            'ros2', 'topic', 'pub', '--once',
+            '/ackermann_drive',
+            'ackermann_msgs/msg/AckermannDriveStamped',
+            '{header: {frame_id: base_link}, drive: {speed: 0.0, steering_angle: 0.0}}'
+        ],
+        shell=False
+    )
+    ld.add_action(RegisterEventHandler(
+        OnShutdown(
+            on_shutdown=[
+                LogInfo(msg='Publishing zero Ackermann command on shutdown.'),
+                stop_ackermann,
+            ]
+        )
+    ))
 
     return ld

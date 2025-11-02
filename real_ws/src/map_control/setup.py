@@ -28,6 +28,8 @@ setup(
             'map_controller = map_control.controller_manager:main',
             'drive_relay = map_control.drive_relay:main',
             'lap_timer_node = map_control.lap_timer_node:main',
+            'collision_recovery_node = map_control.collision_recovery_node:main',
+            'ackermann_cmd_mux = map_control.ackermann_cmd_mux:main',
         ],
     },
 )
