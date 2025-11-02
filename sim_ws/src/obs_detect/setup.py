@@ -12,9 +12,11 @@ setup(
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/config', [
             'config/obs_detect.yaml',
+            'config/obs_detect_params.yaml',
         ]),
         ('share/' + package_name + '/launch', [
             'launch/obs_detect_launch.py',
+            'launch/ring_viz_optimized.launch.py',
         ]),
     ],
     install_requires=['setuptools'],
@@ -27,6 +29,7 @@ setup(
     entry_points={
         'console_scripts': [
             'obs_detect_node = obs_detect.obs_detect_node:main',
+            'ring_viz_optimized = obs_detect.ring_viz_node_optimized:main',
         ],
     },
 )

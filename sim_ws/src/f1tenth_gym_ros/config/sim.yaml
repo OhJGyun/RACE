@@ -42,7 +42,7 @@ bridge:
     scan_beams: 1080
 
     # map parameters
-    map_path: '/home/ojg/RACE/map/1031_1'
+    map_path: '/home/ojg/RACE/map/1031_1_with_obstacle'
     map_img_ext: '.pgm'
 
     # opponent parameters
