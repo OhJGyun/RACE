@@ -475,11 +475,61 @@ class MAP_Controller:
         # Previous RACE implementation using s-based lookup (kept for reference):
         current_index = int(idx_waypoint_behind_car) % len(waypoints)
         if self.track_length <= 0.0:
-            # fallback: use simple index wrap with estimated spacing
-            approx_spacing = np.maximum(1e-3, np.linalg.norm(waypoints[(current_index + 1) % len(waypoints), :2] - waypoints[current_index, :2]))
-            steps = int(round(distance / approx_spacing))
-            target_index = (current_index + steps) % len(waypoints)
-            return np.array(waypoints[target_index])
+            # Segment mode: walk along the local polyline by arc-length and interpolate
+            pts = waypoints  # Nx2 (x,y)
+            n = len(pts)
+            i = int(current_index)
+            # clamp indices to segment bounds
+            i = max(0, min(i, n - 1))
+
+            # remaining distance to travel along the polyline
+            remaining = float(distance if distance is not None else self.t_clip_min)
+
+            # Use the car's current position to compute fractional progress on the current edge
+            p_car = np.array([self.position_in_map[0, 0], self.position_in_map[0, 1]])
+            if i < n - 1:
+                p0 = pts[i, :2]
+                p1 = pts[i + 1, :2]
+                seg = p1 - p0
+                seg_len = float(np.linalg.norm(seg))
+                if seg_len > 1e-6:
+                    # projection of car onto current segment to estimate offset
+                    t0 = float(np.clip(np.dot(p_car - p0, seg) / (seg_len ** 2), 0.0, 1.0))
+                    offset_on_seg = (1.0 - t0) * seg_len
+                else:
+                    t0 = 0.0
+                    offset_on_seg = 0.0
+
+                if remaining <= offset_on_seg and seg_len > 1e-6:
+                    # target lies on the current edge between i and i+1
+                    t = t0 + remaining / seg_len
+                    xy = p0 + t * seg
+                    return np.array([xy[0], xy[1]])
+                # consume the leftover on current edge and advance
+                remaining -= offset_on_seg
+                k = i + 1
+            else:
+                # at the last point: nothing ahead, clamp to last
+                return np.array(pts[-1, :2])
+
+            # march forward along subsequent edges within the segment
+            while k < n - 1 and remaining > 0.0:
+                a = pts[k, :2]
+                b = pts[k + 1, :2]
+                seg = b - a
+                seg_len = float(np.linalg.norm(seg))
+                if seg_len < 1e-6:
+                    k += 1
+                    continue
+                if remaining <= seg_len:
+                    t = remaining / seg_len
+                    xy = a + t * seg
+                    return np.array([xy[0], xy[1]])
+                remaining -= seg_len
+                k += 1
+
+            # if we ran out of points within the segment window, clamp to last point
+            return np.array(pts[-1, :2])
         
         current_s = self.waypoint_array_in_map[current_index, 4]
         target_s = current_s + distance
