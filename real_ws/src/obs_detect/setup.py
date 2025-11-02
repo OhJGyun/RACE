@@ -23,8 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'obs_detect_node = obs_detect.obs_detect_node:main',
-            'ring_viz_node = obs_detect.ring_viz_node:main',
-            'ring_viz_optimized = obs_detect.ring_viz_node_optimized:main',
+            'ring_obs_node = obs_detect.ring_obs_node:main',
             'boundary_viz_node = obs_detect.boundary_viz_node:main',
             'obs_detect_real_node = obs_detect.joon_obs_node:main',
         ],

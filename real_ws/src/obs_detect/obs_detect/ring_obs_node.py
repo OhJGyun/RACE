@@ -3,17 +3,20 @@
 """
 Optimized LaserScan → map 변환 → 초경량 클러스터링 → 중심만 RViz 시각화
 + CSV로 읽은 outer/inner 경계 사이(outer 안 ∧ inner 밖)에 있는 중심만 통과
++ 프레임 간 트래킹으로 정적/동적 분류
++ PoseArray에 z=0(정적) / z=1(동적) 담아서 lane_selector에서 바로 사용
 
 Key Optimizations:
 1. Index-based FOV filtering (no angle normalization in loop)
 2. NumPy vectorized TF transformation
 3. Config-based parameters
 4. Optional size-based filtering
+5. Static/Dynamic obstacle classification with tracking
 """
 
 from __future__ import annotations
 import os, csv, math
-from typing import List, Tuple, Sequence, Optional
+from typing import List, Tuple, Sequence, Optional, Dict
 import numpy as np
 
 import rclpy
@@ -89,14 +92,13 @@ def in_ring(x: float, y: float, outer: Optional[Sequence[Point2D]], inner: Optio
 # -------------------------------
 # 초경량 스캔라인 기반 클러스터링 (O(N))
 # -------------------------------
-def fast_scanline_clusters(r_list, ang_inc, original_indices=None, min_samples=4, max_samples=50, eps0=0.12, k=0.06, max_index_gap=2):
+def fast_scanline_clusters(r_list, th_list, min_samples=4, max_samples=50, eps0=0.12, k=0.06):
     """
     연속한 빔 간 거리로 클러스터링 (정렬된 스캔 전제)
 
     Args:
         r_list: 거리 리스트
-        ang_inc: 연속된 빔 간 각도 간격 (라디안, 샘플링 반영됨)
-        original_indices: 원본 스캔에서의 인덱스 (선택, 연속성 체크용)
+        th_list: 각도 리스트 (라디안)
         min_samples: 최소 클러스터 크기
         max_samples: 최대 클러스터 크기 (큰 클러스터는 벽면/경계선으로 간주)
         eps0: 최소 연결 임계 (m)
@@ -106,29 +108,16 @@ def fast_scanline_clusters(r_list, ang_inc, original_indices=None, min_samples=4
     if n == 0:
         return []
 
-    # 최적화: 연속된 빔 간 각도가 일정하므로 cos(ang_inc) 한 번만 계산
-    cos_ang_inc = math.cos(ang_inc)
-
     clusters = []
     cur = [0]
 
     for i in range(1, n):
-        # 최적화: 원본 인덱스가 연속적이지 않으면 다른 클러스터
-        if original_indices is not None:
-            idx_gap = original_indices[i] - original_indices[i - 1]
-            # allow gaps up to max_index_gap (handles down-sampling)
-            if idx_gap > max_index_gap:
-                # 인덱스 비연속 → 무조건 새 클러스터
-                # min/max 범위 체크
-                if min_samples <= len(cur) <= max_samples:
-                    clusters.append(cur)
-                cur = [i]
-                continue
-
-        # 거리 기반 클러스터링
+        # 거리 기반 클러스터링 (실제 각도 차이 사용)
         r0, r1 = r_list[i - 1], r_list[i]
-        # 최적화: cos(ang_inc) 재사용 (연속된 빔 간 각도는 일정)
-        dij = math.sqrt(r0 * r0 + r1 * r1 - 2.0 * r0 * r1 * cos_ang_inc)
+        dth = th_list[i] - th_list[i - 1]  # 실제 각도 차이
+
+        # 두 점 사이의 유클리드 거리 계산
+        dij = math.sqrt(r0 * r0 + r1 * r1 - 2.0 * r0 * r1 * math.cos(dth))
         link = max(eps0, k * min(r0, r1))
 
         if dij <= link:
@@ -153,6 +142,8 @@ class SimpleScanViz(Node):
     """
     Optimized LaserScan → map 변환 → 초경량 클러스터링 → 중심 표시
     + CSV outer/inner 링 필터
+    + 간단한 트래커 기반 정적/동적 분리
+    + PoseArray(z=0 정적 / z=1 동적) 퍼블리시
     """
 
     def __init__(self):
@@ -168,10 +159,10 @@ class SimpleScanViz(Node):
         self.declare_parameter("center_scale", 0.12)
         self.declare_parameter("fov_deg", 120.0)
         self.declare_parameter("fov_center_deg", 0.0)
-        self.declare_parameter("outer_bound_csv", "/home/ircv7/RACE/bound/1031_1/outer_bound.csv")
-        self.declare_parameter("inner_bound_csv", "/home/ircv7/RACE/bound/1031_1/inner_bound.csv")
+        self.declare_parameter("outer_bound_csv", "/home/ircv7/RACE/bound/1102/1.0_1.0/outer_bound.csv")
+        self.declare_parameter("inner_bound_csv", "/home/ircv7/RACE/bound/1102/1.0_1.0/inner_bound.csv")
 
-        # New parameters
+        # Optimization parameters
         self.declare_parameter("cluster_eps0", 0.12)
         self.declare_parameter("cluster_k", 0.06)
         self.declare_parameter("max_samples", 50)
@@ -180,6 +171,13 @@ class SimpleScanViz(Node):
         self.declare_parameter("use_vectorized_tf", True)
         self.declare_parameter("enable_size_filter", False)
         self.declare_parameter("sample_stride", 2)
+
+        # Tracking parameters for static/dynamic classification
+        self.declare_parameter("static_radius", 0.25)
+        self.declare_parameter("static_min_hits", 5)
+        self.declare_parameter("static_max_age", 3.0)
+        self.declare_parameter("static_vel_thresh", 0.08)
+        self.declare_parameter("vel_ema_alpha", 0.3)
 
         # 파라미터 로드
         self.scan_topic = self.get_parameter("scan_topic").value
@@ -194,7 +192,7 @@ class SimpleScanViz(Node):
         self.outer_csv = self.get_parameter("outer_bound_csv").value
         self.inner_csv = self.get_parameter("inner_bound_csv").value
 
-        # New parameters
+        # Optimization parameters
         self.cluster_eps0 = float(self.get_parameter("cluster_eps0").value)
         self.cluster_k = float(self.get_parameter("cluster_k").value)
         self.max_samples = int(self.get_parameter("max_samples").value)
@@ -203,6 +201,13 @@ class SimpleScanViz(Node):
         self.use_vectorized_tf = bool(self.get_parameter("use_vectorized_tf").value)
         self.enable_size_filter = bool(self.get_parameter("enable_size_filter").value)
         self.sample_stride = int(self.get_parameter("sample_stride").value)
+
+        # Tracking parameters
+        self.static_radius = float(self.get_parameter("static_radius").value)
+        self.static_min_hits = int(self.get_parameter("static_min_hits").value)
+        self.static_max_age = float(self.get_parameter("static_max_age").value)
+        self.static_vel_thresh = float(self.get_parameter("static_vel_thresh").value)
+        self.vel_ema_alpha = float(self.get_parameter("vel_ema_alpha").value)
 
         # 경계 로드
         self.outer_poly = load_world_csv(self.outer_csv) if self.outer_csv else []
@@ -228,6 +233,17 @@ class SimpleScanViz(Node):
         self.fov_idx_max = None
         self.fov_indices_computed = False
 
+        # Tracker state
+        # track_id -> {
+        #   "anchor_x","anchor_y": anchor position (fixed reference point)
+        #   "last_x","last_y":     last observed position
+        #   "t_last","t0":         last/first observation time [s]
+        #   "hits":                cumulative observation count
+        #   "v_avg":               EMA velocity [m/s]
+        # }
+        self._tracks: Dict[int, dict] = {}
+        self._next_track_id = 1
+
         self.get_logger().info(
             f"[init] scan={self.scan_topic}, frame={self.marker_frame}, "
             f"ROI=[{self.roi_min_dist},{self.roi_max_dist}]m, "
@@ -235,8 +251,16 @@ class SimpleScanViz(Node):
             f"cluster_size=[{self.min_samples},{self.max_samples}], "
             f"vectorized_tf={self.use_vectorized_tf}, "
             f"size_filter={self.enable_size_filter}, "
-            f"sample_stride={self.sample_stride}"
+            f"sample_stride={self.sample_stride}, "
+            f"tracking: radius={self.static_radius}m, min_hits={self.static_min_hits}, "
+            f"vel_thresh={self.static_vel_thresh}m/s"
         )
+
+    # ---------------------------
+    # 내부 유틸: 거리
+    # ---------------------------
+    def _dist(self, x1: float, y1: float, x2: float, y2: float) -> float:
+        return math.hypot(x1 - x2, y1 - y2)
 
     # ---------------------------
     # TF lookup
@@ -253,9 +277,92 @@ class SimpleScanViz(Node):
         return R, T
 
     # ---------------------------
-    # 퍼블리시 헬퍼
+    # 오래된 트랙 정리
     # ---------------------------
-    def _publish_clear(self):
+    def _prune_tracks(self, now_sec: float) -> None:
+        """Remove old tracks that haven't been updated recently."""
+        dead_ids = [
+            tid for tid, tr in self._tracks.items()
+            if (now_sec - tr["t_last"]) > self.static_max_age
+        ]
+        for tid in dead_ids:
+            self._tracks.pop(tid, None)
+
+    # ---------------------------
+    # Static track classification
+    # ---------------------------
+    def _is_static_track(self, tr: dict) -> bool:
+        """
+        Classify track as static based on observation count, position stability, and velocity.
+
+        A track is considered static if:
+        1. It has been observed enough times (>= static_min_hits)
+        2. It stays close to its anchor position (<= static_radius)
+        3. Its average velocity is low (<= static_vel_thresh)
+        """
+        # Need sufficient observations
+        if tr["hits"] < self.static_min_hits:
+            return False
+        # Check if it stays near anchor and moves slowly
+        near_anchor = (
+            self._dist(tr["last_x"], tr["last_y"], tr["anchor_x"], tr["anchor_y"])
+            <= self.static_radius
+        )
+        slow_enough = (tr["v_avg"] <= self.static_vel_thresh)
+        return near_anchor and slow_enough
+
+    # ---------------------------
+    # Update tracker with current frame centers
+    # ---------------------------
+    def _ingest_centers_to_tracks(self,
+                                  centers_xy: List[Tuple[float, float]],
+                                  now_sec: float) -> None:
+        """Update or create tracks based on detected obstacle centers."""
+        for (cx, cy) in centers_xy:
+            # Find existing track near this position (same object)
+            best_id = None
+            best_d = 1e9
+            for tid, tr in self._tracks.items():
+                d = self._dist(cx, cy, tr["anchor_x"], tr["anchor_y"])
+                if d <= self.static_radius and d < best_d:
+                    best_d = d
+                    best_id = tid
+
+            if best_id is None:
+                # Create new track
+                tid_new = self._next_track_id
+                self._next_track_id += 1
+                self._tracks[tid_new] = {
+                    "anchor_x": cx,
+                    "anchor_y": cy,
+                    "last_x": cx,
+                    "last_y": cy,
+                    "t0": now_sec,
+                    "t_last": now_sec,
+                    "hits": 1,
+                    "v_avg": 0.0,
+                }
+            else:
+                # Update existing track
+                tr = self._tracks[best_id]
+                dt = max(1e-3, now_sec - tr["t_last"])
+                dx = cx - tr["last_x"]
+                dy = cy - tr["last_y"]
+                v_inst = math.hypot(dx, dy) / dt  # Instantaneous velocity
+
+                a = self.vel_ema_alpha
+                tr["v_avg"] = a * v_inst + (1.0 - a) * tr["v_avg"]
+
+                tr["hits"]   += 1
+                tr["last_x"]  = cx
+                tr["last_y"]  = cy
+                tr["t_last"]  = now_sec
+
+    # ---------------------------
+    # Publish helpers
+    # ---------------------------
+    def _publish_clear(self) -> None:
+        """Clear all published markers and obstacles."""
         arr = MarkerArray()
         m = Marker(); m.action = Marker.DELETEALL
         arr.markers.append(m)
@@ -267,12 +374,24 @@ class SimpleScanViz(Node):
         debug_arr.markers.append(m_debug)
         self.pub_debug.publish(debug_arr)
 
-    def _publish_debug_centers(self, all_centers: List[Point], filtered_centers: List[Point]):
+        # Clear scan debug markers
+        scan_debug_arr = MarkerArray()
+        m_scan_debug = Marker(); m_scan_debug.action = Marker.DELETEALL
+        scan_debug_arr.markers.append(m_scan_debug)
+        self.pub_scan_debug.publish(scan_debug_arr)
+
+        # Clear obstacles
+        empty_pa = PoseArray()
+        empty_pa.header.frame_id = self.marker_frame
+        empty_pa.header.stamp = self.get_clock().now().to_msg()
+        self.pub_obstacles.publish(empty_pa)
+
+    def _publish_debug_centers(self, all_centers: List[Point], filtered_centers: List[Point]) -> None:
         """
-        Publish debug visualization with different colors:
-        - RED: All detected cluster centers (before in_ring filter)
-        - GREEN: Centers that passed in_ring filter
-        - BLUE: Centers that were filtered out
+        Debug visualization: publish three-color markers
+        - RED: all cluster centers (before in_ring filter)
+        - BLUE: filtered out clusters (outside ring)
+        - GREEN: final detected obstacles (inside ring)
         """
         debug_arr = MarkerArray()
         now = self.get_clock().now().to_msg()
@@ -348,13 +467,13 @@ class SimpleScanViz(Node):
                                      all_points: List[Point],
                                      fov_points: List[Point],
                                      sampled_points: List[Point],
-                                     clustered_points: List[Point]):
+                                     clustered_points: List[Point]) -> None:
         """
-        스캔 처리 과정 디버그 시각화
-        - GRAY: 전체 스캔 포인트 (ROI 필터링 후)
-        - CYAN: FOV 필터링 후 포인트
-        - MAGENTA: 샘플링 후 포인트
-        - ORANGE: 클러스터링된 포인트
+        Scan processing pipeline debug visualization
+        - GRAY: all scan points (after ROI filtering)
+        - CYAN: after FOV filtering
+        - MAGENTA: after sampling
+        - ORANGE: clustered points
         """
         arr = MarkerArray()
         now = self.get_clock().now().to_msg()
@@ -437,8 +556,15 @@ class SimpleScanViz(Node):
 
         self.pub_scan_debug.publish(arr)
 
-    def _publish_centers(self, centers: List[Point]):
-        # MarkerArray for visualization
+    def _publish_centers(self, centers: List[Point], static_mask: List[bool]) -> None:
+        """
+        Publish obstacle centers as MarkerArray (visualization) and PoseArray (for lane_selector).
+
+        Args:
+            centers: obstacle centers in map frame
+            static_mask[i]: True if static, False if dynamic
+        """
+        # MarkerArray for visualization (yellow)
         arr = MarkerArray()
         m = Marker()
         m.header.frame_id = self.marker_frame
@@ -461,27 +587,29 @@ class SimpleScanViz(Node):
         self.pub.publish(arr)
 
         # PoseArray for lane_selector
+        # position.x, position.y = 장애물 map 좌표
+        # position.z = 0.0(정적) / 1.0(동적)
         pose_arr = PoseArray()
         pose_arr.header.frame_id = self.marker_frame
         pose_arr.header.stamp = self.get_clock().now().to_msg()
-        for pt in centers:
+        for pt, is_static in zip(centers, static_mask):
             pose = Pose()
             pose.position.x = pt.x
             pose.position.y = pt.y
-            pose.position.z = 0.0
+            pose.position.z = 0.0 if is_static else 1.0
             pose.orientation.w = 1.0
             pose_arr.poses.append(pose)
         self.pub_obstacles.publish(pose_arr)
 
     # ---------------------------
-    # FOV 인덱스 계산 (최적화: 각도 범위 → 인덱스 범위)
+    # FOV index computation (optimization: angle range → index range)
     # ---------------------------
-    def _compute_fov_indices(self, ang_min: float, ang_inc: float, n_ranges: int):
+    def _compute_fov_indices(self, ang_min: float, ang_inc: float, n_ranges: int) -> Tuple[int, int]:
         """
-        FOV 각도 범위를 인덱스 범위로 미리 계산
+        Pre-compute FOV angle range as index range for optimization.
 
         Returns:
-            (idx_min, idx_max): 유효한 인덱스 범위 [idx_min, idx_max)
+            (idx_min, idx_max): valid index range [idx_min, idx_max)
         """
         fov_rad = math.radians(self.fov_deg)
         fov_center = math.radians(self.fov_center_deg)
@@ -498,9 +626,9 @@ class SimpleScanViz(Node):
         return idx_min, idx_max
 
     # ---------------------------
-    # 스캔 콜백 (최적화 버전)
+    # Scan callback (optimized + tracking version)
     # ---------------------------
-    def _on_scan(self, scan: LaserScan):
+    def _on_scan(self, scan: LaserScan) -> None:
         laser_frame = scan.header.frame_id or "laser"
         try:
             R_ml, T_ml = self._lookup_latest(self.marker_frame, laser_frame)
@@ -516,7 +644,10 @@ class SimpleScanViz(Node):
         if n_ranges == 0 or ang_inc == 0.0:
             return
 
-        # FOV 인덱스 계산 (첫 스캔에서만 한 번)
+        # Current time (for tracking)
+        now_sec = self.get_clock().now().nanoseconds * 1e-9
+
+        # FOV index computation (once per first scan)
         if not self.fov_indices_computed:
             self.fov_idx_min, self.fov_idx_max = self._compute_fov_indices(ang_min, ang_inc, n_ranges)
             self.fov_indices_computed = True
@@ -526,22 +657,22 @@ class SimpleScanViz(Node):
             )
 
         # ==========================================
-        # 1) ROI/FOV 필터링 (최적화: 인덱스 기반)
+        # 1) ROI/FOV filtering (optimized: index-based)
         # ==========================================
 
-        # 디버그: 전체 스캔 포인트 수집 (ROI 필터 전, laser frame)
+        # Debug: collect all scan points (before ROI filter, laser frame)
         all_angles = ang_min + np.arange(n_ranges) * ang_inc
         all_valid_mask = ~(np.isnan(ranges) | np.isinf(ranges))
         all_valid_mask &= (ranges >= rmin) & (ranges <= rmax)
         all_valid_indices = np.where(all_valid_mask)[0]
 
-        # FOV 인덱스 범위로 슬라이싱
+        # Slice to FOV index range
         idx_start = self.fov_idx_min
         idx_end = self.fov_idx_max
 
         ranges_fov = ranges[idx_start:idx_end]
 
-        # Valid range mask (NaN, Inf, rmin, rmax 체크)
+        # Valid range mask (check NaN, Inf, rmin, rmax)
         valid_mask = ~(np.isnan(ranges_fov) | np.isinf(ranges_fov))
         valid_mask &= (ranges_fov >= rmin) & (ranges_fov <= rmax)
 
@@ -550,83 +681,72 @@ class SimpleScanViz(Node):
         if use_roi:
             valid_mask &= (ranges_fov >= self.roi_min_dist) & (ranges_fov <= self.roi_max_dist)
 
-        # 유효한 인덱스 추출
+        # Extract valid indices
         valid_indices = np.where(valid_mask)[0]
 
         if len(valid_indices) == 0:
             self._publish_clear()
+            self._prune_tracks(now_sec)
             return
 
-        # 디버그: FOV 필터링 후 인덱스 (전역 인덱스)
+        # Debug: FOV filtered indices (global indices)
         fov_global_indices = valid_indices + idx_start
 
-        # 샘플링 (stride 적용)
+        # Sampling (apply stride)
         sampled_indices = valid_indices
         if self.sample_stride > 1:
             sampled_indices = valid_indices[::self.sample_stride]
             if len(sampled_indices) == 0:
                 self._publish_clear()
+                self._prune_tracks(now_sec)
                 return
 
-        # 디버그: 샘플링 후 인덱스 (전역 인덱스)
+        # Debug: sampled indices (global indices)
         sampled_global_indices = sampled_indices + idx_start
 
-        # 필터링된 거리
+        # Filtered distances
         r_list = ranges_fov[sampled_indices].tolist()
 
-        # 각도 계산 (FOV 범위 내에서만)
+        # Angle computation (only within FOV range)
         angles_fov = ang_min + np.arange(idx_start, idx_end) * ang_inc
         th_list = angles_fov[sampled_indices].tolist()
 
-        # 원본 인덱스 추적 (연속성 체크용)
-        original_indices = valid_indices.tolist()
-
-        # 샘플링을 고려한 유효 각도 간격 및 클러스터 파라미터 계산
-        # sample_stride=2이면 연속된 빔 간 각도는 ang_inc × 2
-        effective_ang_inc = ang_inc * self.sample_stride
-
-        # 샘플링 비율에 따라 클러스터링 임계값도 조정
-        # stride가 클수록 빔 간 거리가 멀어지므로 eps0도 비례하여 증가
-        effective_eps0 = self.cluster_eps0 * self.sample_stride
-        effective_k = self.cluster_k * self.sample_stride
-
         # ==========================================
-        # 2) 초경량 클러스터링 (크기 필터링 포함)
+        # 2) Lightweight clustering (with size filtering)
         # ==========================================
         idx_clusters = fast_scanline_clusters(
             r_list,
-            ang_inc=effective_ang_inc,
-            original_indices=original_indices,
+            th_list,
             min_samples=self.min_samples,
             max_samples=self.max_samples,
-            eps0=effective_eps0,
-            k=effective_k,
-            max_index_gap=self.sample_stride
+            eps0=self.cluster_eps0,
+            k=self.cluster_k
         )
 
         if len(idx_clusters) == 0:
             self._publish_clear()
+            self._prune_tracks(now_sec)
             return
 
         # ==========================================
-        # 3) 중심 계산 및 map 변환 (최적화: 벡터화)
+        # 3) Center computation and map transformation (optimized: vectorized)
         # ==========================================
 
         if self.use_vectorized_tf:
-            # 벡터화 버전: 전체 스캔을 한 번에 변환
+            # Vectorized version: transform entire scan at once
             angles = np.array(th_list)
             ranges_arr = np.array(r_list)
 
-            # Cartesian 좌표 (laser frame)
+            # Cartesian coordinates (laser frame)
             x_laser = ranges_arr * np.cos(angles)
             y_laser = ranges_arr * np.sin(angles)
             z_laser = np.zeros_like(ranges_arr)
 
-            # 한 번에 map frame으로 변환
+            # Transform to map frame at once
             xyz_laser = np.vstack([x_laser, y_laser, z_laser])
             xyz_map = R_ml @ xyz_laser + T_ml[:, np.newaxis]
 
-            # 디버그: 전체 스캔을 map frame으로 변환
+            # Debug: transform entire scan to map frame
             all_angles_valid = all_angles[all_valid_indices]
             all_ranges_valid = ranges[all_valid_indices]
             all_x_laser = all_ranges_valid * np.cos(all_angles_valid)
@@ -635,7 +755,7 @@ class SimpleScanViz(Node):
             all_xyz_laser = np.vstack([all_x_laser, all_y_laser, all_z_laser])
             all_xyz_map = R_ml @ all_xyz_laser + T_ml[:, np.newaxis]
 
-            # 디버그: FOV 필터링 후 포인트
+            # Debug: FOV filtered points
             fov_angles = all_angles[fov_global_indices]
             fov_ranges = ranges[fov_global_indices]
             fov_x_laser = fov_ranges * np.cos(fov_angles)
@@ -644,16 +764,16 @@ class SimpleScanViz(Node):
             fov_xyz_laser = np.vstack([fov_x_laser, fov_y_laser, fov_z_laser])
             fov_xyz_map = R_ml @ fov_xyz_laser + T_ml[:, np.newaxis]
 
-            # 디버그: 샘플링 후 포인트 (이미 xyz_map에 있음)
+            # Debug: sampled points (already in xyz_map)
             sampled_xyz_map = xyz_map
 
-            # 디버그: 클러스터링된 포인트만 수집
+            # Debug: collect clustered points only
             clustered_indices = []
             for idxs in idx_clusters:
                 clustered_indices.extend(idxs)
             clustered_xyz_map = xyz_map[:, clustered_indices]
 
-            # 디버그 포인트 리스트 생성
+            # Debug point list creation
             all_points_debug = [Point(x=all_xyz_map[0, i], y=all_xyz_map[1, i], z=0.0)
                                for i in range(all_xyz_map.shape[1])]
             fov_points_debug = [Point(x=fov_xyz_map[0, i], y=fov_xyz_map[1, i], z=0.0)
@@ -663,7 +783,7 @@ class SimpleScanViz(Node):
             clustered_points_debug = [Point(x=clustered_xyz_map[0, i], y=clustered_xyz_map[1, i], z=0.0)
                                      for i in range(clustered_xyz_map.shape[1])]
 
-            # 클러스터별 중심 계산
+            # Per-cluster center computation
             centers = []
             obstacle_sizes = []
 
@@ -671,17 +791,17 @@ class SimpleScanViz(Node):
                 cluster_x = xyz_map[0, idxs]
                 cluster_y = xyz_map[1, idxs]
 
-                # 중심
+                # Center
                 center_x = np.mean(cluster_x)
                 center_y = np.mean(cluster_y)
 
-                # Size 계산 (optional)
+                # Size computation (optional)
                 if self.enable_size_filter:
                     x_min, x_max = np.min(cluster_x), np.max(cluster_x)
                     y_min, y_max = np.min(cluster_y), np.max(cluster_y)
                     size = max(x_max - x_min, y_max - y_min)
 
-                    # Size 필터링
+                    # Size filtering
                     if size > self.max_obstacle_size or size < self.min_obstacle_size:
                         continue
 
@@ -690,8 +810,8 @@ class SimpleScanViz(Node):
                 centers.append(Point(x=center_x, y=center_y, z=0.0))
 
         else:
-            # 기존 버전: 개별 변환 (호환성 유지)
-            # 디버그 포인트는 벡터화 모드에서만 지원
+            # Legacy version: individual transformation (for compatibility)
+            # Debug points only supported in vectorized mode
             all_points_debug = []
             fov_points_debug = []
             sampled_points_debug = []
@@ -709,42 +829,77 @@ class SimpleScanViz(Node):
                 centers.append(Point(x=sx/n, y=sy/n, z=0.0))
 
         # ==========================================
-        # 4) CSV 링 필터
+        # 4) CSV ring filter
         # ==========================================
         centers_ring = [p for p in centers if in_ring(p.x, p.y,
                                                       self.outer_poly or None,
                                                       self.inner_poly or None)]
 
+        # Prune old tracks
+        self._prune_tracks(now_sec)
+
         # ==========================================
-        # 4.5) 디버그 시각화 퍼블리시
+        # 4.5) Publish debug visualization
         # ==========================================
-        # Always publish debug visualization to see filtering effect
         self._publish_debug_centers(centers, centers_ring)
 
-        # 4.6) 스캔 처리 과정 디버그 시각화 (벡터화 모드에서만)
+        # 4.6) Scan processing debug visualization (vectorized mode only)
         if self.use_vectorized_tf:
             self._publish_scan_process_debug(all_points_debug, fov_points_debug,
                                             sampled_points_debug, clustered_points_debug)
 
         # ==========================================
-        # 5) 로그 및 퍼블리시
+        # 5) Tracker update and static/dynamic classification
         # ==========================================
-        if centers_ring:
-            # 변화가 있을 때만 로그 (성능 최적화)
-            if not hasattr(self, '_prev_obstacle_count') or \
-               len(centers_ring) != self._prev_obstacle_count:
-                self.get_logger().info(
-                    f"[OBSTACLE DETECTED] {len(centers_ring)} obstacle(s) in ring "
-                    f"(total detected: {len(centers)}, filtered out: {len(centers) - len(centers_ring)})"
-                )
-                self._prev_obstacle_count = len(centers_ring)
-
-            self._publish_centers(centers_ring)
-        else:
+        if not centers_ring:
+            # Clear if no obstacles in ring
             if not hasattr(self, '_prev_obstacle_count') or self._prev_obstacle_count != 0:
                 self.get_logger().info(f"[CLEAR] No obstacles in ring (total detected: {len(centers)})")
                 self._prev_obstacle_count = 0
             self._publish_clear()
+            return
+
+        # Update tracker (for static/dynamic classification)
+        centers_xy = [(p.x, p.y) for p in centers_ring]
+        self._ingest_centers_to_tracks(centers_xy, now_sec)
+
+        static_mask: List[bool] = []
+        for (cx, cy) in centers_xy:
+            # Find closest track by anchor and check if it's static
+            best_id = None
+            best_d = 1e9
+            for tid, tr in self._tracks.items():
+                d = self._dist(cx, cy, tr["anchor_x"], tr["anchor_y"])
+                if d < best_d:
+                    best_d = d
+                    best_id = tid
+            is_static_here = False
+            if best_id is not None:
+                tr = self._tracks[best_id]
+                is_static_here = self._is_static_track(tr)
+            static_mask.append(is_static_here)
+
+        # ==========================================
+        # 6) Logging and publish
+        # ==========================================
+        n_total = len(centers_ring)
+        n_static = sum(static_mask)
+        n_moving = n_total - n_static
+
+        # Log only when there are changes (performance optimization)
+        if not hasattr(self, '_prev_obstacle_count') or \
+           not hasattr(self, '_prev_static_count') or \
+           n_total != self._prev_obstacle_count or \
+           n_static != self._prev_static_count:
+            self.get_logger().info(
+                f"[OBSTACLE DETECTED] total={n_total}, static={n_static}, moving={n_moving} "
+                f"(total detected: {len(centers)}, filtered out: {len(centers) - len(centers_ring)})"
+            )
+            self._prev_obstacle_count = n_total
+            self._prev_static_count = n_static
+
+        # RViz (MarkerArray) + PoseArray for lane_selector (z=0/1)
+        self._publish_centers(centers_ring, static_mask)
 
 
 # -------------------------------
