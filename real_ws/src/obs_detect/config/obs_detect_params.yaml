@@ -56,7 +56,7 @@ simple_scan_viz:
     # outer 안 AND inner 밖인 포인트만 유지
     # ---------------------------
     outer_bound_csv: "/home/ircv7/RACE/bound/1031_1/0.7_0.7/outer_bound.csv"
-    inner_bound_csv: "/home/ircv7/RACE/bound/1031_1/0.7_0.7/inner_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1031_1/inner_bound.csv"
 
     # ---------------------------
     # 정적/동적 판정 트래커 파트
