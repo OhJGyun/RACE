@@ -30,8 +30,8 @@ class LapTimerNode(Node):
         # ====================================================================
         # Map 좌표계 기준으로 결승선을 정의하는 두 점
         # 예시: (x1, y1), (x2, y2)
-        self.finish_line_p1 = np.array([-1.9, 4.77], dtype=np.float64)
-        self.finish_line_p2 = np.array([-1.08, 2.9], dtype=np.float64)
+        self.finish_line_p1 = np.array([-3.5, 4.6], dtype=np.float64)
+        self.finish_line_p2 = np.array([-3.4, 2.2], dtype=np.float64)
 
         # 결승선 근처 허용 범위 (미터)
         self.finish_line_tolerance = 0.5
