@@ -19,13 +19,13 @@ def generate_launch_description():
     # Launch arguments
     inner_csv_arg = DeclareLaunchArgument(
         'inner_bound_csv',
-        default_value=os.path.join(home_dir, 'RACE/bound/1031_1/0.7_0.7/inner_bound.csv'),
+        default_value=os.path.join(home_dir, 'RACE/bound/1102/1.0_1.0/inner_bound.csv'),
         description='Path to inner boundary CSV file'
     )
 
     outer_csv_arg = DeclareLaunchArgument(
         'outer_bound_csv',
-        default_value=os.path.join(home_dir, 'RACE/bound/1031_1/0.7_0.7/outer_bound.csv'),
+        default_value=os.path.join(home_dir, 'RACE/bound/1102/1.0_1.0/outer_bound.csv'),
         description='Path to outer boundary CSV file'
     )
 
