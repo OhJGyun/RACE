@@ -1,12 +1,12 @@
 # The following params are for maps
-map_name: '1031_1'
+map_name: '1102'
 map_img_ext: '.pgm'
 
 # The following params are for path generator
 num_lanes: 1
 clockwise: False
-inner_safe_dist: 0.7
-outer_safe_dist: 0.7
+inner_safe_dist: 1.0
+outer_safe_dist: 1.0
 opp_safe_dist: 0.3
 
 # The following params are for opponent predictor
