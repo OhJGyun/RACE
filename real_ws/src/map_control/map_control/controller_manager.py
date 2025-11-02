@@ -66,6 +66,7 @@ class ControllerManager(Node):
         self.position_in_map_frenet = np.array([0.0, 0.0, 0.0, 0.0])  # [s, d, vs, vd] - simplified
         self.speed_now = 0.0
         self.acc_now = np.zeros(5)  # last 5 acceleration values
+        self.max_speed_achieved = 0.0  # 🏁 최고 속도 기록
         self.waypoint_array_in_map = None
         self.track_length = 0.0
 
@@ -141,6 +142,7 @@ class ControllerManager(Node):
         self.speed_error_pub = self.create_publisher(Float32, '/map_controller/speed_error', 10)
         self.speed_ref_pub = self.create_publisher(Float32, '/map_controller/speed_ref', 10)
         self.speed_actual_pub = self.create_publisher(Float32, '/map_controller/speed_actual', 10)
+        self.max_speed_pub = self.create_publisher(Float32, '/map_controller/max_speed', 10)
         # Speed text visualization
         self.speed_text_pub = self.create_publisher(MarkerArray, '/map_controller/speed_text', 10)
         self._path_published_once = False
@@ -948,6 +950,11 @@ class ControllerManager(Node):
             speed_error = ref_speed - actual_speed
             speed_error_pct = (speed_error / ref_speed * 100.0) if abs(ref_speed) > 0.1 else 0.0
 
+            # 🏁 Update max speed achieved
+            if actual_speed > self.max_speed_achieved:
+                self.max_speed_achieved = actual_speed
+                self.get_logger().info(f"🏁 New max speed: {self.max_speed_achieved:.2f} m/s", throttle_duration_sec=2.0)
+
             # Publish speed error metrics
             speed_error_msg = Float32()
             speed_error_msg.data = float(speed_error)
@@ -960,6 +967,10 @@ class ControllerManager(Node):
             speed_actual_msg = Float32()
             speed_actual_msg.data = float(actual_speed)
             self.speed_actual_pub.publish(speed_actual_msg)
+
+            max_speed_msg = Float32()
+            max_speed_msg.data = float(self.max_speed_achieved)
+            self.max_speed_pub.publish(max_speed_msg)
 
             # 📊 Speed text visualization in RViz2 - Horizontal layout
             marker_array = MarkerArray()

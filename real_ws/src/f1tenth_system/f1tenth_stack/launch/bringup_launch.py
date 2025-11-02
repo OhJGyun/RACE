@@ -128,15 +128,6 @@ def generate_launch_description():
         arguments=['0.27', '0.0', '0.11', '0.0', '0.0', '0.0', 'base_link', 'laser']
     )
 
-    drive_relay_node = Node(
-        package='map_control',
-        executable='drive_relay',
-        name='drive_relay',
-        output='screen'
-    )
-
-
-
     # finalize
     ld.add_action(joy_node)
     ld.add_action(joy_teleop_node)
@@ -147,6 +138,5 @@ def generate_launch_description():
     ld.add_action(urg_node)
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
-    ld.add_action(drive_relay_node)
-
+    
     return ld

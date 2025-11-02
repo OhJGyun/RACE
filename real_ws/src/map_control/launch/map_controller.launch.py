@@ -31,6 +31,24 @@ def generate_launch_description():
         parameters=[config],
     )
 
+    drive_relay_node = Node(
+            package='map_control',
+            executable='drive_relay',
+            name='drive_relay',
+            output='screen',
+    )
+
+    steer_viz_node = Node(
+            package='rviz_2d_overlay_plugins',
+            executable='string_to_overlay_text',
+            name='string_to_overlay_text',
+            output='screen',
+            parameters=[
+                {"string_topic": "/viz/steering_angle"},
+                {"fg_color": "b"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+            ],
+    )
+
     launch_rviz_arg = DeclareLaunchArgument(
         'launch_rviz',
         default_value='true',
@@ -54,6 +72,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         map_controller_node,
+        drive_relay_node,
+        steer_viz_node,
         launch_rviz_arg,
         rviz_config_arg,
         rviz_node

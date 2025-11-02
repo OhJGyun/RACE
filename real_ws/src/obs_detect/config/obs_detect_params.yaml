@@ -1,57 +1,92 @@
-# ============================================================
-# Obstacle Detection Parameters
-# ============================================================
-
-/**:
+simple_scan_viz:
   ros__parameters:
-    # --- Scan Topic ---
+    # LaserScan 구독 토픽
     scan_topic: "/scan"
 
-    # --- Frames ---
+    # 마커/출력 좌표계 (보통 "map")
     marker_frame_id: "map"
+
+    # TF lookup timeout (sec)
     tf_timeout: 0.3
 
-    # --- ROI (Region of Interest) Parameters ---
-    # Distance filtering (meters)
-    roi_min_dist: 0.00
-    roi_max_dist: 3.00
+    # ---------------------------
+    # 클러스터링 / 감지 관련
+    # ---------------------------
 
-    # FOV (Field of View) filtering (degrees)
-    # fov_deg: total field of view angle
-    # fov_center_deg: center direction (0 = forward, positive = left, negative = right)
-    fov_deg: 120.0
-    fov_center_deg: 0.0
+    # 한 클러스터로 인정할 최소 포인트 수
+    min_samples: 8
 
-    # --- Clustering Parameters ---
-    # Cluster size limits (number of points)
-    min_samples: 4          # Minimum number of points to form a cluster
-    max_samples: 50         # Maximum number of points (larger clusters are walls/boundaries)
+    # 한 클러스터로 인정할 최대 포인트 수
+    # (너무 큰 건 벽/라인으로 보고 버림)
+    max_samples: 50
 
-    # Scanline clustering parameters
-    cluster_eps0: 0.12      # Minimum link threshold (meters)
-    cluster_k: 0.06         # Distance-proportional coefficient
+    # 레이저 range 기반 ROI [m]
+    roi_min_dist: 0.20
+    roi_max_dist: 6.00
 
-    # --- Obstacle Size Filtering ---
-    # Maximum obstacle size (meters) - larger objects will be filtered out
-    max_obstacle_size: 0.6
-    # Minimum obstacle size (meters) - smaller objects will be filtered out
+    # RViz에서 그려줄 구체(SPHERE_LIST) 반지름 비슷한 스케일 [m]
+    center_scale: 0.5
+
+    # FOV 설정
+    # fov_deg: 전체 시야각 (deg)
+    # fov_center_deg: 시야 중심각 (deg)
+    #   ex) fov_deg=90, fov_center_deg=-15  -> 실제 사용각은 약 [-60°, +30°]
+    fov_deg: 90.0
+    fov_center_deg: -15.0
+
+    # 레이저 샘플 stride (빔 다운샘플링: 1=전부, 2=2칸마다 등)
+    sample_stride: 2
+
+    # 클러스터링 거리 임계 기본값
+    # fast_scanline_clusters에서 dij <= max(eps0, k*min(r0,r1)) 기준
+    cluster_eps0: 0.12
+    cluster_k: 0.06
+
+    # ---------------------------
+    # 크기 기반 필터링 (옵션)
+    # enable_size_filter=true면 클러스터의 가로/세로 span으로 필터
+    # span이 min_obstacle_size보다 작거나 max_obstacle_size보다 크면 버림
+    # ---------------------------
+    enable_size_filter: false
     min_obstacle_size: 0.0
+    max_obstacle_size: 0.5
 
-    # --- Visualization ---
-    center_scale: 0.12      # Size of obstacle markers in RViz
-
-    # --- Boundary Files ---
-    # Paths to outer and inner boundary CSV files
+    # ---------------------------
+    # 지도 경계 필터 (트랙 in/out 용)
+    # outer 안 AND inner 밖인 포인트만 유지
+    # ---------------------------
     outer_bound_csv: "/home/ircv7/RACE/bound/1031_1/0.7_0.7/outer_bound.csv"
     inner_bound_csv: "/home/ircv7/RACE/bound/1031_1/0.7_0.7/inner_bound.csv"
 
-    # --- Performance Options ---
-    # Enable vectorized transformations (recommended)
+    # ---------------------------
+    # 정적/동적 판정 트래커 파트
+    # ---------------------------
+
+    # static_radius:
+    #   - 트랙(anchor)와 현재 감지 center 사이가 이 반경 안이면
+    #     같은 물체로 본다
+    #   - 동시에 "앵커에서 거의 안 움직였다" 판정에도 사용
+    static_radius: 0.3
+
+    # static_min_hits:
+    #   - 같은 anchor에 몇 번 이상 반복 관측되어야 "신뢰할만함"
+    static_min_hits: 2
+
+    # static_max_age (sec):
+    #   - 마지막으로 본 뒤 이 시간보다 오래 안 보이면 트랙 폐기
+    static_max_age: 3.0
+
+    # static_vel_thresh (m/s):
+    #   - EMA된 평균 속도 v_avg가 이 값 이하이면 "느리다=정적 후보"
+    static_vel_thresh: 0.08
+
+    # vel_ema_alpha:
+    #   - 속도 지수이동평균 EMA 가중치
+    #   - 1.0에 가까울수록 최신 속도에 민감, 작을수록 천천히 변함
+    vel_ema_alpha: 0.3
+
+    # ---------------------------
+    # TF 변환 최적화
+    # ---------------------------
+    # use_vectorized_tf=true -> Numpy로 한번에 laser→map 변환
     use_vectorized_tf: true
-
-    # Enable size-based filtering
-    enable_size_filter: false
-
-    # Point sampling stride (1=use all points, 2=use every 2nd point, etc.)
-    # Higher values reduce computation but may miss small obstacles
-    sample_stride: 2
