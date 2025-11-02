@@ -9,9 +9,3 @@
 /sim_ws/
 /f1tenth_backup/
 
-# Python cache files
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python

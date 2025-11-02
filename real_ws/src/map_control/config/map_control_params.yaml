@@ -26,7 +26,7 @@
 
     # Lane change behavior: reduce LD and speed during lane changes for better tracking
     lane_change_ld_gain: 0.5     # LD multiplier during lane change [0.0-1.0] (0.5 = 50% reduction)
-    lane_change_speed_gain: 0.6  # Speed multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
+    lane_change_speed_gain: 0.55  # Speed multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
 
     # ------------------------------------------------------------------------
     # Localization Configuration (TF-first approach)
@@ -64,7 +64,7 @@
     speed_lookahead_for_steer: 0.1     # Time lookahead for steering calculation [s]
 
     # Lateral error speed reduction
-    lat_err_coeff: 0.0   # Coefficient for speed reduction based on lateral error [0-1]
+    lat_err_coeff: 1.0   # Coefficient for speed reduction based on lateral error [0-1]
 
     # Steering scaling based on acceleration
     acc_scaler_for_steer: 1.0   # Increase ssteering when accelerating

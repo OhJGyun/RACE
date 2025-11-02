@@ -29,10 +29,10 @@ echo "🚀 F1TENTH Race Full Stack 시작..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "5개의 런치 파일을 Terminator의 각 탭에서 실행합니다:"
 echo "  1. SLAM & Localization"
-echo "  2. MAP Controller"
-echo "  3. Lane Selector"
-echo "  4. Ring Obstacle Detection"
-echo "  5. Boundary Visualization"
+echo "  2. Lane Selector"
+echo "  3. Ring Obstacle Detection"
+echo "  4. Lap Timer"
+echo "  5. MAP Controller"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Terminator 설정 파일 생성 (임시)
@@ -66,7 +66,7 @@ cat > "$TERMINATOR_CONFIG" << 'EOF'
       type = Notebook
       parent = child0
       order = 0
-      labels = SLAM & Localization, MAP Controller, Lane Selector, Ring Detection, Boundary Viz
+      labels = SLAM & Localization, Lane Selector, Ring Detection, Lap Timer, MAP Controller
     [[[terminal1]]]
       type = Terminal
       parent = child1
@@ -78,25 +78,25 @@ cat > "$TERMINATOR_CONFIG" << 'EOF'
       parent = child1
       order = 1
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '🛣️  [2/5] Starting MAP Controller...' && ros2 launch map_control map_controller.launch.py launch_rviz:=false; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '🚦 [2/5] Starting Lane Selector...' && ros2 launch lane_selector lane_selector_launch.py; exec zsh"
     [[[terminal3]]]
       type = Terminal
       parent = child1
       order = 2
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 5 && echo '🚦 [3/5] Starting Lane Selector...' && ros2 launch lane_selector lane_selector_launch.py; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '⭕ [3/5] Starting Ring Obstacle Detection...' && ros2 launch obs_detect ring_obs.launch.py; exec zsh"
     [[[terminal4]]]
       type = Terminal
       parent = child1
       order = 3
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 7 && echo '⭕ [4/5] Starting Ring Obstacle Detection...' && ros2 launch obs_detect ring_viz_optimized.launch.py; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 3 && echo '⏱️  [4/5] Starting Lap Timer...' && ros2 run map_control lap_timer_node.py; exec zsh"
     [[[terminal5]]]
       type = Terminal
       parent = child1
       order = 4
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 9 && echo '📊 [5/5] Starting Boundary Visualization...' && ros2 launch obs_detect boundary_viz.launch.py launch_rviz:=false; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 20 && echo '🛣️  [5/5] Starting MAP Controller...' && ros2 launch map_control map_controller.launch.py launch_rviz:=false; exec zsh"
 
 [plugins]
 EOF

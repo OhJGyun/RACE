@@ -18,7 +18,7 @@ lane_selector_node:
     lookahead_distance: 15.0        # 전방 감지 거리 (미터)
     obstacle_clearance: 0.4         # 장애물과 레인 간 최소 클리어런스 (미터)
     forward_min_distance: 0.0       # 전방 장애물 최소 감지 거리 (미터)
-    min_switch_interval: 0.10       # 레인 변경 최소 간격 (초)
+    min_switch_interval: 2.0       # 레인 변경 최소 간격 (초)
     update_rate_hz: 50.0            # 레인 평가 업데이트 빈도 (Hz)
 
     # ✅ 동적/정적 장애물 별도 detection hold time (코드 77-78번 줄)
