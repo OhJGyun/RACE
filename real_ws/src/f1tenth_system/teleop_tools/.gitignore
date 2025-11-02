@@ -1,0 +1,106 @@
+# =============================================================
+# COMPILED FILES
+# =============================================================
+
+# Object files
+*.o
+*.obj
+
+# Libraries
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug symbols
+*.dSYM/
+*.dSYM
+
+# =============================================================
+# BUILD DIRECTORIES
+# =============================================================
+
+# Build outputs
+build/
+bin/
+obj/
+out/
+**/build/
+**/install/
+**/target/
+
+# =============================================================
+# PROJECT DATA & LOGS
+# =============================================================
+
+# Data directories
+data/
+**/data/
+
+# Log files
+**/log/
+*.log
+
+# =============================================================
+# DEVELOPMENT TOOLS
+# =============================================================
+
+# IDEs
+.vscode/
+*.vscode
+.idea/
+*.xcodeproj/
+*.xcworkspace/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Autotools
+*.in
+configure
+config.log
+config.status
+autom4te.cache/
+
+# =============================================================
+# SYSTEM & TEMPORARY FILES
+# =============================================================
+
+# System files
+.DS_Store
+*.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# =============================================================
+# LANGUAGE-SPECIFIC (Mixed Projects)
+# =============================================================
+
+# Rust/Cargo
+*.cargo
+*.lock
+Cargo.lock
+
+# Python
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pth
+.Python
+.venv/
+venv/
+*.egg-info/

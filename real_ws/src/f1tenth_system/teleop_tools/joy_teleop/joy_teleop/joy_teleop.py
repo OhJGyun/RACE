@@ -41,6 +41,7 @@ from rclpy.node import Node
 from rclpy.parameter import PARAMETER_SEPARATOR_STRING
 from rosidl_runtime_py import set_message_fields
 import sensor_msgs.msg
+from std_msgs.msg import String
 
 
 class JoyTeleopException(Exception):
@@ -83,9 +84,10 @@ class JoyTeleopCommand:
         if axes_name in config:
             self.axes = config[axes_name]
 
-        if len(self.buttons) == 0 and len(self.axes) == 0:
-            self.buttons = ['default']
-            # raise JoyTeleopException("No buttons or axes configured for command '{}'".format(name))
+        # Allow empty buttons and axes for commands that should always be active
+        # if len(self.buttons) == 0 and len(self.axes) == 0:
+        #     self.buttons = ['default']
+        #     # raise JoyTeleopException("No buttons or axes configured for command '{}'".format(name))
 
         # Used to short-circuit the run command if there aren't enough buttons in the message.
         self.min_button = 0
@@ -101,6 +103,12 @@ class JoyTeleopCommand:
         self.active = False
 
     def update_active_from_buttons_and_axes(self, joy_state: sensor_msgs.msg.Joy) -> None:
+        # If no buttons and no axes are configured (empty lists), always be active
+        # This allows commands to run continuously without deadman buttons
+        if len(self.buttons) == 0 and len(self.axes) == 0:
+            self.active = True
+            return
+
         self.active = False
 
         if (self.min_button is not None and len(joy_state.buttons) <= self.min_button) and \
@@ -182,7 +190,7 @@ class JoyTeleopTopicCommand(JoyTeleopCommand):
 
         qos = rclpy.qos.QoSProfile(history=rclpy.qos.QoSHistoryPolicy.KEEP_LAST,
                                    depth=1,
-                                   reliability=rclpy.qos.QoSReliabilityPolicy.BEST_EFFORT,
+                                   reliability=rclpy.qos.QoSReliabilityPolicy.RELIABLE,
                                    durability=rclpy.qos.QoSDurabilityPolicy.VOLATILE)
 
         self.pub = node.create_publisher(self.topic_type, config['topic_name'], qos)
@@ -360,9 +368,37 @@ class JoyTeleop(Node):
 
         self.commands = []
 
+        # Mode management
+        self.current_mode = 'neutral'  # 'neutral', 'manual', or 'autonomous'
+
+        # Mode status publisher
+        self.mode_pub = self.create_publisher(String, 'control_mode', 10)
+
+        # Retrieve configuration first
+        all_config = self.retrieve_config()
+
+        # Load mode button configuration from YAML
+        mode_buttons = all_config.get('mode_buttons', {})
+        self.btn_manual = mode_buttons.get('manual', 2)
+        self.btn_neutral = mode_buttons.get('neutral', 0)
+        self.btn_autonomous = mode_buttons.get('autonomous', 7)
+        self.btn_stop = mode_buttons.get('stop', 1)
+        self.btn_emergency_stop = mode_buttons.get('emergency_stop', 8)
+
+        # Previous button states
+        self.prev_buttons = {}
+
+        self.get_logger().info('Joy Teleop initialized - Mode: NEUTRAL')
+        self.get_logger().info(f'Button {self.btn_manual}: Manual mode | Button {self.btn_autonomous}: Autonomous mode')
+        self.get_logger().info(f'Button {self.btn_neutral}: Neutral | Button {self.btn_stop}: Stop | Button {self.btn_emergency_stop}: Emergency stop')
+
         names = []
 
-        for name, config in self.retrieve_config().items():
+        for name, config in all_config.items():
+            # Skip mode_buttons configuration
+            if name == 'mode_buttons':
+                continue
+
             if name in names:
                 raise JoyTeleopException("command '{}' was duplicated".format(name))
 
@@ -408,9 +444,117 @@ class JoyTeleop(Node):
                 dictionary[split[0]] = {}
             self.insert_dict(dictionary[split[0]], split[2], value)
 
+    def _should_run_command(self, command_name: str) -> bool:
+        """Determine if the command should run based on current mode."""
+        # Emergency stop is handled separately in joy_callback
+        if command_name == 'emergency_stop':
+            return False
+
+        # human_control: Button 4 deadman switch (works in any mode)
+        if command_name == 'human_control':
+            return True  # Always allow, will be controlled by deadman_buttons
+
+        # autonomous_control: Button 5 deadman switch (works in any mode)
+        if command_name == 'autonomous_control':
+            return True  # Always allow, will be controlled by deadman_buttons
+
+        # Neutral mode: only default (stop)
+        if self.current_mode == 'neutral':
+            return command_name == 'default'
+
+        # Manual mode: allow manual_mode_control and default
+        elif self.current_mode == 'manual':
+            return command_name in ['manual_mode_control', 'default']
+
+        # Autonomous mode: allow autonomous_mode_control
+        # Do NOT run 'default' in autonomous mode to avoid interfering with navigation
+        elif self.current_mode == 'autonomous':
+            return command_name == 'autonomous_mode_control'
+
+        return False
+
     def joy_callback(self, msg: sensor_msgs.msg.Joy) -> None:
+        # Helper function to check button press (rising edge)
+        def is_button_pressed(btn_idx):
+            if len(msg.buttons) <= btn_idx:
+                return False
+            prev = self.prev_buttons.get(btn_idx, 0)
+            current = msg.buttons[btn_idx]
+            self.prev_buttons[btn_idx] = current
+            return current == 1 and prev == 0
+
+        # Manual mode button
+        if is_button_pressed(self.btn_manual):
+            self.current_mode = 'manual'
+            self.get_logger().info('=== MODE: MANUAL ===')
+            mode_msg = String()
+            mode_msg.data = self.current_mode
+            self.mode_pub.publish(mode_msg)
+
+        # Neutral button (only from manual mode)
+        if is_button_pressed(self.btn_neutral):
+            if self.current_mode == 'manual':
+                self.current_mode = 'neutral'
+                self.get_logger().info('=== MODE: NEUTRAL ===')
+                mode_msg = String()
+                mode_msg.data = self.current_mode
+                self.mode_pub.publish(mode_msg)
+
+        # Autonomous mode button (from any state)
+        if is_button_pressed(self.btn_autonomous):
+            self.current_mode = 'autonomous'
+            self.get_logger().info('=== MODE: AUTONOMOUS ===')
+            mode_msg = String()
+            mode_msg.data = self.current_mode
+            self.mode_pub.publish(mode_msg)
+
+        # Stop button: stop and go to manual
+        if is_button_pressed(self.btn_stop):
+            self.current_mode = 'manual'
+            self.get_logger().info('>>> STOP - MODE: MANUAL <<<')
+            # Force run emergency_stop command
+            for command in self.commands:
+                if command.name == 'emergency_stop':
+                    command.run(self, msg)
+                    break
+            # Publish mode status
+            mode_msg = String()
+            mode_msg.data = self.current_mode
+            self.mode_pub.publish(mode_msg)
+
+        # Emergency stop button: stop and go to neutral mode
+        if is_button_pressed(self.btn_emergency_stop):
+            self.current_mode = 'neutral'
+            self.get_logger().warn('!!! EMERGENCY STOP - MODE: NEUTRAL !!!')
+            # Force run emergency_stop command multiple times
+            for command in self.commands:
+                if command.name == 'emergency_stop':
+                    for _ in range(5):
+                        command.run(self, msg)
+                    break
+            # Publish mode status
+            mode_msg = String()
+            mode_msg.data = self.current_mode
+            self.mode_pub.publish(mode_msg)
+
+        # Update all button states for next callback
+        for i in range(len(msg.buttons)):
+            self.prev_buttons[i] = msg.buttons[i]
+
+        # Run commands based on current mode
+        # In autonomous mode, prioritize autonomous_mode_control over autonomous_control
+        autonomous_mode_ran = False
         for command in self.commands:
-            command.run(self, msg)
+            if self._should_run_command(command.name):
+                # Skip autonomous_control if autonomous_mode_control is active
+                if self.current_mode == 'autonomous':
+                    if command.name == 'autonomous_mode_control':
+                        command.run(self, msg)
+                        autonomous_mode_ran = True
+                        continue
+                    elif command.name == 'autonomous_control' and autonomous_mode_ran:
+                        continue
+                command.run(self, msg)
 
 
 def main(args=None):
