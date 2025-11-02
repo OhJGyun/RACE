@@ -115,36 +115,11 @@
     fov_deg: 120.0
     fov_center_deg: 0.0
 
-    # --- Clustering Parameters ---
-    # Cluster size limits (number of points)
-    min_samples: 4          # Minimum number of points to form a cluster
-    max_samples: 50         # Maximum number of points (larger clusters are walls/boundaries)
+    outer_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/inner_bound.csv"
 
-    # Scanline clustering parameters
-    cluster_eps0: 0.12      # Minimum link threshold (meters)
-    cluster_k: 0.06         # Distance-proportional coefficient
-
-    # --- Obstacle Size Filtering ---
-    # Maximum obstacle size (meters) - larger objects will be filtered out
-    max_obstacle_size: 0.6
-    # Minimum obstacle size (meters) - smaller objects will be filtered out
-    min_obstacle_size: 0.0
-
-    # --- Visualization ---
-    center_scale: 0.12      # Size of obstacle markers in RViz
-
-    # --- Boundary Files ---
-    # Paths to outer and inner boundary CSV files
-    outer_bound_csv: "/home/ircv7/RACE/bound/1102/1.0_1.0/outer_bound.csv"
-    inner_bound_csv: "/home/ircv7/RACE/bound/1102/1.0_1.0/inner_bound.csv"
-
-    # --- Performance Options ---
-    # Enable vectorized transformations (recommended)
-    use_vectorized_tf: true
-
-    # Enable size-based filtering
-    enable_size_filter: false
-
-    # Point sampling stride (1=use all points, 2=use every 2nd point, etc.)
-    # Higher values reduce computation but may miss small obstacles
-    sample_stride: 2
+    static_radius: 0.50
+    static_min_hits: 2
+    static_max_age: 1.0
+    static_vel_thresh: 3.0
+    vel_ema_alpha: 0.3

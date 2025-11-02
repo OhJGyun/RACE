@@ -1,75 +1,79 @@
 amcl:
   ros__parameters:
-    # Basic parameters
-    use_sim_time: false
-    alpha1: 0.2    # rotation noise from rotation (for F1TENTH)
-    alpha2: 0.2    # rotation noise from translation
-    alpha3: 0.8    # translation noise from translation  
-    alpha4: 0.2    # translation noise from rotation
-    alpha5: 0.2    # translation noise from translation (strafe)
-    
-    # Frame names
-    base_frame_id: "base_link"
-    odom_frame_id: "odom"
-    global_frame_id: "map"
-    
-    # Particle filter parameters (optimized for F1TENTH racing)
-    max_particles: 1000      # Maximum number of particles
-    min_particles: 300       # Minimum number of particles  
-    kld_err: 0.05           # Maximum error between the true distribution and the KLD approximation
-    kld_z: 0.99             # Upper standard normal quantile
-    update_min_d: 0.0001      # Minimum translational movement to trigger filter update
-    update_min_a: 0.0005       # Minimum rotational movement to trigger filter update
-    resample_interval: 2    # Number of filter updates required before resampling
-    
-    # Transform and timing
-    transform_tolerance: 0.1
-    recovery_alpha_slow: 0.0
-    recovery_alpha_fast: 0.0
-    
-    # Initial pose parameters
-    initial_pose_x: 0.0
-    initial_pose_y: 0.0
-    initial_pose_z: 0.0
-    initial_pose_yaw: 0.0
-    initial_cov_xx: 0.25
-    initial_cov_yy: 0.25
-    initial_cov_aa: 0.06853891945200942
-    
-    # Laser sensor model parameters (for F1TENTH LiDAR)
-    z_hit: 0.5              # Mixture weight for the z_hit part of the model
-    z_short: 0.05           # Mixture weight for the z_short part of the model
-    z_max: 0.05             # Mixture weight for the z_max part of the model  
-    z_rand: 0.5             # Mixture weight for the z_rand part of the model
-    sigma_hit: 0.2          # Standard deviation for Gaussian model used in z_hit part
-    lambda_short: 0.1       # Exponential decay parameter for z_short part
-    laser_likelihood_max_dist: 2.0  # Maximum distance to do obstacle inflation on map
-    laser_max_range: 100.0  # Maximum scan range to be considered (set to LiDAR max range)
-    laser_min_range: -1.0   # Minimum scan range (-1.0 will cause the laser's reported minimum range to be used)
-    laser_max_beams: 40     # How many evenly-spaced beams in each scan to be used when updating the filter
-    
-    # Performance tuning for F1TENTH
-    do_beamskip: false      # Ignore beams for which a majority of particles have a low weight
-    beam_skip_distance: 0.5
-    beam_skip_threshold: 0.3
-    beam_skip_error_threshold: 0.9
-    
-    # Map parameters
-    laser_model_type: "likelihood_field"  # Which model to use: beam, likelihood_field, likelihood_field_prob
-    odom_model_type: "diff"              # Which model to use: diff, omni, diff-corrected, omni-corrected
-    set_initial_pose: false              # Manually set the initial particle cloud
-    always_reset_initial_pose: false     # Requires that AMCL is provided an initial pose either
-    
-    # Publishing and visualization
-    tf_broadcast: true
-    
-    # Robot-specific motion model parameters for F1TENTH
-    # These values are tuned for Ackermann steering F1TENTH cars
-    save_pose_rate: 0.5
-    gui_publish_rate: 100.0
-    laser_lambda_short: 0.1
-    laser_sigma_hit: 0.2
-    
-    # Map server parameters (if using)
-    map_topic: "map"
-    first_map_only: false
+    # 기본 파라미터 / Basic parameters
+    use_sim_time: false  # 실제 시간 사용 (시뮬레이션이 아님)
+
+    # 오도메트리 모션 모델 노이즈 파라미터 / Odometry motion model noise parameters
+    # 표준값: 0.1~0.5 / 위치 추적 불안정시 증가, 파티클 분산 과다시 감소
+    alpha1: 0.2  # 회전→회전 노이즈 (회전 중 발생하는 회전 오차) [표준: 0.2, 범위: 0.1~0.5]
+    alpha2: 0.2  # 평행이동→회전 노이즈 (직진 중 발생하는 회전 오차) [표준: 0.2, 범위: 0.1~0.5]
+    alpha3: 0.8  # 평행이동→평행이동 노이즈 (직진 중 발생하는 직진 오차) [표준: 0.5, 범위: 0.2~1.0]
+    alpha4: 0.2  # 회전→평행이동 노이즈 (회전 중 발생하는 직진 오차) [표준: 0.2, 범위: 0.1~0.5]
+    alpha5: 0.2  # 측면이동 노이즈 (옴니휠용, F1TENTH에서는 미사용)
+
+    # 프레임 ID / Frame names
+    base_frame_id: "base_link"  # 로봇 베이스 프레임
+    odom_frame_id: "odom"       # 오도메트리 프레임
+    global_frame_id: "map"      # 글로벌 맵 프레임
+
+    # 파티클 필터 파라미터 (F1TENTH 레이싱에 최적화) / Particle filter parameters
+    max_particles: 2000   # 최대 파티클 수 [표준: 2000, 범위: 500~5000] (CPU 부하↑시 감소)
+    min_particles: 500    # 최소 파티클 수 [표준: 500, 범위: 100~1000] (정확도↓시 증가)
+    kld_err: 0.05        # KLD 샘플링 오차 허용치 [표준: 0.05, 범위: 0.01~0.1] (작을수록 정확하지만 파티클↑)
+    kld_z: 0.99          # KLD 표준정규분포 분위수 [표준: 0.99, 고정] (신뢰구간 99%)
+    update_min_d: 0.0001   # 필터 업데이트 최소 이동거리 (m) [표준: 0.2, 범위: 0.0001~0.5] (고속주행시 감소)
+    update_min_a: 0.0005   # 필터 업데이트 최소 회전각 (rad) [표준: 0.5, 범위: 0.0005~0.5] (제자리 회전 많으면 감소)
+    resample_interval: 1   # 리샘플링 전 필터 업데이트 횟수 [표준: 2, 범위: 1~5] (큰 값=CPU 절약, 작은 값=반응↑)
+
+    # 변환 및 타이밍 / Transform and timing
+    transform_tolerance: 0.1    # TF 변환 허용 시간 오차 (초) [표준: 0.1, 범위: 0.05~0.5] (고속주행시 증가)
+    recovery_alpha_slow: 0.0    # 느린 평균 가중치 감쇠 [표준: 0.001, 범위: 0.0~0.01] (0=비활성화, 납치 복구시 활성화)
+    recovery_alpha_fast: 0.0    # 빠른 평균 가중치 감쇠 [표준: 0.1, 범위: 0.0~0.5] (0=비활성화, 납치 복구시 활성화)
+
+    # 초기 포즈 파라미터 / Initial pose parameters
+    initial_pose_x: 0.0    # 초기 X 위치 (m) [알고 있다면 설정]
+    initial_pose_y: 0.0    # 초기 Y 위치 (m) [알고 있다면 설정]
+    initial_pose_z: 0.0    # 초기 Z 위치 (m) [보통 0.0 고정]
+    initial_pose_yaw: 0.0  # 초기 방향 (rad) [알고 있다면 설정]
+    initial_cov_xx: 0.25   # X축 초기 공분산 [표준: 0.25, 범위: 0.1~1.0] (초기위치 불확실시 증가)
+    initial_cov_yy: 0.25   # Y축 초기 공분산 [표준: 0.25, 범위: 0.1~1.0] (초기위치 불확실시 증가)
+    initial_cov_aa: 0.06853891945200942  # 각도 초기 공분산 (π/4)^2 [표준: 0.07, 범위: 0.01~0.5] (초기방향 불확실시 증가)
+
+    # 레이저 센서 모델 파라미터 (F1TENTH LiDAR용) / Laser sensor model parameters
+    # z_* 가중치 합 = 1.0 유지 필수
+    z_hit: 0.5    # 정확한 측정 가중치 (장애물 명중) [표준: 0.5, 범위: 0.3~0.9] (좋은 LiDAR면 증가)
+    z_short: 0.05 # 짧은 측정 가중치 (투과/반사) [표준: 0.05, 범위: 0.01~0.2] (유리 많으면 증가)
+    z_max: 0.05   # 최대 범위 측정 가중치 (장애물 없음) [표준: 0.05, 범위: 0.01~0.2] (넓은 공간이면 증가)
+    z_rand: 0.2   # 랜덤 측정 가중치 (노이즈) [표준: 0.5, 범위: 0.1~0.5] (노이지한 환경이면 증가)
+    sigma_hit: 0.2         # 명중 측정 표준편차 (m) [표준: 0.2, 범위: 0.05~0.5] (LiDAR 정확하면 감소)
+    lambda_short: 0.1      # 짧은 측정 지수 감쇠 파라미터 [표준: 0.1, 범위: 0.05~0.5] (투과 많으면 증가)
+    laser_likelihood_max_dist: 2.0  # 맵에서 장애물 팽창 최대 거리 (m) [표준: 2.0, 범위: 1.0~4.0] (맵 해상도 낮으면 증가)
+    laser_max_range: 30.0  # 고려할 최대 스캔 범위 (m) [LiDAR 스펙에 맞게 설정]
+    laser_min_range: -1.0   # 최소 스캔 범위 (-1=LiDAR 기본값 사용) [보통 -1.0 또는 0.1]
+    laser_max_beams: 40     # 필터 업데이트 시 사용할 균등분포 빔 개수 [표준: 60, 범위: 20~180] (CPU↓시 감소, 정확도↑시 증가)
+
+    # 성능 튜닝 (F1TENTH용) / Performance tuning for F1TENTH
+    do_beamskip: false  # 낮은 가중치 빔 무시 여부 (false=모든 빔 사용) [표준: false, CPU 절약시 true]
+    beam_skip_distance: 0.5         # 빔 스킵 거리 임계값 (m) [표준: 0.5, do_beamskip=true시만 유효]
+    beam_skip_threshold: 0.3        # 빔 스킵 가중치 임계값 [표준: 0.3, do_beamskip=true시만 유효]
+    beam_skip_error_threshold: 0.9  # 빔 스킵 오차 임계값 [표준: 0.9, do_beamskip=true시만 유효]
+
+    # 맵 및 모델 파라미터 / Map and model parameters
+    laser_model_type: "likelihood_field"  # 레이저 모델 [표준: likelihood_field] (beam/likelihood_field/likelihood_field_prob)
+    odom_model_type: "diff"               # 오도메트리 모델 [F1TENTH: diff] (diff=차동구동, omni=옴니휠)
+    set_initial_pose: false               # 초기 포즈 수동 설정 여부 [시작위치 고정시 true]
+    always_reset_initial_pose: false      # 항상 초기 포즈 리셋 여부 [재시작시마다 같은위치면 true]
+
+    # 발행 및 시각화 / Publishing and visualization
+    tf_broadcast: true  # TF 변환 발행 여부 [다른 노드가 TF 사용시 true 필수]
+
+    # F1TENTH 로봇 전용 모션 모델 파라미터 / Robot-specific motion model parameters
+    # 아커만 조향 F1TENTH 차량에 튜닝된 값들
+    save_pose_rate: 0.5      # 포즈 저장 주기 (Hz) [표준: 0.5, 범위: 0.1~10.0]
+    gui_publish_rate: 100.0  # GUI 발행 주기 (Hz) [표준: 10.0, RViz 시각화용]
+    laser_lambda_short: 0.1  # 짧은 측정 람다 파라미터 (lambda_short 중복)
+    laser_sigma_hit: 0.2     # 명중 측정 시그마 파라미터 (sigma_hit 중복)
+
+    # 맵 서버 파라미터 / Map server parameters
+    map_topic: "map"        # 맵 토픽 이름 [표준: map]
+    first_map_only: false   # 첫 맵만 사용 여부 [표준: false] (맵 업데이트 허용)
