@@ -1,13 +1,69 @@
+# joy:
+#   ros__parameters:
+#     # device_name: /dev/input/joypad-f710
+#     device_id: 0
+#     deadzone: 0.01
+#     autorepeat_rate: 20.0  # Increased from 20Hz to 100Hz for faster response
+#     coalesce_interval: 0.01  # Reduced from 0.01 to 0.001 for lower latency
+
+# joy_teleop:
+#   ros__parameters:
+#     default:
+#       type: topic
+#       interface_type: ackermann_msgs/msg/AckermannDriveStamped
+#       topic_name: teleop
+#       axis_mappings:
+#         drive-speed:
+#           axis: 1
+#           scale: 0.0
+#           offset: 0.0
+#         drive-steering_angle:
+#           axis: 3
+#           scale: 0.0
+#           offset: 0.0
+
+#     human_control:
+#       type: topic
+#       interface_type: ackermann_msgs/msg/AckermannDriveStamped
+#       topic_name: teleop
+#       deadman_buttons: [4]
+#       axis_mappings:
+#         drive-speed:
+#           axis: 1
+#           scale: 1.5
+#           offset: 0.0
+#         drive-steering_angle:
+#           axis: 3
+#           scale: 0.40
+#           offset: 0.0
+
+#     autonomous_control:
+#       type: topic
+#       interface_type: std_msgs/msg/Int8
+#       topic_name: /dev/null
+#       deadman_buttons: [5]
+#       message_value:
+#         data: 0
+
 joy:
   ros__parameters:
     # device_name: /dev/input/joypad-f710
     device_id: 0
     deadzone: 0.01
-    autorepeat_rate: 20.0  # Increased from 20Hz to 100Hz for faster response
-    coalesce_interval: 0.01  # Reduced from 0.01 to 0.001 for lower latency
+    autorepeat_rate: 20.0
+    coalesce_interval: 0.01
+    sticky_buttons: false
 
 joy_teleop:
   ros__parameters:
+    # Mode button configuration
+    mode_buttons:
+      manual: 2
+      neutral: 0
+      autonomous: 3
+      stop: 1
+      emergency_stop: 8
+
     default:
       type: topic
       interface_type: ackermann_msgs/msg/AckermannDriveStamped
@@ -30,12 +86,34 @@ joy_teleop:
       axis_mappings:
         drive-speed:
           axis: 1
-          scale: 1.5
+          scale: 2.0
           offset: 0.0
         drive-steering_angle:
           axis: 3
-          scale: 0.40
+          scale: 0.45
           offset: 0.0
+
+    manual_mode_control:
+      type: topic
+      interface_type: ackermann_msgs/msg/AckermannDriveStamped
+      topic_name: teleop
+      axis_mappings:
+        drive-speed:
+          axis: 1
+          scale: 2.0
+          offset: 0.0
+        drive-steering_angle:
+          axis: 3
+          scale: 0.45
+          offset: 0.0
+
+    autonomous_mode_control:
+      type: topic
+      interface_type: std_msgs/msg/Int8
+      topic_name: /dev/null
+      message_value:
+        data:
+          value: 0
 
     autonomous_control:
       type: topic
@@ -43,4 +121,5 @@ joy_teleop:
       topic_name: /dev/null
       deadman_buttons: [5]
       message_value:
-        data: 0
+        data:
+          value: 1
