@@ -15,7 +15,7 @@ def generate_launch_description():
     Note: Ensure lane_csv_paths in map_controller matches lane_selector config!
     """
     map_pkg_share = get_package_share_directory('map_control')
-    map_config = os.path.join(map_pkg_share, 'config', 'map_controller_params.yaml')
+    map_config = os.path.join(map_pkg_share, 'config', 'map_control_params.yaml')
 
     # Try to get lane_selector config (if package exists)
     try:
@@ -28,7 +28,7 @@ def generate_launch_description():
 
     map_controller_node = Node(
         package='map_control',
-        executable='map_control',
+        executable='map_controller',
         name='map_controller',
         output='screen',
         parameters=[map_config],

@@ -345,11 +345,11 @@ class MAP_Controller:
             global_speed: the speed we want to follow
         """
         # scaling down global speed with lateral error and curvature
-        # lat_e_coeff = self.lat_err_coeff # must be in [0, 1]
-        # lat_e_norm *= 2
-        # curv = np.clip(2*(np.mean(self.curvature_waypoints)/0.8) - 2, a_min = 0, a_max = 1) # 0.8 ca. max curvature mean
+        lat_e_coeff = self.lat_err_coeff # must be in [0, 1]
+        lat_e_norm *= 2
+        curv = np.clip(2*(np.mean(self.curvature_waypoints)/0.8) - 2, a_min = 0, a_max = 1) # 0.8 ca. max curvature mean
 
-        # global_speed *= (1 - lat_e_coeff + lat_e_coeff*np.exp(-lat_e_norm*curv))
+        global_speed *= (1 - lat_e_coeff + lat_e_coeff*np.exp(-lat_e_norm*curv))
         return global_speed
 
     def speed_adjust_heading(self, speed_command):
@@ -389,6 +389,27 @@ class MAP_Controller:
         distances_to_position = np.linalg.norm(abs(position_array - waypoints), axis=1)
         return np.argmin(distances_to_position)
 
+        # Alternative (commented): Sliding-window nearest waypoint around previous index (±K)
+        # -------------------------------------------------------------------------------
+        # This version reduces computation by searching only in a local window
+        # around the last nearest index. Fall back to full scan when last index is
+        # unknown or when a large jump is detected.
+        #
+        # Example usage:
+        #   last_idx = getattr(self, 'idx_nearest_waypoint', None)
+        #   K = 20  # window half-size (tune by speed/loop_rate/spacing)
+        #   n = len(waypoints)
+        #   if last_idx is None or n == 0:
+        #       position_array = np.array([position]*n)
+        #       distances = np.linalg.norm(position_array - waypoints, axis=1)
+        #       return int(np.argmin(distances))
+        #   center = int(last_idx) % n
+        #   lo = max(0, center - K)
+        #   hi = min(n, center + K + 1)
+        #   window = waypoints[lo:hi]
+        #   dists = np.linalg.norm(window - position, axis=1)
+        #   return lo + int(np.argmin(dists))
+
     def waypoint_at_distance_before_car(self, distance, waypoints, idx_waypoint_behind_car):
         """
         Calculates the waypoint at a certain frenet distance in front of the car
@@ -402,22 +423,28 @@ class MAP_Controller:
         if len(waypoints) == 0:
             raise ValueError("Waypoints array is empty")
 
+        # race_stack-style: assume fixed waypoint spacing (~0.1 m) and step indices forward
+        # Note: This replaces the s-based selection below for simplicity and easier debugging.
+        # current_index = int(idx_waypoint_behind_car)
+        # waypoints_distance = 0.1
+        # d_index = int(distance / waypoints_distance + 0.5)
+        # target_index = min(len(waypoints) - 1, current_index + d_index)
+        # return np.array(waypoints[target_index])
+
+        # Previous RACE implementation using s-based lookup (kept for reference):
         current_index = int(idx_waypoint_behind_car) % len(waypoints)
         if self.track_length <= 0.0:
-            # fallback: use simple index wrap with assumed spacing
+            # fallback: use simple index wrap with estimated spacing
             approx_spacing = np.maximum(1e-3, np.linalg.norm(waypoints[(current_index + 1) % len(waypoints), :2] - waypoints[current_index, :2]))
             steps = int(round(distance / approx_spacing))
             target_index = (current_index + steps) % len(waypoints)
             return np.array(waypoints[target_index])
-
+        
         current_s = self.waypoint_array_in_map[current_index, 4]
         target_s = current_s + distance
-
         s_column = self.waypoint_array_in_map[:, 4]
         extended_s = np.concatenate([s_column, s_column[1:] + self.track_length])
         extended_waypoints = np.vstack([waypoints, waypoints[1:]])
-
         target_index = np.searchsorted(extended_s, target_s, side='left')
         target_index = min(target_index, len(extended_waypoints) - 1)
-
         return np.array(extended_waypoints[target_index % len(waypoints)])

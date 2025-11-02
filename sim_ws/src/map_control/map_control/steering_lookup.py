@@ -42,7 +42,7 @@ class LookupSteerAngle:
     def __init__(self, model_name, logger):
       # ROS2: use ament_index_python instead of rospkg
       try:
-          pkg_path = get_package_share_directory('map_controller')
+          pkg_path = get_package_share_directory('map_control')
           file_path = os.path.join(pkg_path, 'config', 'steering_lut', model_name + '_lookup_table.csv')
       except Exception as e:
           logger(f"[Steering Lookup] Package path error: {e}")
