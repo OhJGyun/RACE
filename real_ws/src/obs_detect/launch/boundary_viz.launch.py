@@ -1,40 +1,98 @@
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
-from launch_ros.parameter_descriptions import ParameterFile
 
 from ament_index_python.packages import get_package_share_directory
 
-
 def generate_launch_description():
     """
-    Launch file for boundary_viz_node.
-    Loads parameters from obs_detect_params.yaml so boundary CSV paths and
-    visualization settings can be managed in one place.
+    Launch file for boundary_viz_node
+    Visualizes track boundaries from CSV files in RViz
     """
 
-    package_share = get_package_share_directory('obs_detect')
-    default_params = os.path.join(package_share, 'config', 'obs_detect_params.yaml')
+    # Get HOME directory
+    home_dir = os.getenv("HOME", "/home/ircv7")
 
-    params_file_arg = DeclareLaunchArgument(
-        'params_file',
-        default_value=default_params,
-        description='YAML parameter file for boundary_viz_node'
+    # Launch arguments
+    inner_csv_arg = DeclareLaunchArgument(
+        'inner_bound_csv',
+        default_value=os.path.join(home_dir, 'RACE/bound/1102/1.0_1.0/inner_bound.csv'),
+        description='Path to inner boundary CSV file'
     )
 
-    params_file = LaunchConfiguration('params_file')
+    outer_csv_arg = DeclareLaunchArgument(
+        'outer_bound_csv',
+        default_value=os.path.join(home_dir, 'RACE/bound/1102/1.0_1.0/outer_bound.csv'),
+        description='Path to outer boundary CSV file'
+    )
 
+    marker_frame_arg = DeclareLaunchArgument(
+        'marker_frame_id',
+        default_value='map',
+        description='Frame ID for marker visualization'
+    )
+
+    publish_rate_arg = DeclareLaunchArgument(
+        'publish_rate',
+        default_value='1.0',
+        description='Marker publish rate (Hz)'
+    )
+
+    line_width_arg = DeclareLaunchArgument(
+        'line_width',
+        default_value='0.05',
+        description='Width of boundary lines'
+    )
+
+    z_height_arg = DeclareLaunchArgument(
+        'z_height',
+        default_value='0.0',
+        description='Z height of boundary visualization'
+    )
+
+    use_sim_time_arg = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='false',
+        description='Use simulation time if true'
+    )
+
+    # Launch configurations
+    inner_bound_csv = LaunchConfiguration('inner_bound_csv')
+    outer_bound_csv = LaunchConfiguration('outer_bound_csv')
+    marker_frame_id = LaunchConfiguration('marker_frame_id')
+    publish_rate = LaunchConfiguration('publish_rate')
+    line_width = LaunchConfiguration('line_width')
+    z_height = LaunchConfiguration('z_height')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+
+    # Boundary visualization node
     boundary_viz_node = Node(
         package='obs_detect',
         executable='boundary_viz_node',
         name='boundary_viz_node',
         output='screen',
-        parameters=[ParameterFile(params_file, allow_substs=True)],
+        parameters=[{
+            'inner_bound_csv': inner_bound_csv,
+            'outer_bound_csv': outer_bound_csv,
+            'marker_frame_id': marker_frame_id,
+            'publish_rate': publish_rate,
+            'line_width': line_width,
+            'z_height': z_height,
+            'use_sim_time': use_sim_time,
+        }]
     )
 
+
     return LaunchDescription([
-        params_file_arg,
+        inner_csv_arg,
+        outer_csv_arg,
+        marker_frame_arg,
+        publish_rate_arg,
+        line_width_arg,
+        z_height_arg,
+        use_sim_time_arg,
         boundary_viz_node,
     ])

@@ -1,34 +1,84 @@
-ring_viz_node:
+# ============================================================
+# Obstacle Detection Parameters
+# ============================================================
+
+/**:
   ros__parameters:
+    # --- Scan Topic ---
     scan_topic: "/scan"
+
+    # --- Frames ---
     marker_frame_id: "map"
     tf_timeout: 0.3
 
-    db_min_samples: 12
+    # --- ROI (Region of Interest) Parameters ---
+    # Distance filtering (meters)
+    roi_min_dist: 0.00
+    roi_max_dist: 3.00
 
-    roi_min_dist: 0.20
-    roi_max_dist: 6.00
-
-    center_scale: 0.2
-
+    # FOV (Field of View) filtering (degrees)
+    # fov_deg: total field of view angle
+    # fov_center_deg: center direction (0 = forward, positive = left, negative = right)
     fov_deg: 120.0
     fov_center_deg: 0.0
 
-    outer_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/outer_bound.csv"
-    inner_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/inner_bound.csv"
+    # --- Clustering Parameters ---
+    # Cluster size limits (number of points)
+    min_samples: 4          # Minimum number of points to form a cluster
+    max_samples: 50         # Maximum number of points (larger clusters are walls/boundaries)
 
-    static_radius: 0.50
-    static_min_hits: 2
-    static_max_age: 1.0
-    static_vel_thresh: 3.0
+    # Scanline clustering parameters
+    # dij <= max(eps0, k * min(r0, r1))
+    cluster_eps0: 0.12      # Minimum link threshold (meters)
+    cluster_k: 0.06         # Distance-proportional coefficient
+
+    # --- Obstacle Size Filtering ---
+    # Maximum obstacle size (meters) - larger objects will be filtered out
+    max_obstacle_size: 0.6
+    # Minimum obstacle size (meters) - smaller objects will be filtered out
+    min_obstacle_size: 0.0
+
+    # --- Visualization ---
+    center_scale: 0.12      # Size of obstacle markers in RViz
+
+    # --- Boundary Files ---
+    # Paths to outer and inner boundary CSV files
+    # NOTE: Update these paths for your environment
+    outer_bound_csv: "/home/ircv7/RACE/bound/1102/1.0_1.0/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1102/1.0_1.0/inner_bound.csv"
+
+    # --- Performance Options ---
+    # Enable vectorized transformations (recommended for better performance)
+    use_vectorized_tf: true
+
+    # Enable size-based filtering
+    enable_size_filter: false
+
+    # Point sampling stride (1=use all points, 2=use every 2nd point, etc.)
+    # Higher values reduce computation but may miss small obstacles
+    sample_stride: 2
+
+    # --- Static/Dynamic Classification Parameters ---
+    # Tracking-based obstacle classification
+    # Obstacles are tracked across frames to distinguish static from dynamic objects
+
+    # static_radius: Association radius for tracking (meters)
+    # Objects within this radius are considered the same obstacle across frames
+    static_radius: 0.25
+
+    # static_min_hits: Minimum observations required to classify as static
+    # Higher values = more conservative static classification
+    static_min_hits: 5
+
+    # static_max_age: Maximum time to keep track without updates (seconds)
+    # Tracks older than this will be removed
+    static_max_age: 3.0
+
+    # static_vel_thresh: Velocity threshold for static classification (m/s)
+    # Objects moving slower than this are considered static
+    static_vel_thresh: 0.08
+
+    # vel_ema_alpha: Exponential Moving Average filter coefficient for velocity
+    # Higher values (closer to 1.0) = more responsive to recent changes
+    # Lower values (closer to 0.0) = smoother but slower response
     vel_ema_alpha: 0.3
-
-boundary_viz_node:
-  ros__parameters:
-    inner_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/inner_bound.csv"
-    outer_bound_csv: "/home/ircv7/RACE/bound/1102/0.5_0.5/outer_bound.csv"
-    marker_frame_id: "map"
-    publish_rate: 1.0
-    line_width: 0.05
-    z_height: 0.0
-    use_sim_time: false

@@ -22,15 +22,13 @@ class BoundaryVizNode(Node):
     def __init__(self):
         super().__init__('boundary_viz_node')
 
-        # Parameters
-        home_dir = os.getenv('HOME', '/home/ircv7')
-        self.declare_parameter('inner_bound_csv', os.path.join(home_dir, 'RACE/bound/1102/0.5_0.5/inner_bound.csv'))
-        self.declare_parameter('outer_bound_csv', os.path.join(home_dir, 'RACE/bound/1102/0.5_0.5/outer_bound.csv'))
+        # Parameters - use same defaults as ring_viz_optimized
+        self.declare_parameter('inner_bound_csv', '/home/ircv7/RACE/bound/1102/1.0_1.0/inner_bound.csv')
+        self.declare_parameter('outer_bound_csv', '/home/ircv7/RACE/bound/1102/1.0_1.0/outer_bound.csv')
         self.declare_parameter('marker_frame_id', 'map')
         self.declare_parameter('publish_rate', 1.0)  # Hz
         self.declare_parameter('line_width', 0.05)
         self.declare_parameter('z_height', 0.0)
-        self.declare_parameter('use_sim_time', False)
 
         # Get parameters
         self.inner_csv = self.get_parameter('inner_bound_csv').get_parameter_value().string_value
@@ -39,10 +37,6 @@ class BoundaryVizNode(Node):
         self.publish_rate = self.get_parameter('publish_rate').get_parameter_value().double_value
         self.line_width = self.get_parameter('line_width').get_parameter_value().double_value
         self.z_height = self.get_parameter('z_height').get_parameter_value().double_value
-        self.use_sim_time = self.get_parameter('use_sim_time').get_parameter_value().bool_value
-
-        if self.use_sim_time:
-            self.get_logger().info('Simulation time enabled for boundary visualization.')
 
         # Load boundaries
         self.inner_points = self._load_csv(self.inner_csv)
