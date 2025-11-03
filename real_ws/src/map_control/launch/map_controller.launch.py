@@ -101,6 +101,39 @@ def generate_launch_description():
             ],
     )
 
+    obs_num_viz_node = Node(
+            package='rviz_2d_overlay_plugins',
+            executable='string_to_overlay_text',
+            name='obs_num_viz_node',
+            output='screen',
+            parameters=[
+                {"string_topic": "/viz/obs_num"},
+                {"fg_color": "w"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+            ],
+    )
+
+    mode_viz_node = Node(
+            package='rviz_2d_overlay_plugins',
+            executable='string_to_overlay_text',
+            name='mode_viz_node',
+            output='screen',
+            parameters=[
+                {"string_topic": "/viz/mode"},
+                {"fg_color": "w"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+            ],
+    )
+
+    lane_num_viz_node = Node(
+            package='rviz_2d_overlay_plugins',
+            executable='string_to_overlay_text',
+            name='lane_num_viz_node',
+            output='screen',
+            parameters=[
+                {"string_topic": "/viz/lane_num"},
+                {"fg_color": "w"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+            ],
+    )
+
     launch_rviz_arg = DeclareLaunchArgument(
         'launch_rviz',
         default_value='true',
@@ -130,6 +163,9 @@ def generate_launch_description():
         steer_viz_node,
         speed_viz_node,
         lap_time_viz_node,
+        obs_num_viz_node,
+        mode_viz_node,
+        lane_num_viz_node,
         launch_rviz_arg,
         rviz_config_arg,
         rviz_node

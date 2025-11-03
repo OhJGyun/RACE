@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from ackermann_msgs.msg import AckermannDriveStamped
-from std_msgs.msg import String, Float32
+from std_msgs.msg import String, Float32, Int32
 class AckermannRelay(Node):
     def __init__(self):
         super().__init__('ackermann_relay_node')
@@ -36,6 +36,36 @@ class AckermannRelay(Node):
             '/viz/lap_time',
             10)
 
+        self.object_num_sub = self.create_subscription(
+            Int32,
+            '/total_obs',
+            10)
+
+        self.mode_sub = self.create_subscription(
+            Int32,
+            '/drive_mode',
+            10)
+
+        self.lane_sub = self.create_subscription(
+            Int32,
+            '/lane_selector/selected_lane',
+            10)
+
+        self.object_num_pub = self.create_publisher(
+            String,
+            '/viz/obs_num',
+            10)
+
+        self.mode_pub = self.create_publisher(
+            String,
+            '/viz/mode',
+            10)
+
+        self.lane_num_pub = self.create_publisher(
+            String,
+            '/viz/lane_num',
+            10)
+
     def listener_callback(self, msg: AckermannDriveStamped):
         steer_msg = String()
         speed_msg = String()
@@ -54,6 +84,32 @@ class AckermannRelay(Node):
         lap_time_msg = String()
         lap_time_msg.data = f"Lap Time: {msg.data:.2f} s"
         self.lap_time_text_pub.publish(lap_time_msg)
+
+    def obs_num_callback(self, msg:Int32):
+        obs_num_msg = String()
+        obs_num_msg.data = f"Obs: {msg.data}"
+        self.object_num_pub.publish(obs_num_msg)
+
+    def mode_callback(self, msg:Int32):
+        mode_msg = String()
+
+        if msg.data == 0:
+            mode_text = "Normal"
+        elif msg.data == 1:
+            mode_text = "Avoid"
+        elif msg.data == 2:
+            mode_text = "SCC"
+        else:
+            mode_text = f"Unknown ({msg.data})"
+
+        mode_msg.data = f"Mode: {mode_text}"
+        self.mode_pub.publish(mode_msg)
+
+    def lane_num_callback(self, msg:Int32):
+        lane_num_msg = String()
+        lane_num_msg.data = f"Lane: {msg.data}"
+        self.lane_num_pub.publish(lane_num_msg)
+        
 
 
 def main(args=None):

@@ -27,6 +27,7 @@ from rclpy.time import Time as RclTime
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Point, Pose, PoseArray
 from visualization_msgs.msg import Marker, MarkerArray
+from std_msgs.msg import Int32
 from tf2_ros import Buffer, TransformListener, TransformException
 from transforms3d.quaternions import quat2mat
 
@@ -228,6 +229,8 @@ class SimpleScanViz(Node):
         self.pub_debug = self.create_publisher(MarkerArray, "scan_viz/debug_markers", 10)
         self.pub_scan_debug = self.create_publisher(MarkerArray, "scan_viz/scan_process_debug", 10)
 
+        self.pub_total_obs = self.create_publisher(Int32, "/total_obs", 10) #장애물 갯수
+
         # FOV 인덱스 (첫 스캔에서 한 번만 계산)
         self.fov_idx_min = None
         self.fov_idx_max = None
@@ -385,6 +388,10 @@ class SimpleScanViz(Node):
         empty_pa.header.frame_id = self.marker_frame
         empty_pa.header.stamp = self.get_clock().now().to_msg()
         self.pub_obstacles.publish(empty_pa)
+
+        obs_count_msg = Int32()
+        obs_count_msg.data = 0
+        self.pub_total_obs.publish(obs_count_msg)
 
     def _publish_debug_centers(self, all_centers: List[Point], filtered_centers: List[Point]) -> None:
         """
@@ -883,6 +890,11 @@ class SimpleScanViz(Node):
         # 6) Logging and publish
         # ==========================================
         n_total = len(centers_ring)
+
+        obs_count_msg = Int32()
+        obs_count_msg.data = n_total
+        self.pub_total_obs.publish(obs_count_msg)
+
         n_static = sum(static_mask)
         n_moving = n_total - n_static
 
