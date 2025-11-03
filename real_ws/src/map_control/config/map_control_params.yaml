@@ -28,6 +28,22 @@
     lane_change_ld_gain: 0.7     # LD multiplier during lane change [0.0-1.0] (0.5 = 50% reduction)
     lane_change_speed_gain: 0.7  # Speed multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
 
+    # Disparity-based obstacle avoidance (temporary activation during lane change)
+    use_disparity: false                # Enable disparity mode during lane changes (true=disparity, false=lane switching)
+    disparity_duration: 1.0             # Duration to use disparity mode during lane change (s)
+    disparity_max_range: 10.0           # Maximum LiDAR range for disparity (m)
+    disparity_threshold: 1.0            # Minimum disparity to consider as gap (m)
+    disparity_car_half_width: 0.15      # Half car width for disparity (m)
+    disparity_margin: 0.3               # Safety margin for disparity (m)
+    disparity_max_speed: 4.5            # Max speed for disparity mode (m/s)
+    disparity_min_speed: 4.0            # Min speed for disparity mode (m/s)
+    disparity_max_steering: 0.4         # Max steering angle for disparity (rad, ~23 degrees)
+    disparity_ld_min: 0.5               # Min lookahead distance (m)
+    disparity_ld_max: 5.0               # Max lookahead distance (m)
+    disparity_m_ld: 0.4                 # Lookahead slope (distance per m/s of speed)
+    disparity_q_ld: 0.3                 # Lookahead offset (base distance in m)
+    disparity_steering_alpha: 0.7       # Steering smoothing factor (0-1, higher = less smoothing)
+
     # ------------------------------------------------------------------------
     # Localization Configuration (TF-first approach)
     # ------------------------------------------------------------------------

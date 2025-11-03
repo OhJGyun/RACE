@@ -3,7 +3,7 @@
     # --- Topics ---
     scan_topic: "/scan"
     odom_topic: "/odom"
-    drive_topic: "/drive"
+    drive_topic: "/disparity/drive"  # Disparity's drive command (used by map_control when use_disparity=true)
 
     # --- Vehicle Parameters ---
     wheel_base: 0.324          # Distance between front and rear axles (m)

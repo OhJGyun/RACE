@@ -22,7 +22,7 @@ from rclpy.duration import Duration
 from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseStamped, PoseArray, Pose
 from nav_msgs.msg import Odometry, Path
-from sensor_msgs.msg import Imu
+from sensor_msgs.msg import Imu, LaserScan
 from std_msgs.msg import Float32, Int32, Int32MultiArray  # 레인 세그먼트 정보를 받기 위한 Int32MultiArray 사용
 from visualization_msgs.msg import Marker, MarkerArray
 from transforms3d.euler import quat2euler
@@ -78,6 +78,10 @@ class ControllerManager(Node):
         self.lane_change_duration = 1.0  # Duration to apply reduced LD (seconds)
         # 레인별 Frenet 변환기 캐시 (세그먼트만 써도 s/d는 전체 레인 기준으로 일관 유지)
         self._lane_frenet_converters = []
+
+        # Disparity mode timer (활성화는 차선 변경 시에만)
+        self.disparity_mode_active = False  # Currently using disparity for avoidance
+        self.disparity_start_time = None  # Time when disparity mode started
 
         # 🔄 Circular track: 마지막 nearest waypoint 인덱스 캐시 (성능 최적화)
         self.last_nearest_idx = None
@@ -204,6 +208,20 @@ class ControllerManager(Node):
             )
             self.get_logger().info(f"Subscribed to {self.lane_segment_topic} for local segments")
 
+        # LaserScan subscription for disparity mode
+        if self.use_disparity:
+            self.scan_sub = self.create_subscription(
+                LaserScan,
+                "/scan",
+                self.scan_callback,
+                qos_profile=qos_sensor
+            )
+            self.latest_scan = None  # Store latest scan for disparity algorithm
+            self.get_logger().info(f"✅ Disparity mode ENABLED - Subscribed to /scan")
+        else:
+            self.latest_scan = None
+            self.get_logger().info("❌ Disparity mode DISABLED - Using lane switching only")
+
         # Control loop timer
         self.timer = self.create_timer(1.0 / self.loop_rate, self.control_loop)
 
@@ -226,11 +244,27 @@ class ControllerManager(Node):
         # Multi-lane support
         self.declare_parameter('lane_csv_paths', [''])  # List of lane CSV paths (empty string for type inference)
         self.declare_parameter('lane_selector_topic', '/lane_selector/target_lane')
-        self.declare_parameter('lane_segment_topic', 'lane_selector/current_segment')  # 세그먼트 수신 토픽 이름
+        self.declare_parameter('lane_segment_topic', '/lane_selector/current_segment')  # 세그먼트 수신 토픽 이름
         self.declare_parameter('lane_change_ld_gain', 0.7)  # LD multiplier during lane change (0~1)
         self.declare_parameter('lane_change_speed_gain', 0.7)  # Speed multiplier during lane change (0~1)
         # 로컬 세그먼트 크롭: 차량 인덱스 기준 양쪽 점 개수 (총 2*n 사용)
         self.declare_parameter('segment_points_each_side', 0)
+
+        # Disparity-based avoidance
+        self.declare_parameter('use_disparity', False)  # Use disparity for reactive avoidance
+        self.declare_parameter('disparity_max_range', 10.0)  # Maximum LiDAR range for disparity (m)
+        self.declare_parameter('disparity_threshold', 1.0)  # Minimum disparity to consider as gap (m)
+        self.declare_parameter('disparity_car_half_width', 0.15)  # Half car width for disparity (m)
+        self.declare_parameter('disparity_margin', 0.3)  # Safety margin for disparity (m)
+        self.declare_parameter('disparity_max_speed', 6.0)  # Max speed for disparity mode (m/s)
+        self.declare_parameter('disparity_min_speed', 4.0)  # Min speed for disparity mode (m/s)
+        self.declare_parameter('disparity_max_steering', 0.4)  # Max steering angle for disparity (rad)
+        self.declare_parameter('disparity_ld_min', 0.5)  # Min lookahead distance (m)
+        self.declare_parameter('disparity_ld_max', 5.0)  # Max lookahead distance (m)
+        self.declare_parameter('disparity_m_ld', 0.4)  # Lookahead slope
+        self.declare_parameter('disparity_q_ld', 0.3)  # Lookahead offset
+        self.declare_parameter('disparity_steering_alpha', 0.7)  # Steering smoothing factor
+        self.declare_parameter('disparity_duration', 2.0)  # Duration to use disparity during lane change (s)
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -278,6 +312,23 @@ class ControllerManager(Node):
         self.lane_change_ld_gain = self.get_parameter('lane_change_ld_gain').value
         self.lane_change_speed_gain = self.get_parameter('lane_change_speed_gain').value
         self.segment_points_each_side = int(self.get_parameter('segment_points_each_side').value)  # 세그먼트 크기(한쪽)
+
+        # Disparity-based avoidance
+        self.use_disparity = self.get_parameter('use_disparity').value
+        self.disparity_max_range = self.get_parameter('disparity_max_range').value
+        self.disparity_threshold = self.get_parameter('disparity_threshold').value
+        self.disparity_car_half_width = self.get_parameter('disparity_car_half_width').value
+        self.disparity_margin = self.get_parameter('disparity_margin').value
+        self.disparity_max_speed = self.get_parameter('disparity_max_speed').value
+        self.disparity_min_speed = self.get_parameter('disparity_min_speed').value
+        self.disparity_max_steering = self.get_parameter('disparity_max_steering').value
+        self.disparity_ld_min = self.get_parameter('disparity_ld_min').value
+        self.disparity_ld_max = self.get_parameter('disparity_ld_max').value
+        self.disparity_m_ld = self.get_parameter('disparity_m_ld').value
+        self.disparity_q_ld = self.get_parameter('disparity_q_ld').value
+        self.disparity_steering_alpha = self.get_parameter('disparity_steering_alpha').value
+        self.disparity_duration = self.get_parameter('disparity_duration').value
+        self.disparity_prev_steering = 0.0  # Previous steering angle for smoothing
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
@@ -696,10 +747,29 @@ class ControllerManager(Node):
         self.lane_change_active = True
         self.lane_change_start_time = self.get_clock().now().nanoseconds * 1e-9
 
-        self.get_logger().info(
-            f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints), "
-            f"LD×{self.lane_change_ld_gain:.2f}, Speed×{self.lane_change_speed_gain:.2f} for {self.lane_change_duration:.1f}s"
-        )
+        # 🚨 Determine lane change type: AVOIDANCE (0→1/2) or RETURN (1/2→0)
+        is_avoidance = (prev_lane == 0 and desired_lane != 0)  # Optimal lane → Side lane (obstacle avoidance)
+        is_return = (prev_lane != 0 and desired_lane == 0)      # Side lane → Optimal lane (return to center)
+
+        # 🚨 If use_disparity is enabled, activate disparity mode ONLY for obstacle avoidance
+        if self.use_disparity and is_avoidance:
+            # Obstacle avoidance: use disparity for reactive control
+            self.disparity_mode_active = True
+            self.disparity_start_time = self.get_clock().now().nanoseconds * 1e-9
+            self.get_logger().info(
+                f"🛣️ Lane AVOIDANCE: {prev_lane} → {desired_lane}, 🚨 DISPARITY MODE for {self.disparity_duration:.1f}s"
+            )
+        elif is_return:
+            # Return to optimal lane: use normal path following (no disparity)
+            self.get_logger().info(
+                f"🛣️ Lane RETURN: {prev_lane} → {desired_lane}, using map control with reduced LD/speed"
+            )
+        else:
+            # Other lane changes or disparity disabled
+            self.get_logger().info(
+                f"🛣️ Lane switched: {prev_lane} → {desired_lane} ({len(self.waypoint_array_in_map)} waypoints), "
+                f"LD×{self.lane_change_ld_gain:.2f}, Speed×{self.lane_change_speed_gain:.2f} for {self.lane_change_duration:.1f}s"
+            )
 
     def lane_segment_callback(self, msg: Int32MultiArray):
         """
@@ -765,6 +835,120 @@ class ControllerManager(Node):
             f"[SEGMENT] lane={lane_id}, segment=[{start_idx}, {end_idx}) ({len(segment)} pts)",
             throttle_duration_sec=1.0,
         )
+
+    def scan_callback(self, msg: LaserScan):
+        """
+        LaserScan callback for disparity mode
+        Stores latest scan for processing in control loop
+        """
+        self.latest_scan = msg
+
+    def compute_disparity_control(self):
+        """
+        Compute steering and speed using disparity algorithm
+        Returns: (steering_angle, speed) or (None, None) if scan not available
+        """
+        if self.latest_scan is None:
+            return None, None
+
+        scan = self.latest_scan
+        n = len(scan.ranges)
+        if n == 0:
+            return None, None
+
+        # ---------- Lidar preprocessing ----------
+        ranges = list(scan.ranges)
+        for i in range(n):
+            angle = scan.angle_min + i * scan.angle_increment
+
+            # Use only front 180 degrees
+            if angle < -np.pi / 2.0 or angle > np.pi / 2.0:
+                ranges[i] = 0.0
+                continue
+
+            if not np.isfinite(ranges[i]) or ranges[i] <= 0.0:
+                ranges[i] = 0.0
+            elif ranges[i] > self.disparity_max_range:
+                ranges[i] = self.disparity_max_range
+
+        # ---------- Gap detection ----------
+        goal_idx = -1
+        is_curve = False
+
+        max_disparity = -1.0
+        boundary_idx = -1
+        disparity_diff = 0.0
+
+        for i in range(n - 1):
+            if ranges[i] <= 0.0 or ranges[i + 1] <= 0.0:
+                continue
+
+            diff = ranges[i + 1] - ranges[i]
+            if abs(diff) > max_disparity:
+                max_disparity = abs(diff)
+                boundary_idx = (i + 1) if (ranges[i + 1] < ranges[i]) else i
+                disparity_diff = diff
+
+        is_curve = (max_disparity > self.disparity_threshold)
+
+        # ---------- Goal index ----------
+        if is_curve and boundary_idx != -1:
+            # Curve (use Disparity)
+            distance = min(ranges[boundary_idx], ranges[max(0, boundary_idx - 1)])
+            if distance < 0.1:
+                distance = 0.1
+
+            offset_angle = np.arctan((self.disparity_car_half_width + self.disparity_margin) / distance)
+            boundary_angle = scan.angle_min + boundary_idx * scan.angle_increment
+
+            if disparity_diff < 0:
+                goal_angle = boundary_angle - offset_angle
+            else:
+                goal_angle = boundary_angle + offset_angle
+
+            goal_idx = int(np.clip((goal_angle - scan.angle_min) / scan.angle_increment, 0, n - 1))
+
+        else:
+            # Straight (follow center of farthest points)
+            max_indices = []
+            for i in range(n):
+                if ranges[i] >= self.disparity_max_range:
+                    max_indices.append(i)
+
+            if max_indices:
+                goal_idx = (max_indices[0] + max_indices[-1]) // 2
+
+        if goal_idx == -1:
+            return None, None
+
+        # ---------- Goal coordinates ----------
+        goal_angle = scan.angle_min + goal_idx * scan.angle_increment
+        goal_dist = ranges[goal_idx]
+        if goal_dist <= 0.0:
+            goal_dist = 1.0
+
+        goal_x = goal_dist * np.cos(goal_angle)
+        goal_y = goal_dist * np.sin(goal_angle)
+
+        # ---------- Pure Pursuit Lookahead ----------
+        Ld = self.disparity_q_ld + self.disparity_m_ld * self.speed_now
+        Ld = np.clip(Ld, self.disparity_ld_min, self.disparity_ld_max)
+
+        steering_angle = np.arctan2(2.0 * self.wheel_base * goal_y, (Ld * Ld))
+        steering_angle = np.clip(steering_angle, -self.disparity_max_steering, self.disparity_max_steering)
+
+        # Smoothing
+        steering_angle = (self.disparity_steering_alpha * self.disparity_prev_steering +
+                         (1.0 - self.disparity_steering_alpha) * steering_angle)
+        self.disparity_prev_steering = steering_angle
+
+        # ---------- Speed control ----------
+        angle_error = abs(steering_angle)
+        speed = (self.disparity_max_speed -
+                (angle_error / self.disparity_max_steering) * (self.disparity_max_speed - self.disparity_min_speed))
+        speed = np.clip(speed, self.disparity_min_speed, self.disparity_max_speed)
+
+        return steering_angle, speed
 
     def _load_single_waypoint_file(self, csv_path: str):
         """Load waypoints from a single CSV file
@@ -903,6 +1087,15 @@ class ControllerManager(Node):
             self._control_active_logged = True
 
         try:
+            # Check if disparity mode duration has elapsed
+            if self.disparity_mode_active:
+                current_time = self.get_clock().now().nanoseconds * 1e-9
+                elapsed_time = current_time - self.disparity_start_time
+                if elapsed_time >= self.disparity_duration:
+                    # Disparity mode ended, return to normal map control
+                    self.disparity_mode_active = False
+                    self.get_logger().info("🚨 Disparity mode ended, returning to map control")
+
             # Check if lane change duration has elapsed
             if self.lane_change_active:
                 current_time = self.get_clock().now().nanoseconds * 1e-9
@@ -1067,13 +1260,45 @@ class ControllerManager(Node):
             )
 
             # Create and publish Ackermann command
-            ack_msg = AckermannDriveStamped()
-            ack_msg.header.stamp = self.get_clock().now().to_msg()
-            ack_msg.header.frame_id = 'base_link'
-            ack_msg.drive.speed = float(speed)
-            ack_msg.drive.acceleration = float(acceleration)
-            ack_msg.drive.jerk = float(jerk)
-            ack_msg.drive.steering_angle = float(steering_angle)
+            # 🔀 Disparity mode: use disparity during lane change (if enabled), otherwise use map controller
+            if self.disparity_mode_active:
+                # Compute using disparity algorithm for temporary obstacle avoidance
+                disp_steer, disp_speed = self.compute_disparity_control()
+
+                if disp_steer is not None and disp_speed is not None:
+                    # Use disparity command for reactive obstacle avoidance
+                    ack_msg = AckermannDriveStamped()
+                    ack_msg.header.stamp = self.get_clock().now().to_msg()
+                    ack_msg.header.frame_id = 'base_link'
+                    ack_msg.drive.speed = float(disp_speed)
+                    ack_msg.drive.steering_angle = float(disp_steer)
+
+                    elapsed = (self.get_clock().now().nanoseconds * 1e-9) - self.disparity_start_time
+                    remaining = self.disparity_duration - elapsed
+                    self.get_logger().info(
+                        f"🚨 [DISPARITY] steer={disp_steer:.3f}, speed={disp_speed:.2f}, remaining={remaining:.1f}s",
+                        throttle_duration_sec=0.5
+                    )
+                else:
+                    # Fallback to map controller if disparity fails (no scan)
+                    ack_msg = AckermannDriveStamped()
+                    ack_msg.header.stamp = self.get_clock().now().to_msg()
+                    ack_msg.header.frame_id = 'base_link'
+                    ack_msg.drive.speed = float(speed)
+                    ack_msg.drive.acceleration = float(acceleration)
+                    ack_msg.drive.jerk = float(jerk)
+                    ack_msg.drive.steering_angle = float(steering_angle)
+
+                    self.get_logger().warn("[DISPARITY] No scan available, fallback to map controller", throttle_duration_sec=1.0)
+            else:
+                # Use map controller command (normal path following)
+                ack_msg = AckermannDriveStamped()
+                ack_msg.header.stamp = self.get_clock().now().to_msg()
+                ack_msg.header.frame_id = 'base_link'
+                ack_msg.drive.speed = float(speed)
+                ack_msg.drive.acceleration = float(acceleration)
+                ack_msg.drive.jerk = float(jerk)
+                ack_msg.drive.steering_angle = float(steering_angle)
 
             self.drive_pub.publish(ack_msg)
 
