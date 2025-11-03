@@ -222,6 +222,15 @@ class ControllerManager(Node):
             self.latest_scan = None
             self.get_logger().info("❌ Disparity mode DISABLED - Using lane switching only")
 
+        # SCC (Smart Cruise Control) subscription
+        self.scc_sub = self.create_subscription(
+            Int32,
+            self.scc_topic,
+            self.scc_callback,
+            10
+        )
+        self.get_logger().info(f"Subscribed to {self.scc_topic} for Smart Cruise Control")
+
         # Control loop timer
         self.timer = self.create_timer(1.0 / self.loop_rate, self.control_loop)
 
@@ -265,6 +274,10 @@ class ControllerManager(Node):
         self.declare_parameter('disparity_q_ld', 0.3)  # Lookahead offset
         self.declare_parameter('disparity_steering_alpha', 0.7)  # Steering smoothing factor
         self.declare_parameter('disparity_duration', 2.0)  # Duration to use disparity during lane change (s)
+
+        # SCC (Smart Cruise Control) parameters
+        self.declare_parameter('scc_topic', '/control/scc_active')  # SCC activation topic from lane_selector
+        self.declare_parameter('scc_speed_gain', 0.7)  # Speed multiplier when SCC is active (0~1)
 
         # L1 controller parameters (matching race_stack)
         self.declare_parameter('t_clip_min', 0.8)
@@ -329,6 +342,11 @@ class ControllerManager(Node):
         self.disparity_steering_alpha = self.get_parameter('disparity_steering_alpha').value
         self.disparity_duration = self.get_parameter('disparity_duration').value
         self.disparity_prev_steering = 0.0  # Previous steering angle for smoothing
+
+        # SCC parameters
+        self.scc_topic = self.get_parameter('scc_topic').value
+        self.scc_speed_gain = self.get_parameter('scc_speed_gain').value
+        self.scc_active = False  # Current SCC state
 
         self.t_clip_min = self.get_parameter('t_clip_min').value
         self.t_clip_max = self.get_parameter('t_clip_max').value
@@ -836,6 +854,23 @@ class ControllerManager(Node):
             throttle_duration_sec=1.0,
         )
 
+    def scc_callback(self, msg: Int32):
+        """
+        SCC (Smart Cruise Control) callback
+        Receives SCC activation state from lane_selector
+        msg.data: 1 = SCC active (slow down), 0 = SCC inactive (normal speed)
+        """
+        scc_active = (msg.data == 1)
+
+        if scc_active != self.scc_active:
+            self.scc_active = scc_active
+            if scc_active:
+                self.get_logger().info(
+                    f"🚦 [SCC] ACTIVE - Speed reduced to {self.scc_speed_gain*100:.0f}% (dynamic obstacle detected)"
+                )
+            else:
+                self.get_logger().info("🚦 [SCC] INACTIVE - Normal speed resumed")
+
     def scan_callback(self, msg: LaserScan):
         """
         LaserScan callback for disparity mode
@@ -1136,6 +1171,13 @@ class ControllerManager(Node):
                 acceleration = acceleration * self.lane_change_speed_gain
                 # jerk는 변화율이므로 gain^2 적용
                 jerk = jerk * (self.lane_change_speed_gain ** 2)
+
+            # 🚦 Apply SCC (Smart Cruise Control) speed reduction
+            if self.scc_active:
+                speed = speed * self.scc_speed_gain
+                acceleration = acceleration * self.scc_speed_gain
+                # jerk는 변화율이므로 gain^2 적용
+                jerk = jerk * (self.scc_speed_gain ** 2)
 
             # 🚗 Speed error logging: ref_speed (CSV) vs actual_speed (ackermann)
             ref_speed = speed  # Controller output (from CSV profile)
