@@ -149,6 +149,8 @@ class ControllerManager(Node):
         self.max_speed_pub = self.create_publisher(Float32, '/map_controller/max_speed', 10)
         # Speed text visualization
         self.speed_text_pub = self.create_publisher(MarkerArray, '/map_controller/speed_text', 10)
+        # Driving mode publisher for RViz visualization (drive_relay subscribes to this)
+        self.drive_mode_pub = self.create_publisher(Int32, '/drive_mode', 10)
         self._path_published_once = False
 
         # Subscribers
@@ -769,6 +771,11 @@ class ControllerManager(Node):
         is_avoidance = (prev_lane == 0 and desired_lane != 0)  # Optimal lane → Side lane (obstacle avoidance)
         is_return = (prev_lane != 0 and desired_lane == 0)      # Side lane → Optimal lane (return to center)
 
+        # 🚦 Publish driving mode: AVOIDANCE (1) for lane change
+        drive_mode_msg = Int32()
+        drive_mode_msg.data = 1  # AVOIDANCE mode
+        self.drive_mode_pub.publish(drive_mode_msg)
+
         # 🚨 If use_disparity is enabled, activate disparity mode ONLY for obstacle avoidance
         if self.use_disparity and is_avoidance:
             # Obstacle avoidance: use disparity for reactive control
@@ -865,6 +872,11 @@ class ControllerManager(Node):
         if scc_active != self.scc_active:
             self.scc_active = scc_active
             if scc_active:
+                # 🚦 Publish driving mode: SCC (2)
+                drive_mode_msg = Int32()
+                drive_mode_msg.data = 2  # SCC mode
+                self.drive_mode_pub.publish(drive_mode_msg)
+
                 self.get_logger().info(
                     f"🚦 [SCC] ACTIVE - Speed reduced to {self.scc_speed_gain*100:.0f}% (dynamic obstacle detected)"
                 )
@@ -1343,6 +1355,12 @@ class ControllerManager(Node):
                 ack_msg.drive.steering_angle = float(steering_angle)
 
             self.drive_pub.publish(ack_msg)
+
+            # 🚦 Publish NORMAL driving mode (0) if neither SCC nor lane change is active
+            if not self.scc_active and not self.lane_change_active:
+                drive_mode_msg = Int32()
+                drive_mode_msg.data = 0  # NORMAL mode
+                self.drive_mode_pub.publish(drive_mode_msg)
 
             if L1_point is not None:
                 lookahead_msg = PoseStamped()

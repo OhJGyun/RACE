@@ -39,16 +39,19 @@ class AckermannRelay(Node):
         self.object_num_sub = self.create_subscription(
             Int32,
             '/total_obs',
+            self.obs_num_callback,
             10)
 
         self.mode_sub = self.create_subscription(
             Int32,
             '/drive_mode',
+            self.mode_callback,
             10)
 
         self.lane_sub = self.create_subscription(
             Int32,
             '/lane_selector/selected_lane',
+            self.lane_num_callback,
             10)
 
         self.object_num_pub = self.create_publisher(
