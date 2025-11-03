@@ -74,6 +74,9 @@ class LookupSteerAngle:
             if vel < 0.1:
                 return 0.0
             steer_angle = np.arctan2(self.wheelbase * accel, vel**2)
+            # 클리핑 발생시 로그 / Log when clipping occurs
+            if steer_angle < -0.4 or steer_angle > 0.4:
+                self.logger(f"[Steering LUT] CLIPPING: kinematic steer={steer_angle:.3f} rad -> clipped to [{-0.4:.3f}, {0.4:.3f}] (accel={accel:.2f}, vel={vel:.2f})")
             return np.clip(steer_angle, -0.4, 0.4)
 
         # Original LUT logic
@@ -99,4 +102,11 @@ class LookupSteerAngle:
         else :
           # interpolate between two closest accelerations to find steering angle
           steer_angle = np.interp(accel, [c_a, s_a], [lu_steers[c_a_idx], lu_steers[s_a_idx]])
+
+        # LUT 범위 벗어남 로그 / Log when exceeding LUT range
+        if accel > self.lu[1:, c_v_idx + 1][-1]:
+            self.logger(f"[Steering LUT] WARNING: accel={accel:.2f} exceeds LUT max={self.lu[1:, c_v_idx + 1][-1]:.2f} at vel={vel:.2f} m/s")
+        if vel > lu_vs[-1]:
+            self.logger(f"[Steering LUT] WARNING: vel={vel:.2f} exceeds LUT max={lu_vs[-1]:.2f} m/s, using closest velocity")
+
         return steer_angle * sign_accel

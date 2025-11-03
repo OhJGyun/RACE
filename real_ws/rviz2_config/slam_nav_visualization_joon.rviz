@@ -44,7 +44,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -109,7 +109,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.05000000074505806
+      Size (m): 0.07999999821186066
       Style: Flat Squares
       Topic:
         Depth: 5
@@ -726,9 +726,9 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -2.757462739944458
-        Y: 2.9790477752685547
-        Z: 0.05326211452484131
+        X: 1.7488187551498413
+        Y: -4.660231590270996
+        Z: 0.05205244943499565
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -737,7 +737,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.055000320076942444
+      Yaw: 4.200000762939453
     Saved: ~
 Window Geometry:
   Displays:

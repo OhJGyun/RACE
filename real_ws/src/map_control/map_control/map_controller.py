@@ -186,11 +186,13 @@ class MAP_Controller:
         # modifying steer based on velocity
         steering_angle *= np.clip(1 + (self.speed_now/10), 1, 1.15)
 
-        # limit change of steering angle
-        threshold = 0.55
+        # limit change of steering angle (rate limiting)
+        threshold = 0.55  # max steering change per cycle (rad)
         if abs(steering_angle - self.curr_steering_angle) > threshold:
-            self.logger_info(f"[MAP Controller] steering angle clipped")
-        steering_angle = np.clip(steering_angle, self.curr_steering_angle - threshold, self.curr_steering_angle + threshold)
+            # 스티어링 레이트 리미팅 발생 로그 / Log when rate limiting occurs
+            clipped_value = np.clip(steering_angle, self.curr_steering_angle - threshold, self.curr_steering_angle + threshold)
+            self.logger_info(f"[MAP Controller] STEERING RATE LIMIT: requested={steering_angle:.3f} rad, current={self.curr_steering_angle:.3f} rad, clipped={clipped_value:.3f} rad (max_delta={threshold:.3f})")
+            steering_angle = clipped_value
         self.curr_steering_angle = steering_angle
         return steering_angle
 

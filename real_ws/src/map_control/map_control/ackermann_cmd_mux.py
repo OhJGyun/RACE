@@ -120,14 +120,21 @@ class AckermannCommandMux(Node):
 
 def main(args=None) -> None:
     rclpy.init(args=args)
-    node = AckermannCommandMux()
+    node = None
     try:
+        node = AckermannCommandMux()
         rclpy.spin(node)
     except KeyboardInterrupt:
-        pass
+        if node:
+            node.get_logger().info('Shutting down ackermann_cmd_mux...')
+    except Exception as e:
+        if node:
+            node.get_logger().error(f'Exception in ackermann_cmd_mux: {e}')
     finally:
-        node.destroy_node()
-        rclpy.shutdown()
+        if node:
+            node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

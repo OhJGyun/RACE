@@ -10,6 +10,7 @@ Ackermann command for a configurable duration to help the vehicle break free.
 
 from collections import deque
 import math
+import time
 from typing import Deque, Tuple, Optional
 
 import rclpy
@@ -74,6 +75,10 @@ class CollisionRecoveryNode(Node):
         self.is_recovering = False
         self.recovery_start_time: Optional[Time] = None
 
+        # Wait for TF to become available
+        self.tf_ready = False
+        self._wait_for_tf()
+
         # Timer running at 10 Hz
         self.timer = self.create_timer(0.1, self._timer_callback)
 
@@ -81,8 +86,33 @@ class CollisionRecoveryNode(Node):
             'collision_recovery_node initialized: monitoring TF for stuck detection.'
         )
 
+    def _wait_for_tf(self) -> None:
+        """Wait for TF to become available before starting."""
+        self.get_logger().info('Waiting for TF (map -> base_link) to become available...')
+        retry_count = 0
+        while rclpy.ok():
+            try:
+                transform = self.tf_buffer.lookup_transform(
+                    self.map_frame,
+                    self.base_frame,
+                    rclpy.time.Time(),
+                    timeout=Duration(seconds=1.0),
+                )
+                if transform is not None:
+                    self.tf_ready = True
+                    self.get_logger().info('TF is now available. Starting collision recovery monitoring.')
+                    return
+            except (LookupException, ConnectivityException, ExtrapolationException, TransformException):
+                retry_count += 1
+                if retry_count % 10 == 0:  # Log every 10 seconds
+                    self.get_logger().info(f'Still waiting for TF... ({retry_count}s elapsed)')
+                time.sleep(1.0)
+
     def _timer_callback(self) -> None:
         """Timer callback executed at 10 Hz."""
+        if not self.tf_ready:
+            return
+
         now = self.get_clock().now()
 
         transform = self._lookup_transform()
@@ -187,14 +217,23 @@ class CollisionRecoveryNode(Node):
 
 def main(args=None) -> None:
     rclpy.init(args=args)
-    node = CollisionRecoveryNode()
+    node = None
     try:
+        node = CollisionRecoveryNode()
         rclpy.spin(node)
     except KeyboardInterrupt:
-        pass
+        if node:
+            node.get_logger().info('Shutting down collision_recovery_node...')
+    except Exception as e:
+        if node:
+            node.get_logger().error(f'Exception in collision_recovery_node: {e}')
+        else:
+            print(f'Exception during initialization: {e}')
     finally:
-        node.destroy_node()
-        rclpy.shutdown()
+        if node:
+            node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

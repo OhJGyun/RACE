@@ -982,6 +982,9 @@ class ControllerManager(Node):
         Ld = np.clip(Ld, self.disparity_ld_min, self.disparity_ld_max)
 
         steering_angle = np.arctan2(2.0 * self.wheel_base * goal_y, (Ld * Ld))
+        # Disparity extender 스티어링 클리핑 로그 / Log disparity steering clipping
+        if steering_angle < -self.disparity_max_steering or steering_angle > self.disparity_max_steering:
+            self.get_logger().info(f"[Disparity] STEERING CLIPPING: raw={steering_angle:.3f} rad -> clipped to [{-self.disparity_max_steering:.3f}, {self.disparity_max_steering:.3f}]")
         steering_angle = np.clip(steering_angle, -self.disparity_max_steering, self.disparity_max_steering)
 
         # Smoothing

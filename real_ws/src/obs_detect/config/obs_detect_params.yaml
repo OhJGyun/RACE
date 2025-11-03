@@ -44,8 +44,8 @@
     # --- Boundary Files ---
     # Paths to outer and inner boundary CSV files
     # NOTE: Update these paths for your environment
-    outer_bound_csv: "/home/ircv7/RACE/bound/1102/1.0_1.0/outer_bound.csv"
-    inner_bound_csv: "/home/ircv7/RACE/bound/1102/1.0_1.0/inner_bound.csv"
+    outer_bound_csv: "/home/ircv7/RACE/bound/1103/0.5_0.5/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/1103/0.5_0.5/inner_bound.csv"
 
     # --- Performance Options ---
     # Enable vectorized transformations (recommended for better performance)
