@@ -6,7 +6,7 @@ map_img_ext: '.pgm'
 num_lanes: 1
 clockwise: False
 inner_safe_dist: 0.3
-outer_safe_dist: 0.3
+outer_safe_dist: 0.6
 opp_safe_dist: 0.3
 
 # The following params are for opponent predictor
