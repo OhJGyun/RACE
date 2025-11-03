@@ -39,6 +39,7 @@ class MAP_Controller:
                 loop_rate,
                 LUT_name,
                 state_machine_rate,
+                lat_accel_max = 0.0,
 
                 logger_info = logging.info,
                 logger_warn = logging.warn
@@ -85,6 +86,7 @@ class MAP_Controller:
         self.curvature_waypoints = 0
         self.d_vs = np.zeros(10)
         self.acceleration_command = 0
+        self.lat_accel_max = float(lat_accel_max)
 
         self.logger_info = logger_info
         self.logger_warn = logger_warn
@@ -182,7 +184,7 @@ class MAP_Controller:
         steering_angle = self.speed_steer_scaling(steering_angle, speed_for_lu)
 
         # modifying steer based on velocity
-        steering_angle *= np.clip(1 + (self.speed_now/10), 1, 1.35)
+        steering_angle *= np.clip(1 + (self.speed_now/10), 1, 1.15)
 
         # limit change of steering angle
         threshold = 0.55
@@ -253,6 +255,17 @@ class MAP_Controller:
             speed_command = global_speed
 
         speed_command = self.speed_adjust_lat_err(speed_command, lat_e_norm)
+
+        # try:
+        #     kappa_here = abs(float(self.waypoint_array_in_map[idx_la_position, 5]))
+        # except Exception:
+        #     kappa_here = 0
+        #     self.logger_warn("[MAP Controller] curvature could not be extracted, set to 0")
+        
+        # if kappa_here > 1e-6 and self.lat_accel_max > 0.0:
+        #     v_max_curv = float(np.sqrt(self.lat_accel_max / max(kappa_here, 1e-6)))
+        #     speed_command = float(min(speed_command, v_max_curv))
+
 
         return speed_command
 
@@ -447,4 +460,22 @@ class MAP_Controller:
         extended_waypoints = np.vstack([waypoints, waypoints[1:]])
         target_index = np.searchsorted(extended_s, target_s, side='left')
         target_index = min(target_index, len(extended_waypoints) - 1)
+
+        # DEBUG: Log lookahead index difference
+        final_index = target_index % len(waypoints)
+        idx_diff = final_index - current_index
+        if idx_diff < 0:
+            idx_diff += len(waypoints)  # Handle wraparound
+
+        if hasattr(self, '_debug_ld_counter'):
+            self._debug_ld_counter += 1
+        else:
+            self._debug_ld_counter = 0
+
+        if self._debug_ld_counter % 20 == 0:  # Log every 20 calls (~0.5s at 40Hz)
+            self.logger_info(
+                f"[LD] curr_idx={current_index}, target_idx={final_index}, "
+                f"idx_diff={idx_diff}, LD={distance:.2f}m"
+            )
+
         return np.array(extended_waypoints[target_index % len(waypoints)])

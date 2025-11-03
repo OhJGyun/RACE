@@ -45,10 +45,10 @@ def generate_launch_description():
             name='collision_recovery_node',
             output='screen',
             parameters=[{
-                'stuck_distance_threshold': 0.5,
+                'stuck_distance_threshold': 1.5,
                 'stuck_time_threshold': 2.0,
-                'reverse_speed': -0.3,
-                'reverse_duration': 1.5,
+                'reverse_speed': -0.5,
+                'reverse_duration': 1.0,
                 'map_frame': 'map',
                 'base_frame': 'base_link',
                 'command_topic': '/recovery/ackermann_cmd',
@@ -90,6 +90,17 @@ def generate_launch_description():
             ],
     )
 
+    lap_time_viz_node = Node(
+            package='rviz_2d_overlay_plugins',
+            executable='string_to_overlay_text',
+            name='lap_time_viz_node',
+            output='screen',
+            parameters=[
+                {"string_topic": "/viz/lap_time"},
+                {"fg_color": "w"}, # colors can be: r,g,b,w,k,p,y (red,green,blue,white,black,pink,yellow)
+            ],
+    )
+
     launch_rviz_arg = DeclareLaunchArgument(
         'launch_rviz',
         default_value='true',
@@ -118,6 +129,7 @@ def generate_launch_description():
         ackermann_cmd_mux_node,
         steer_viz_node,
         speed_viz_node,
+        lap_time_viz_node,
         launch_rviz_arg,
         rviz_config_arg,
         rviz_node

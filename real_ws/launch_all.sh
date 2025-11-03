@@ -96,7 +96,7 @@ cat > "$TERMINATOR_CONFIG" << 'EOF'
       parent = child1
       order = 4
       profile = default
-      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 20 && echo '🛣️  [5/5] Starting MAP Controller...' && ros2 launch map_control map_controller.launch.py launch_rviz:=false; exec zsh"
+      command = zsh -c "cd /home/ircv7/RACE/real_ws && source /opt/ros/humble/setup.zsh && source install/setup.zsh && sleep 15 && echo '🛣️  [5/5] Starting MAP Controller...' && ros2 launch map_control map_controller.launch.py launch_rviz:=false; exec zsh"
 
 [plugins]
 EOF

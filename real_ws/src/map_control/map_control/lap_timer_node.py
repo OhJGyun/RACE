@@ -255,6 +255,8 @@ class LapTimerNode(Node):
         marker.color.b = 0.0
         marker.color.a = 1.0
 
+        marker.lifetime = Duration(seconds=0).to_msg()
+
         # 결승선 두 점
         p1 = Point()
         p1.x = float(self.finish_line_p1[0])

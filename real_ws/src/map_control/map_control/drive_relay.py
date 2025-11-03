@@ -2,8 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from ackermann_msgs.msg import AckermannDriveStamped
-from std_msgs.msg import String 
-
+from std_msgs.msg import String, Float32
 class AckermannRelay(Node):
     def __init__(self):
         super().__init__('ackermann_relay_node')
@@ -25,6 +24,17 @@ class AckermannRelay(Node):
             String, 
             '/viz/speed',
             10)
+        
+        self.lap_time_sub = self.create_subscription(
+            Float32,
+            '/lap_time',
+            self.lap_time_callback,
+            10)
+        
+        self.lap_time_text_pub = self.create_publisher(
+            String,
+            '/viz/lap_time',
+            10)
 
     def listener_callback(self, msg: AckermannDriveStamped):
         steer_msg = String()
@@ -39,6 +49,12 @@ class AckermannRelay(Node):
         
         self.steer_pub.publish(steer_msg)
         self.speed_pub.publish(speed_msg)
+
+    def lap_time_callback(self, msg: Float32):
+        lap_time_msg = String()
+        lap_time_msg.data = f"Lap Time: {msg.data:.2f} s"
+        self.lap_time_text_pub.publish(lap_time_msg)
+
 
 def main(args=None):
     rclpy.init(args=args)
