@@ -227,15 +227,28 @@ class LaneSelectorNode(Node):
         """
         self.obstacles_np = []  # 정적 장애물
         self.dynamic_obstacles = []  # 동적 장애물
+        unknown_count = 0  # z값이 0도 1도 아닌 장애물 카운트
 
         for pose in msg.poses:
             obs_point = np.array([pose.position.x, pose.position.y], dtype=np.float64)
-            
+            z_value = pose.position.z
+
             # position.z로 장애물 타입 구분
-            if abs(pose.position.z - 0.0) < 0.1:  # 정적 장애물
+            if abs(z_value - 0.0) < 0.1:  # 정적 장애물
                 self.obstacles_np.append(obs_point)
-            elif abs(pose.position.z - 1.0) < 0.1:  # 동적 장애물
+            elif abs(z_value - 1.0) < 0.1:  # 동적 장애물
                 self.dynamic_obstacles.append(obs_point)
+            else:
+                # z값이 0도 1도 아닌 경우 → 정적으로 간주하여 안전하게 처리
+                unknown_count += 1
+                self.obstacles_np.append(obs_point)
+
+        # 장애물 수신 로그 (주기적으로 출력)
+        if len(self.obstacles_np) > 0 or len(self.dynamic_obstacles) > 0:
+            self.get_logger().info(
+                f"[OBS RECEIVED] Static={len(self.obstacles_np)}, Dynamic={len(self.dynamic_obstacles)}, Unknown={unknown_count}",
+                throttle_duration_sec=2.0
+            )
 
     # ----------------------------------------------------------------------
     # ✅ Local Planner 확장: 현재 레인 세그먼트 퍼블리시
@@ -364,8 +377,8 @@ class LaneSelectorNode(Node):
             self._publish_lane(desired_idx)
             blocked_lanes = [str(i) for i, blocked in enumerate(static_blocked_flags) if blocked]
             blocked_str = ", ".join(blocked_lanes) if blocked_lanes else "none"
-            self.get_logger().info(f"Lane selected: {desired_idx} (static blocked: {blocked_str})")
-            
+            self.get_logger().info(f"[LANE INIT] Initial lane selected: {desired_idx} (static blocked: {blocked_str}, total_obstacles={len(self.obstacles_np)})")
+
         elif desired_idx != self.current_lane_idx and self._can_switch():
             prev = self.current_lane_idx
             self.current_lane_idx = desired_idx
@@ -373,7 +386,8 @@ class LaneSelectorNode(Node):
             self._publish_lane(desired_idx)
             blocked_lanes = [str(i) for i, blocked in enumerate(static_blocked_flags) if blocked]
             blocked_str = ", ".join(blocked_lanes) if blocked_lanes else "none"
-            self.get_logger().info(f"Lane change (static): {prev} -> {desired_idx} (blocked: {blocked_str})")
+            # 레인 전환 명확한 로그
+            self.get_logger().warn(f"[LANE SWITCH] {prev} → {desired_idx} due to STATIC obstacle (blocked lanes: {blocked_str}, total_static_obs={len(self.obstacles_np)})")
 
         # ✅ 동적 장애물 기반 SCC (긴 hold time, lane block 시에만)
         if self.scc_enabled:
@@ -428,6 +442,7 @@ class LaneSelectorNode(Node):
 
         min_lateral = float('inf')
         is_blocked = False
+        blocking_obs_count = 0  # 차단하는 장애물 개수
 
         for obs in self.obstacles_np:  # 정적 장애물
             dx = float(obs[0] - px)
@@ -453,6 +468,14 @@ class LaneSelectorNode(Node):
 
             if lateral <= self.obstacle_clearance:
                 is_blocked = True
+                blocking_obs_count += 1
+
+        # 정적 장애물에 의한 차단 로그
+        if is_blocked:
+            self.get_logger().info(
+                f"[STATIC BLOCK] Lane {lane_idx} BLOCKED by {blocking_obs_count} obstacle(s), min_lateral={min_lateral:.3f}m (clearance={self.obstacle_clearance:.3f}m)",
+                throttle_duration_sec=1.0
+            )
 
         self.lane_min_lateral_distances[lane_idx] = min_lateral
         return is_blocked
@@ -498,6 +521,9 @@ class LaneSelectorNode(Node):
         cos_yaw = math.cos(yaw)
         sin_yaw = math.sin(yaw)
 
+        blocking_obs_count = 0  # 차단하는 동적 장애물 개수
+        min_lateral = float('inf')
+
         for obs in self.dynamic_obstacles:  # 동적 장애물
             dx = float(obs[0] - px)
             dy = float(obs[1] - py)
@@ -518,8 +544,18 @@ class LaneSelectorNode(Node):
                 lane_points[obs_idx, 1] - obs[1],
             )
 
+            min_lateral = min(min_lateral, lateral)
+
             if lateral <= self.obstacle_clearance:
-                return True
+                blocking_obs_count += 1
+
+        # 동적 장애물에 의한 차단 로그
+        if blocking_obs_count > 0:
+            self.get_logger().info(
+                f"[DYNAMIC BLOCK] Lane {lane_idx} BLOCKED by {blocking_obs_count} dynamic obstacle(s), min_lateral={min_lateral:.3f}m → SCC ACTIVATE",
+                throttle_duration_sec=1.0
+            )
+            return True
 
         return False
 
