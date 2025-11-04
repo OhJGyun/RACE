@@ -38,6 +38,9 @@ def launch_setup(context, *args, **kwargs):
     map_yaml_file = LaunchConfiguration("map_yaml_file")
     slam_mode = LaunchConfiguration("slam_mode")
     slam_config_file = LaunchConfiguration("slam_config_file")
+    
+    map_controller_visualization = LaunchConfiguration("launch_rviz")
+    rviz2_config = LaunchConfiguration("rviz2_config")
 
     launch_actions = []
 
@@ -188,6 +191,27 @@ def generate_launch_description():
         default_value=PathJoinSubstitution([get_package_share_directory("slam_nav"), "config", "slam_toolbox_config.yaml"]),
         description="Path to SLAM config file"
     )
+    
+    launch_rviz_arg = DeclareLaunchArgument(
+        'launch_rviz',
+        default_value='true',
+        description='Automatically launch RViz'
+    )
+
+    rviz_config_arg = DeclareLaunchArgument(
+        'rviz2_config',
+        default_value=PathJoinSubstitution([get_package_share_directory("map_control"), "rviz2_config", "/home/ircv7/RACE/real_ws/rviz2_config/slam_nav_visualization.rviz"]),
+        description='RViz Config File'
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="screen",
+        arguments=["-d", rviz2_config],
+        condition=IfCondition(map_controller_visualization)
+    )
 
     return LaunchDescription([
         mode_arg,
@@ -197,5 +221,8 @@ def generate_launch_description():
         map_yaml_file_arg,
         autostart_arg,
         slam_config_arg,
+        launch_rviz_arg,
+        rviz_config_arg,
+        rviz_node,
         OpaqueFunction(function=launch_setup)
     ])

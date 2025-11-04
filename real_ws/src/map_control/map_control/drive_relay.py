@@ -17,7 +17,7 @@ class AckermannRelay(Node):
         
         self.steer_pub = self.create_publisher(
             String, 
-            '/viz/steer',
+            '/viz/steering_angle',
             10)
             
         self.speed_pub = self.create_publisher(

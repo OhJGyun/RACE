@@ -129,6 +129,21 @@ def generate_launch_description():
         arguments=['0.27', '0.0', '0.11', '0.0', '0.0', '0.0', 'base_link', 'laser']
     )
 
+<<<<<<< HEAD
+=======
+    drive_relay_node = Node(
+        package='map_control',
+        executable='drive_relay',
+        name='drive_relay',
+        output='screen'
+    )
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> aaa021bae1105c9d93ce59df481509338eee56ee
+
+>>>>>>> 8f4187ba903159b90813738e6c51a5b92fba1e57
     # finalize
     ld.add_action(joy_node)
     ld.add_action(joy_teleop_node)
@@ -140,6 +155,7 @@ def generate_launch_description():
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
 
+<<<<<<< HEAD
     stop_ackermann = ExecuteProcess(
         cmd=[
             'ros2', 'topic', 'pub', '--once',
@@ -158,4 +174,6 @@ def generate_launch_description():
         )
     ))
     
+=======
+>>>>>>> 8f4187ba903159b90813738e6c51a5b92fba1e57
     return ld
