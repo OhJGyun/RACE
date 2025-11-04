@@ -1,188 +1,212 @@
 #!/usr/bin/env python3
 """
-Collision recovery node for map_control package.
+Collision recovery node for map_control package (IMU linear_x acceleration-based).
 
-This node monitors the transform between the map and base_link frames to
-detect when the vehicle is stuck (position change below a threshold over a
-time window). When a stuck condition is detected, it publishes a reverse
-Ackermann command for a configurable duration to help the vehicle break free.
+This node monitors IMU linear_x acceleration to detect collision/stuck states.
+When the vehicle's commanded speed exists but IMU linear_x acceleration stays
+within a specific range (e.g., [-1.0, 0.0]) for a specified duration,
+it assumes a collision and publishes reverse Ackermann commands to recover.
+
+Key: Uses raw IMU linear_acceleration.x, not integrated velocity.
 """
 
 from collections import deque
-import math
 import time
 from typing import Deque, Tuple, Optional
 
 import rclpy
-from rclpy.duration import Duration
 from rclpy.node import Node
 from rclpy.time import Time
 from ackermann_msgs.msg import AckermannDriveStamped
-from geometry_msgs.msg import TransformStamped
-from tf2_ros import (
-    Buffer,
-    TransformListener,
-    LookupException,
-    ConnectivityException,
-    ExtrapolationException,
-    TransformException,
-)
+from sensor_msgs.msg import Imu
 
 
 class CollisionRecoveryNode(Node):
-    """ROS 2 node that detects collisions/stuck states and issues reverse commands."""
+    """ROS 2 node that detects collisions via IMU linear_x acceleration and issues reverse commands."""
 
     def __init__(self) -> None:
         super().__init__('collision_recovery_node')
 
         # Declare configurable parameters
-        self.declare_parameter('stuck_distance_threshold', 0.5)
-        self.declare_parameter('stuck_time_threshold', 2.0)
-        self.declare_parameter('reverse_speed', -0.5)
-        self.declare_parameter('reverse_duration', 1.0)
-        self.declare_parameter('map_frame', 'map')
-        self.declare_parameter('base_frame', 'base_link')
+        self.declare_parameter('enable_recovery', True)           # Enable/disable collision recovery
+        self.declare_parameter('imu_accel_min', -1.0)             # Min linear_x accel for collision [m/s²]
+        self.declare_parameter('imu_accel_max', 0.0)              # Max linear_x accel for collision [m/s²]
+        self.declare_parameter('collision_time_threshold', 0.5)   # Time to confirm collision [s]
+        self.declare_parameter('commanded_speed_threshold', 0.3)  # Min commanded speed to monitor [m/s]
+        self.declare_parameter('reverse_speed', -1.5)             # Reverse speed [m/s]
+        self.declare_parameter('reverse_duration', 1.0)           # Reverse duration [s]
+        self.declare_parameter('imu_topic', '/imu/data')
         self.declare_parameter('command_topic', '/recovery/ackermann_cmd')
+        self.declare_parameter('drive_cmd_topic', '/map_control/ackermann_cmd')  # Monitor commanded speed
+        self.declare_parameter('base_frame', 'base_link')
 
         # Load parameter values
-        self.stuck_distance_threshold = float(
-            self.get_parameter('stuck_distance_threshold').value
+        self.enable_recovery = bool(self.get_parameter('enable_recovery').value)
+        self.imu_accel_min = float(
+            self.get_parameter('imu_accel_min').value
         )
-        self.stuck_time_threshold = float(
-            self.get_parameter('stuck_time_threshold').value
+        self.imu_accel_max = float(
+            self.get_parameter('imu_accel_max').value
+        )
+        self.collision_time_threshold = float(
+            self.get_parameter('collision_time_threshold').value
+        )
+        self.commanded_speed_threshold = float(
+            self.get_parameter('commanded_speed_threshold').value
         )
         self.reverse_speed = float(self.get_parameter('reverse_speed').value)
         self.reverse_duration = float(self.get_parameter('reverse_duration').value)
-        self.map_frame = str(self.get_parameter('map_frame').value)
-        self.base_frame = str(self.get_parameter('base_frame').value)
+        self.imu_topic = str(self.get_parameter('imu_topic').value)
         self.command_topic = str(self.get_parameter('command_topic').value)
+        self.drive_cmd_topic = str(self.get_parameter('drive_cmd_topic').value)
+        self.base_frame = str(self.get_parameter('base_frame').value)
 
-        # TF listener setup
-        self.tf_buffer = Buffer()
-        self.tf_listener = TransformListener(self.tf_buffer, self, spin_thread=True)
+        # IMU subscriber
+        self.imu_sub = self.create_subscription(
+            Imu,
+            self.imu_topic,
+            self.imu_callback,
+            10
+        )
 
-        # Publisher for Ackermann commands
+        # Drive command subscriber (to know if we're trying to move)
+        self.drive_cmd_sub = self.create_subscription(
+            AckermannDriveStamped,
+            self.drive_cmd_topic,
+            self.drive_cmd_callback,
+            10
+        )
+
+        # Publisher for recovery Ackermann commands
         self.drive_pub = self.create_publisher(
             AckermannDriveStamped,
             self.command_topic,
             10,
         )
 
-        # Position history buffer (time, x, y)
-        self.position_history: Deque[Tuple[Time, float, float]] = deque()
+        # IMU acceleration history buffer (time, linear_x_accel)
+        self.accel_history: Deque[Tuple[Time, float]] = deque()
+
+        # Commanded speed tracking
+        self.commanded_speed: float = 0.0
+        self.last_cmd_time: Optional[Time] = None
 
         # Recovery state
         self.is_recovering = False
         self.recovery_start_time: Optional[Time] = None
+        self.collision_detected_time: Optional[Time] = None
 
-        # Wait for TF to become available
-        self.tf_ready = False
-        self._wait_for_tf()
+        # Timer running at 20 Hz for recovery management
+        self.timer = self.create_timer(0.05, self._timer_callback)
 
-        # Timer running at 10 Hz
-        self.timer = self.create_timer(0.1, self._timer_callback)
+        if self.enable_recovery:
+            self.get_logger().info(
+                f'collision_recovery_node initialized: monitoring {self.imu_topic} '
+                f'for collision detection (accel in range [{self.imu_accel_min}, {self.imu_accel_max}] m/s²)'
+            )
+        else:
+            self.get_logger().warn(
+                'collision_recovery_node initialized but DISABLED (enable_recovery=False)'
+            )
 
-        self.get_logger().info(
-            'collision_recovery_node initialized: monitoring TF for stuck detection.'
-        )
+    def imu_callback(self, msg: Imu) -> None:
+        """IMU callback - store linear_x acceleration history."""
+        now = self.get_clock().now()
+        accel_x = msg.linear_acceleration.x
 
-    def _wait_for_tf(self) -> None:
-        """Wait for TF to become available before starting."""
-        self.get_logger().info('Waiting for TF (map -> base_link) to become available...')
-        retry_count = 0
-        while rclpy.ok():
-            try:
-                transform = self.tf_buffer.lookup_transform(
-                    self.map_frame,
-                    self.base_frame,
-                    rclpy.time.Time(),
-                    timeout=Duration(seconds=1.0),
-                )
-                if transform is not None:
-                    self.tf_ready = True
-                    self.get_logger().info('TF is now available. Starting collision recovery monitoring.')
-                    return
-            except (LookupException, ConnectivityException, ExtrapolationException, TransformException):
-                retry_count += 1
-                if retry_count % 10 == 0:  # Log every 10 seconds
-                    self.get_logger().info(f'Still waiting for TF... ({retry_count}s elapsed)')
-                time.sleep(1.0)
+        # Store acceleration in history
+        self.accel_history.append((now, accel_x))
+
+        # Keep only recent history (within collision_time_threshold + 0.5s buffer)
+        max_age_ns = int((self.collision_time_threshold + 0.5) * 1e9)
+        while self.accel_history:
+            oldest_time = self.accel_history[0][0]
+            if (now.nanoseconds - oldest_time.nanoseconds) <= max_age_ns:
+                break
+            self.accel_history.popleft()
+
+    def drive_cmd_callback(self, msg: AckermannDriveStamped) -> None:
+        """Track commanded driving speed."""
+        self.commanded_speed = msg.drive.speed
+        self.last_cmd_time = self.get_clock().now()
 
     def _timer_callback(self) -> None:
-        """Timer callback executed at 10 Hz."""
-        if not self.tf_ready:
+        """Timer callback executed at 20 Hz for recovery management."""
+        # Skip if recovery is disabled
+        if not self.enable_recovery:
             return
 
         now = self.get_clock().now()
-
-        transform = self._lookup_transform()
-        if transform is None:
-            return
-
-        current_position = self._extract_xy(transform)
-        self._update_position_history(now, current_position)
 
         if self.is_recovering:
             self._handle_recovery(now)
             return
 
-        if self._is_stuck(now):
-            self._start_recovery(now)
+        # Check for collision condition
+        if self._is_collision_detected(now):
+            if self.collision_detected_time is None:
+                # First detection
+                self.collision_detected_time = now
+                recent_accel = self.accel_history[-1][1] if self.accel_history else 0.0
+                self.get_logger().warn(
+                    f'[COLLISION] Possible collision detected (commanded: {self.commanded_speed:.2f} m/s, '
+                    f'IMU accel_x: {recent_accel:.2f} m/s²). '
+                    f'Waiting {self.collision_time_threshold}s to confirm...'
+                )
+            else:
+                # Check if condition persisted long enough
+                elapsed = (now.nanoseconds - self.collision_detected_time.nanoseconds) / 1e9
+                if elapsed >= self.collision_time_threshold:
+                    self._start_recovery(now)
+        else:
+            # Reset detection if condition no longer met
+            if self.collision_detected_time is not None:
+                self.get_logger().info('[COLLISION] Condition cleared before threshold. Resetting.')
+                self.collision_detected_time = None
 
-    def _lookup_transform(self) -> Optional[TransformStamped]:
-        """Attempt to retrieve the latest transform, handling TF exceptions."""
-        try:
-            return self.tf_buffer.lookup_transform(
-                self.map_frame,
-                self.base_frame,
-                rclpy.time.Time(),
-                timeout=Duration(seconds=0.1),
-            )
-        except (LookupException, ConnectivityException, ExtrapolationException) as exc:
-            self.get_logger().debug(f'TF lookup failed: {exc}')
-        except TransformException as exc:
-            self.get_logger().warn(f'Unexpected TF exception: {exc}')
-        return None
-
-    @staticmethod
-    def _extract_xy(transform: TransformStamped) -> Tuple[float, float]:
-        """Extract the x, y position from a TransformStamped."""
-        translation = transform.transform.translation
-        return translation.x, translation.y
-
-    def _update_position_history(self, now: Time, position: Tuple[float, float]) -> None:
-        """Maintain a sliding window of positions within the stuck time threshold."""
-        self.position_history.append((now, position[0], position[1]))
-
-        threshold_duration = Duration(seconds=self.stuck_time_threshold)
-        while self.position_history:
-            oldest_time = self.position_history[0][0]
-            if now - oldest_time <= threshold_duration:
-                break
-            self.position_history.popleft()
-
-    def _is_stuck(self, now: Time) -> bool:
-        """Determine if the vehicle has moved less than the threshold within the time window."""
-        if not self.position_history:
+    def _is_collision_detected(self, now: Time) -> bool:
+        """Check if vehicle is commanded to move but IMU accel_x shows collision state."""
+        # Need recent command data
+        if self.last_cmd_time is None:
             return False
 
-        oldest_time, oldest_x, oldest_y = self.position_history[0]
-
-        time_window = (now - oldest_time).nanoseconds / 1e9
-        if time_window < self.stuck_time_threshold:
+        cmd_age = (now.nanoseconds - self.last_cmd_time.nanoseconds) / 1e9
+        if cmd_age > 0.5:  # Command too old
             return False
 
-        _, current_x, current_y = self.position_history[-1]
-        distance = math.hypot(current_x - oldest_x, current_y - oldest_y)
+        # Check if we're being commanded to move forward
+        if abs(self.commanded_speed) < self.commanded_speed_threshold:
+            return False
 
-        return distance <= self.stuck_distance_threshold
+        # Check recent IMU acceleration readings
+        if not self.accel_history:
+            return False
+
+        threshold_ns = int(self.collision_time_threshold * 1e9)
+        recent_accels = [
+            accel for timestamp, accel in self.accel_history
+            if (now.nanoseconds - timestamp.nanoseconds) <= threshold_ns
+        ]
+
+        if not recent_accels:
+            return False
+
+        # All recent accelerations must be within collision range
+        return all(
+            self.imu_accel_min <= accel <= self.imu_accel_max
+            for accel in recent_accels
+        )
 
     def _start_recovery(self, now: Time) -> None:
         """Begin the recovery maneuver by publishing reverse commands."""
         self.is_recovering = True
         self.recovery_start_time = now
-        self.position_history.clear()
-        self.get_logger().warn('[RECOVERY] Vehicle stuck detected. Initiating reverse maneuver.')
+        self.collision_detected_time = None
+        self.accel_history.clear()
+        self.get_logger().warn(
+            f'[RECOVERY] Collision confirmed! Initiating reverse at {self.reverse_speed} m/s '
+            f'for {self.reverse_duration}s'
+        )
         self._publish_drive_command(self.reverse_speed)
 
     def _handle_recovery(self, now: Time) -> None:
@@ -192,8 +216,9 @@ class CollisionRecoveryNode(Node):
             self._finish_recovery()
             return
 
-        elapsed = (now - self.recovery_start_time).nanoseconds / 1e9
+        elapsed = (now.nanoseconds - self.recovery_start_time.nanoseconds) / 1e9
         if elapsed < self.reverse_duration:
+            # Keep publishing reverse command
             self._publish_drive_command(self.reverse_speed)
         else:
             self._finish_recovery()

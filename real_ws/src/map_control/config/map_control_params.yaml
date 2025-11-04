@@ -9,14 +9,14 @@
     # Waypoint Configuration (Multi-lane Support)
     # ------------------------------------------------------------------------
     # Primary waypoint file (used as default lane)
-    csv_file_path: "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_optimal.csv"
+    csv_file_path: "/home/ircv7/RACE/path/f1_3/test_7.0/lane_optimal.csv"
 
     # Multiple lane paths for dynamic lane switching
     # Lane order MUST match the lane_selector output indices!                               
     lane_csv_paths:
-    - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_optimal.csv"  # Lane 0: Optimal/Center
-    - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_left.csv"     # Lane 1: Left avoidance
-    - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_right.csv"    # Lane 2: Right avoidance
+    - "/home/ircv7/RACE/path/f1_3/test_7.0/lane_optimal.csv"  # Lane 0: Optimal/Center
+    - "/home/ircv7/RACE/path/f1_3/test_7.0/lane_left.csv"     # Lane 1: Left avoidance
+    - "/home/ircv7/RACE/path/f1_3/test_7.0/lane_right.csv"    # Lane 2: Right avoidance
 
     # Lane selector topic (receives Int32 lane index)
     lane_selector_topic: "/lane_selector/target_lane"
@@ -28,8 +28,13 @@
     lane_change_ld_gain: 0.7     # LD multiplier during lane change [0.0-1.0] (0.5 = 50% reduction)
     lane_change_speed_gain: 0.7  # Speed multiplier during lane change [0.0-1.0] (0.7 = 30% reduction)
 
-    # SCC (Smart Cruise Control) behavior: reduce speed when dynamic obstacle detected
-    scc_speed_gain: 0.7          # Speed multiplier when SCC active [0.0-1.0] (0.7 = 30% reduction)
+    # 🚦 SCC (Smart Cruise Control) behavior: reduce speed when dynamic obstacle detected
+    # SCC는 lane_selector가 동적 장애물을 감지하면 자동으로 활성화됩니다.
+    # 속도 감소 설정 가이드:
+    #   - 0.9 (공격적): 10% 감속, 빠른 주행 유지, 충돌 위험 증가
+    #   - 0.7 (균형):   30% 감속, 안전성과 속도 균형 ← 기본값
+    #   - 0.5 (보수적): 50% 감속, 높은 안전성, 주행 속도 느림
+    scc_speed_gain: 0.3          # Speed multiplier when SCC active [0.0-1.0] (0.7 = 30% reduction)
 
     # Disparity-based obstacle avoidance (temporary activation during lane change)
     use_disparity: false                # Enable disparity mode during lane changes (true=disparity, false=lane switching)
@@ -64,8 +69,8 @@
     # ------------------------------------------------------------------------
     odom_topic: "/odom"             # Real car: /odom, Sim: /ego_racecar/odom
     amcl_topic: "/amcl_pose"        # AMCL localization topic
-    imu_topic: "/imu/data"          # IMU for acceleration compensation
-    drive_topic: "/drive"           # Ackermann drive command output
+    imu_topic: "/sensors/imu/raw"              # IMU for acceleration compensation (f1tenth: /sensors/imu/raw)
+    drive_topic: "/map_control/ackermann_cmd"  # Ackermann drive command output (goes to mux)
 
     # ------------------------------------------------------------------------
     # L1 Controller Parameters (from race_stack/forza)
