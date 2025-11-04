@@ -46,9 +46,9 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'enable_recovery': True,               # 🔧 Enable/disable collision recovery (True/False)
-                'imu_accel_min': -1.0,                 # Min linear_x accel for collision [m/s²]
-                'imu_accel_max': 0.0,                  # Max linear_x accel for collision [m/s²]
-                'collision_time_threshold': 0.5,       # Time to confirm collision [s]
+                'jerk_threshold': 8.0,                 # Jerk threshold for collision detection [m/s³]
+                'accel_threshold': -3.0,               # Minimum negative accel to consider [m/s²]
+                'collision_confirm_time': 0.1,         # Time to confirm collision [s]
                 'commanded_speed_threshold': 0.3,      # Min commanded speed to monitor [m/s]
                 'reverse_speed': -1.5,                 # Reverse speed [m/s]
                 'reverse_duration': 1.0,               # Reverse duration [s]
@@ -56,6 +56,7 @@ def generate_launch_description():
                 'command_topic': '/recovery/ackermann_cmd',
                 'drive_cmd_topic': '/map_control/ackermann_cmd',
                 'base_frame': 'base_link',
+                'log_jerk_threshold': 5.0,             # 📊 Log jerks above this value for tuning [m/s³]
             }],
     )
 
