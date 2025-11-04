@@ -443,8 +443,10 @@ class MAP_Controller:
         current_s = self.waypoint_array_in_map[current_index, 4]
         target_s = current_s + distance
         s_column = self.waypoint_array_in_map[:, 4]
-        extended_s = np.concatenate([s_column, s_column[1:] + self.track_length])
-        extended_waypoints = np.vstack([waypoints, waypoints[1:]])
+        # 🔧 FIX: Include ALL waypoints when extending for circular track
+        # Original bug: s_column[1:] skipped first waypoint, causing teleport at track end
+        extended_s = np.concatenate([s_column, s_column + self.track_length])
+        extended_waypoints = np.vstack([waypoints, waypoints])
         target_index = np.searchsorted(extended_s, target_s, side='left')
         target_index = min(target_index, len(extended_waypoints) - 1)
         return np.array(extended_waypoints[target_index % len(waypoints)])

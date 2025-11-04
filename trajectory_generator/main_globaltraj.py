@@ -679,26 +679,8 @@ with open(file_paths["lane_optimal_export"], 'w') as f:
     for x, y, v in zip(trajectory_opt[:, 1], trajectory_opt[:, 2], trajectory_opt[:, 5]):
         f.write("%.3f,%.3f,%.3f\n" % (x, y, v))
 
-# Export full trajectory for MAP controller (x, y, v, d, s, kappa, psi, ax)
-file_paths["map_controller_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                    "lane_optimal_full.csv")
-os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map + "_for_map"), exist_ok=True)
-
-with open(file_paths["map_controller_export"], 'w') as f:
-    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
-    for i in range(trajectory_opt.shape[0]):
-        x = trajectory_opt[i, 1]
-        y = trajectory_opt[i, 2]
-        psi = trajectory_opt[i, 3]
-        kappa = trajectory_opt[i, 4]
-        v = trajectory_opt[i, 5]
-        ax = trajectory_opt[i, 6]
-        s = trajectory_opt[i, 0]
-        d = 0.0  # lateral offset from centerline (optimal raceline is the reference)
-
-        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" % (x, y, v, d, s, kappa, psi, ax))
-
-print("INFO: Exported full trajectory for MAP controller:", file_paths["map_controller_export"])
+# NOTE: Full trajectory export moved to after avoidance lanes calculation
+# so we can include all three lanes in a unified s,d coordinate system
 
 # ----------------------------------------------------------------------------------------------------------------------
 # EXPORT AVOIDANCE LANES (FROM SECOND OPTIMIZATION) -------------------------------------------------------------------
@@ -822,10 +804,10 @@ with open(file_paths["lane_right_export"], 'w') as f:
     for i in range(veh_bound_right.shape[0]):
         f.write("%.3f,%.3f,%.3f\n" % (veh_bound_right[i, 0], veh_bound_right[i, 1], vx_profile_right[i]))
 
-# Export LEFT avoidance lane for MAP controller (full format)
-file_paths["lane_left_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                    "lane_left_full.csv")
-# Calculate cumulative s for left lane
+# NOTE: Left and right lane full exports moved to unified track export section below
+# to use optimal path's s,d coordinate system
+
+# Calculate cumulative s for left lane (needed for legacy exports)
 s_left = np.zeros(len(el_lengths_left) + 1)
 s_left[1:] = np.cumsum(el_lengths_left)
 
@@ -835,24 +817,7 @@ ax_profile_left = tph.calc_ax_profile.calc_ax_profile(vx_profile=vx_profile_left
                                                        el_lengths=el_lengths_left,
                                                        eq_length_output=False)
 
-with open(file_paths["lane_left_full_export"], 'w') as f:
-    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
-    for i in range(veh_bound_left.shape[0]):
-        x = veh_bound_left[i, 0]
-        y = veh_bound_left[i, 1]
-        v = vx_profile_left[i]
-        d = 0.0  # left lane is its own reference line
-        s = s_left[i]
-        kappa = kappa_left[i]
-        psi = psi_left[i]
-        ax = ax_profile_left[i]
-
-        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" % (x, y, v, d, s, kappa, psi, ax))
-
-# Export RIGHT avoidance lane for MAP controller (full format)
-file_paths["lane_right_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                     "lane_right_full.csv")
-# Calculate cumulative s for right lane
+# Calculate cumulative s for right lane (needed for legacy exports)
 s_right = np.zeros(len(el_lengths_right) + 1)
 s_right[1:] = np.cumsum(el_lengths_right)
 
@@ -862,26 +827,177 @@ ax_profile_right = tph.calc_ax_profile.calc_ax_profile(vx_profile=vx_profile_rig
                                                         el_lengths=el_lengths_right,
                                                         eq_length_output=False)
 
-with open(file_paths["lane_right_full_export"], 'w') as f:
-    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
-    for i in range(veh_bound_right.shape[0]):
-        x = veh_bound_right[i, 0]
-        y = veh_bound_right[i, 1]
-        v = vx_profile_right[i]
-        d = 0.0  # right lane is its own reference line
-        s = s_right[i]
-        kappa = kappa_right[i]
-        psi = psi_right[i]
-        ax = ax_profile_right[i]
-
-        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" % (x, y, v, d, s, kappa, psi, ax))
-
 print("INFO: Avoidance lanes exported successfully")
 print("      Based on SECOND optimization with avoidance_opt = %.3fm" % avoidance_opt)
 print("      Left lane:  %s" % file_paths["lane_left_export"])
 print("      Right lane: %s" % file_paths["lane_right_export"])
 print("      Offset from avoidance raceline: %.3fm (avoidance_opt/2)" % (avoidance_opt/2))
 print("\nNOTE: lane_optimal.csv contains the TRUE optimal raceline from FIRST optimization (width_opt = %.3fm)" % pars["optim_opts"]["width_opt"])
+
+# ----------------------------------------------------------------------------------------------------------------------
+# EXPORT UNIFIED TRACK CSV (OPTIMAL S,D COORDINATE SYSTEM) -----------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
+# Export a unified CSV with all three lanes using optimal path's s,d coordinate system
+# All lanes will have the same index based on optimal path's s coordinate
+
+print("\n" + "=" * 80)
+print("EXPORTING UNIFIED TRACK CSV (OPTIMAL S,D COORDINATE SYSTEM)")
+print("=" * 80)
+
+# We already have:
+# - trajectory_opt: optimal path with s coordinates (s_points_opt_interp)
+# - veh_bound_left: left lane x,y coordinates
+# - veh_bound_right: right lane x,y coordinates
+
+# Step 1: Calculate normal vectors for optimal path
+normvec_normalized_opt = tph.calc_normal_vectors.calc_normal_vectors(trajectory_opt[:, 3])
+
+# Step 2: For each point on the optimal path, find corresponding points on left/right lanes
+# and calculate their lateral offset (d) from the optimal path
+
+num_points = trajectory_opt.shape[0]
+
+# Initialize arrays for unified track data
+# Format: s, x_opt, y_opt, d_opt, x_left, y_left, d_left, x_right, y_right, d_right,
+#         v_opt, v_left, v_right, kappa_opt, kappa_left, kappa_right,
+#         psi_opt, psi_left, psi_right, ax_opt, ax_left, ax_right
+
+unified_track_data = np.zeros((num_points, 22))
+
+# Create KDTree for efficient nearest neighbor search
+from scipy.spatial import cKDTree
+tree_left = cKDTree(veh_bound_left)
+tree_right = cKDTree(veh_bound_right)
+
+print("INFO: Computing lateral offsets (d) for left and right lanes...")
+
+for i in range(num_points):
+    # Optimal path data
+    s_opt = trajectory_opt[i, 0]
+    x_opt = trajectory_opt[i, 1]
+    y_opt = trajectory_opt[i, 2]
+    psi_opt = trajectory_opt[i, 3]
+    kappa_opt = trajectory_opt[i, 4]
+    v_opt = trajectory_opt[i, 5]
+    ax_opt = trajectory_opt[i, 6]
+
+    # Find nearest points on left and right lanes
+    _, idx_left = tree_left.query([x_opt, y_opt])
+    _, idx_right = tree_right.query([x_opt, y_opt])
+
+    # Get left lane coordinates
+    x_left = veh_bound_left[idx_left, 0]
+    y_left = veh_bound_left[idx_left, 1]
+    v_left = vx_profile_left[idx_left]
+    kappa_left_val = kappa_left[idx_left]
+    psi_left_val = psi_left[idx_left]
+    ax_left_val = ax_profile_left[idx_left]
+
+    # Get right lane coordinates
+    x_right = veh_bound_right[idx_right, 0]
+    y_right = veh_bound_right[idx_right, 1]
+    v_right = vx_profile_right[idx_right]
+    kappa_right_val = kappa_right[idx_right]
+    psi_right_val = psi_right[idx_right]
+    ax_right_val = ax_profile_right[idx_right]
+
+    # 🔧 Convert psi from north-zero (y-axis) to ROS convention (east-zero, x-axis)
+    # Original psi: zero = north (along +y-axis), increases CCW
+    # ROS convention: zero = east (along +x-axis), increases CCW
+    # Conversion: yaw_ros = psi_trajectory + pi/2
+    psi_opt = psi_opt + np.pi / 2
+    psi_left_val = psi_left_val + np.pi / 2
+    psi_right_val = psi_right_val + np.pi / 2
+
+    # Calculate lateral offset (d) from optimal path
+    # d is positive to the left of the path, negative to the right
+    # Use normal vector at this point
+    normvec = normvec_normalized_opt[i]
+
+    # Left lane offset
+    vec_to_left = np.array([x_left - x_opt, y_left - y_opt])
+    d_left = np.dot(vec_to_left, normvec)
+
+    # Right lane offset
+    vec_to_right = np.array([x_right - x_opt, y_right - y_opt])
+    d_right = np.dot(vec_to_right, normvec)
+
+    # Store in unified track data
+    unified_track_data[i, :] = [
+        s_opt,                    # 0: s
+        x_opt, y_opt, 0.0,       # 1-3: optimal x, y, d (d=0 for optimal)
+        x_left, y_left, d_left,  # 4-6: left x, y, d
+        x_right, y_right, d_right, # 7-9: right x, y, d
+        v_opt, v_left, v_right,  # 10-12: velocities
+        kappa_opt, kappa_left_val, kappa_right_val,  # 13-15: curvatures
+        psi_opt, psi_left_val, psi_right_val,  # 16-18: headings
+        ax_opt, ax_left_val, ax_right_val  # 19-21: accelerations
+    ]
+
+# Export unified track CSV
+file_paths["unified_track_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                   "track_unified.csv")
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map + "_for_map"), exist_ok=True)
+
+header = "# s_m, x_opt_m, y_opt_m, d_opt_m, x_left_m, y_left_m, d_left_m, x_right_m, y_right_m, d_right_m, " \
+         "v_opt_mps, v_left_mps, v_right_mps, kappa_opt_radpm, kappa_left_radpm, kappa_right_radpm, " \
+         "psi_opt_rad, psi_left_rad, psi_right_rad, ax_opt_mps2, ax_left_mps2, ax_right_mps2\n"
+
+with open(file_paths["unified_track_export"], 'w') as f:
+    f.write(header)
+    for i in range(num_points):
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" %
+                tuple(unified_track_data[i, :]))
+
+print("INFO: Unified track exported successfully")
+print("      File: %s" % file_paths["unified_track_export"])
+print("      All lanes use optimal path's s,d coordinate system")
+print("      Number of points: %d" % num_points)
+print("      d > 0: left of optimal path, d < 0: right of optimal path")
+
+# Also export individual lane files for MAP controller with unified s,d coordinates
+# Export optimal path
+file_paths["map_controller_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                    "lane_optimal_full.csv")
+
+with open(file_paths["map_controller_export"], 'w') as f:
+    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
+    for i in range(num_points):
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" %
+                (unified_track_data[i, 1], unified_track_data[i, 2], unified_track_data[i, 10],
+                 unified_track_data[i, 3], unified_track_data[i, 0], unified_track_data[i, 13],
+                 unified_track_data[i, 16], unified_track_data[i, 19]))
+
+print("INFO: Exported optimal path for MAP controller:", file_paths["map_controller_export"])
+
+# Update left lane export with unified s,d coordinates
+file_paths["lane_left_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                    "lane_left_full.csv")
+
+with open(file_paths["lane_left_full_export"], 'w') as f:
+    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
+    for i in range(num_points):
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" %
+                (unified_track_data[i, 4], unified_track_data[i, 5], unified_track_data[i, 11],
+                 unified_track_data[i, 6], unified_track_data[i, 0], unified_track_data[i, 14],
+                 unified_track_data[i, 17], unified_track_data[i, 20]))
+
+print("INFO: Updated left lane for MAP controller:", file_paths["lane_left_full_export"])
+
+# Update right lane export with unified s,d coordinates
+file_paths["lane_right_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
+                                                     "lane_right_full.csv")
+
+with open(file_paths["lane_right_full_export"], 'w') as f:
+    f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
+    for i in range(num_points):
+        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" %
+                (unified_track_data[i, 7], unified_track_data[i, 8], unified_track_data[i, 12],
+                 unified_track_data[i, 9], unified_track_data[i, 0], unified_track_data[i, 15],
+                 unified_track_data[i, 18], unified_track_data[i, 21]))
+
+print("INFO: Updated right lane for MAP controller:", file_paths["lane_right_full_export"])
+print("="*80)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # PLOT RESULTS ---------------------------------------------------------------------------------------------------------

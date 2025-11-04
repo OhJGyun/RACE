@@ -16,7 +16,7 @@ setup(
         ]),
         ('share/' + package_name + '/launch', [
             'launch/obs_detect_launch.py',
-            'launch/ring_viz_optimized.launch.py',
+            'launch/ring_obs.launch.py',
         ]),
     ],
     install_requires=['setuptools'],

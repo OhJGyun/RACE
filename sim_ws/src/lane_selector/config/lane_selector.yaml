@@ -1,29 +1,41 @@
 lane_selector_node:
   ros__parameters:
-    # TF localization (map -> base_link) like map_controller
+    # 🔧 SIM: Localization configuration
+    use_tf_for_localization: false  # SIM: Use odom GT pose instead of TF
     tf_timeout: 0.3
+    use_odom_pose: true             # SIM: True (use gym GT pose from odom)
+    odom_topic: "/ego_racecar/odom" # SIM: /ego_racecar/odom
 
     # 장애물 정보 토픽 (PoseArray from ring_viz_node or joon_obs_node)
     obstacles_topic: "/scan_viz/obstacles"
 
     # 레인 CSV (센터 + 좌/우 보조 레인)
     # CRITICAL: These paths MUST exactly match map_control_params.yaml lane_csv_paths!
+    # 🔧 SIM: Updated to use full CSV format with s,d,kappa,psi,ax
     lane_csv_paths:
-      - "/home/ojg/RACE/path/1031_1/test_9.0/lane_optimal.csv"  # Lane 0: 센터 최적 라인
-      - "/home/ojg/RACE/path/1031_1/test_9.0/lane_left.csv"     # Lane 1: 왼쪽 회피 라인
-      - "/home/ojg/RACE/path/1031_1/test_9.0/lane_right.csv"    # Lane 2: 오른쪽 회피 라인
+      - "/home/ojg/RACE/path/f1tenth_for_map/lane_optimal_full.csv"  # Lane 0: 센터 최적 라인
+      - "/home/ojg/RACE/path/f1tenth_for_map/lane_left_full.csv"     # Lane 1: 왼쪽 회피 라인
+      - "/home/ojg/RACE/path/f1tenth_for_map/lane_right_full.csv"    # Lane 2: 오른쪽 회피 라인
 
+    # 레인 선택 파라미터
     lane_topic: "/lane_selector/target_lane"
-    lookahead_distance: 15.0        # 더 멀리 미리 감지 (10.0 -> 15.0)
-    obstacle_clearance: 0.5         # 장애물과 레인 간 클리어런스 대폭 증가 (0.01 -> 1.5)
-    forward_min_distance: 0.0       # 모든 전방 장애물 감지 (0.1 -> 0.0)
-    min_switch_interval: 0.10       # 레인 변경 간격 단축 (0.5 -> 0.2)
-    update_rate_hz: 50.0            # 평가 빈도 증가 (20.0 -> 40.0)
-    detection_hold_time: 0.2       # 즉시 반응 (0.001 -> 0.0)
+    lookahead_distance: 15.0        # 전방 감지 거리 (미터)
+    obstacle_clearance: 0.4         # 장애물과 레인 간 최소 클리어런스 (미터)
+    forward_min_distance: 0.0       # 전방 장애물 최소 감지 거리 (미터)
+    min_switch_interval: 1.5        # 레인 변경 최소 간격 (초)
+    update_rate_hz: 50.0            # 레인 평가 업데이트 빈도 (Hz)
+
+    # ✅ 동적/정적 장애물 별도 detection hold time
+    static_detection_hold_time: 0.02    # 정적 장애물 감지 유지 시간 (20ms)
+    dynamic_detection_hold_time: 0.2    # 동적 장애물 감지 유지 시간 (200ms)
 
     # ✅ Local Planner 확장: 로컬 세그먼트 인덱스 범위 (전방/후방 분리)
-    local_index_margin_forward: 100   # 차량 위치 기준 전방(앞쪽) 인덱스 범위
-    local_index_margin_backward: 30   # 차량 위치 기준 후방(뒤쪽) 인덱스 범위
+    local_index_margin_forward: 100   # 차량 위치 기준 전방 인덱스 범위
+    local_index_margin_backward: 30   # 차량 위치 기준 후방 인덱스 범위
+
+    # ✅ SCC (Smart Cruise Control) 파라미터
+    scc_enabled: true                   # SCC 기능 활성화 여부
+    scc_topic: "/control/scc_active"    # SCC 상태 토픽
 
     # 시각화
     marker_frame_id: "map"

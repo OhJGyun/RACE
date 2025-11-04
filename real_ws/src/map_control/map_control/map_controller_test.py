@@ -258,16 +258,19 @@ class MAP_Controller:
 
         speed_command = self.speed_adjust_lat_err(speed_command, lat_e_norm)
 
-        # try:
-        #     kappa_here = abs(float(self.waypoint_array_in_map[idx_la_position, 5]))
-        # except Exception:
-        #     kappa_here = 0
-        #     self.logger_warn("[MAP Controller] curvature could not be extracted, set to 0")
-        
-        # if kappa_here > 1e-6 and self.lat_accel_max > 0.0:
-        #     v_max_curv = float(np.sqrt(self.lat_accel_max / max(kappa_here, 1e-6)))
-        #     speed_command = float(min(speed_command, v_max_curv))
+        # 🔧 RESTORED: Curvature-based speed limiting using kappa from CSV
+        try:
+            kappa_here = abs(float(self.waypoint_array_in_map[idx_la_position, 5]))
+        except Exception:
+            kappa_here = 0
+            self.logger_warn("[MAP Controller] curvature could not be extracted, set to 0")
 
+        if kappa_here > 1e-6 and self.lat_accel_max > 0.0:
+            v_max_curv = float(np.sqrt(self.lat_accel_max / max(kappa_here, 1e-6)))
+            speed_command = float(min(speed_command, v_max_curv))
+
+        # 🔧 RESTORED: Heading-based speed adjustment using psi from CSV
+        speed_command = self.speed_adjust_heading(speed_command)
 
         return speed_command
 
