@@ -934,31 +934,20 @@ for i in range(num_points):
         ax_opt, ax_left_val, ax_right_val  # 19-21: accelerations
     ]
 
-# Export unified track CSV (with GGV/v_max subdirectory structure)
-file_paths["unified_track_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                   output_subdir, "track_unified.csv")
+# Create output directory for MAP controller files (with GGV/v_max subdirectory structure)
 os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map + "_for_map", output_subdir), exist_ok=True)
 
-header = "# s_m, x_opt_m, y_opt_m, d_opt_m, x_left_m, y_left_m, d_left_m, x_right_m, y_right_m, d_right_m, " \
-         "v_opt_mps, v_left_mps, v_right_mps, kappa_opt_radpm, kappa_left_radpm, kappa_right_radpm, " \
-         "psi_opt_rad, psi_left_rad, psi_right_rad, ax_opt_mps2, ax_left_mps2, ax_right_mps2\n"
-
-with open(file_paths["unified_track_export"], 'w') as f:
-    f.write(header)
-    for i in range(num_points):
-        f.write("%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n" %
-                tuple(unified_track_data[i, :]))
-
-print("INFO: Unified track exported successfully")
-print("      File: %s" % file_paths["unified_track_export"])
+# NOTE: track_unified.csv is not needed - only individual lane files will be exported
+print("INFO: Skipping unified track export (not needed)")
+print("      Only exporting individual lane files for MAP controller")
 print("      All lanes use optimal path's s,d coordinate system")
 print("      Number of points: %d" % num_points)
 print("      d > 0: left of optimal path, d < 0: right of optimal path")
 
-# Also export individual lane files for MAP controller with unified s,d coordinates
+# Also export individual lane files for MAP controller with unified s,d coordinates (with GGV/v_max subdirectory)
 # Export optimal path
 file_paths["map_controller_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                    "lane_optimal_full.csv")
+                                                    output_subdir, "lane_optimal_full.csv")
 
 with open(file_paths["map_controller_export"], 'w') as f:
     f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
@@ -970,9 +959,9 @@ with open(file_paths["map_controller_export"], 'w') as f:
 
 print("INFO: Exported optimal path for MAP controller:", file_paths["map_controller_export"])
 
-# Update left lane export with unified s,d coordinates
+# Update left lane export with unified s,d coordinates (with GGV/v_max subdirectory)
 file_paths["lane_left_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                    "lane_left_full.csv")
+                                                    output_subdir, "lane_left_full.csv")
 
 with open(file_paths["lane_left_full_export"], 'w') as f:
     f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
@@ -984,9 +973,9 @@ with open(file_paths["lane_left_full_export"], 'w') as f:
 
 print("INFO: Updated left lane for MAP controller:", file_paths["lane_left_full_export"])
 
-# Update right lane export with unified s,d coordinates
+# Update right lane export with unified s,d coordinates (with GGV/v_max subdirectory)
 file_paths["lane_right_full_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                     "lane_right_full.csv")
+                                                     output_subdir, "lane_right_full.csv")
 
 with open(file_paths["lane_right_full_export"], 'w') as f:
     f.write("# x_m, y_m, vx_mps, d_m, s_m, kappa_radpm, psi_rad, ax_mps2\n")
