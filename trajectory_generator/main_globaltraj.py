@@ -934,10 +934,10 @@ for i in range(num_points):
         ax_opt, ax_left_val, ax_right_val  # 19-21: accelerations
     ]
 
-# Export unified track CSV
+# Export unified track CSV (with GGV/v_max subdirectory structure)
 file_paths["unified_track_export"] = os.path.join(file_paths["module"], "..", "path", input_map + "_for_map",
-                                                   "track_unified.csv")
-os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map + "_for_map"), exist_ok=True)
+                                                   output_subdir, "track_unified.csv")
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map + "_for_map", output_subdir), exist_ok=True)
 
 header = "# s_m, x_opt_m, y_opt_m, d_opt_m, x_left_m, y_left_m, d_left_m, x_right_m, y_right_m, d_right_m, " \
          "v_opt_mps, v_left_mps, v_right_mps, kappa_opt_radpm, kappa_left_radpm, kappa_right_radpm, " \

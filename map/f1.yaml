@@ -1,0 +1,9 @@
+free_thresh: 0.3
+image: f1.pgm
+negate: 0
+occupied_thresh: 0.65
+origin:
+- -11.100000000000001
+- -7.261016845703125
+- 0
+resolution: 0.05000000074505806

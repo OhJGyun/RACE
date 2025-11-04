@@ -197,19 +197,27 @@ elif opt_type == 'mintime':
                                                    + pars["vehicle_params_mintime"]["wheelbase_rear"])
 
 # ----------------------------------------------------------------------------------------------------------------------
-# MPCC VERSION: Direct output to path/{input_map}/ without subdirectories -------------------------------------------
+# CREATE OUTPUT DIRECTORY STRUCTURE BASED ON GGV AND V_MAX (MPCC VERSION) ---------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 
-print(f"MPCC Mode: Output directly to {input_map}/")
-print(f"MPCC Mode: No GGV-based subdirectories (only MPCC format files will be exported)")
+# Extract GGV profile name from filename (e.g., "ggv_conservative.csv" -> "conservative")
+ggv_filename = pars["ggv_file"].replace(".csv", "")
+if ggv_filename.startswith("ggv_"):
+    ggv_profile = ggv_filename.replace("ggv_", "")
+elif ggv_filename == "ggv":
+    ggv_profile = "default"
+else:
+    ggv_profile = ggv_filename
 
-# Create path folder for MPCC outputs (no subdirectories)
-os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map), exist_ok=True)
+# Create output subdirectory name: {ggv_profile}_{v_max}
+v_max = pars["veh_params"]["v_max"]
+output_subdir = f"{ggv_profile}_{v_max}"
 
-# Disable standard trajectory exports for MPCC mode (we only need MPCC format files)
-# file_paths["traj_race_export"] = None
-# file_paths["lane_optimal_export"] = None
-# file_paths["lap_time_mat_export"] = None
+print(f"MPCC Mode: Output to {input_map}/{output_subdir}/")
+print(f"MPCC Mode: Using GGV-based subdirectories for MPCC format files")
+
+# Create path folder for MPCC outputs (with subdirectories)
+os.makedirs(os.path.join(file_paths["module"], "..", "path", input_map, output_subdir), exist_ok=True)
 
 # ----------------------------------------------------------------------------------------------------------------------
 
