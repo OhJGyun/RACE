@@ -45,13 +45,17 @@ def generate_launch_description():
             name='collision_recovery_node',
             output='screen',
             parameters=[{
-                'stuck_distance_threshold': 1.5,
-                'stuck_time_threshold': 2.0,
-                'reverse_speed': -0.5,
-                'reverse_duration': 1.0,
-                'map_frame': 'map',
-                'base_frame': 'base_link',
+                'enable_recovery': True,               # 🔧 Enable/disable collision recovery (True/False)
+                'imu_accel_min': -1.0,                 # Min linear_x accel for collision [m/s²]
+                'imu_accel_max': 0.0,                  # Max linear_x accel for collision [m/s²]
+                'collision_time_threshold': 0.5,       # Time to confirm collision [s]
+                'commanded_speed_threshold': 0.3,      # Min commanded speed to monitor [m/s]
+                'reverse_speed': -1.5,                 # Reverse speed [m/s]
+                'reverse_duration': 1.0,               # Reverse duration [s]
+                'imu_topic': '/sensors/imu/raw',       # f1tenth publishes to /sensors/imu/raw
                 'command_topic': '/recovery/ackermann_cmd',
+                'drive_cmd_topic': '/map_control/ackermann_cmd',
+                'base_frame': 'base_link',
             }],
     )
 
@@ -61,10 +65,12 @@ def generate_launch_description():
             name='ackermann_cmd_mux',
             output='screen',
             parameters=[{
-                'primary_topic': '/map_control/ackermann_cmd',
-                'recovery_topic': '/recovery/ackermann_cmd',
-                'output_topic': '/ackermann_cmd',
-                'recovery_hold_time': 0.3,
+                'joy_topic': '/joy_teleop/ackermann_cmd',      # Priority 1: Manual control (highest)
+                'recovery_topic': '/recovery/ackermann_cmd',   # Priority 2: Collision recovery
+                'primary_topic': '/map_control/ackermann_cmd', # Priority 3: Autonomous control
+                'output_topic': '/drive',                      # f1tenth_system uses /drive
+                'joy_timeout': 0.5,                            # Joy active if cmd within 0.5s
+                'recovery_hold_time': 0.3,                     # Recovery duration
             }],
     )
 
