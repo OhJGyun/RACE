@@ -18,7 +18,7 @@ lane_selector_node:
     lookahead_distance: 15.0        # 전방 감지 거리 (미터)
     obstacle_clearance: 0.65         # 장애물과 레인 간 최소 클리어런스 (미터)
     forward_min_distance: 0.0       # 전방 장애물 최소 감지 거리 (미터)
-    min_switch_interval: 1.5       # 레인 변경 최소 간격 (초)
+    min_switch_interval: 1.0       # 레인 변경 최소 간격 (초)
     update_rate_hz: 50.0            # 레인 평가 업데이트 빈도 (Hz)
 
     # ✅ 동적/정적 장애물 별도 detection hold time (코드 77-78번 줄)
@@ -35,9 +35,9 @@ lane_selector_node:
     #
     # 속도 감소율은 map_control_params.yaml의 scc_speed_gain으로 조정하세요:
     #   - scc_speed_gain: 0.7  → 70% 속도로 감속 (30% 감소) ← 기본값
-    #   - scc_speed_gain: 0.5  → 50% 속도로 감속 (50% 감소, 더 보수적)
+    #   - scc_speed_gain: 0.0  → 50% 속도로 감속 (50% 감소, 더 보수적)
     #   - scc_speed_gain: 0.9  → 90% 속도로 감속 (10% 감소, 더 공격적)
-    scc_enabled: true                   # SCC 기능 활성화 여부
+    scc_enabled: false                   # SCC 기능 활성화 여부
     scc_topic: "/control/scc_active"    # SCC 상태 토픽 (Int32: 1=active, 0=inactive)
 
     # 시각화

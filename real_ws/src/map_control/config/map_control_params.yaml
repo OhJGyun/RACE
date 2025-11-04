@@ -34,7 +34,7 @@
     #   - 0.9 (공격적): 10% 감속, 빠른 주행 유지, 충돌 위험 증가
     #   - 0.7 (균형):   30% 감속, 안전성과 속도 균형 ← 기본값
     #   - 0.5 (보수적): 50% 감속, 높은 안전성, 주행 속도 느림
-    scc_speed_gain: 0.3          # Speed multiplier when SCC active [0.0-1.0] (0.7 = 30% reduction)
+    scc_speed_gain: 0.9         # Speed multiplier when SCC active [0.0-1.0] (0.7 = 30% reduction)
 
     # Disparity-based obstacle avoidance (temporary activation during lane change)
     use_disparity: false                # Enable disparity mode during lane changes (true=disparity, false=lane switching)

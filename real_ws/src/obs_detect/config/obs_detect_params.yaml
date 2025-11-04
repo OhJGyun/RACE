@@ -14,7 +14,7 @@
     # --- ROI (Region of Interest) Parameters ---
     # Distance filtering (meters)
     roi_min_dist: 0.00
-    roi_max_dist: 3.00
+    roi_max_dist: 4.00
 
     # FOV (Field of View) filtering (degrees)
     # fov_deg: total field of view angle
@@ -25,7 +25,7 @@
     # --- Clustering Parameters ---
     # Cluster size limits (number of points)
     min_samples: 4          # Minimum number of points to form a cluster
-    max_samples: 20         # Maximum number of points (larger clusters are walls/boundaries)
+    max_samples: 50         # Maximum number of points (larger clusters are walls/boundaries)
 
     # Scanline clustering parameters
     # dij <= max(eps0, k * min(r0, r1))
@@ -44,8 +44,8 @@
     # --- Boundary Files ---
     # Paths to outer and inner boundary CSV files
     # NOTE: Update these paths for your environment
-    outer_bound_csv: "/home/ircv7/RACE/bound/f1/0.5_0.5/outer_bound.csv"
-    inner_bound_csv: "/home/ircv7/RACE/bound/f1/0.5_0.5/inner_bound.csv"
+    outer_bound_csv: "/home/ircv7/RACE/bound/f1/0.7_0.7/outer_bound.csv"
+    inner_bound_csv: "/home/ircv7/RACE/bound/f1/0.7_0.7/inner_bound.csv"
 
     # --- Performance Options ---
     # Enable vectorized transformations (recommended for better performance)
@@ -68,7 +68,7 @@
 
     # static_min_hits: Minimum observations required to classify as static
     # Higher values = more conservative static classification
-    static_min_hits: 3
+    static_min_hits: 1
 
     # static_max_age: Maximum time to keep track without updates (seconds)
     # Tracks older than this will be removed
