@@ -7,5 +7,9 @@ ackermann_mux:
         priority: 10
       joystick:
         topic   : teleop
+<<<<<<< HEAD
         timeout : 0.6
+=======
+        timeout : 0.2
+>>>>>>> origin
         priority: 100

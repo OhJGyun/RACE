@@ -140,6 +140,7 @@ def generate_launch_description():
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
 
+<<<<<<< HEAD
     stop_ackermann = ExecuteProcess(
         cmd=[
             'ros2', 'topic', 'pub', '--once',
@@ -159,3 +160,6 @@ def generate_launch_description():
     ))
     
     return ld
+=======
+    return ld
+>>>>>>> origin
