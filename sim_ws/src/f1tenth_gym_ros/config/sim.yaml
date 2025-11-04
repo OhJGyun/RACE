@@ -42,7 +42,7 @@ bridge:
     scan_beams: 1080
 
     # map parameters
-    map_path: '/home/ojg/RACE/map/f1tenth'
+    map_path: '/home/ojg/RACE/map/f1'
     map_img_ext: '.pgm'
 
     # opponent parameters

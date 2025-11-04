@@ -13,9 +13,9 @@ lane_selector_node:
     # CRITICAL: These paths MUST exactly match map_control_params.yaml lane_csv_paths!
     # 🔧 SIM: Updated to use full CSV format with s,d,kappa,psi,ax
     lane_csv_paths:
-      - "/home/ojg/RACE/path/f1tenth_for_map/lane_optimal_full.csv"  # Lane 0: 센터 최적 라인
-      - "/home/ojg/RACE/path/f1tenth_for_map/lane_left_full.csv"     # Lane 1: 왼쪽 회피 라인
-      - "/home/ojg/RACE/path/f1tenth_for_map/lane_right_full.csv"    # Lane 2: 오른쪽 회피 라인
+      - "/home/ojg/RACE/path/f1_for_map/test_8.0/lane_optimal_full.csv"  # Lane 0: 센터 최적 라인
+      - "/home/ojg/RACE/path/f1_for_map/test_8.0/lane_left_full.csv"     # Lane 1: 왼쪽 회피 라인
+      - "/home/ojg/RACE/path/f1_for_map/test_8.0/lane_right_full.csv"    # Lane 2: 오른쪽 회피 라인
 
     # 레인 선택 파라미터
     lane_topic: "/lane_selector/target_lane"
