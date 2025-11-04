@@ -70,8 +70,8 @@ if command -v tmux >/dev/null 2>&1; then
   tmux split-window -v -t "$SESSION":0.2     # 0.2 (top-right) / 0.4 (mid-right)
 
   # (3) 각 pane에 명령 투입
-  tmux send-keys -t "$SESSION":0.0 "bash -lc '$cmd_env ros2 launch obs_detect boundary_viz.launch.py'" C-m
-  tmux send-keys -t "$SESSION":0.1 "bash -lc '$cmd_env ros2 launch obs_detect ring_viz.launch.py'" C-m
+  tmux send-keys -t "$SESSION":0.0 "bash -lc '$cmd_env ros2 launch obs_detect ring_obs.launch.py'" C-m
+  tmux send-keys -t "$SESSION":0.1 "bash -lc '$cmd_env echo \"[INFO] Pane 0.1 reserved for future use\"'" C-m
   tmux send-keys -t "$SESSION":0.2 "bash -lc '$cmd_env ros2 launch slam_nav localization_launch.py'" C-m
   tmux send-keys -t "$SESSION":0.3 "bash -lc '$cmd_env ros2 launch map_control map_controller.launch.py'" C-m
   tmux send-keys -t "$SESSION":0.4 "bash -lc '$cmd_env ros2 launch lane_selector lane_selector_launch.py'" C-m
@@ -91,8 +91,7 @@ else
     echo "[BG] $name → PID $! (log: $WS_DIR/logs/${ts}_${name}.log)"
   }
 
-  run_bg boundary_viz "ros2 launch obs_detect boundary_viz.launch.py"
-  run_bg ring_viz     "ros2 launch obs_detect ring_viz.launch.py"
+  run_bg ring_obs     "ros2 launch obs_detect ring_obs.launch.py"
   run_bg localization "ros2 launch slam_nav localization_launch.py"
   run_bg map_control  "ros2 launch map_control map_controller.launch.py"
   run_bg lane_selector "ros2 launch lane_selector lane_selector_launch.py"

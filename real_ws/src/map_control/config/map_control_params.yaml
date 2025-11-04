@@ -9,14 +9,14 @@
     # Waypoint Configuration (Multi-lane Support)
     # ------------------------------------------------------------------------
     # Primary waypoint file (used as default lane)
-    csv_file_path: "/home/ircv7/RACE/path/1103_joon/test_8.0/lane_optimal.csv"
+    csv_file_path: "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_optimal.csv"
 
     # Multiple lane paths for dynamic lane switching
     # Lane order MUST match the lane_selector output indices!                               
     lane_csv_paths:
-    - "/home/ircv7/RACE/path/1103_joon/test_8.0/lane_optimal.csv"  # Lane 0: Optimal/Center
-    - "/home/ircv7/RACE/path/1103_joon/test_8.0/lane_left.csv"     # Lane 1: Left avoidance
-    - "/home/ircv7/RACE/path/1103_joon/test_8.0/lane_right.csv"    # Lane 2: Right avoidance
+    - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_optimal.csv"  # Lane 0: Optimal/Center
+    - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_left.csv"     # Lane 1: Left avoidance
+    - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_right.csv"    # Lane 2: Right avoidance
 
     # Lane selector topic (receives Int32 lane index)
     lane_selector_topic: "/lane_selector/target_lane"
@@ -86,8 +86,8 @@
     lat_err_coeff: 0.5  # Coefficient for speed reduction based on lateral error [0-1]
 
     # Steering scaling based on acceleration
-    acc_scaler_for_steer: 1.2   # Increase steering when accelerating
-    dec_scaler_for_steer: 1.2   # Decrease steering when braking
+    acc_scaler_for_steer: 1.1   # Increase steering when accelerating
+    dec_scaler_for_steer: 1.7   # Decrease steering when braking
 
     # Steering scaling based on speed
     start_scale_speed: 7.0     # Speed where steering starts to scale down [m/s]

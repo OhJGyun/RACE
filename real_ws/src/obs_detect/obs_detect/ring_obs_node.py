@@ -224,10 +224,10 @@ class SimpleScanViz(Node):
 
         # ROS I/O
         self.sub = self.create_subscription(LaserScan, self.scan_topic, self._on_scan, 10)
-        self.pub = self.create_publisher(MarkerArray, "scan_viz/markers", 1)
-        self.pub_obstacles = self.create_publisher(PoseArray, "scan_viz/obstacles", 10)
-        self.pub_debug = self.create_publisher(MarkerArray, "scan_viz/debug_markers", 10)
-        self.pub_scan_debug = self.create_publisher(MarkerArray, "scan_viz/scan_process_debug", 10)
+        self.pub = self.create_publisher(MarkerArray, "/scan_viz/markers", 1)
+        self.pub_obstacles = self.create_publisher(PoseArray, "/scan_viz/obstacles", 10)
+        self.pub_debug = self.create_publisher(MarkerArray, "/scan_viz/debug_markers", 10)
+        self.pub_scan_debug = self.create_publisher(MarkerArray, "/scan_viz/scan_process_debug", 10)
 
         self.pub_total_obs = self.create_publisher(Int32, "/total_obs", 10) #장애물 갯수
 

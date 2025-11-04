@@ -219,14 +219,23 @@ class MAP_Controller:
             self.curvature_waypoints = np.mean(abs(self.waypoint_array_in_map[self.idx_nearest_waypoint:,5]))
 
         # calculate L1 guidance
-        L1_distance = self.q_l1 + self.speed_now * self.m_l1
+        L1_distance_raw = self.q_l1 + self.speed_now * self.m_l1
 
         if abs(self.t_clip_max - self.t_clip_min) < 1e-6:
             L1_distance = self.t_clip_min
+            self.logger_info(f"[MAP Controller] L1_D: fixed={L1_distance:.3f}m (t_clip_min==t_clip_max)")
         else:
             # clip lower bound to avoid ultraswerve when far away from mincurv
             lower_bound = max(self.t_clip_min, np.sqrt(2) * lateral_error)
-            L1_distance = np.clip(L1_distance, lower_bound, self.t_clip_max)
+            L1_distance = np.clip(L1_distance_raw, lower_bound, self.t_clip_max)
+
+            # L1 거리 클리핑 로그 / Log when L1 distance is clipped
+            if L1_distance != L1_distance_raw:
+                self.logger_info(f"[MAP Controller] L1_D CLIPPING: raw={L1_distance_raw:.3f}m -> clipped={L1_distance:.3f}m (bounds=[{lower_bound:.3f}, {self.t_clip_max:.3f}], speed={self.speed_now:.2f}m/s, lat_err={lateral_error:.3f}m)")
+            else:
+                # 클리핑 없을 때도 주기적으로 L1 정보 로그 (선택적)
+                # self.logger_info(f"[MAP Controller] L1_D: {L1_distance:.3f}m (speed={self.speed_now:.2f}m/s)")
+                pass
 
         L1_point = self.waypoint_at_distance_before_car(L1_distance, self.waypoint_array_in_map[:,:2], self.idx_nearest_waypoint)
         return L1_point, L1_distance

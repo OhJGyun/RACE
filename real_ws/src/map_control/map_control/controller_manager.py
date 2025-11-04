@@ -614,7 +614,8 @@ class ControllerManager(Node):
         Get current pose from AMCL topic (fallback)
         Returns: (x, y, theta) or None if failed
         """
-        if not self.has_pose:
+        # AMCL 포즈 유효성 체크 / Check AMCL pose validity
+        if not self.has_pose or self.current_pose is None:
             return None
 
         # Check data freshness using rclpy Time/Duration (Humble style)
