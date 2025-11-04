@@ -855,64 +855,99 @@ class SimpleScanViz(Node):
             self._publish_scan_process_debug(all_points_debug, fov_points_debug,
                                             sampled_points_debug, clustered_points_debug)
 
+# ==========================================
+        # 5) Tracker update and Merged Obstacle List Creation
         # ==========================================
-        # 5) Tracker update and static/dynamic classification
-        # ==========================================
-        if not centers_ring:
-            # Clear if no obstacles in ring
-            if not hasattr(self, '_prev_obstacle_count') or self._prev_obstacle_count != 0:
-                self.get_logger().info(f"[CLEAR] No obstacles in ring (total detected: {len(centers)})")
-                self._prev_obstacle_count = 0
-            self._publish_clear()
-            return
-
-        # Update tracker (for static/dynamic classification)
-        centers_xy = [(p.x, p.y) for p in centers_ring]
-        self._ingest_centers_to_tracks(centers_xy, now_sec)
-
-        static_mask: List[bool] = []
-        for (cx, cy) in centers_xy:
-            # Find closest track by anchor and check if it's static
-            best_id = None
-            best_d = 1e9
+        
+        # 5A: 현재 프레임(centers_ring) 기반으로 트래커 업데이트
+        if centers_ring:
+            centers_xy = [(p.x, p.y) for p in centers_ring]
+            self._ingest_centers_to_tracks(centers_xy, now_sec)
+        
+        # 5B: 현재 프레임 장애물에 대한 정적/동적 마스크 생성
+        current_obstacles_map: Dict[Tuple[float, float], bool] = {} # (x,y) -> is_static
+        current_static_anchor_keys: set[Tuple[float, float]] = set() # (ax, ay)
+        
+        for p in centers_ring:
+            cx, cy = p.x, p.y
+            best_id, best_d = None, 1e9
             for tid, tr in self._tracks.items():
+                # 현재 위치(cx,cy)가 아닌 *앵커*를 기준으로 트랙을 찾아야 함
                 d = self._dist(cx, cy, tr["anchor_x"], tr["anchor_y"])
                 if d < best_d:
                     best_d = d
                     best_id = tid
+            
             is_static_here = False
             if best_id is not None:
                 tr = self._tracks[best_id]
                 is_static_here = self._is_static_track(tr)
-            static_mask.append(is_static_here)
+                if is_static_here:
+                    # 현재 보이는 정적 장애물의 "기준 위치"를 기억 (중복 방지용)
+                    current_static_anchor_keys.add((tr["anchor_x"], tr["anchor_y"]))
+
+            current_obstacles_map[(cx, cy)] = is_static_here
+
+        # 5C: 최종 발행 목록 생성 (현재 + 기억)
+        final_centers: List[Point] = []
+        final_static_mask: List[bool] = []
+
+        # 1. "현재 보이는" 장애물 추가 (정적/동적 모두)
+        for p in centers_ring:
+            is_static = current_obstacles_map.get((p.x, p.y), False)
+            final_centers.append(p)
+            final_static_mask.append(is_static)
+
+        # 2. "기억 속의" 정적 장애물 추가
+        #    (단, '현재 보이는' 목록에 이미 있는 놈은 제외)
+        for tr in self._tracks.values():
+            if self._is_static_track(tr):
+                anchor_key = (tr["anchor_x"], tr["anchor_y"])
+                
+                # '현재 보이는 정적 장애물' 목록에 이 앵커가 없다면,
+                # -> "기억 속에서만" 존재하는 장애물이므로 추가
+                if anchor_key not in current_static_anchor_keys:
+                    remembered_pt = Point(x=tr["anchor_x"], y=tr["anchor_y"], z=0.0)
+                    final_centers.append(remembered_pt)
+                    final_static_mask.append(True) # 정적(True)
 
         # ==========================================
-        # 6) Logging and publish
+        # 6) Logging and publish (Merged List)
         # ==========================================
-        n_total = len(centers_ring)
+        
+        n_total = len(final_centers)
 
+        # 6A: /total_obs 발행 (병합된 리스트의 총 개수)
         obs_count_msg = Int32()
         obs_count_msg.data = n_total
         self.pub_total_obs.publish(obs_count_msg)
 
-        n_static = sum(static_mask)
+        if n_total == 0:
+            # 병합된 최종 목록이 0개일 때만 clear
+            if not hasattr(self, '_prev_obstacle_count') or self._prev_obstacle_count != 0:
+                self.get_logger().info(f"[CLEAR] No obstacles in ring or memory (total detected: {len(centers)})")
+                self._prev_obstacle_count = 0
+            self._publish_clear() # _publish_clear는 이미 /total_obs 0을 발행함
+            return
+
+        # 6B: 로깅
+        n_static = sum(final_static_mask)
         n_moving = n_total - n_static
 
-        # Log only when there are changes (performance optimization)
         if not hasattr(self, '_prev_obstacle_count') or \
            not hasattr(self, '_prev_static_count') or \
            n_total != self._prev_obstacle_count or \
            n_static != self._prev_static_count:
+            
             self.get_logger().info(
-                f"[OBSTACLE DETECTED] total={n_total}, static={n_static}, moving={n_moving} "
-                f"(total detected: {len(centers)}, filtered out: {len(centers) - len(centers_ring)})"
+                f"[OBSTACLE MERGED] total_pub={n_total}, static_pub={n_static}, moving_pub={n_moving} "
+                f"(current_frame_obs: {len(centers_ring)}, raw_clusters: {len(centers)})"
             )
             self._prev_obstacle_count = n_total
             self._prev_static_count = n_static
 
-        # RViz (MarkerArray) + PoseArray for lane_selector (z=0/1)
-        self._publish_centers(centers_ring, static_mask)
-
+        # 6C: RViz (MarkerArray) + PoseArray for lane_selector (z=0/1)
+        self._publish_centers(final_centers, final_static_mask)
 
 # -------------------------------
 # main

@@ -148,6 +148,8 @@ class LaneSelectorNode(Node):
         self.dynamic_obstacles: List[np.ndarray] = []
         self.scc_active: bool = False
 
+        self.persistent_lane_blocks: List[bool] = [False] * len(self.lanes)
+
         # ------------------------------------------------------------------
         # TF2 초기화
         # ------------------------------------------------------------------
@@ -159,6 +161,13 @@ class LaneSelectorNode(Node):
         # ------------------------------------------------------------------
         self.sub_obstacles = self.create_subscription(
             PoseArray, self.obstacles_topic, self._on_obstacles, 10
+        )
+
+        self.sub_reset_memory = self.create_subscription(
+            Int32,
+            "/lane_selector/reset_memory",
+            self._on_reset_memory,
+            10
         )
 
         self.pub_lane_target = self.create_publisher(Int32, self.lane_topic, 10)
@@ -214,7 +223,17 @@ class LaneSelectorNode(Node):
             return (x, y, yaw)
         except (LookupException, ConnectivityException, ExtrapolationException, TransformException) as e:
             self.get_logger().warn(f"TF lookup failed: {e}", throttle_duration_sec=1.0)
-            return None
+            return 
+    
+    def _on_reset_memory(self, msg: Int32) -> None:
+        """'기억'된 정적 레인 차단 목록을 리셋합니다."""
+        self.get_logger().warn("!!! '결정 메모리' 리셋 명령 수신 !!!")
+        self.persistent_lane_blocks = [False] * len(self.lanes)
+        
+        # (옵션) 현재 누적 중인 hold-time duration도 리셋
+        self.static_detection_durations = [0.0] * len(self.lanes)
+        self.get_logger().info("Persistent lane block memory has been reset.")
+
 
     # ----------------------------------------------------------------------
     # 장애물 콜백 (정적 + 동적 분리)
@@ -367,15 +386,20 @@ class LaneSelectorNode(Node):
         self.last_eval_time = now
 
         # ✅ 정적 장애물 기반 레인 선택 (짧은 hold time)
-        static_blocked_flags = self._lane_blocked_confirmed_static(dt)
-        desired_idx = self._choose_lane(static_blocked_flags)
+        realtime_blocked_flags = self._lane_blocked_confirmed_static(dt)
+        combined_blocked_flags = [
+            realtime or persistent
+            for realtime, persistent in zip(realtime_blocked_flags, self.persistent_lane_blocks)
+        ]
+
+        desired_idx = self._choose_lane(combined_blocked_flags)
         if desired_idx is None:
             return
 
         if self.current_lane_idx is None:
             self.current_lane_idx = desired_idx
             self._publish_lane(desired_idx)
-            blocked_lanes = [str(i) for i, blocked in enumerate(static_blocked_flags) if blocked]
+            blocked_lanes = [str(i) for i, blocked in enumerate(combined_blocked_flags) if blocked]
             blocked_str = ", ".join(blocked_lanes) if blocked_lanes else "none"
             self.get_logger().info(f"[LANE INIT] Initial lane selected: {desired_idx} (static blocked: {blocked_str}, total_obstacles={len(self.obstacles_np)})")
 
@@ -384,7 +408,7 @@ class LaneSelectorNode(Node):
             self.current_lane_idx = desired_idx
             self.last_switch_time = now
             self._publish_lane(desired_idx)
-            blocked_lanes = [str(i) for i, blocked in enumerate(static_blocked_flags) if blocked]
+            blocked_lanes = [str(i) for i, blocked in enumerate(combined_blocked_flags) if blocked]
             blocked_str = ", ".join(blocked_lanes) if blocked_lanes else "none"
             # 레인 전환 명확한 로그
             self.get_logger().warn(f"[LANE SWITCH] {prev} → {desired_idx} due to STATIC obstacle (blocked lanes: {blocked_str}, total_static_obs={len(self.obstacles_np)})")
@@ -419,7 +443,12 @@ class LaneSelectorNode(Node):
                 duration = max(0.0, duration - effective_dt)
             
             self.static_detection_durations[idx] = duration
+            is_confirmed_blocked = (duration >= self.static_detection_hold_time)
+
             flags.append(duration >= self.static_detection_hold_time)
+
+            if is_confirmed_blocked:
+                self.persistent_lane_blocks[idx] = True
         
         return flags
 
