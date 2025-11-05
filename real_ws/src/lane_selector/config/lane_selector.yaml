@@ -9,28 +9,28 @@ lane_selector_node:
     # 레인 CSV (센터 + 좌/우 보조 레인)
     # CRITICAL: These paths MUST exactly match map_control_params.yaml lane_csv_paths!
     lane_csv_paths:
-      - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_optimal.csv"  # Lane 0: 센터 최적 라인
+      - "/home/ircv7/RACE/path/initial_poses.csv"  # Lane 0: 센터 최적 라인
       - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_left.csv"     # Lane 1: 왼쪽 회피 라인
       - "/home/ircv7/RACE/path/1103_joon/test_7.0/lane_right.csv"    # Lane 2: 오른쪽 회피 라인
 
     # 레인 선택 파라미터
     lane_topic: "/lane_selector/target_lane"
     lookahead_distance: 15.0        # 전방 감지 거리 (미터)
-    obstacle_clearance: 0.65         # 장애물과 레인 간 최소 클리어런스 (미터)
+    obstacle_clearance: 0.2         # 장애물과 레인 간 최소 클리어런스 (미터)
     forward_min_distance: 0.0       # 전방 장애물 최소 감지 거리 (미터)
-    min_switch_interval: 1.5       # 레인 변경 최소 간격 (초)
+    min_switch_interval: 1.2       # 레인 변경 최소 간격 (초)
     update_rate_hz: 50.0            # 레인 평가 업데이트 빈도 (Hz)
 
     # ✅ 동적/정적 장애물 별도 detection hold time (코드 77-78번 줄)
     static_detection_hold_time: 0.0    # 정적 장애물 감지 유지 시간 (0ms)
-    dynamic_detection_hold_time: 0.05   # 동적 장애물 감지 유지 시간 (50ms)
+    dynamic_detection_hold_time: 0.00   # 동적 장애물 감지 유지 시간 (50ms)
 
     # ✅ Local Planner 확장: 로컬 세그먼트 인덱스 범위 (전방/후방 분리)
     local_index_margin_forward: 100   # 차량 위치 기준 전방 인덱스 범위
     local_index_margin_backward: 30   # 차량 위치 기준 후방 인덱스 범위
 
     # ✅ SCC (Smart Cruise Control) 파라미터 (코드 85-86번 줄)
-    scc_enabled: true                   # SCC 기능 활성화 여부
+    scc_enabled: false                   # SCC 기능 활성화 여부
     scc_topic: "/control/scc_active"    # SCC 상태 토픽
 
     # 시각화

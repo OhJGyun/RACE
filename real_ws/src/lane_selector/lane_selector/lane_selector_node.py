@@ -279,7 +279,7 @@ class LaneSelectorNode(Node):
         # ✅ 최적화: 로컬 윈도우 탐색으로 현재 인덱스 찾기
         car_idx = self._nearest_index_local(
             lane_points, lane_s, vehicle_pos,
-            last_idx=self.last_car_idx, window_size=100
+            last_idx=self.last_car_idx, window_size= 100
         )
 
         # 인덱스 점프 감지 및 원인 분석
