@@ -12,20 +12,20 @@
     # --- Disparity Parameters ---
     max_range: 10.0           # Maximum LiDAR range to consider (m)
     disparity_threshold: 1.0  # Minimum disparity to consider as gap (m)
-    margin: 0.3               # Safety margin added to car half width (m)
+    margin: 1.0               # Safety margin added to car half width (m)
 
     # --- Control Parameters ---
     max_speed: 6.0            # Maximum driving speed (m/s)
-    min_speed: 4.0            # Minimum driving speed (m/s)
+    min_speed: 3.0            # Minimum driving speed (m/s)
     max_steering_angle: 0.4   # Maximum steering angle (radians, ~23 degrees)
 
     # --- Pure Pursuit Parameters ---
     # Lookahead distance calculation: Ld = q_ld + m_ld * speed
     # Then clipped: Ld = clip(Ld, ld_min, ld_max)
-    ld_min: 0.5               # Minimum lookahead distance (m)
+    ld_min: 1.0               # Minimum lookahead distance (m)
     ld_max: 5.0               # Maximum lookahead distance (m)
-    m_ld: 0.4                 # Lookahead slope (distance per m/s of speed)
-    q_ld: 0.3                 # Lookahead offset (base distance in m)
+    m_ld: 0.6                 # Lookahead slope (distance per m/s of speed)
+    q_ld: 0.2                 # Lookahead offset (base distance in m)
 
     # --- Smoothing ---
     steering_alpha: 0.7       # Steering smoothing factor (0-1, higher = less smoothing)
